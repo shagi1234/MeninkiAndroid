@@ -1,11 +1,14 @@
 package com.example.playerslidding.adapter;
 
+import static com.example.playerslidding.utils.Const.mainFragmentManager;
+import static com.example.playerslidding.utils.FragmentHelper.addFragment;
 import static com.example.playerslidding.utils.StaticMethods.dpToPx;
 import static com.example.playerslidding.utils.StaticMethods.setBackgroundDrawable;
 import static com.example.playerslidding.utils.StaticMethods.setMargins;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
@@ -17,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.example.playerslidding.R;
 import com.example.playerslidding.data.GridDto;
 import com.example.playerslidding.databinding.ItemStaggeredGridBinding;
+import com.example.playerslidding.fragment.FragmentProduct;
 
 import java.util.ArrayList;
 
@@ -105,6 +109,13 @@ public class AdapterGrid extends RecyclerView.Adapter<AdapterGrid.StoreHolder> {
             b.oldPrice.setText(grids.get(getAdapterPosition()).getOldPrice() + " TMT");
             b.count.setText(String.valueOf(grids.get(getAdapterPosition()).getCount()));
             b.sale.setText("- " + grids.get(getAdapterPosition()).getSale() + " %");
+
+            b.getRoot().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProduct.newInstance(""));
+                }
+            });
 
         }
     }

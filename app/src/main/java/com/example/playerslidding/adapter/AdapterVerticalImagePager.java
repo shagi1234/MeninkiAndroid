@@ -1,0 +1,65 @@
+package com.example.playerslidding.adapter;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.example.playerslidding.databinding.ItemImageVerticalBinding;
+
+import java.util.ArrayList;
+
+public class AdapterVerticalImagePager extends RecyclerView.Adapter<AdapterVerticalImagePager.ImageHolder> {
+    private ArrayList<String> imageList = new ArrayList<>();
+    private Context context;
+
+    public AdapterVerticalImagePager(Context context) {
+        this.context = context;
+    }
+
+    @NonNull
+    @Override
+    public ImageHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        ItemImageVerticalBinding itemImageVerticalBinding = ItemImageVerticalBinding.inflate(layoutInflater, parent, false);
+        return new ImageHolder(itemImageVerticalBinding);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ImageHolder holder, int position) {
+        holder.bind();
+    }
+
+    @Override
+    public int getItemCount() {
+        if (imageList == null) {
+            return 0;
+        }
+        return imageList.size();
+    }
+
+    public class ImageHolder extends RecyclerView.ViewHolder {
+        private ItemImageVerticalBinding b;
+
+        public ImageHolder(@NonNull ItemImageVerticalBinding itemView) {
+            super(itemView.getRoot());
+            this.b = itemView;
+        }
+
+        public void bind() {
+
+            Glide.with(context)
+                    .load(imageList.get(getAdapterPosition()))
+                    .into(b.imageSmall);
+
+        }
+    }
+
+    public void setImageList(ArrayList<String> imageList) {
+        this.imageList = imageList;
+        notifyDataSetChanged();
+    }
+}

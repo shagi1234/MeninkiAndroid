@@ -3,6 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/hover"
+    android:clickable="true"
+    android:focusable="true"
     tools:context=".fragment.FragmentProduct">
 
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/image_pager"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        android:orientation="vertical" />
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/bottom_sheet"
+            layout="@layout/item_bottom_sheet_product" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </FrameLayout>
