@@ -110,10 +110,10 @@ public class FragmentFeed extends Fragment {
     private void setViewPager() {
         ArrayList<FragmentPager> mFragment = new ArrayList<>();
 
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(), "Домашняя"));
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(), "Лента"));
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(), "Объявления"));
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(), "Объявления"));
+        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID), "Домашняя"));
+        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID), "Лента"));
+        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID), "Объявления"));
+        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID), "Объявления"));
 
         adapterFeedPager = new AdapterViewPager(getChildFragmentManager(), mFragment);
         b.viewPager.setAdapter(adapterFeedPager);

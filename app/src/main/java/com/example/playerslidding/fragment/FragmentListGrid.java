@@ -1,15 +1,12 @@
 package com.example.playerslidding.fragment;
 
-import static com.example.playerslidding.utils.StaticMethods.navigationBarHeight;
-import static com.example.playerslidding.utils.StaticMethods.setMargins;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.example.playerslidding.adapter.AdapterGrid;
@@ -23,10 +20,14 @@ public class FragmentListGrid extends Fragment {
     private FragmentListGridBinding b;
     private ArrayList<StoreDTO> stores = new ArrayList<>();
     private AdapterGrid adapterGrid;
+    private int orientation;
+    public final static int VERTICAL_GRID = 0;
+    public final static int HORIZONTAL_LINEAR = 1;
 
-    public static FragmentListGrid newInstance() {
+    public static FragmentListGrid newInstance(int orientation) {
         FragmentListGrid fragment = new FragmentListGrid();
         Bundle args = new Bundle();
+        args.putInt("orientation", orientation);
         fragment.setArguments(args);
         return fragment;
     }
@@ -34,6 +35,9 @@ public class FragmentListGrid extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            orientation = getArguments().getInt("orientation");
+        }
     }
 
     @Override
@@ -54,9 +58,15 @@ public class FragmentListGrid extends Fragment {
 
 
     private void setRecycler() {
-        adapterGrid = new AdapterGrid(getContext(), getActivity(),AdapterGrid.TYPE_GRID);
-        RecyclerView.LayoutManager staggered = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        b.recGrid.setLayoutManager(staggered);
+
+        if (orientation == HORIZONTAL_LINEAR) {
+            adapterGrid = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_HORIZONTAL);
+            b.recGrid.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        } else {
+            adapterGrid = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_GRID);
+            b.recGrid.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        }
+
         b.recGrid.setAdapter(adapterGrid);
     }
 }

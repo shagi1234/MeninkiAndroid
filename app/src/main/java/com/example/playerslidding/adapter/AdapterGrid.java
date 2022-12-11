@@ -28,8 +28,9 @@ public class AdapterGrid extends RecyclerView.Adapter<AdapterGrid.StoreHolder> {
     private Context context;
     private FragmentActivity activity;
     private ArrayList<GridDto> grids = new ArrayList<>();
-    public static int TYPE_GRID = 0;
-    public static int TYPE_SHOP = 1;
+    public final static int TYPE_GRID = 0;
+    public final static int TYPE_HORIZONTAL_SMALL = 1;
+    public final static int TYPE_HORIZONTAL = 2;
     private int type;
 
     public AdapterGrid(Context context, FragmentActivity activity, int type) {
@@ -73,25 +74,41 @@ public class AdapterGrid extends RecyclerView.Adapter<AdapterGrid.StoreHolder> {
         }
 
         public void bind() {
-            if (type == TYPE_GRID) {
-                if (grids.get(getAdapterPosition()).getOrientation().equals("0")) {
-                    b.layImage.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPx(240, context)));
-                } else {
+
+            switch (type) {
+                case TYPE_GRID:
+                    if (grids.get(getAdapterPosition()).getOrientation().equals("0")) {
+                        b.layImage.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPx(240, context)));
+                    } else {
+                        b.layImage.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPx(110, context)));
+                    }
+                    break;
+                case TYPE_HORIZONTAL_SMALL:
+                    b.root.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                     b.layImage.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPx(110, context)));
-                }
+                    b.root.setLayoutParams(new ViewGroup.LayoutParams(dpToPx(166, context), ViewGroup.LayoutParams.WRAP_CONTENT));
 
-            } else {
-                b.root.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                b.layImage.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPx(110, context)));
-                b.root.setLayoutParams(new ViewGroup.LayoutParams(dpToPx(166, context), ViewGroup.LayoutParams.WRAP_CONTENT));
+                    if (getAdapterPosition() == 0) {
+                        setMargins(b.container, dpToPx(10, context), dpToPx(10, context), dpToPx(4, context), 0);
+                    } else if (getAdapterPosition() == getItemCount() - 1) {
+                        setMargins(b.container, dpToPx(4, context), dpToPx(10, context), dpToPx(10, context), 0);
+                    } else {
+                        setMargins(b.container, dpToPx(4, context), dpToPx(10, context), dpToPx(4, context), 0);
+                    }
+                    break;
+                case TYPE_HORIZONTAL:
+                    b.root.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    b.layImage.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPx(240, context)));
+                    b.root.setLayoutParams(new ViewGroup.LayoutParams(dpToPx(166, context), ViewGroup.LayoutParams.WRAP_CONTENT));
 
-                if (getAdapterPosition() == 0) {
-                    setMargins(b.container, dpToPx(10, context), dpToPx(10, context), dpToPx(4, context), 0);
-                } else if (getAdapterPosition() == getItemCount() - 1) {
-                    setMargins(b.container, dpToPx(4, context), dpToPx(10, context), dpToPx(10, context), 0);
-                } else {
-                    setMargins(b.container, dpToPx(4, context), dpToPx(10, context), dpToPx(4, context), 0);
-                }
+                    if (getAdapterPosition() == 0) {
+                        setMargins(b.container, dpToPx(10, context), dpToPx(10, context), dpToPx(4, context), 0);
+                    } else if (getAdapterPosition() == getItemCount() - 1) {
+                        setMargins(b.container, dpToPx(4, context), dpToPx(10, context), dpToPx(10, context), 0);
+                    } else {
+                        setMargins(b.container, dpToPx(4, context), dpToPx(10, context), dpToPx(4, context), 0);
+                    }
+                    break;
 
             }
 
@@ -113,7 +130,7 @@ public class AdapterGrid extends RecyclerView.Adapter<AdapterGrid.StoreHolder> {
             b.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProduct.newInstance(""));
+                    addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProduct.newInstance("",FragmentProduct.PRODUCT));
                 }
             });
 

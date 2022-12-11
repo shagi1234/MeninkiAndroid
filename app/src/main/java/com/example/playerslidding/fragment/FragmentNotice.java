@@ -68,7 +68,7 @@ public class FragmentNotice extends Fragment {
     }
 
     private void setRecyclerHorizontal() {
-        adapterGridHorizontal = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_SHOP);
+        adapterGridHorizontal = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_HORIZONTAL_SMALL);
         b.recProductsHorizontal.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         b.recProductsHorizontal.setAdapter(adapterGridHorizontal);
     }

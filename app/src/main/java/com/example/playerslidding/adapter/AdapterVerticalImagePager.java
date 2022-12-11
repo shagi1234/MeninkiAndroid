@@ -50,11 +50,13 @@ public class AdapterVerticalImagePager extends RecyclerView.Adapter<AdapterVerti
         }
 
         public void bind() {
+            Glide.with(context)
+                    .load(imageList.get(getAdapterPosition()))
+                    .into(b.image);
 
             Glide.with(context)
                     .load(imageList.get(getAdapterPosition()))
                     .into(b.imageSmall);
-
         }
     }
 

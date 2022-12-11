@@ -193,10 +193,10 @@ public class FragmentHome extends Fragment {
     private void setViewPager(ViewPager viewPager) {
         ArrayList<FragmentPager> mFragment = new ArrayList<>();
 
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(), ""));
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(), ""));
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(), ""));
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(), ""));
+        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID), ""));
+        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID), ""));
+        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID), ""));
+        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID), ""));
 
         AdapterViewPager adapterFeedPager = new AdapterViewPager(getChildFragmentManager(), mFragment);
         viewPager.setAdapter(adapterFeedPager);

@@ -1,11 +1,14 @@
 package com.example.playerslidding.adapter;
 
+import static com.example.playerslidding.utils.Const.mainFragmentManager;
+import static com.example.playerslidding.utils.FragmentHelper.addFragment;
 import static com.example.playerslidding.utils.StaticMethods.dpToPx;
 import static com.example.playerslidding.utils.StaticMethods.setBackgroundDrawable;
 import static com.example.playerslidding.utils.StaticMethods.setMargins;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -16,6 +19,7 @@ import com.bumptech.glide.Glide;
 import com.example.playerslidding.R;
 import com.example.playerslidding.data.StoreDTO;
 import com.example.playerslidding.databinding.ItemStoreBinding;
+import com.example.playerslidding.fragment.FragmentProduct;
 
 import java.util.ArrayList;
 
@@ -84,6 +88,8 @@ public class AdapterStore extends RecyclerView.Adapter<AdapterStore.StoreHolder>
                     .into(b.posterImage);
 
             b.storeName.setText(stories.get(getAdapterPosition()).getStoreName());
+
+            b.getRoot().setOnClickListener(v -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProduct.newInstance("", FragmentProduct.STORE)));
 
         }
     }
