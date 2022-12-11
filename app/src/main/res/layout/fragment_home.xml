@@ -58,12 +58,14 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:fontFamily="@font/roboto_bold"
+                            android:fontFamily="@font/roboto_flex"
+                            android:gravity="center_vertical"
                             android:hint="Поиск"
                             android:maxLines="1"
                             android:paddingVertical="10dp"
                             android:paddingStart="14dp"
-                            android:singleLine="true" />
+                            android:singleLine="true"
+                            android:textStyle="bold" />
 
                         <ImageView
                             android:layout_width="wrap_content"

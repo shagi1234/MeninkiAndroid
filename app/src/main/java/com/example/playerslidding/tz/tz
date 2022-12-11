@@ -8,10 +8,11 @@ podpiska ayryldy
 komponentler duzedildi.
 
 9.12.2022 de hokman etmeli ishler:
-
 1.Product page ++
-2.store page
-3.profile after design fully changed
+2.store page ++
+3.open category page
+4.add post page ui
+
 
 10.12.2022:
 1.renkleri sazlamy;
@@ -19,10 +20,11 @@ komponentler duzedildi.
 3.in yokardaky tabLayout duzedilmeli
 
 11.12.2022:
-1.login registeri duzedip chatmaly;
+1.login registeri duzedip chatmaly
 
 12.12.2022
 1.store degishli nm bolsa chatmaly
+2.profile dizayny uytgedilenden son etmeli
 
 
 <Gormeli>

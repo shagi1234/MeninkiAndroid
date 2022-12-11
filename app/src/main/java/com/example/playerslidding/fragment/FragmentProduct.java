@@ -155,7 +155,10 @@ public class FragmentProduct extends Fragment {
         b.imagePager.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
 
         b.imagePager.setAdapter(adapterVerticalImagePager);
+
         adapterVerticalImagePager.setImageList(s);
+        b.indicator.setViewPager(b.imagePager);
+
 
     }
 

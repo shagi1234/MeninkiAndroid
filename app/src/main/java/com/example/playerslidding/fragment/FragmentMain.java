@@ -102,7 +102,7 @@ public class FragmentMain extends Fragment {
         ArrayList<FragmentPager> mFragment = new ArrayList<>();
         mFragment.add(new FragmentPager(FragmentFeed.newInstance(), "Лента"));
         mFragment.add(new FragmentPager(FragmentHome.newInstance(), "Домашняя"));
-        mFragment.add(new FragmentPager(FragmentNotice.newInstance(), "Объявления"));
+//        mFragment.add(new FragmentPager(FragmentNotice.newInstance(), "Объявления"));
 
         adapterFeedPager = new AdapterViewPager(getChildFragmentManager(), mFragment);
         b.viewPager.setAdapter(adapterFeedPager);

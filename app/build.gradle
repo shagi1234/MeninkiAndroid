@@ -60,4 +60,7 @@ dependencies {
     //photoView
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     implementation 'net.danlew:android.joda:2.10.14'
+
+    // dots indicator
+    implementation "me.relex:circleindicator:2.1.6"
 }
