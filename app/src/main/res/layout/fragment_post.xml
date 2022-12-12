@@ -45,13 +45,13 @@
                     android:layout_weight="1"
                     android:background="@color/white"
                     android:fontFamily="@font/roboto_flex"
-                    android:textStyle="bold"
                     android:gravity="center_vertical"
                     android:hint="Поиск"
                     android:maxLines="1"
                     android:paddingVertical="10dp"
                     android:paddingStart="14dp"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -174,7 +174,7 @@
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/view_pager"
                 android:layout_width="match_parent"
-                android:layout_height="500dp"
+                android:layout_height="530dp"
                 android:nestedScrollingEnabled="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rec_tab" />
@@ -206,8 +206,8 @@
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/view_pager_new"
                 android:layout_width="match_parent"
+                android:layout_height="530dp"
                 android:nestedScrollingEnabled="false"
-                android:layout_height="500dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rec_tab" />
 

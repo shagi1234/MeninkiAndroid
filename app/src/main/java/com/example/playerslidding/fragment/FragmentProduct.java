@@ -1,5 +1,7 @@
 package com.example.playerslidding.fragment;
 
+import static com.example.playerslidding.utils.Const.mainFragmentManager;
+import static com.example.playerslidding.utils.FragmentHelper.addFragment;
 import static com.example.playerslidding.utils.StaticMethods.dpToPx;
 import static com.example.playerslidding.utils.StaticMethods.navigationBarHeight;
 import static com.example.playerslidding.utils.StaticMethods.setBackgroundDrawable;
@@ -136,6 +138,10 @@ public class FragmentProduct extends Fragment {
     private void initListeners() {
         b.back.setOnClickListener(v -> {
             getActivity().onBackPressed();
+        });
+
+        b.bottomSheet.btnCaption.setOnClickListener(v -> {
+            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentAddPost.newInstance());
         });
 
     }

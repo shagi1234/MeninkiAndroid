@@ -1,5 +1,7 @@
 package com.example.playerslidding.adapter;
 
+import static com.example.playerslidding.utils.Const.mainFragmentManager;
+import static com.example.playerslidding.utils.FragmentHelper.addFragment;
 import static com.example.playerslidding.utils.StaticMethods.dpToPx;
 import static com.example.playerslidding.utils.StaticMethods.setMargins;
 
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.playerslidding.R;
 import com.example.playerslidding.data.CategoryDto;
 import com.example.playerslidding.databinding.ItemTextBinding;
+import com.example.playerslidding.fragment.FragmentOpenCategory;
 
 import java.util.ArrayList;
 
@@ -69,9 +72,7 @@ public class AdapterText extends RecyclerView.Adapter<AdapterText.TabLayoutHolde
 
             setActive(tabs.get(getAdapterPosition()).isActive());
 
-            b.getRoot().setOnClickListener(v -> {
-
-            });
+            b.getRoot().setOnClickListener(v -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentOpenCategory.newInstance(tabs.get(getAdapterPosition()).getName(), "")));
 
         }
 

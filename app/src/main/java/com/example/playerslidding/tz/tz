@@ -10,8 +10,10 @@ komponentler duzedildi.
 9.12.2022 de hokman etmeli ishler:
 1.Product page ++
 2.store page ++
-3.open category page
-4.add post page ui
+3.open category page++
+4.add post page ui++
+4.basket page ui
+5.profile dizayny uytgedilenden son etmeli
 
 
 10.12.2022:
@@ -24,7 +26,8 @@ komponentler duzedildi.
 
 12.12.2022
 1.store degishli nm bolsa chatmaly
-2.profile dizayny uytgedilenden son etmeli
+
+
 
 
 <Gormeli>

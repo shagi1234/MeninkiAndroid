@@ -39,11 +39,14 @@ public class ActivityMain extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Fragment fragment = mainFragmentManager.findFragmentById(R.id.fragment_container_main);
-        if (mainFragmentManager.getBackStackEntryCount() == 1) {
-            if (!(fragment instanceof OnBackPressedFragment) || !((OnBackPressedFragment) fragment).onBackPressed())
+        if (!(fragment instanceof OnBackPressedFragment) || !((OnBackPressedFragment) fragment).onBackPressed()) {
+            if (mainFragmentManager.getBackStackEntryCount() == 1) {
                 finish();
-        } else {
-            super.onBackPressed();
+            } else {
+                super.onBackPressed();
+            }
         }
+
+
     }
 }

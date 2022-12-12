@@ -15,9 +15,12 @@ public class StoreList {
     public static ArrayList<StoreDTO> getStoreDTOS() {
         if (storeDTOS == null) {
             storeDTOS = new ArrayList<>();
-            for (int i = 0; i < 50; i++) {
+//            for (int i = 0; i < 50; i++) {
                 storeDTOS.add(new StoreDTO("Trendyol", "https://static.glami.com.tr/img/576x840r/289100551.jpg", "https://play-lh.googleusercontent.com/LosPYfjaz1pOL-I3XCTroj4vQVxfsF5629nzPJM4pIj2KLaQuLbwmXUqV-I1RT5u9A"));
-            }
+                storeDTOS.add(new StoreDTO("Trendyol", "https://static.glami.com.tr/img/576x840r/289100551.jpg", "https://play-lh.googleusercontent.com/LosPYfjaz1pOL-I3XCTroj4vQVxfsF5629nzPJM4pIj2KLaQuLbwmXUqV-I1RT5u9A"));
+                storeDTOS.add(new StoreDTO("Trendyol", "https://static.glami.com.tr/img/576x840r/289100551.jpg", "https://play-lh.googleusercontent.com/LosPYfjaz1pOL-I3XCTroj4vQVxfsF5629nzPJM4pIj2KLaQuLbwmXUqV-I1RT5u9A"));
+                storeDTOS.add(new StoreDTO("Trendyol", "https://static.glami.com.tr/img/576x840r/289100551.jpg", "https://play-lh.googleusercontent.com/LosPYfjaz1pOL-I3XCTroj4vQVxfsF5629nzPJM4pIj2KLaQuLbwmXUqV-I1RT5u9A"));
+//            }
         }
         return storeDTOS;
     }
@@ -33,7 +36,7 @@ public class StoreList {
     public static ArrayList<GridDto> getGrids() {
         if (gridDtos == null) {
             gridDtos = new ArrayList<>();
-            for (int i = 0; i < 50; i++) {
+            for (int i = 0; i < 4; i++) {
                 if (i % 2 == 0) {
                     gridDtos.add(new GridDto("0", "https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg", "Colins jeans ", "13333", "16999", "13", 146));
                 } else {
