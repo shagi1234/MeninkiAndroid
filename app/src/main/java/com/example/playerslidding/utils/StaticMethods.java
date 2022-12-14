@@ -29,8 +29,10 @@ import android.provider.MediaStore;
 import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -43,6 +45,8 @@ import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
@@ -76,9 +80,11 @@ public class StaticMethods {
     public static void logWrite(String msg) {
         Log.e(TAG, "logWrite: " + msg);
     }
+
     public static void logWrite(int msg) {
         Log.e(TAG, "logWrite: " + msg);
     }
+
 
     public static void setVibrate(Context context, long sec) {
         Vibrator vibrator = (Vibrator) context.getSystemService(context.VIBRATOR_SERVICE);

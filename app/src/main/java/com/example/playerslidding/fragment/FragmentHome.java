@@ -24,7 +24,6 @@ import com.example.playerslidding.adapter.AdapterViewPager;
 import com.example.playerslidding.data.FragmentPager;
 import com.example.playerslidding.data.TabItemCustom;
 import com.example.playerslidding.databinding.FragmentPostBinding;
-import com.example.playerslidding.utils.StoreList;
 
 import java.util.ArrayList;
 
@@ -52,7 +51,6 @@ public class FragmentHome extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tabs = StoreList.getTabs();
 
     }
 
@@ -78,9 +76,9 @@ public class FragmentHome extends Fragment {
         setViewPager(b.viewPagerNew);
         initListeners();
 
-        adapterStore.setStories(StoreList.getStoreDTOS());
-        adapterShops.setStories(StoreList.getShops());
-        adapterCircle.setStories(StoreList.getStoreDTOS());
+        adapterStore.setStories(null);
+        adapterShops.setStories(null);
+        adapterCircle.setStories(null);
         adapterTabLayout.setTabs(tabs);
         adapterTabLayoutNew.setTabs(tabs);
 
@@ -161,8 +159,8 @@ public class FragmentHome extends Fragment {
     }
 
     private void setResources() {
-        Glide.with(getContext()).load(StoreList.getStoreDTOS().get(0).getImagePath()).into(b.bigImage1);
-        Glide.with(getContext()).load(StoreList.getStoreDTOS().get(0).getImagePath()).into(b.bigImage2);
+//        Glide.with(getContext()).load(StoreList.getStoreDTOS().get(0).getImagePath()).into(b.bigImage1);
+//        Glide.with(getContext()).load(StoreList.getStoreDTOS().get(0).getImagePath()).into(b.bigImage2);
     }
 
     private void setBackground() {

@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.playerslidding.adapter.AdapterText;
 import com.example.playerslidding.databinding.FragmentCategoryListBinding;
-import com.example.playerslidding.utils.StoreList;
 
 public class FragmentCategoryList extends Fragment {
     private FragmentCategoryListBinding b;
@@ -41,7 +40,7 @@ public class FragmentCategoryList extends Fragment {
         b = FragmentCategoryListBinding.inflate(inflater, container, false);
         setRecycler();
 
-        adapterText.setTabs(StoreList.getCategories());
+        adapterText.setTabs(null);
         return b.getRoot();
     }
 

@@ -1,0 +1,104 @@
+[
+  {
+    "id": "7ad3b5b2-f987-47aa-9655-b65dc0176dff",
+    "slug": "Mb-shoes",
+    "name": "Mb shoes",
+    "descriptionRu": "tufli",
+    "decriptionEn": "shoes",
+    "descriptionTm": "kowush",
+    "multiplier": 0,
+    "email": "mb@gmail.com",
+    "phoneNumber": "64411955",
+    "createDate": "2022-12-14T09:04:28.369163Z",
+    "endStoresPaymentPeriod": "2022-12-14T09:02:33.308Z",
+    "shopType": 0,
+    "moderationStatus": 1,
+    "userId": "bdc136c8-5bd9-453b-afbb-97ac45808162",
+    "user": null,
+    "shopImages": [],
+    "products": [],
+    "storeServices": [],
+    "categories": [
+      {
+        "id": "f62547f9-2eb6-4c35-9dbd-ad1fa3d59559",
+        "nameRu": "Tufli ",
+        "nameTm": "Shoes",
+        "nameEn": "Kowush",
+        "categoryImage": null,
+        "parentId": null,
+        "parent": null,
+        "subCategories": [
+          {
+            "id": "4cd04eee-5946-4ef1-85c3-0523252a1f51",
+            "nameRu": "futbolka",
+            "nameTm": "mayka",
+            "nameEn": "T-shirt",
+            "categoryImage": null,
+            "parentId": "f62547f9-2eb6-4c35-9dbd-ad1fa3d59559",
+            "subCategories": [],
+            "shops": [],
+            "products": []
+          }
+        ],
+        "shops": [],
+        "products": []
+      }
+    ],
+    "socialMedias": [
+      {
+        "id": "c02e7dbd-680b-439b-99bc-058cb3eb823f",
+        "socialMediaType": 0,
+        "url": "string",
+        "shopId": "7ad3b5b2-f987-47aa-9655-b65dc0176dff"
+      }
+    ]
+  },
+  {
+    "id": "2c9f0d15-14c3-4187-a8c1-659a97c823fc",
+    "nameRu": "Letnie odezdy",
+    "nameTm": "Tomusky eshiker ",
+    "nameEn": "Summer fashion",
+    "categoryImage": null,
+    "parentId": null,
+    "parent": null,
+    "subCategories": [],
+    "shops": [],
+    "products": []
+  },
+  {
+    "id": "7f96a535-d962-47b9-87b3-39b13b3abd45",
+    "nameRu": "Zimniye odezdy",
+    "nameTm": "gyshky eshikler",
+    "nameEn": "winter fashion",
+    "categoryImage": null,
+    "parentId": null,
+    "parent": null,
+    "subCategories": [],
+    "shops": [],
+    "products": []
+  },
+  {
+    "id": "f62547f9-2eb6-4c35-9dbd-ad1fa3d59559",
+    "nameRu": "Tufli ",
+    "nameTm": "Shoes",
+    "nameEn": "Kowush",
+    "categoryImage": null,
+    "parentId": null,
+    "parent": null,
+    "subCategories": [
+      {
+        "id": "4cd04eee-5946-4ef1-85c3-0523252a1f51",
+        "nameRu": "futbolka",
+        "nameTm": "mayka",
+        "nameEn": "T-shirt",
+        "categoryImage": null,
+        "parentId": "f62547f9-2eb6-4c35-9dbd-ad1fa3d59559",
+        "subCategories": [],
+        "shops": [],
+        "products": []
+      }
+    ],
+    "shops": [],
+    "products": []
+  }
+]

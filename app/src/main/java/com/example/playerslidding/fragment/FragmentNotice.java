@@ -18,7 +18,6 @@ import com.example.playerslidding.R;
 import com.example.playerslidding.adapter.AdapterGrid;
 import com.example.playerslidding.adapter.AdapterStore;
 import com.example.playerslidding.databinding.FragmentNoticeBinding;
-import com.example.playerslidding.utils.StoreList;
 
 public class FragmentNotice extends Fragment {
     private FragmentNoticeBinding b;
@@ -54,8 +53,8 @@ public class FragmentNotice extends Fragment {
         setRecyclerGrid();
         setRecyclerHorizontal();
 
-        adapterGrid.setStories(StoreList.getGrids());
-        adapterGridHorizontal.setStories(StoreList.getGrids());
+        adapterGrid.setStories(null);
+        adapterGridHorizontal.setStories(null);
 
         return b.getRoot();
     }

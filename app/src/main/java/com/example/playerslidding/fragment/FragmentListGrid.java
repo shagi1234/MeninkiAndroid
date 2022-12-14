@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.example.playerslidding.adapter.AdapterGrid;
 import com.example.playerslidding.data.StoreDTO;
 import com.example.playerslidding.databinding.FragmentListGridBinding;
-import com.example.playerslidding.utils.StoreList;
 
 import java.util.ArrayList;
 
@@ -52,7 +51,7 @@ public class FragmentListGrid extends Fragment {
         // Inflate the layout for this fragment
         b = FragmentListGridBinding.inflate(inflater, container, false);
         setRecycler();
-        adapterGrid.setStories(StoreList.getGrids());
+        adapterGrid.setStories(null);
         return b.getRoot();
     }
 

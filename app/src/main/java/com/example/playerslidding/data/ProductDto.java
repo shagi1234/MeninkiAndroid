@@ -1,6 +1,6 @@
 package com.example.playerslidding.data;
 
-public class GridDto {
+public class ProductDto {
     private String orientation;
     private String imagePath;
     private String title;
@@ -9,7 +9,7 @@ public class GridDto {
     private String sale;
     private int count;
 
-    public GridDto(String orientation, String imagePath, String title, String price, String oldPrice, String sale, int count) {
+    public ProductDto(String orientation, String imagePath, String title, String price, String oldPrice, String sale, int count) {
         this.orientation = orientation;
         this.imagePath = imagePath;
         this.title = title;

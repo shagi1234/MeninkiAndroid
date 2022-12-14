@@ -19,7 +19,6 @@ import com.example.playerslidding.adapter.AdapterViewPager;
 import com.example.playerslidding.data.FragmentPager;
 import com.example.playerslidding.data.TabItemCustom;
 import com.example.playerslidding.databinding.FragmentOpenCategoryBinding;
-import com.example.playerslidding.utils.StoreList;
 
 import java.util.ArrayList;
 
@@ -56,7 +55,6 @@ public class FragmentOpenCategory extends Fragment {
             uuid = getArguments().getString(PARAM_ID);
             name = getArguments().getString(PARAM_NAME);
         }
-        tabs = StoreList.getTabs();
     }
 
     @Override

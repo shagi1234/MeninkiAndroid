@@ -1,5 +1,8 @@
 package com.example.playerslidding.fragment;
 
+import static com.example.playerslidding.utils.Const.mainFragmentManager;
+import static com.example.playerslidding.utils.FragmentHelper.addFragment;
+import static com.example.playerslidding.utils.StaticMethods.logWrite;
 import static com.example.playerslidding.utils.StaticMethods.navigationBarHeight;
 import static com.example.playerslidding.utils.StaticMethods.setBackgroundDrawable;
 import static com.example.playerslidding.utils.StaticMethods.setMargins;
@@ -7,6 +10,7 @@ import static com.example.playerslidding.utils.StaticMethods.setPadding;
 import static com.example.playerslidding.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +20,19 @@ import androidx.fragment.app.Fragment;
 
 import com.example.playerslidding.R;
 import com.example.playerslidding.adapter.AdapterViewPager;
+import com.example.playerslidding.api.ApiClient;
+import com.example.playerslidding.api.ApiInterface;
+import com.example.playerslidding.data.CategoryDto;
 import com.example.playerslidding.data.FragmentPager;
 import com.example.playerslidding.databinding.FragmentCategoryBinding;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class FragmentCategory extends Fragment {
@@ -53,8 +64,38 @@ public class FragmentCategory extends Fragment {
         // Inflate the layout for this fragment
         b = FragmentCategoryBinding.inflate(inflater, container, false);
         setBackgrounds();
-        setViewPager();
+        initListeners();
+        getAllCategories();
         return b.getRoot();
+    }
+
+    private void getAllCategories() {
+        ApiInterface apiInterface = (ApiInterface) ApiClient.createRequest(ApiInterface.class);
+        Call<ArrayList<CategoryDto>> call = apiInterface.getAllCategory();
+        call.enqueue(new Callback<ArrayList<CategoryDto>>() {
+            @Override
+            public void onResponse(Call<ArrayList<CategoryDto>> call, Response<ArrayList<CategoryDto>> response) {
+
+                if (response.code() == 200 && response.body() != null) {
+                    Log.e("TAG", "onResponse: " + response.body().toString());
+                    setViewPager(response.body());
+                } else {
+                    logWrite(response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<CategoryDto>> call, Throwable t) {
+                logWrite(t.getMessage());
+
+            }
+        });
+    }
+
+    private void initListeners() {
+        b.icCart.setOnClickListener(v -> {
+            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentBasket.newInstance());
+        });
     }
 
     private void setBackgrounds() {
@@ -62,7 +103,7 @@ public class FragmentCategory extends Fragment {
     }
 
 
-    private void setViewPager() {
+    private void setViewPager(ArrayList<CategoryDto> data) {
 
         b.tabLayout.setupWithViewPager(b.viewPager);
 
@@ -92,13 +133,11 @@ public class FragmentCategory extends Fragment {
         });
 
         b.viewPager.setOffscreenPageLimit(2);
-        ArrayList<FragmentPager> mFragment = new ArrayList<>();
-        mFragment.add(new FragmentPager(FragmentCategoryList.newInstance(), "Авто".toUpperCase()));
-        mFragment.add(new FragmentPager(FragmentCategoryList.newInstance(), "Техника".toUpperCase()));
-        mFragment.add(new FragmentPager(FragmentCategoryList.newInstance(), "Авто".toUpperCase()));
-        mFragment.add(new FragmentPager(FragmentCategoryList.newInstance(), "Одежда".toUpperCase()));
-        mFragment.add(new FragmentPager(FragmentCategoryList.newInstance(), "Техника".toUpperCase()));
 
+        ArrayList<FragmentPager> mFragment = new ArrayList<>();
+        for (int i = 0; i < data.size(); i++) {
+            mFragment.add(new FragmentPager(FragmentCategoryList.newInstance(), data.get(i).getName().toUpperCase()));
+        }
 
         AdapterViewPager adapterFeedPager = new AdapterViewPager(getChildFragmentManager(), mFragment);
         b.viewPager.setAdapter(adapterFeedPager);

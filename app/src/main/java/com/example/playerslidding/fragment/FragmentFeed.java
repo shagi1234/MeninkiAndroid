@@ -21,7 +21,6 @@ import com.example.playerslidding.adapter.AdapterViewPager;
 import com.example.playerslidding.data.FragmentPager;
 import com.example.playerslidding.data.TabItemCustom;
 import com.example.playerslidding.databinding.FragmentHomeBinding;
-import com.example.playerslidding.utils.StoreList;
 
 import java.util.ArrayList;
 
@@ -42,7 +41,6 @@ public class FragmentFeed extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tabs = StoreList.getTabs();
     }
 
     @Override
@@ -63,7 +61,7 @@ public class FragmentFeed extends Fragment {
         setViewPager();
         initListeners();
 
-        adapterStore.setStories(StoreList.getStoreDTOS());
+        adapterStore.setStories(null);
         adapterTabLayout.setTabs(tabs);
 
         return b.getRoot();

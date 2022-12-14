@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.TooltipCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.playerslidding.R;
 import com.example.playerslidding.adapter.AdapterViewPager;
 import com.example.playerslidding.data.FragmentPager;
 import com.example.playerslidding.databinding.FragmentMainBinding;
@@ -61,7 +62,7 @@ public class FragmentMain extends Fragment {
 
     private void initListeners() {
         b.frameMore.setOnClickListener(v -> {
-            Fragment flow = mainFragmentManager.findFragmentByTag(FragmentFlow.class.getName());
+            Fragment flow = mainFragmentManager.findFragmentById(R.id.fragment_container_main);
             if (flow instanceof ChangeFlowPage) {
                 ((ChangeFlowPage) flow).change();
             }

@@ -8,7 +8,6 @@ import static com.example.playerslidding.utils.StaticMethods.setMargins;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
@@ -18,19 +17,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.playerslidding.R;
-import com.example.playerslidding.data.GridDto;
+import com.example.playerslidding.data.ProductDto;
+import com.example.playerslidding.databinding.ItemBasketBinding;
 import com.example.playerslidding.databinding.ItemStaggeredGridBinding;
 import com.example.playerslidding.fragment.FragmentProduct;
 
 import java.util.ArrayList;
 
-public class AdapterGrid extends RecyclerView.Adapter<AdapterGrid.StoreHolder> {
+public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private FragmentActivity activity;
-    private ArrayList<GridDto> grids = new ArrayList<>();
+    private ArrayList<ProductDto> grids = new ArrayList<>();
     public final static int TYPE_GRID = 0;
     public final static int TYPE_HORIZONTAL_SMALL = 1;
     public final static int TYPE_HORIZONTAL = 2;
+    public final static int TYPE_BASKET = 3;
     private int type;
 
     public AdapterGrid(Context context, FragmentActivity activity, int type) {
@@ -41,15 +42,25 @@ public class AdapterGrid extends RecyclerView.Adapter<AdapterGrid.StoreHolder> {
 
     @NonNull
     @Override
-    public StoreHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        ItemStaggeredGridBinding popularAudios = ItemStaggeredGridBinding.inflate(layoutInflater, parent, false);
-        return new AdapterGrid.StoreHolder(popularAudios);
+
+        if (type == TYPE_BASKET) {
+            ItemBasketBinding popularAudios = ItemBasketBinding.inflate(layoutInflater, parent, false);
+            return new AdapterGrid.BasketHolder(popularAudios);
+        } else {
+            ItemStaggeredGridBinding popularAudios = ItemStaggeredGridBinding.inflate(layoutInflater, parent, false);
+            return new AdapterGrid.StoreHolder(popularAudios);
+        }
+
     }
 
     @Override
-    public void onBindViewHolder(@NonNull StoreHolder holder, int position) {
-        holder.bind();
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (type == TYPE_BASKET)
+            ((BasketHolder) holder).bind();
+        else
+            ((StoreHolder) holder).bind();
     }
 
     @Override
@@ -60,7 +71,7 @@ public class AdapterGrid extends RecyclerView.Adapter<AdapterGrid.StoreHolder> {
         return grids.size();
     }
 
-    public void setStories(ArrayList<GridDto> stories) {
+    public void setStories(ArrayList<ProductDto> stories) {
         this.grids = stories;
         notifyDataSetChanged();
     }
@@ -127,12 +138,38 @@ public class AdapterGrid extends RecyclerView.Adapter<AdapterGrid.StoreHolder> {
             b.count.setText(String.valueOf(grids.get(getAdapterPosition()).getCount()));
             b.sale.setText("- " + grids.get(getAdapterPosition()).getSale() + " %");
 
-            b.getRoot().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProduct.newInstance("",FragmentProduct.PRODUCT));
-                }
-            });
+            b.getRoot().setOnClickListener(v -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProduct.newInstance("", FragmentProduct.PRODUCT)));
+
+        }
+    }
+
+    public class BasketHolder extends RecyclerView.ViewHolder {
+        private final ItemBasketBinding b;
+
+        public BasketHolder(ItemBasketBinding b) {
+            super(b.getRoot());
+            this.b = b;
+        }
+
+        public void bind() {
+            setBackgroundDrawable(context, b.posterImage, R.color.holder, R.color.accent, 0, true, 2);
+            setBackgroundDrawable(context, b.addToFavourites, R.color.color_transparent, R.color.grey, 10, false, 1);
+            setBackgroundDrawable(context, b.delete, R.color.color_transparent, R.color.grey, 10, false, 1);
+            setBackgroundDrawable(context, b.layStoreName, R.color.grey, 0, 10, false, 0);
+            Glide.with(context)
+                    .load(grids.get(getAdapterPosition()).getImagePath())
+                    .into(b.image);
+
+            Glide.with(context)
+                    .load(grids.get(getAdapterPosition()).getImagePath())
+                    .into(b.posterImage);
+
+            b.name.setText(grids.get(getAdapterPosition()).getTitle());
+            b.price.setText(grids.get(getAdapterPosition()).getPrice() + " TMT");
+            b.oldPrice.setText(grids.get(getAdapterPosition()).getOldPrice() + " TMT");
+            b.count.setText(String.valueOf(grids.get(getAdapterPosition()).getCount()));
+            b.sale.setText("- " + grids.get(getAdapterPosition()).getSale() + " %");
+
 
         }
     }
