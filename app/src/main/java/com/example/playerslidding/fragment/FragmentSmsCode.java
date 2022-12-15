@@ -1,0 +1,141 @@
+package com.example.playerslidding.fragment;
+
+import static com.example.playerslidding.utils.Const.mainFragmentManager;
+import static com.example.playerslidding.utils.FragmentHelper.addFragment;
+import static com.example.playerslidding.utils.StaticMethods.navigationBarHeight;
+import static com.example.playerslidding.utils.StaticMethods.setPadding;
+import static com.example.playerslidding.utils.StaticMethods.statusBarHeight;
+
+import android.content.Context;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
+import com.example.playerslidding.R;
+import com.example.playerslidding.databinding.FragmentSmsCodeBinding;
+
+public class FragmentSmsCode extends Fragment {
+    private FragmentSmsCodeBinding b;
+    private CountDownTimer countDownTimer;
+
+    public static FragmentSmsCode newInstance() {
+        FragmentSmsCode fragment = new FragmentSmsCode();
+        Bundle args = new Bundle();
+
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        b = FragmentSmsCodeBinding.inflate(inflater, container, false);
+        initListeners();
+        countDownTime(120, b.btnResendCode);
+        return b.getRoot();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setPadding(b.getRoot(),0,statusBarHeight,0,navigationBarHeight);
+    }
+
+    private void initListeners() {
+        showKeyboard();
+        b.edtCode.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().trim().length() == 4) {
+                    checkSmsCode(s.toString().trim());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    private void checkSmsCode(String trim) {
+        if (trim.equals("1409")) {
+            addFragment(mainFragmentManager, R.id.container_login, FragmentLoginUserInfo.newInstance());
+            return;
+        }
+        b.edtCode.setText("");
+        if (getContext() == null) return;
+        Animation shake = AnimationUtils.loadAnimation(getContext(), R.anim.shake);
+
+        b.edtCode.startAnimation(shake);
+        Vibrator v = (Vibrator) getContext().getSystemService(getContext().VIBRATOR_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            v.vibrate(VibrationEffect.createOneShot(300, VibrationEffect.DEFAULT_AMPLITUDE));
+        } else {
+            //deprecated in API 26
+            v.vibrate(300);
+        }
+    }
+
+    private void showKeyboard() {
+        b.edtCode.requestFocus();
+        if (getActivity() == null) return;
+        InputMethodManager imgr = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imgr.toggleSoftInput(InputMethodManager.HIDE_NOT_ALWAYS, InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+    public void countDownTime(int Seconds, final TextView tv) {
+
+        countDownTimer = new CountDownTimer(Seconds * 1000L + 1000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                int seconds = (int) (millisUntilFinished / 1000);
+                int minutes = seconds / 60;
+                seconds = seconds % 60;
+                tv.setText(getActivity().getResources().getString(R.string.repeat_after)
+                        + " " + String.format("%02d", minutes)
+                        + ":" + String.format("%02d", seconds));
+            }
+
+            public void onFinish() {
+                if (getActivity() == null) return;
+                b.btnResendCode.setEnabled(true);
+                tv.setText(getActivity().getResources().getString(R.string.send_again));
+
+                b.btnResendCode.setOnClickListener(view -> {
+                    b.btnResendCode.setEnabled(false);
+
+                    // again
+
+                    countDownTime(120, b.btnResendCode);
+                });
+
+            }
+        }.start();
+    }
+}
