@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/hover"
+    android:background="@color/background"
     android:orientation="vertical"
     tools:context=".fragment.FragmentFeed">
 
@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="bottom"
-        android:background="@color/hover"
+        android:background="@color/background"
         android:orientation="vertical">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -32,7 +32,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/hover"
+                    android:background="@color/background"
                     android:orientation="vertical">
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -58,14 +58,13 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:fontFamily="@font/roboto_flex"
+                            android:fontFamily="@font/roboto_medium"
                             android:gravity="center_vertical"
                             android:hint="Поиск"
                             android:maxLines="1"
                             android:paddingVertical="10dp"
                             android:paddingStart="14dp"
-                            android:singleLine="true"
-                            android:textStyle="bold" />
+                            android:singleLine="true"/>
 
                         <ImageView
                             android:layout_width="wrap_content"

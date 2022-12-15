@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/hover"
+    android:background="@color/background"
     tools:context=".fragment.FragmentHome">
 
     <androidx.core.widget.NestedScrollView
@@ -12,13 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="bottom"
-        android:background="@color/hover"
+        android:background="@color/background"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/hover"
+            android:background="@color/background"
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
@@ -169,7 +169,7 @@
                 android:id="@+id/rec_tab"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/hover" />
+                android:background="@color/background" />
 
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/view_pager"
@@ -201,7 +201,7 @@
                 android:id="@+id/rec_tab_new"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/hover" />
+                android:background="@color/background" />
 
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/view_pager_new"

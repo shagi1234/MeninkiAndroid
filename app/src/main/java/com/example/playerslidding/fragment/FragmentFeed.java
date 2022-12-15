@@ -29,7 +29,7 @@ public class FragmentFeed extends Fragment {
     private AdapterViewPager adapterFeedPager;
     private AdapterStore adapterStore;
     private AdapterTabLayout adapterTabLayout;
-    private ArrayList<TabItemCustom> tabs;
+    private ArrayList<TabItemCustom> tabs = new ArrayList<>();
 
     public static FragmentFeed newInstance() {
         FragmentFeed fragment = new FragmentFeed();
@@ -82,14 +82,15 @@ public class FragmentFeed extends Fragment {
                     adapterTabLayout.isClicked = false;
                     return;
                 }
+                if (position < tabs.size()) {
+                    tabs.get(position).setActive(true);
+                    tabs.get(adapterTabLayout.lastClicked).setActive(false);
 
-                tabs.get(position).setActive(true);
-                tabs.get(adapterTabLayout.lastClicked).setActive(false);
+                    adapterTabLayout.notifyItemChanged(position);
+                    adapterTabLayout.notifyItemChanged(adapterTabLayout.lastClicked);
 
-                adapterTabLayout.notifyItemChanged(position);
-                adapterTabLayout.notifyItemChanged(adapterTabLayout.lastClicked);
-
-                adapterTabLayout.lastClicked = position;
+                    adapterTabLayout.lastClicked = position;
+                }
             }
 
             @Override

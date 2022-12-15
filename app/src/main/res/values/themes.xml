@@ -33,4 +33,10 @@
         <item name="android:enforceNavigationBarContrast" tools:targetApi="q">false</item>
 
     </style>
+    <style name="TabWidget">
+        <item name="android:textSize">14sp</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@drawable/tab_selector</item>
+    </style>
 </resources>

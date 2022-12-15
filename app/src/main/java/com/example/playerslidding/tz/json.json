@@ -100,5 +100,47 @@
     ],
     "shops": [],
     "products": []
+  },
+  {
+
+
+    "products": [
+      {
+        "shopId": "7ad3b5b2-f987-47aa-9655-b65dc0176dff",
+        "shop": null,
+        "posts": null,
+        "id": "d304f182-47c2-4e72-b5da-1427c654e1f8",
+        "slug": "eshik-satyas-aksiya-0782d12d-960d-4a69-a8c2-18530dc12cb6",
+        "name": "eshik satyas aksiya",
+        "description": "arzanlashyk",
+        "isDeleted": false,
+        "moderationStatus": 1,
+        "createDate": "2022-12-14T20:17:01.0616425Z",
+        "numberView": 0,
+        "priceBonus": 1900,
+        "price": 1000,
+        "discountPrice": 15,
+        "rating": null,
+        "images": null,
+        "categories": [
+          {
+            "id": "2c9f0d15-14c3-4187-a8c1-659a97c823fc",
+            "nameRu": "Letnie odezdy",
+            "nameTm": "Tomusky eshiker ",
+            "nameEn": "Summer fashion",
+            "categoryImage": null,
+            "parentId": null,
+            "parent": null,
+            "subCategories": null,
+            "shops": null,
+            "products": []
+          }
+        ]
+      }
+    ]
   }
 ]
+
+
+
+

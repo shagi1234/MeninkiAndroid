@@ -2,7 +2,7 @@ package com.example.playerslidding.api;
 
 public class Network {
 
-    public static final String BASE_URL = "http://172.17.176.1/";
+    public static final String BASE_URL = "http://10.192.5.45/";
 
 
     // errors

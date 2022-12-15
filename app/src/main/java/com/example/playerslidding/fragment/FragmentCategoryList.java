@@ -9,17 +9,18 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.playerslidding.adapter.AdapterText;
+import com.example.playerslidding.data.CategoryDto;
 import com.example.playerslidding.databinding.FragmentCategoryListBinding;
+
+import java.util.ArrayList;
 
 public class FragmentCategoryList extends Fragment {
     private FragmentCategoryListBinding b;
     private AdapterText adapterText;
+    private final ArrayList<CategoryDto> categoryDto;
 
-    public static FragmentCategoryList newInstance() {
-        FragmentCategoryList fragment = new FragmentCategoryList();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
+    public FragmentCategoryList(ArrayList<CategoryDto> subCategories) {
+        this.categoryDto=subCategories;
     }
 
     @Override
@@ -40,7 +41,7 @@ public class FragmentCategoryList extends Fragment {
         b = FragmentCategoryListBinding.inflate(inflater, container, false);
         setRecycler();
 
-        adapterText.setTabs(null);
+        adapterText.setTabs(categoryDto);
         return b.getRoot();
     }
 

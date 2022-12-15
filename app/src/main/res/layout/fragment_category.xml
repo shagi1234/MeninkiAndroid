@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/hover"
+    android:background="@color/background"
     android:orientation="vertical"
     tools:context=".fragment.FragmentCategory">
 
@@ -14,35 +14,45 @@
         android:layout_height="30dp"
         android:background="@color/color_transparent" />
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/frame_ctg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|right"
-        android:background="@drawable/bg_left_top_and_left_bottom_10">
+        android:background="@drawable/bg_left_top_and_left_bottom_10"
+        android:orientation="horizontal"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="14dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/ic_ffrd"
+            app:tint="@color/white" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/roboto_flex"
-            android:gravity="center_vertical"
-            android:paddingHorizontal="14dp"
-            android:paddingVertical="12dp"
+            android:paddingBottom="2dp"
             android:text="Категории"
             android:textColor="@color/white"
-            app:drawableLeftCompat="@drawable/ic_more_vert" />
-    </FrameLayout>
+            android:textSize="16sp" />
+    </LinearLayout>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        app:tabMode="scrollable"
         android:background="@color/color_transparent"
         android:clipToPadding="false"
         app:tabIndicatorColor="@color/dark"
+        app:tabMode="scrollable"
         app:tabSelectedTextColor="@color/black"
         app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
         app:tabTextColor="@color/dark" />

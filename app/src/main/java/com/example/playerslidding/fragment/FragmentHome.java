@@ -165,9 +165,9 @@ public class FragmentHome extends Fragment {
 
     private void setBackground() {
 
-        setBackgroundDrawable(getContext(), b.backgroundSearch, R.color.background, 0, 10, false, 0);
-        setBackgroundDrawable(getContext(), b.edtSearch, R.color.background, 0, 10, false, 0);
-        setBackgroundDrawable(getContext(), b.btnCaption, R.color.background, 0, 10, false, 0);
+        setBackgroundDrawable(getContext(), b.backgroundSearch, R.color.white, 0, 10, false, 0);
+        setBackgroundDrawable(getContext(), b.edtSearch, R.color.white, 0, 10, false, 0);
+        setBackgroundDrawable(getContext(), b.btnCaption, R.color.white, 0, 10, false, 0);
     }
 
     private void setRecycler() {

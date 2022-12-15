@@ -59,6 +59,9 @@ dependencies {
     //Slider
     implementation 'com.r0adkll:slidableactivity:2.1.0'
 
+    //swipe layout
+    implementation 'com.daimajia.swipelayout:library:1.2.0'
+
     //photoView
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     implementation 'net.danlew:android.joda:2.10.14'

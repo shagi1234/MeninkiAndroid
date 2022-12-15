@@ -5,8 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/hover"
     android:orientation="vertical"
+    android:background="@color/background"
     tools:context=".fragment.FragmentNotice">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="bottom"
-        android:background="@color/hover"
+        android:background="@color/background"
         android:orientation="vertical">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -26,7 +26,7 @@
                 android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/hover"
+                android:background="@color/background"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:titleEnabled="false">
 

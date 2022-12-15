@@ -77,7 +77,6 @@ public class FragmentCategory extends Fragment {
             public void onResponse(Call<ArrayList<CategoryDto>> call, Response<ArrayList<CategoryDto>> response) {
 
                 if (response.code() == 200 && response.body() != null) {
-                    Log.e("TAG", "onResponse: " + response.body().toString());
                     setViewPager(response.body());
                 } else {
                     logWrite(response.code());
@@ -136,7 +135,7 @@ public class FragmentCategory extends Fragment {
 
         ArrayList<FragmentPager> mFragment = new ArrayList<>();
         for (int i = 0; i < data.size(); i++) {
-            mFragment.add(new FragmentPager(FragmentCategoryList.newInstance(), data.get(i).getName().toUpperCase()));
+            mFragment.add(new FragmentPager(new FragmentCategoryList(data.get(i).getSubCategories()), data.get(i).getName().toUpperCase()));
         }
 
         AdapterViewPager adapterFeedPager = new AdapterViewPager(getChildFragmentManager(), mFragment);
