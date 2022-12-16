@@ -2,7 +2,9 @@ package com.example.playerslidding.fragment;
 
 import static com.example.playerslidding.utils.Const.mainFragmentManager;
 import static com.example.playerslidding.utils.FragmentHelper.addFragment;
+import static com.example.playerslidding.utils.StaticMethods.dpToPx;
 import static com.example.playerslidding.utils.StaticMethods.navigationBarHeight;
+import static com.example.playerslidding.utils.StaticMethods.setMargins;
 import static com.example.playerslidding.utils.StaticMethods.setPadding;
 import static com.example.playerslidding.utils.StaticMethods.statusBarHeight;
 
@@ -110,10 +112,11 @@ public class FragmentSmsCode extends Fragment {
     }
 
     public void countDownTime(int Seconds, final TextView tv) {
-
+        if (getActivity() == null) return;
         countDownTimer = new CountDownTimer(Seconds * 1000L + 1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
+                if (getActivity() == null) return;
                 int seconds = (int) (millisUntilFinished / 1000);
                 int minutes = seconds / 60;
                 seconds = seconds % 60;

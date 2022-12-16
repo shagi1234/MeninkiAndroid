@@ -1,7 +1,9 @@
 package com.example.playerslidding.fragment;
 
+import static com.example.playerslidding.utils.StaticMethods.dpToPx;
 import static com.example.playerslidding.utils.StaticMethods.navigationBarHeight;
 import static com.example.playerslidding.utils.StaticMethods.setBackgroundDrawable;
+import static com.example.playerslidding.utils.StaticMethods.setMargins;
 import static com.example.playerslidding.utils.StaticMethods.setPadding;
 import static com.example.playerslidding.utils.StaticMethods.statusBarHeight;
 
@@ -72,7 +74,7 @@ public class FragmentLoginUserInfo extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.toString().trim().length() < 4) {
+                if (s.toString().trim().length() > 4) {
                     setBackgroundDrawable(getContext(), b.btnLogin, R.color.accent, 0, 10, false, 0);
                     b.btnLogin.setTextColor(getResources().getColor(R.color.background));
                     b.btnLogin.setEnabled(true);
@@ -91,7 +93,9 @@ public class FragmentLoginUserInfo extends Fragment {
     }
 
     private void setBackgrounds() {
-        setBackgroundDrawable(getContext(), b.btnLogin, R.color.accent, 0, 10, false, 0);
+        setBackgroundDrawable(getContext(), b.btnLogin, R.color.background, R.color.accent, 10, false, 2);
+        b.btnLogin.setTextColor(getResources().getColor(R.color.accent));
+        b.btnLogin.setEnabled(false);
         setBackgroundDrawable(getContext(), b.edtName, R.color.hover, 0, 10, false, 0);
     }
 }

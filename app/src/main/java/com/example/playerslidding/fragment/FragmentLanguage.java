@@ -2,8 +2,10 @@ package com.example.playerslidding.fragment;
 
 import static com.example.playerslidding.utils.Const.mainFragmentManager;
 import static com.example.playerslidding.utils.FragmentHelper.addFragment;
+import static com.example.playerslidding.utils.StaticMethods.dpToPx;
 import static com.example.playerslidding.utils.StaticMethods.navigationBarHeight;
 import static com.example.playerslidding.utils.StaticMethods.setBackgroundDrawable;
+import static com.example.playerslidding.utils.StaticMethods.setMargins;
 import static com.example.playerslidding.utils.StaticMethods.setPadding;
 import static com.example.playerslidding.utils.StaticMethods.statusBarHeight;
 
@@ -55,6 +57,12 @@ public class FragmentLanguage extends Fragment {
             b.btnNext.setEnabled(false);
             addFragment(mainFragmentManager, R.id.container_login, FragmentCountryAndNumber.newInstance());
             new Handler().postDelayed(() -> b.btnNext.setEnabled(true), 200);
+        });
+        b.selectLanguage.setOnClickListener(v -> {
+            b.selectLanguage.setEnabled(false);
+            addFragment(mainFragmentManager, R.id.container_login, FragmentCountryCode.newInstance());
+            new Handler().postDelayed(() -> b.selectLanguage.setEnabled(true), 200);
+
         });
     }
 

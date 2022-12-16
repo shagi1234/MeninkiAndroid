@@ -12,9 +12,11 @@ import androidx.transition.ChangeImageTransform;
 import androidx.transition.ChangeTransform;
 import androidx.transition.TransitionSet;
 
+import com.example.playerslidding.R;
+
 public class FragmentHelper {
 
-    public static boolean isAddedFragmentToFeed=false;
+    public static boolean isAddedFragmentToFeed = false;
 
     public static void addFragmentWithoutAnim(FragmentManager fragmentManager, int containerViewId, Fragment fragment) {
 
@@ -39,7 +41,7 @@ public class FragmentHelper {
 
 //        if (!fragmentPopped) { //fragment not in back stack, create it.
         FragmentTransaction ft = manager.beginTransaction();
-//        ft.setCustomAnimations(salam.messengertm.R.anim.enter_anim, 0, 0, salam.messengertm.R.anim.pop_exit_anim);
+        ft.setCustomAnimations(R.anim.enter_anim, 0, 0, R.anim.pop_exit_anim);
         ft.add(containerViewId, fragment, backStateName);
         ft.addToBackStack(backStateName);
 
@@ -47,7 +49,23 @@ public class FragmentHelper {
 //        }
     }
 
-    public static void addFragmentTag(FragmentManager fragmentManager, int containerViewId, Fragment fragment,String backStateName) {
+    public static void addFragmentNoAnim(FragmentManager fragmentManager, int containerViewId, Fragment fragment) {
+        String backStateName = fragment.getClass().getName();
+
+        FragmentManager manager = fragmentManager;
+//        boolean fragmentPopped = manager.popBackStackImmediate(backStateName, 0);
+
+//        if (!fragmentPopped) { //fragment not in back stack, create it.
+        FragmentTransaction ft = manager.beginTransaction();
+//        ft.setCustomAnimations(R.anim.enter_anim, 0, 0, R.anim.pop_exit_anim);
+        ft.add(containerViewId, fragment, backStateName);
+        ft.addToBackStack(backStateName);
+
+        ft.commit();
+//        }
+    }
+
+    public static void addFragmentTag(FragmentManager fragmentManager, int containerViewId, Fragment fragment, String backStateName) {
 
         FragmentManager manager = fragmentManager;
 //        boolean fragmentPopped = manager.popBackStackImmediate(backStateName, 0);

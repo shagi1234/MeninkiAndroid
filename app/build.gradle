@@ -71,4 +71,8 @@ dependencies {
 
     // dots indicator
     implementation "me.relex:circleindicator:2.1.6"
+
+    //keyboard provider
+    implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:3.0.0-RC3'
+
 }

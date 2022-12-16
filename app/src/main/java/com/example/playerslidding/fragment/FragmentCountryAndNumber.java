@@ -2,8 +2,10 @@ package com.example.playerslidding.fragment;
 
 import static com.example.playerslidding.utils.Const.mainFragmentManager;
 import static com.example.playerslidding.utils.FragmentHelper.addFragment;
+import static com.example.playerslidding.utils.StaticMethods.dpToPx;
 import static com.example.playerslidding.utils.StaticMethods.navigationBarHeight;
 import static com.example.playerslidding.utils.StaticMethods.setBackgroundDrawable;
+import static com.example.playerslidding.utils.StaticMethods.setMargins;
 import static com.example.playerslidding.utils.StaticMethods.setPadding;
 import static com.example.playerslidding.utils.StaticMethods.statusBarHeight;
 
@@ -48,7 +50,7 @@ public class FragmentCountryAndNumber extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        setPadding(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight);
+        setMargins(b.getRoot(),0,statusBarHeight,0,navigationBarHeight);
     }
 
     private void initListeners() {
