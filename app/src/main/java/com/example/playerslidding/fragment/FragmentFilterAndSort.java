@@ -1,14 +1,18 @@
 package com.example.playerslidding.fragment;
 
+import static com.example.playerslidding.utils.StaticMethods.setBackgroundDrawable;
+
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.example.playerslidding.R;
+import com.example.playerslidding.databinding.FragmentFilterAndSortBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,33 +21,12 @@ import com.example.playerslidding.R;
  */
 public class FragmentFilterAndSort extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private FragmentFilterAndSortBinding b;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public FragmentFilterAndSort() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentFilterAndSort.
-     */
     // TODO: Rename and change types and number of parameters
-    public static FragmentFilterAndSort newInstance(String param1, String param2) {
+    public static FragmentFilterAndSort newInstance() {
         FragmentFilterAndSort fragment = new FragmentFilterAndSort();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -51,16 +34,34 @@ public class FragmentFilterAndSort extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_filter_and_sort, container, false);
+        b = FragmentFilterAndSortBinding.inflate(inflater, container, false);
+        setSpinners();
+        setBackgrounds();
+        return b.getRoot();
+    }
+
+    private void setBackgrounds() {
+        setBackgroundDrawable(getContext(), b.radio1, R.color.hover, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.spinnner, R.color.white, R.color.hover, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.spinnerTwo, R.color.white, R.color.hover, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.radio2, R.color.hover, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.radio3, R.color.hover, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.maxMoney, R.color.hover, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.minMoney, R.color.hover, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.saveButton, R.color.accent, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.saveButton, R.color.white, 0, 4, false, 0);
+    }
+
+    private void setSpinners() {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        b.spinnner.setAdapter(adapter);
+        b.spinnerTwo.setAdapter(adapter);
     }
 }
