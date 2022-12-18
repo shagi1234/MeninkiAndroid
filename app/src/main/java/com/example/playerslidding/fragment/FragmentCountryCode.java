@@ -14,6 +14,7 @@ import static com.example.playerslidding.utils.StaticMethods.statusBarHeight;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -50,11 +51,16 @@ public class FragmentCountryCode extends Fragment implements OnBackPressedFragme
     private AdapterCountry adapter;
     private KeyboardHeightProvider keyboardHeightProvider;
     private SlidrInterface slidrInterface;
+    private int type;
+    public static final int TYPE_LANGUAGE = 0;
+    public static final int TYPE_COUNTRY_CODE = 1;
     private Account accountPreferences;
     private ArrayList<CountryDto> temp = new ArrayList<>();
+    private ArrayList<CountryDto> lang = new ArrayList<>();
 
-    public static FragmentCountryCode newInstance() {
+    public static FragmentCountryCode newInstance(int type) {
         Bundle args = new Bundle();
+        args.putInt("type", type);
         FragmentCountryCode fragment = new FragmentCountryCode();
         fragment.setArguments(args);
         return fragment;
@@ -86,6 +92,12 @@ public class FragmentCountryCode extends Fragment implements OnBackPressedFragme
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getActivity() == null) return;
+        if (getArguments() != null) {
+            type = getArguments().getInt("type");
+        }
+        lang.add(new CountryDto("Turkmen", ""));
+        lang.add(new CountryDto("Russian", ""));
+        lang.add(new CountryDto("English", ""));
         accountPreferences = Account.newInstance(getContext());
         keyboardHeightProvider = new KeyboardHeightProvider(getContext(), getActivity().getWindowManager(), getActivity().getWindow().getDecorView(), this);
     }
@@ -95,8 +107,10 @@ public class FragmentCountryCode extends Fragment implements OnBackPressedFragme
                              Bundle savedInstanceState) {
 
         b = FragmentCountryCodeBinding.inflate(inflater, container, false);
-        checkUI(false);
-        setRecycler(CountryInfo.getCountries());
+
+        setProgress(false);
+
+        checkUI();
 
         setSwipeLayout();
 
@@ -108,7 +122,18 @@ public class FragmentCountryCode extends Fragment implements OnBackPressedFragme
 
     }
 
-    private void checkUI(boolean check) {
+    private void checkUI() {
+        if (type == TYPE_LANGUAGE) {
+            setRecycler(lang);
+            b.btnSearch.setVisibility(View.GONE);
+        } else {
+            new Handler().postDelayed(() -> setRecycler(CountryInfo.getCountries()), 200);
+            b.btnSearch.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+    private void setProgress(boolean check) {
         if (check) {
             b.layRec.setVisibility(View.VISIBLE);
             b.progressBar.setVisibility(View.GONE);
@@ -177,17 +202,21 @@ public class FragmentCountryCode extends Fragment implements OnBackPressedFragme
     }
 
     private void setRecycler(ArrayList<CountryDto> temp) {
-        if (temp.size() != 0) {
+        if (temp.size() != 0 && type != TYPE_LANGUAGE) {
             b.sticky.setVisibility(View.VISIBLE);
             b.sticky.setText(temp.get(0).getName().toUpperCase().substring(0, 1));
         } else {
             b.sticky.setVisibility(View.INVISIBLE);
         }
 
-        adapter = new AdapterCountry(getContext(), temp, getActivity());
+        adapter = new AdapterCountry(getContext(), temp, getActivity(), type);
         b.recCountries.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         b.recCountries.setAdapter(adapter);
 
+        if (type == TYPE_LANGUAGE) {
+            setProgress(true);
+            return;
+        }
 
         b.recCountries.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -213,8 +242,7 @@ public class FragmentCountryCode extends Fragment implements OnBackPressedFragme
                 }
             }
         });
-
-        checkUI(true);
+        setProgress(true);
     }
 
     private void initClick() {

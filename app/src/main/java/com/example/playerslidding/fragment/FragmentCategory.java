@@ -10,7 +10,7 @@ import static com.example.playerslidding.utils.StaticMethods.setPadding;
 import static com.example.playerslidding.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,12 +93,20 @@ public class FragmentCategory extends Fragment {
 
     private void initListeners() {
         b.icCart.setOnClickListener(v -> {
+            b.icCart.setEnabled(false);
             addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentBasket.newInstance());
+            new Handler().postDelayed(() -> b.icCart.setEnabled(true), 200);
+        });
+        b.layUserInfo.setOnClickListener(v -> {
+            b.layUserInfo.setEnabled(false);
+            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(""));
+            new Handler().postDelayed(() -> b.layUserInfo.setEnabled(true), 200);
         });
     }
 
     private void setBackgrounds() {
         setBackgroundDrawable(getContext(), b.icCart, R.color.background, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.userImage, R.color.background, R.color.accent, 0, true, 2);
     }
 
 

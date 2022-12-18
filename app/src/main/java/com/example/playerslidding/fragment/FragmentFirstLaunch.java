@@ -3,6 +3,7 @@ package com.example.playerslidding.fragment;
 import static com.example.playerslidding.utils.Const.mainFragmentManager;
 import static com.example.playerslidding.utils.FragmentHelper.addFragment;
 import static com.example.playerslidding.utils.StaticMethods.dpToPx;
+import static com.example.playerslidding.utils.StaticMethods.initSystemUIViewListeners;
 import static com.example.playerslidding.utils.StaticMethods.navigationBarHeight;
 import static com.example.playerslidding.utils.StaticMethods.setBackgroundDrawable;
 import static com.example.playerslidding.utils.StaticMethods.setMargins;

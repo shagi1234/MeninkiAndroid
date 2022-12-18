@@ -1,9 +1,11 @@
 package com.example.playerslidding.fragment;
 
-import static com.example.playerslidding.utils.StaticMethods.dpToPx;
+import static com.example.playerslidding.utils.StaticMethods.getHeightNavIndicator;
+import static com.example.playerslidding.utils.StaticMethods.hasNavBar;
+import static com.example.playerslidding.utils.StaticMethods.hideSoftKeyboard;
 import static com.example.playerslidding.utils.StaticMethods.navigationBarHeight;
 import static com.example.playerslidding.utils.StaticMethods.setBackgroundDrawable;
-import static com.example.playerslidding.utils.StaticMethods.setMargins;
+import static com.example.playerslidding.utils.StaticMethods.setMarginWithAnim;
 import static com.example.playerslidding.utils.StaticMethods.setPadding;
 import static com.example.playerslidding.utils.StaticMethods.statusBarHeight;
 
@@ -15,6 +17,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import androidx.fragment.app.Fragment;
 
@@ -22,9 +25,11 @@ import com.example.playerslidding.R;
 import com.example.playerslidding.activity.ActivityMain;
 import com.example.playerslidding.databinding.FragmentLoginUserInformationBinding;
 import com.example.playerslidding.shared.Account;
+import com.example.playerslidding.utils.KeyboardHeightProvider;
 
-public class FragmentLoginUserInfo extends Fragment {
+public class FragmentLoginUserInfo extends Fragment implements KeyboardHeightProvider.KeyboardHeightListener {
     private FragmentLoginUserInformationBinding b;
+    private KeyboardHeightProvider keyboardHeightProvider;
     private Account account;
 
     public static FragmentLoginUserInfo newInstance() {
@@ -38,13 +43,22 @@ public class FragmentLoginUserInfo extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        setPadding(b.getRoot(),0,statusBarHeight,0,navigationBarHeight);
+        setPadding(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight);
+        keyboardHeightProvider.start();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         account = Account.newInstance(getContext());
+        keyboardHeightProvider = new KeyboardHeightProvider(getContext(), getActivity().getWindowManager(), getActivity().getWindow().getDecorView(), this);
+        hideSoftKeyboard(getActivity());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        keyboardHeightProvider.dismiss();
     }
 
     @Override
@@ -97,5 +111,23 @@ public class FragmentLoginUserInfo extends Fragment {
         b.btnLogin.setTextColor(getResources().getColor(R.color.accent));
         b.btnLogin.setEnabled(false);
         setBackgroundDrawable(getContext(), b.edtName, R.color.hover, 0, 10, false, 0);
+    }
+
+    @Override
+    public void onKeyboardHeightChanged(int height, boolean isLandscape) {
+        if (getContext() == null) return;
+        RelativeLayout.MarginLayoutParams layout = (RelativeLayout.MarginLayoutParams) b.layBottom.getLayoutParams();
+
+        if (height > 0) {
+            if (navigationBarHeight > 0) {
+                setMarginWithAnim(b.layBottom, layout.bottomMargin, height);
+            } else if (hasNavBar(getContext())) {
+                setMarginWithAnim(b.layBottom, layout.bottomMargin, height + getHeightNavIndicator(getContext()));
+            } else {
+                setMarginWithAnim(b.layBottom, layout.bottomMargin, height);
+            }
+        } else {
+            setMarginWithAnim(b.layBottom, layout.bottomMargin, height);
+        }
     }
 }

@@ -19,8 +19,9 @@ import androidx.fragment.app.Fragment;
 
 import com.example.playerslidding.R;
 import com.example.playerslidding.databinding.FragmentLanguageBinding;
+import com.example.playerslidding.interfaces.CountryClickListener;
 
-public class FragmentLanguage extends Fragment {
+public class FragmentLanguage extends Fragment implements CountryClickListener {
     private FragmentLanguageBinding b;
 
     public static FragmentLanguage newInstance() {
@@ -60,7 +61,7 @@ public class FragmentLanguage extends Fragment {
         });
         b.selectLanguage.setOnClickListener(v -> {
             b.selectLanguage.setEnabled(false);
-            addFragment(mainFragmentManager, R.id.container_login, FragmentCountryCode.newInstance());
+            addFragment(mainFragmentManager, R.id.container_login, FragmentCountryCode.newInstance(FragmentCountryCode.TYPE_LANGUAGE));
             new Handler().postDelayed(() -> b.selectLanguage.setEnabled(true), 200);
 
         });
@@ -69,5 +70,10 @@ public class FragmentLanguage extends Fragment {
     private void setBackgrounds() {
         setBackgroundDrawable(getContext(), b.btnNext, R.color.accent, 0, 10, false, 0);
         setBackgroundDrawable(getContext(), b.selectLanguage, R.color.hover, 0, 10, false, 0);
+    }
+
+    @Override
+    public void countryClick(String name, String code) {
+        b.selectLanguage.setText(name);
     }
 }

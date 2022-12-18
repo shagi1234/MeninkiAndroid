@@ -248,7 +248,8 @@ public class CountryInfo {
             "Western Sahara",
             "Yemen ",
             "Zambia",
-            "Zimbabwe"};
+            "Zimbabwe"
+    };
 
     private static String[] code = new String[]{
             "93",

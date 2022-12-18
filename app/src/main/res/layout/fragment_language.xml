@@ -61,10 +61,11 @@
             android:layout_marginBottom="20dp"
             android:drawableEnd="@drawable/ic_chevron__1_"
             android:drawableTint="@color/caption"
+            android:fontFamily="@font/roboto_medium"
             android:gravity="center_vertical"
             android:paddingVertical="15dp"
             android:paddingStart="20dp"
-            android:paddingEnd="18dp"
+            android:paddingEnd="20dp"
             android:text="Русский"
             android:textColor="@color/caption" />
 

@@ -1,5 +1,6 @@
 package com.example.playerslidding.adapter;
 
+import static com.example.playerslidding.utils.Const.mainFragmentManager;
 import static com.example.playerslidding.utils.StaticMethods.dpToPx;
 import static com.example.playerslidding.utils.StaticMethods.setBackgroundDrawable;
 import static com.example.playerslidding.utils.StaticMethods.setMargins;
@@ -9,12 +10,15 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.playerslidding.R;
 import com.example.playerslidding.data.TabItemCustom;
 import com.example.playerslidding.databinding.ItemTabBinding;
+import com.example.playerslidding.fragment.FragmentMyShops;
+import com.example.playerslidding.interfaces.OnTabClicked;
 
 import java.util.ArrayList;
 
@@ -23,6 +27,7 @@ public class AdapterTabLayout extends RecyclerView.Adapter<AdapterTabLayout.TabL
     private ArrayList<TabItemCustom> tabs = new ArrayList<>();
     private final ViewPager viewPager;
     public boolean isClicked;
+    int leftMargin;
     public int lastClicked;
 
     public AdapterTabLayout(Context context, ViewPager viewPager) {
@@ -60,10 +65,14 @@ public class AdapterTabLayout extends RecyclerView.Adapter<AdapterTabLayout.TabL
         }
 
         public void bind() {
+
+            if (viewPager == null) leftMargin = 20;
+            else leftMargin = 10;
+
             if (getAdapterPosition() == 0) {
-                setMargins(b.getRoot(), dpToPx(10, context), dpToPx(10, context), dpToPx(4, context), 20);
+                setMargins(b.getRoot(), dpToPx(leftMargin, context), dpToPx(10, context), dpToPx(4, context), 20);
             } else if (getAdapterPosition() == getItemCount() - 1) {
-                setMargins(b.getRoot(), dpToPx(4, context), dpToPx(10, context), dpToPx(10, context), 20);
+                setMargins(b.getRoot(), dpToPx(4, context), dpToPx(10, context), dpToPx(leftMargin, context), 20);
             } else {
                 setMargins(b.getRoot(), dpToPx(4, context), dpToPx(10, context), dpToPx(4, context), 20);
             }
@@ -73,6 +82,8 @@ public class AdapterTabLayout extends RecyclerView.Adapter<AdapterTabLayout.TabL
             setActive(tabs.get(getAdapterPosition()).isActive());
 
             b.getRoot().setOnClickListener(v -> {
+
+                Fragment shops = mainFragmentManager.findFragmentByTag(FragmentMyShops.class.getName());
 
                 if (tabs.get(getAdapterPosition()).isActive()) return;
 
@@ -84,13 +95,20 @@ public class AdapterTabLayout extends RecyclerView.Adapter<AdapterTabLayout.TabL
                 notifyItemChanged(getAdapterPosition());
                 notifyItemChanged(lastClicked);
 
+                if (shops instanceof OnTabClicked) {
+                    ((OnTabClicked) shops).onClick(getAdapterPosition());
+                    lastClicked = getAdapterPosition();
+                    return;
+                }
+
                 setCurrentItemViewPager(getAdapterPosition());
             });
 
         }
 
         private void setCurrentItemViewPager(int adapterPosition) {
-            viewPager.setCurrentItem(adapterPosition,true);
+            if (viewPager == null) return;
+            viewPager.setCurrentItem(adapterPosition, true);
         }
 
         private void setActive(boolean isActive) {

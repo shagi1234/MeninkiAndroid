@@ -26,7 +26,8 @@
         </activity>
         <activity
             android:name=".activity.ActivityLoginRegister"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".activity.ActivityMain"
             android:exported="true">

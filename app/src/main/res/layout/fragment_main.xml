@@ -28,12 +28,12 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/swipe_layout"
                 android:layout_width="800dp"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
                 <LinearLayout
                     android:id="@+id/lay_feed"
                     android:layout_width="400dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:orientation="vertical"
                     android:paddingStart="50dp"
@@ -45,6 +45,7 @@
                         android:id="@+id/feed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="-6dp"
                         android:fontFamily="@font/roboto_flex"
                         android:maxLines="1"
                         android:text="Лента"
@@ -78,6 +79,7 @@
                         android:id="@+id/home"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="-6dp"
                         android:fontFamily="@font/roboto_flex"
                         android:maxLines="1"
                         android:text="Домашняя"
@@ -106,9 +108,9 @@
 
             <FrameLayout
                 android:id="@+id/frame_more"
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="start|center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|top"
                 android:background="@drawable/bg_right_top_and_right_bottom_10">
 
                 <ImageView
