@@ -26,11 +26,6 @@ import com.example.playerslidding.databinding.FragmentPostBinding;
 
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link FragmentHome#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class FragmentHome extends Fragment {
     private FragmentPostBinding b;
     private AdapterStore adapterStore;
@@ -163,7 +158,6 @@ public class FragmentHome extends Fragment {
     }
 
     private void setBackground() {
-
         setBackgroundDrawable(getContext(), b.backgroundSearch, R.color.white, 0, 10, false, 0);
         setBackgroundDrawable(getContext(), b.edtSearch, R.color.white, 0, 10, false, 0);
         setBackgroundDrawable(getContext(), b.btnCaption, R.color.white, 0, 10, false, 0);
