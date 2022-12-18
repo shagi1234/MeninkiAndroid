@@ -44,8 +44,8 @@ public class FragmentOpenCategory extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        setPadding(b.viewPager,0,0,0,navigationBarHeight);
-        setPadding(b.header,0,statusBarHeight,0,0);
+        setPadding(b.viewPager, 0, 0, 0, navigationBarHeight);
+        setPadding(b.header, 0, statusBarHeight, 0, 0);
     }
 
     @Override
@@ -70,6 +70,8 @@ public class FragmentOpenCategory extends Fragment {
     }
 
     private void initListeners() {
+        b.headerTxt.setText(name);
+
         b.back.setOnClickListener(v -> {
             getActivity().onBackPressed();
         });
@@ -113,10 +115,7 @@ public class FragmentOpenCategory extends Fragment {
     private void setViewPager() {
         ArrayList<FragmentPager> mFragment = new ArrayList<>();
 
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID), ""));
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID), ""));
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID), ""));
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID), ""));
+        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, uuid, FragmentListGrid.CATEGORY), ""));
 
         adapterFeedPager = new AdapterViewPager(getChildFragmentManager(), mFragment);
         b.viewPager.setAdapter(adapterFeedPager);

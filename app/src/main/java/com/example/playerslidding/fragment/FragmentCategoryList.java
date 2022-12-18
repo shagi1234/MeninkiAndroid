@@ -45,6 +45,7 @@ public class FragmentCategoryList extends Fragment {
         return b.getRoot();
     }
 
+
     private void setRecycler() {
         adapterText = new AdapterText(getContext());
         b.recCategory.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
