@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.viewpager.widget.ViewPager;
 
 import com.example.playerslidding.R;
 import com.example.playerslidding.adapter.AdapterStore;
@@ -28,8 +27,6 @@ public class FragmentFeed extends Fragment {
     private FragmentHomeBinding b;
     private AdapterViewPager adapterFeedPager;
     private AdapterStore adapterStore;
-    private AdapterTabLayout adapterTabLayout;
-    private ArrayList<TabItemCustom> tabs = new ArrayList<>();
 
     public static FragmentFeed newInstance() {
         FragmentFeed fragment = new FragmentFeed();
@@ -57,62 +54,21 @@ public class FragmentFeed extends Fragment {
 
         setBackground();
         setRecycler();
-        setRecyclerTab();
         setViewPager();
         initListeners();
 
         adapterStore.setStories(null);
-        adapterTabLayout.setTabs(tabs);
 
         return b.getRoot();
     }
 
     private void initListeners() {
-        b.viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-                if (adapterTabLayout.isClicked) {
-                    adapterTabLayout.lastClicked = position;
-                    adapterTabLayout.isClicked = false;
-                    return;
-                }
-                if (position < tabs.size()) {
-                    tabs.get(position).setActive(true);
-                    tabs.get(adapterTabLayout.lastClicked).setActive(false);
-
-                    adapterTabLayout.notifyItemChanged(position);
-                    adapterTabLayout.notifyItemChanged(adapterTabLayout.lastClicked);
-
-                    adapterTabLayout.lastClicked = position;
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-    }
-
-    private void setRecyclerTab() {
-        adapterTabLayout = new AdapterTabLayout(getContext(), b.viewPager);
-        b.recTab.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        b.recTab.setAdapter(adapterTabLayout);
     }
 
     private void setViewPager() {
         ArrayList<FragmentPager> mFragment = new ArrayList<>();
 
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID,"",FragmentListGrid.POPULAR), "Домашняя"));
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID,"",FragmentListGrid.POPULAR), "Лента"));
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID,"",FragmentListGrid.POPULAR), "Объявления"));
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID,"",FragmentListGrid.POPULAR), "Объявления"));
+        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, "", FragmentListGrid.POPULAR), "Домашняя"));
 
         adapterFeedPager = new AdapterViewPager(getChildFragmentManager(), mFragment);
         b.viewPager.setAdapter(adapterFeedPager);

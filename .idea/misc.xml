@@ -30,7 +30,11 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/activity_login_register.xml" value="0.275" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/activity_main.xml" value="0.176" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/custom_toast_layout_primary.xml" value="0.275" />
+<<<<<<< HEAD
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/fragment_add_post.xml" value="0.2713541666666667" />
+=======
+        <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/fragment_add_post.xml" value="0.264" />
+>>>>>>> 693bc328dccffee53788238f044c451a14e25d1a
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/fragment_bascet.xml" value="0.275" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/fragment_basket.xml" value="0.1" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/fragment_category.xml" value="0.152" />
@@ -39,7 +43,7 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/fragment_country_code.xml" value="0.264" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/fragment_first_launch.xml" value="0.264" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/fragment_flow.xml" value="0.275" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/fragment_home.xml" value="0.176" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/fragment_home.xml" value="0.2" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/fragment_horizontal_products.xml" value="0.275" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/fragment_language.xml" value="0.264" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/fragment_list_grid.xml" value="0.1265625" />
@@ -57,7 +61,7 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/fragment_open_gallery.xml" value="0.2609375" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/fragment_post.xml" value="0.176" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/fragment_product.xml" value="0.264" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/fragment_profile.xml" value="0.2" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/fragment_profile.xml" value="0.176" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/fragment_sms_code.xml" value="0.275" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/item_basket.xml" value="0.27104722792607805" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/item_bottom_sheet_product.xml" value="0.264" />

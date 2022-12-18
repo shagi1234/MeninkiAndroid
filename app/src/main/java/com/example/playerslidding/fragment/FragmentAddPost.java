@@ -56,8 +56,10 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
     }
 
     private void setBackgrounds() {
-        setBackgroundDrawable(getContext(), b.title, R.color.background, 0, 10, false, 0);
-        setBackgroundDrawable(getContext(), b.desc, R.color.background, R.color.grey, 10, false, 2);
+        setBackgroundDrawable(getContext(), b.title, R.color.white, R.color.hover, 4, false, 1);
+        setBackgroundDrawable(getContext(), b.desc, R.color.white, R.color.hover, 4, false, 1);
+        setBackgroundDrawable(getContext(), b.layCountControl, R.color.hover, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.layDataProduct, R.color.white,  R.color.hover, 4, false, 1);
     }
 
     private void setRecycler() {

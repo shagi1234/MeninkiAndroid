@@ -66,7 +66,7 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public int getItemCount() {
         if (grids == null) {
-            return 5;
+            return 4;
         }
         return grids.size();
     }

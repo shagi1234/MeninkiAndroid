@@ -26,7 +26,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/roboto_flex"
             android:gravity="center_vertical"
-            android:text="Новый пост"
+            android:text="Новый Обзор"
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:textStyle="bold" />
@@ -43,54 +43,200 @@
             app:tint="@color/black" />
     </LinearLayout>
 
+    <FrameLayout
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"
+        app:layout_constraintTop_toBottomOf="@+id/lay_header" />
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nested"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/lay_header">
+        app:layout_constraintTop_toBottomOf="@+id/line">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/grey" />
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Обозреваемый товар"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rec_media"
+            <LinearLayout
+                android:id="@+id/lay_data_product"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="15dp" />
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:padding="14dp">
+
+                <TextView
+                    android:id="@+id/title_product"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Pellentesque mauris cras feugiat lectus quam. Tellus eleifend quis mauris cras"
+                    android:textColor="@color/dark" />
+
+                <TextView
+                    android:id="@+id/price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_bold"
+                    android:gravity="start"
+                    android:maxLines="1"
+                    android:text="1313 TMT"
+                    android:textColor="@color/black" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/sale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="start"
+                        android:maxLines="1"
+                        android:text="-13%"
+                        android:textColor="@color/accent"
+                        android:textSize="12sp" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp">
+
+                        <TextView
+                            android:id="@+id/old_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:gravity="start"
+                            android:maxLines="1"
+                            android:text="1000 TMT"
+                            android:textColor="@color/caption"
+                            android:textSize="12sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <FrameLayout
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_gravity="center"
+                            android:background="@color/caption"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/count"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="30dp"
+                android:drawableLeft="@drawable/ic_arrow_sort"
+                android:drawablePadding="10dp"
+                android:drawableTint="@color/black"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="start"
+                android:maxLines="1"
+                android:text="Рейтинг"
+                android:textColor="@color/black" />
+
+            <LinearLayout
+                android:id="@+id/lay_count_control"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="30dp"
+                    android:paddingVertical="20dp"
+                    android:src="@drawable/ic_subtract_circle_red" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:paddingHorizontal="10dp"
+                    android:singleLine="true"
+                    android:text="134"
+                    android:textAlignment="center"
+                    android:textColor="@color/dark"
+                    android:textSize="24sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="30dp"
+                    android:paddingVertical="20dp"
+                    android:src="@drawable/ic_add_circle_green" />
+
+            </LinearLayout>
+
 
             <EditText
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="40dp"
-                android:fontFamily="@font/roboto_flex"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/roboto_medium"
                 android:hint="Заголовок (необязательно)"
                 android:padding="14dp"
                 android:textColor="@color/dark"
-                android:textColorHint="@color/caption"
-                android:textStyle="bold" />
+                android:textColorHint="@color/caption" />
 
             <EditText
                 android:id="@+id/desc"
                 android:layout_width="match_parent"
                 android:layout_height="185dp"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="40dp"
-                android:fontFamily="@font/roboto_flex"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/roboto_medium"
                 android:gravity="top"
                 android:hint="Описание (необязательно)"
                 android:padding="14dp"
                 android:textColor="@color/dark"
-                android:textColorHint="@color/caption"
-                android:textStyle="bold" />
+                android:textColorHint="@color/caption" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rec_media"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="160dp" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
@@ -99,7 +245,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginHorizontal="10dp"
+        android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="20dp"
         android:background="@color/accent"
         android:gravity="center"
