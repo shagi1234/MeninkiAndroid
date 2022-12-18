@@ -66,7 +66,7 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public int getItemCount() {
         if (grids == null) {
-            return 0;
+            return 5;
         }
         return grids.size();
     }
@@ -88,7 +88,7 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             switch (type) {
                 case TYPE_GRID:
-                    if (grids.get(getAdapterPosition()).getOrientation().equals("0")) {
+                    if (getAdapterPosition() % 2 == 0) {
                         b.layImage.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPx(240, context)));
                     } else {
                         b.layImage.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPx(110, context)));
@@ -107,6 +107,7 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         setMargins(b.container, dpToPx(4, context), dpToPx(10, context), dpToPx(4, context), 0);
                     }
                     break;
+
                 case TYPE_HORIZONTAL:
                     b.root.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                     b.layImage.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPx(240, context)));
@@ -125,6 +126,10 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             setBackgroundDrawable(context, b.posterImage, R.color.holder, R.color.accent, 0, true, 2);
 
+            b.getRoot().setOnClickListener(v -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProduct.newInstance("", FragmentProduct.PRODUCT)));
+
+            if (grids == null) return;
+
             Glide.with(context)
                     .load(grids.get(getAdapterPosition()).getImagePath())
                     .into(b.image);
@@ -137,8 +142,6 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             b.oldPrice.setText(grids.get(getAdapterPosition()).getOldPrice() + " TMT");
             b.count.setText(String.valueOf(grids.get(getAdapterPosition()).getCount()));
             b.sale.setText("- " + grids.get(getAdapterPosition()).getSale() + " %");
-
-            b.getRoot().setOnClickListener(v -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProduct.newInstance("", FragmentProduct.PRODUCT)));
 
         }
     }

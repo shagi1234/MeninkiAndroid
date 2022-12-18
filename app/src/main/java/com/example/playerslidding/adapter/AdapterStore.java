@@ -8,7 +8,6 @@ import static com.example.playerslidding.utils.StaticMethods.setMargins;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -49,7 +48,7 @@ public class AdapterStore extends RecyclerView.Adapter<AdapterStore.StoreHolder>
     @Override
     public int getItemCount() {
         if (stories == null) {
-            return 0;
+            return 5;
         }
         return stories.size();
     }
@@ -69,6 +68,7 @@ public class AdapterStore extends RecyclerView.Adapter<AdapterStore.StoreHolder>
 
         public void bind() {
 
+
             if (getAdapterPosition() == 0) {
                 setMargins(b.getRoot(), dpToPx(10, context), dpToPx(20, context), dpToPx(4, context), 0);
             } else if (getAdapterPosition() == getItemCount() - 1) {
@@ -79,6 +79,10 @@ public class AdapterStore extends RecyclerView.Adapter<AdapterStore.StoreHolder>
 
             setBackgroundDrawable(context, b.posterImage, R.color.holder, R.color.accent, 0, true, 2);
 
+            b.getRoot().setOnClickListener(v -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProduct.newInstance("", FragmentProduct.STORE)));
+
+            if (stories == null) return;
+
             Glide.with(context)
                     .load(stories.get(getAdapterPosition()).getImagePath())
                     .into(b.image);
@@ -88,8 +92,6 @@ public class AdapterStore extends RecyclerView.Adapter<AdapterStore.StoreHolder>
                     .into(b.posterImage);
 
             b.storeName.setText(stories.get(getAdapterPosition()).getStoreName());
-
-            b.getRoot().setOnClickListener(v -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProduct.newInstance("", FragmentProduct.STORE)));
 
         }
     }
