@@ -94,12 +94,6 @@ public class FragmentHome extends Fragment {
     }
 
     private void initListeners() {
-        b.btnCaption.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addFragment(mainFragmentManager,R.id.fragment_container_main,FragmentFilterAndSort.newInstance());
-            }
-        });
         b.viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

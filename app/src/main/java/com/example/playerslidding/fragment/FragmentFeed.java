@@ -1,5 +1,7 @@
 package com.example.playerslidding.fragment;
 
+import static com.example.playerslidding.utils.Const.mainFragmentManager;
+import static com.example.playerslidding.utils.FragmentHelper.addFragment;
 import static com.example.playerslidding.utils.StaticMethods.navigationBarHeight;
 import static com.example.playerslidding.utils.StaticMethods.setBackgroundDrawable;
 import static com.example.playerslidding.utils.StaticMethods.setPadding;
@@ -19,6 +21,7 @@ import com.example.playerslidding.adapter.AdapterTabLayout;
 import com.example.playerslidding.adapter.AdapterViewPager;
 import com.example.playerslidding.data.FragmentPager;
 import com.example.playerslidding.data.TabItemCustom;
+import com.example.playerslidding.databinding.FragmentFilterAndSortBinding;
 import com.example.playerslidding.databinding.FragmentHomeBinding;
 
 import java.util.ArrayList;
@@ -63,6 +66,12 @@ public class FragmentFeed extends Fragment {
     }
 
     private void initListeners() {
+        b.filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addFragment(mainFragmentManager,R.id.fragment_container_main,FragmentFilterAndSort.newInstance());
+            }
+        });
     }
 
     private void setViewPager() {

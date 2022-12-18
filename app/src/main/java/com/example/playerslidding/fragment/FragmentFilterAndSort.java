@@ -1,6 +1,9 @@
 package com.example.playerslidding.fragment;
 
+import static com.example.playerslidding.utils.StaticMethods.navigationBarHeight;
 import static com.example.playerslidding.utils.StaticMethods.setBackgroundDrawable;
+import static com.example.playerslidding.utils.StaticMethods.setPadding;
+import static com.example.playerslidding.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -32,6 +35,12 @@ public class FragmentFilterAndSort extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        setPadding(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
@@ -55,7 +64,7 @@ public class FragmentFilterAndSort extends Fragment {
         setBackgroundDrawable(getContext(), b.maxMoney, R.color.hover, 0, 4, false, 0);
         setBackgroundDrawable(getContext(), b.minMoney, R.color.hover, 0, 4, false, 0);
         setBackgroundDrawable(getContext(), b.saveButton, R.color.accent, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.saveButton, R.color.white, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.erase, R.color.white, 0, 4, false, 0);
     }
 
     private void setSpinners() {

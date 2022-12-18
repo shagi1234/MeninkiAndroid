@@ -67,7 +67,7 @@
                             android:singleLine="true" />
 
                         <ImageView
-                            android:id="@+id/search"
+                            android:id="@+id/filter"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
