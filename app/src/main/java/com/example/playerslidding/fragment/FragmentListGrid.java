@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -20,13 +21,21 @@ public class FragmentListGrid extends Fragment {
     private ArrayList<StoreDTO> stores = new ArrayList<>();
     private AdapterGrid adapterGrid;
     private int orientation;
+    private int type;
+    private String id;
     public final static int VERTICAL_GRID = 0;
     public final static int HORIZONTAL_LINEAR = 1;
 
-    public static FragmentListGrid newInstance(int orientation) {
+    public final static int CATEGORY = 1;
+    public final static int POPULAR = 2;
+    public final static int NEW = 3;
+
+    public static FragmentListGrid newInstance(int orientation, String id, int type) {
         FragmentListGrid fragment = new FragmentListGrid();
         Bundle args = new Bundle();
         args.putInt("orientation", orientation);
+        args.putString("id", id);
+        args.putInt("type", type);
         fragment.setArguments(args);
         return fragment;
     }
@@ -36,6 +45,8 @@ public class FragmentListGrid extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             orientation = getArguments().getInt("orientation");
+            type = getArguments().getInt("type");
+            id = getArguments().getString("id");
         }
     }
 
@@ -46,7 +57,7 @@ public class FragmentListGrid extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         b = FragmentListGridBinding.inflate(inflater, container, false);

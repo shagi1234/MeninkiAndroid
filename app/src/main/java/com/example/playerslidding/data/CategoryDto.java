@@ -5,8 +5,9 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 
 public class CategoryDto {
-    @SerializedName("nameTm")
+    @SerializedName("nameRu")
     private String name;
+    @SerializedName("nameTm")
     private String nameRu;
     private String nameEn;
     private String categoryImage;

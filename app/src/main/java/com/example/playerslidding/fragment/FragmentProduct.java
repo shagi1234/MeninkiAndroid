@@ -230,8 +230,7 @@ public class FragmentProduct extends Fragment {
 
         b.bottomSheet.viewPager.setOffscreenPageLimit(2);
         ArrayList<FragmentPager> mFragment = new ArrayList<>();
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.HORIZONTAL_LINEAR), "Комментарии".toUpperCase()));
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.HORIZONTAL_LINEAR), "похожие".toUpperCase()));
+        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.HORIZONTAL_LINEAR, uuid, FragmentListGrid.CATEGORY), "Похожие".toUpperCase()));
 
         AdapterViewPager adapterFeedPager = new AdapterViewPager(getChildFragmentManager(), mFragment);
         b.bottomSheet.viewPager.setAdapter(adapterFeedPager);
