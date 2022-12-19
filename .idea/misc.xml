@@ -3,8 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Programmer/Desktop/sh/MeninkiAndroid/app/src/main/res/layout/fragment_add_post.xml" value="0.4" />
-        <entry key="..\:/Users/Programmer/Desktop/sh/MeninkiAndroid/app/src/main/res/layout/fragment_filter_and_sort.xml" value="0.2" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/drawable-v24/bg_left_top_and_left_bottom_10.xml" value="0.137" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.153" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/drawable/bg_more.xml" value="0.137" />
@@ -57,7 +55,7 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/fragment_product.xml" value="0.264" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/fragment_profile.xml" value="0.176" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/fragment_sms_code.xml" value="0.275" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/item_basket.xml" value="0.27104722792607805" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/item_basket.xml" value="0.2" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/item_bottom_sheet_product.xml" value="0.264" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/item_char_color.xml" value="0.275" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/item_char_image.xml" value="0.2713541666666667" />

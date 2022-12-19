@@ -44,7 +44,6 @@ public class FragmentMain extends Fragment {
     public void onResume() {
         super.onResume();
         setPadding(b.main, 0, statusBarHeight, 0, 0);
-        setMargins(b.frameFab, 20, 20, 20, navigationBarHeight + 20);
     }
 
     @Override
