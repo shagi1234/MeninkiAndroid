@@ -1,7 +1,9 @@
 package com.example.playerslidding.fragment;
 
+import static com.example.playerslidding.utils.StaticMethods.logWrite;
 import static com.example.playerslidding.utils.StaticMethods.navigationBarHeight;
 import static com.example.playerslidding.utils.StaticMethods.setBackgroundDrawable;
+import static com.example.playerslidding.utils.StaticMethods.setMargins;
 import static com.example.playerslidding.utils.StaticMethods.setPadding;
 import static com.example.playerslidding.utils.StaticMethods.statusBarHeight;
 
@@ -10,32 +12,34 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.example.playerslidding.R;
 import com.example.playerslidding.adapter.AdapterMediaAddPost;
 import com.example.playerslidding.data.SelectedMedia;
-import com.example.playerslidding.databinding.FragmentAddPostBinding;
+import com.example.playerslidding.databinding.FragmentAddProductBinding;
 import com.example.playerslidding.interfaces.OnBackPressedFragment;
 
-public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
-    private FragmentAddPostBinding b;
+public class FragmentAddProduct extends Fragment implements OnBackPressedFragment {
+    private FragmentAddProductBinding b;
     private AdapterMediaAddPost mediaAddPost;
 
-    public static FragmentAddPost newInstance() {
-        FragmentAddPost fragment = new FragmentAddPost();
+    public static FragmentAddProduct newInstance() {
+        FragmentAddProduct fragment = new FragmentAddProduct();
         Bundle args = new Bundle();
+
         fragment.setArguments(args);
         return fragment;
     }
 
+
     @Override
     public void onResume() {
         super.onResume();
-        setPadding(b.layHeader, 0, statusBarHeight, 0, 0);
-        setPadding(b.root, 0, 0, 0, navigationBarHeight);
-
+        setMargins(b.layHeader, 0, statusBarHeight, 0, 0);
+        setPadding(b.getRoot(), 0, 0, 0, navigationBarHeight);
     }
 
     @Override
@@ -45,31 +49,23 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        b = FragmentAddPostBinding.inflate(inflater, container, false);
+        b = FragmentAddProductBinding.inflate(inflater, container, false);
         setBackgrounds();
         setRecycler();
-        initListeners();
-
+        b.backBtn.setOnClickListener(v -> logWrite("salam"));
+        b.layBtnPublish.setOnClickListener(v -> logWrite("salam"));
         return b.getRoot();
-    }
-
-    private void initListeners() {
-        b.backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().onBackPressed();
-            }
-        });
     }
 
     private void setBackgrounds() {
         setBackgroundDrawable(getContext(), b.title, R.color.white, R.color.hover, 4, false, 1);
         setBackgroundDrawable(getContext(), b.desc, R.color.white, R.color.hover, 4, false, 1);
-        setBackgroundDrawable(getContext(), b.layCountControl, R.color.hover, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.layDataProduct, R.color.white,  R.color.hover, 4, false, 1);
+        setBackgroundDrawable(getContext(), b.price, R.color.hover, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.oldPrice, R.color.white, R.color.hover, 4, false, 1);
+        setBackgroundDrawable(getContext(), b.btnPublish, R.color.accent, 0, 4, false, 0);
     }
 
     private void setRecycler() {

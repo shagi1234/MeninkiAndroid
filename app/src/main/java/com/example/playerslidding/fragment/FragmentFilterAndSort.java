@@ -17,16 +17,10 @@ import androidx.fragment.app.Fragment;
 import com.example.playerslidding.R;
 import com.example.playerslidding.databinding.FragmentFilterAndSortBinding;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link FragmentFilterAndSort#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class FragmentFilterAndSort extends Fragment {
 
     private FragmentFilterAndSortBinding b;
 
-    // TODO: Rename and change types and number of parameters
     public static FragmentFilterAndSort newInstance() {
         FragmentFilterAndSort fragment = new FragmentFilterAndSort();
         Bundle args = new Bundle();

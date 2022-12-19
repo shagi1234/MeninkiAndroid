@@ -37,6 +37,8 @@ import retrofit2.Response;
 
 public class FragmentCategory extends Fragment {
     private FragmentCategoryBinding b;
+    private ArrayList<CategoryDto> categoryDtos = new ArrayList<>();
+    private ArrayList<CategoryDto> sub = new ArrayList<>();
 
     public static FragmentCategory newInstance() {
         FragmentCategory fragment = new FragmentCategory();
@@ -55,6 +57,16 @@ public class FragmentCategory extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sub.add(new CategoryDto("Мужская", "Мужская", "", null, "", "", "", null, null, null, false));
+        sub.add(new CategoryDto("Новинки", "Новинки", "", null, "", "", "", null, null, null, false));
+        sub.add(new CategoryDto("спецодежда (униформа)", "спецодежда (униформа)", "", null, "", "", "", null, null, null, false));
+        sub.add(new CategoryDto("Ткани", "Ткани", "", null, "", "", "", null, null, null, false));
+
+        categoryDtos.add(new CategoryDto("Ветеринария", "Ветеринария", "", null, "", "", "", sub, null, null, false));
+        categoryDtos.add(new CategoryDto("Авто", "Авто", "", null, "", "", "", sub, null, null, false));
+        categoryDtos.add(new CategoryDto("Техника", "Техника", "", null, "", "", "", sub, null, null, false));
+        categoryDtos.add(new CategoryDto("Одежда", "Одежда", "", null, "", "", "", sub, null, null, false));
+
 
     }
 
@@ -65,7 +77,8 @@ public class FragmentCategory extends Fragment {
         b = FragmentCategoryBinding.inflate(inflater, container, false);
         setBackgrounds();
         initListeners();
-        getAllCategories();
+//        getAllCategories();
+        setViewPager(categoryDtos);
         return b.getRoot();
     }
 
@@ -99,7 +112,7 @@ public class FragmentCategory extends Fragment {
         });
         b.layUserInfo.setOnClickListener(v -> {
             b.layUserInfo.setEnabled(false);
-            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(""));
+            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(FragmentProfile.TYPE_USER));
             new Handler().postDelayed(() -> b.layUserInfo.setEnabled(true), 200);
         });
     }

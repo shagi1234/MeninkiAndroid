@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -148,6 +149,7 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public class BasketHolder extends RecyclerView.ViewHolder {
         private final ItemBasketBinding b;
+        private AdapterImageHorizontal adapterImageHorizontal;
 
         public BasketHolder(ItemBasketBinding b) {
             super(b.getRoot());
@@ -156,23 +158,50 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         public void bind() {
             setBackgroundDrawable(context, b.posterImage, R.color.holder, R.color.accent, 0, true, 2);
-            setBackgroundDrawable(context, b.addToFavourites, R.color.color_transparent, R.color.grey, 10, false, 1);
-            setBackgroundDrawable(context, b.delete, R.color.color_transparent, R.color.grey, 10, false, 1);
-            setBackgroundDrawable(context, b.layStoreName, R.color.grey, 0, 10, false, 0);
-            Glide.with(context)
-                    .load(grids.get(getAdapterPosition()).getImagePath())
-                    .into(b.image);
+            setBackgroundDrawable(context, b.layPrice, R.color.hover, 0, 4, false, 0);
+
+            setRecycler();
+
+            if (grids == null) return;
 
             Glide.with(context)
                     .load(grids.get(getAdapterPosition()).getImagePath())
                     .into(b.posterImage);
 
-            b.name.setText(grids.get(getAdapterPosition()).getTitle());
-            b.price.setText(grids.get(getAdapterPosition()).getPrice() + " TMT");
-            b.oldPrice.setText(grids.get(getAdapterPosition()).getOldPrice() + " TMT");
-            b.count.setText(String.valueOf(grids.get(getAdapterPosition()).getCount()));
-            b.sale.setText("- " + grids.get(getAdapterPosition()).getSale() + " %");
+            ArrayList<String> images = new ArrayList<>();
+            images.add(grids.get(getAdapterPosition()).getImagePath());
+            adapterImageHorizontal.setImageUrl(images);
 
+            b.name.setText(grids.get(getAdapterPosition()).getTitle());
+
+            if (grids.get(getAdapterPosition()).getPrice() != null) {
+                int price = Integer.parseInt(grids.get(getAdapterPosition()).getPrice()) * grids.get(getAdapterPosition()).getCount();
+                b.price.setText(price + " TMT");
+            }
+
+            b.count.setText(String.valueOf(grids.get(getAdapterPosition()).getCount()));
+
+            b.btnAdd.setOnClickListener(v -> {
+                ProductDto data = grids.get(getAdapterPosition());
+                data.setCount(data.getCount() + 1);
+                notifyItemChanged(getAdapterPosition());
+            });
+
+            b.btnSubs.setOnClickListener(v -> {
+                ProductDto data = grids.get(getAdapterPosition());
+                data.setCount(data.getCount() - 1);
+                notifyItemChanged(getAdapterPosition());
+            });
+
+
+        }
+
+        private void setRecycler() {
+            adapterImageHorizontal = new AdapterImageHorizontal(context);
+            b.recImages.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+            b.recImages.setAdapter(adapterImageHorizontal);
+
+            adapterImageHorizontal.setImageUrl(null);
 
         }
     }

@@ -69,6 +69,7 @@
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginBottom="20dp"
                 android:scaleType="centerCrop"
+                android:src="@color/holder"
                 app:riv_corner_radius="10dp" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -86,6 +87,7 @@
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/big_image_2"
                     android:layout_width="match_parent"
+                    android:src="@color/holder"
                     android:layout_height="180dp"
                     android:scaleType="centerCrop"
                     app:riv_corner_radius="10dp" />

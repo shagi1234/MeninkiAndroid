@@ -94,6 +94,7 @@ public class FragmentHome extends Fragment {
     }
 
     private void initListeners() {
+
         b.viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -186,9 +187,6 @@ public class FragmentHome extends Fragment {
     private void setViewPager(ViewPager viewPager) {
         ArrayList<FragmentPager> mFragment = new ArrayList<>();
 
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, "", FragmentListGrid.POPULAR), ""));
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, "", FragmentListGrid.POPULAR), ""));
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, "", FragmentListGrid.POPULAR), ""));
         mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, "", FragmentListGrid.POPULAR), ""));
 
         AdapterViewPager adapterFeedPager = new AdapterViewPager(getChildFragmentManager(), mFragment);

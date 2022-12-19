@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.playerslidding.adapter.AdapterGrid;
+import com.example.playerslidding.data.SelectedMedia;
 import com.example.playerslidding.databinding.FragmentBasketBinding;
 
 /**
@@ -49,14 +50,24 @@ public class FragmentBasket extends Fragment {
         // Inflate the layout for this fragment
         b = FragmentBasketBinding.inflate(inflater, container, false);
         setRecycler();
+        initListeners();
         return b.getRoot();
+    }
+
+    private void initListeners() {
+        b.backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+            }
+        });
     }
 
     private void setRecycler() {
         adapterGrid = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_BASKET);
         b.recProducts.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         b.recProducts.setAdapter(adapterGrid);
-
         adapterGrid.setStories(null);
     }
+
 }

@@ -9,7 +9,7 @@
         android:layout_width="100dp"
         android:layout_height="150dp"
         android:scaleType="centerCrop"
-        android:src="@color/accent"
+        android:src="@color/holder"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +38,7 @@
             android:padding="2dp"
             android:layout_height="36dp"
             android:layout_gravity="center"
-            android:src="@color/dark"
+            android:src="@color/alert"
             app:riv_oval="true" />
 
         <TextView
