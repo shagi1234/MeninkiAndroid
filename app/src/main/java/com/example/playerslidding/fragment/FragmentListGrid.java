@@ -68,7 +68,6 @@ public class FragmentListGrid extends Fragment {
 
 
     private void setRecycler() {
-
         if (orientation == HORIZONTAL_LINEAR) {
             adapterGrid = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_HORIZONTAL);
             b.recGrid.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -76,7 +75,6 @@ public class FragmentListGrid extends Fragment {
             adapterGrid = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_GRID);
             b.recGrid.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         }
-
         b.recGrid.setAdapter(adapterGrid);
     }
 }

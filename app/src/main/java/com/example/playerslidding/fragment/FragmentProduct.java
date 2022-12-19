@@ -2,16 +2,18 @@ package com.example.playerslidding.fragment;
 
 import static com.example.playerslidding.utils.Const.mainFragmentManager;
 import static com.example.playerslidding.utils.FragmentHelper.addFragment;
-import static com.example.playerslidding.utils.StaticMethods.dpToPx;
+import static com.example.playerslidding.utils.StaticMethods.getWindowHeight;
 import static com.example.playerslidding.utils.StaticMethods.navigationBarHeight;
 import static com.example.playerslidding.utils.StaticMethods.setBackgroundDrawable;
 import static com.example.playerslidding.utils.StaticMethods.setMargins;
+import static com.example.playerslidding.utils.StaticMethods.setPadding;
 import static com.example.playerslidding.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import androidx.appcompat.widget.TooltipCompat;
 import androidx.fragment.app.Fragment;
@@ -96,7 +98,7 @@ public class FragmentProduct extends Fragment {
     public void onResume() {
         super.onResume();
         setMargins(b.coordinator, 0, 0, 0, navigationBarHeight);
-        setMargins(b.back, 0, statusBarHeight, 0, 0);
+        setPadding(b.getRoot(), 0, statusBarHeight, 0, 0);
     }
 
     @Override
@@ -144,16 +146,19 @@ public class FragmentProduct extends Fragment {
             addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentAddPost.newInstance());
         });
 
+        b.bottomSheet.layBasket.setOnClickListener(v -> b.bottomSheet.layCountControl.setVisibility(View.VISIBLE));
+
     }
 
     private void setBackgrounds() {
         setBackgroundDrawable(getContext(), b.bottomSheet.goBasket, R.color.accent, 0, 4, false, 0);
         setBackgroundDrawable(getContext(), b.bottomSheet.layCountControl, R.color.grey, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.bottomSheet.btnCaption, R.color.background, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.bottomSheet.btnCaption, R.color.white, 0, 4, false, 0);
     }
 
     private void setImagePager() {
         AdapterVerticalImagePager adapterVerticalImagePager = new AdapterVerticalImagePager(getContext());
+        b.imagePager.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getWindowHeight(getActivity()) * 55 / 75));
 
         b.imagePager.setClipToPadding(false);
         b.imagePager.setClipChildren(false);
@@ -171,7 +176,7 @@ public class FragmentProduct extends Fragment {
     private void setBottomSheet() {
         bottomSheetBehavior = BottomSheetBehavior.from(b.bottomSheet.root);
         bottomSheetBehavior.setHideable(false);
-        bottomSheetBehavior.setPeekHeight(dpToPx(205, getContext()));
+        bottomSheetBehavior.setPeekHeight(getWindowHeight(getActivity()) * 20 / 75);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 

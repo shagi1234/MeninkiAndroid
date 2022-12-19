@@ -1,7 +1,6 @@
 package com.example.playerslidding.adapter;
 
 import static com.example.playerslidding.utils.StaticMethods.dpToPx;
-import static com.example.playerslidding.utils.StaticMethods.setBackgroundDrawable;
 import static com.example.playerslidding.utils.StaticMethods.setMargins;
 
 import android.content.Context;
@@ -13,10 +12,8 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.playerslidding.R;
 import com.example.playerslidding.data.StoreDTO;
 import com.example.playerslidding.databinding.ItemCircleProductBinding;
-import com.example.playerslidding.databinding.ItemStoreBinding;
 
 import java.util.ArrayList;
 
@@ -46,7 +43,7 @@ public class AdapterCircle extends RecyclerView.Adapter<AdapterCircle.StoreHolde
     @Override
     public int getItemCount() {
         if (stories == null) {
-            return 0;
+            return 5;
         }
         return stories.size();
     }
@@ -74,6 +71,9 @@ public class AdapterCircle extends RecyclerView.Adapter<AdapterCircle.StoreHolde
                 setMargins(b.getRoot(), dpToPx(4, context), dpToPx(0, context), dpToPx(4, context), 0);
             }
 
+            if (stories == null) {
+                return;
+            }
             Glide.with(context)
                     .load(stories.get(getAdapterPosition()).getImagePath())
                     .into(b.image);

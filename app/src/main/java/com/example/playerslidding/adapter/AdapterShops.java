@@ -1,5 +1,7 @@
 package com.example.playerslidding.adapter;
 
+import static com.example.playerslidding.utils.Const.mainFragmentManager;
+import static com.example.playerslidding.utils.FragmentHelper.addFragment;
 import static com.example.playerslidding.utils.StaticMethods.setBackgroundDrawable;
 
 import android.content.Context;
@@ -15,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.example.playerslidding.R;
 import com.example.playerslidding.data.ShopDTO;
 import com.example.playerslidding.databinding.ItemShopBinding;
+import com.example.playerslidding.fragment.FragmentProfile;
 
 import java.util.ArrayList;
 
@@ -45,7 +48,7 @@ public class AdapterShops extends RecyclerView.Adapter<AdapterShops.StoreHolder>
     @Override
     public int getItemCount() {
         if (grids == null) {
-            return 0;
+            return 5;
         }
         return grids.size();
     }
@@ -68,6 +71,21 @@ public class AdapterShops extends RecyclerView.Adapter<AdapterShops.StoreHolder>
             setBackgroundDrawable(context, b.shopImage, R.color.holder, R.color.accent, 0, true, 2);
             setBackgroundDrawable(context, b.root, R.color.background, 0, 10, false, 0);
 
+
+            b.shopName.setOnClickListener(v -> {
+                addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(FragmentProfile.TYPE_SHOP));
+            });
+            b.shopImage.setOnClickListener(v -> {
+                addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(FragmentProfile.TYPE_SHOP));
+            });
+
+
+            setRecycler();
+
+            adapterGrid.setStories(null);
+
+            if (grids == null) return;
+
             Glide.with(context)
                     .load(grids.get(getAdapterPosition()).getImage())
                     .into(b.shopImage);
@@ -76,9 +94,6 @@ public class AdapterShops extends RecyclerView.Adapter<AdapterShops.StoreHolder>
 
             b.desc.setText(grids.get(getAdapterPosition()).getDesc());
 
-            setRecycler();
-
-            adapterGrid.setStories(grids.get(getAdapterPosition()).getProduct());
 
         }
 

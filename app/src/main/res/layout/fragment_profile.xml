@@ -17,9 +17,10 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/lay_back"
             android:layout_width="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="25dp"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
@@ -41,7 +42,7 @@
                 android:layout_height="0dp"
                 android:fontFamily="@font/roboto_flex"
                 android:gravity="center"
-                android:text="На зад"
+                android:text="Назад"
                 android:textColor="@color/dark"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -62,6 +63,22 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ic_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="20dp"
+            android:gravity="center_vertical"
+            android:paddingVertical="5dp"
+            android:visibility="gone"
+            android:rotation="90"
+            android:src="@drawable/ic_more_vert"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/dark" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -141,14 +158,61 @@
                         </LinearLayout>
 
                         <ImageView
+                            android:id="@+id/edit_user"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center"
                             android:src="@drawable/ic_edit_settings"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/dark" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lay_bookmark"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="14dp"
+                        android:paddingVertical="10dp">
+
+                        <TextView
+                            android:id="@+id/my_bookmarks"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_flex"
+                            android:text="Избранное"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            android:textStyle="normal" />
+
+                        <TextView
+                            android:id="@+id/count_bookmark"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="4dp"
+                            android:fontFamily="@font/roboto_flex"
+                            android:text="13"
+                            android:textColor="@color/alert"
+                            android:textSize="14sp"
+                            android:textStyle="normal" />
+
+                        <ImageView
+                            android:id="@+id/edit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_edit_settings"
+                            app:tint="@color/dark" />
+
+
+                    </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/lay_shops"
@@ -194,6 +258,90 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/lay_follows_and_subs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+
+                        <LinearLayout
+                            android:id="@+id/lay_subscribers"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="3dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:paddingHorizontal="20dp"
+                            android:paddingVertical="16sp">
+
+                            <TextView
+                                android:id="@+id/subscribers"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginHorizontal="10dp"
+                                android:fontFamily="@font/roboto_flex"
+                                android:text="Подписчики"
+                                android:textAlignment="center"
+                                android:textColor="@color/dark"
+                                android:textSize="14sp"
+                                android:textStyle="normal" />
+
+                            <TextView
+                                android:id="@+id/count_subscribers"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="10dp"
+                                android:fontFamily="@font/roboto_flex"
+                                android:text="1313"
+                                android:textColor="@color/accent"
+                                android:textSize="22sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/lay_follows"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="3dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:paddingHorizontal="20dp"
+                            android:paddingVertical="16sp">
+
+                            <TextView
+                                android:id="@+id/all_folows"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:fontFamily="@font/roboto_flex"
+                                android:text="Товаров"
+                                android:textAlignment="center"
+                                android:textColor="@color/dark"
+                                android:textSize="14sp"
+                                android:textStyle="normal" />
+
+                            <TextView
+                                android:id="@+id/count_follows"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="10dp"
+                                android:fontFamily="@font/roboto_flex"
+                                android:text="1313"
+                                android:textColor="@color/accent"
+                                android:textSize="22sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
                         android:id="@+id/lay_statistics"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -233,7 +381,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="20dp"
                         android:layout_marginTop="4dp"
-                        android:layout_marginBottom="60dp"
                         android:orientation="horizontal">
 
 
@@ -254,7 +401,7 @@
                                 android:layout_gravity="center"
                                 android:layout_marginHorizontal="10dp"
                                 android:fontFamily="@font/roboto_flex"
-                                android:text="Оставлено отзывов"
+                                android:text="Подписчики"
                                 android:textAlignment="center"
                                 android:textColor="@color/dark"
                                 android:textSize="14sp"
@@ -289,7 +436,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:fontFamily="@font/roboto_flex"
-                                android:text="Опубликовано обзоров"
+                                android:text="Подписки"
                                 android:textAlignment="center"
                                 android:textColor="@color/dark"
                                 android:textSize="14sp"
@@ -311,6 +458,24 @@
 
                     </LinearLayout>
 
+                    <TextView
+                        android:id="@+id/text_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="20dp"
+                        android:fontFamily="@font/roboto_flex"
+                        android:maxLines="2"
+                        android:text="Lorem ipsum dolor sit amet consectetur. Ut vulputate orci amet massa non venenatis eget mauris augue. Consectetur id a egestas amet. Tempor faucibus sed odio blandit. Varius diam sem auctor duis ac. Quis tempor semper viverra purus."
+                        android:textColor="@color/nigga_grey" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rec_categories"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="60dp" />
+
+
                 </LinearLayout>
 
                 <androidx.appcompat.widget.Toolbar
@@ -325,6 +490,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:layout_marginHorizontal="10dp"
+                    android:layout_marginBottom="10dp"
                     android:orientation="horizontal">
 
                     <EditText
@@ -357,6 +523,7 @@
                         android:padding="5dp"
                         android:src="@drawable/ic_search"
                         app:tint="@color/dark" />
+
                 </LinearLayout>
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>

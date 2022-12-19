@@ -35,8 +35,8 @@ public class FragmentOpenCategory extends Fragment {
     public static FragmentOpenCategory newInstance(String name, String id) {
         FragmentOpenCategory fragment = new FragmentOpenCategory();
         Bundle args = new Bundle();
-        args.putString(PARAM_ID, name);
-        args.putString(PARAM_NAME, id);
+        args.putString(PARAM_ID, id);
+        args.putString(PARAM_NAME, name);
         fragment.setArguments(args);
         return fragment;
     }
@@ -55,6 +55,9 @@ public class FragmentOpenCategory extends Fragment {
             uuid = getArguments().getString(PARAM_ID);
             name = getArguments().getString(PARAM_NAME);
         }
+        tabs.add(new TabItemCustom("Товары", true));
+        tabs.add(new TabItemCustom("Обзоры", false));
+        tabs.add(new TabItemCustom("Услуги", false));
     }
 
     @Override
@@ -115,6 +118,8 @@ public class FragmentOpenCategory extends Fragment {
     private void setViewPager() {
         ArrayList<FragmentPager> mFragment = new ArrayList<>();
 
+        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, uuid, FragmentListGrid.CATEGORY), ""));
+        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, uuid, FragmentListGrid.CATEGORY), ""));
         mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, uuid, FragmentListGrid.CATEGORY), ""));
 
         adapterFeedPager = new AdapterViewPager(getChildFragmentManager(), mFragment);
