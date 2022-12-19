@@ -27,21 +27,30 @@
             android:layout_weight="1"
             android:fontFamily="@font/roboto_flex"
             android:gravity="center_vertical"
-            android:text="Новый Обзор"
+            android:text="Новый товар"
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/ic_clear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:layout_marginEnd="15dp"
+        <FrameLayout
+            android:id="@+id/back_btn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginBottom="9dp"
-            android:padding="5dp"
-            android:src="@drawable/ic_clear"
-            app:tint="@color/black" />
+            android:background="@drawable/ripple">
+
+            <ImageView
+                android:id="@+id/ic_clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_clear"
+                app:tint="@color/black" />
+
+        </FrameLayout>
+
     </LinearLayout>
 
     <FrameLayout
@@ -103,8 +112,8 @@
                 android:layout_height="170dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
-                android:gravity="start"
                 android:fontFamily="@font/roboto_medium"
+                android:gravity="start"
                 android:hint="Заголовок (необязательно)"
                 android:padding="14dp"
                 android:textColor="@color/dark"
@@ -196,17 +205,27 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <TextView
+    <FrameLayout
+        android:id="@+id/lay_btn_publish"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="20dp"
-        android:background="@color/accent"
-        android:gravity="center"
-        android:paddingVertical="10dp"
-        android:text="Опубликовать"
-        android:textColor="@color/background"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:background="@drawable/ripple_white"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/btn_publish"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingVertical="10dp"
+            android:text="Опубликовать"
+            android:textColor="@color/background" />
+
+    </FrameLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

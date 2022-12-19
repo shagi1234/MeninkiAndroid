@@ -45,6 +45,7 @@ public class FragmentProfile extends Fragment {
         super.onResume();
         setMargins(b.layHeader, 0, statusBarHeight, 0, 0);
         setMargins(b.coordinator, 0, 0, 0, navigationBarHeight);
+        setMargins(b.frameFab, 0, 0, 0, navigationBarHeight);
     }
 
     @Override
@@ -87,6 +88,7 @@ public class FragmentProfile extends Fragment {
                 b.countBookmark.setVisibility(View.VISIBLE);
                 b.editUser.setVisibility(View.VISIBLE);
                 b.edit.setVisibility(View.GONE);
+                b.frameFab.setVisibility(View.GONE);
 
                 setMargins(b.layReply, dpToPx(20, getContext()), dpToPx(4, getContext()), dpToPx(20, getContext()), dpToPx(70, getContext()));
 
@@ -109,6 +111,7 @@ public class FragmentProfile extends Fragment {
                 setMargins(b.layReply, dpToPx(20, getContext()), dpToPx(4, getContext()), dpToPx(20, getContext()), dpToPx(20, getContext()));
                 b.recCategories.setVisibility(View.VISIBLE);
                 b.textContent.setVisibility(View.GONE);
+                b.frameFab.setVisibility(View.VISIBLE);
 
                 setRecyclerCircle();
                 adapterCircle.setStories(null);
@@ -129,7 +132,14 @@ public class FragmentProfile extends Fragment {
             addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentMyShops.newInstance());
             new Handler().postDelayed(() -> b.layShops.setEnabled(true), 200);
         });
+
         b.layBack.setOnClickListener(v -> getActivity().onBackPressed());
+
+        b.frameFab.setOnClickListener(v -> {
+            b.frameFab.setEnabled(false);
+            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentAddProduct.newInstance());
+            new Handler().postDelayed(() -> b.frameFab.setEnabled(true), 200);
+        });
     }
 
     private void setRecyclerCircle() {
@@ -150,5 +160,6 @@ public class FragmentProfile extends Fragment {
         setBackgroundDrawable(getContext(), b.layFollows, R.color.white, 0, 4, false, 0);
         setBackgroundDrawable(getContext(), b.layMessages, R.color.hover, 0, 4, false, 0);
         setBackgroundDrawable(getContext(), b.laySubscribers, R.color.white, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.frameFab, R.color.white, R.color.accent, 10, false, 2);
     }
 }

@@ -3,26 +3,23 @@ banner ayryldy
 podpiska ayryldy
 
 6.12.2022 de bashladym
-7.12.22.
-8.12.22 category main page doly ui edildi.
 komponentler duzedildi.
 
-9.12.2022 de hokman etmeli ishler:
 1.Product page ++
 2.store page ++
 3.open category page++
 4.add post page ui++
-4.basket page ui
-5.profile dizayny uytgedilenden son etmeli
+4.basket page ui++
+5.profile dizayny uytgedilenden son etmeli++
+
+openCategory page da tab dizayny bashga eken shony etmeli
+renkleri sazlamy;
+shriftleri gormeli
+in yokardaky tabLayout duzedilmeli++
 
 
-10.12.2022  in sonuna:
-1.renkleri sazlamy;
-2.shriftleri gormeli
-3.in yokardaky tabLayout duzedilmeli
 
-11.12.2022:
-1.login registeri duzedip chatmaly
+1.login registeri duzedip chatmali++
 2.store degishli nm bolsa chatmaly
 3.category degishli zatlar productlar chatylmaly
 4.productyn ici favoururite bn
