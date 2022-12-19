@@ -3,15 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="20dp"
     android:orientation="vertical"
-    android:paddingVertical="10dp">
+    android:paddingVertical="14dp">
 
     <LinearLayout
         android:id="@+id/lay_store_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginHorizontal="20dp"
+        android:orientation="horizontal"
         android:paddingVertical="6dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
@@ -39,9 +40,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rec_images"
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:id="@+id/name"
@@ -54,6 +55,74 @@
         android:text="Pellentesque mauris cras feugiat lectus quam. Tellus eleifend quis mauris cras"
         android:textColor="@color/black"
         android:textSize="14sp" />
+
+    <LinearLayout
+        android:id="@+id/lay_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="center"
+            android:text=" = 1313 * 13"
+            android:textColor="@color/dark" />
+
+        <FrameLayout
+            android:layout_width="1dp"
+            android:background="@color/caption"
+            android:layout_height="match_parent"/>
+
+        <LinearLayout
+            android:id="@+id/count_controller"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="1dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lay_sale">
+
+            <ImageView
+                android:id="@+id/btn_subs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="10dp"
+                android:src="@drawable/ic_subtract_circle__2_" />
+
+            <TextView
+                android:id="@+id/count"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="17dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto_flex"
+                android:gravity="center"
+                android:text="1313"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/btn_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="10dp"
+                android:src="@drawable/ic_add_circle__3_" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 
 </LinearLayout>

@@ -12,6 +12,7 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/drawable/gradient_transparent.xml" value="0.148" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/drawable/ic_add.xml" value="0.1105" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/drawable/ic_add_circle.xml" value="0.1105" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/drawable/ic_add_square.xml" value="0.1355" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/drawable/ic_back.xml" value="0.165" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/drawable/ic_cart.xml" value="0.153" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/drawable/ic_check.xml" value="0.168" />
@@ -55,13 +56,14 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/fragment_product.xml" value="0.264" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/fragment_profile.xml" value="0.176" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/fragment_sms_code.xml" value="0.275" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/item_basket.xml" value="0.2" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/item_basket.xml" value="0.264" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/item_bottom_sheet_product.xml" value="0.264" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/item_char_color.xml" value="0.275" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/item_char_image.xml" value="0.2713541666666667" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/item_char_pick.xml" value="0.72" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/item_circle_product.xml" value="0.275" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/item_country_list.xml" value="0.176" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/item_image_basket.xml" value="0.275" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/item_image_vertical.xml" value="0.264" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/item_media.xml" value="0.275" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/layout/item_media_add_post.xml" value="0.2713541666666667" />
