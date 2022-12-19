@@ -10,6 +10,8 @@
     tools:context=".fragment.FragmentFilterAndSort">
 
     <androidx.core.widget.NestedScrollView
+        android:overScrollMode="never"
+        android:layout_above="@+id/buttons"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -84,11 +86,11 @@
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:paddingHorizontal="12dp"
                     android:id="@+id/radio1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
+                    android:paddingHorizontal="12dp"
                     android:text="Товары"
                     android:textColor="@color/dark"
                     android:textSize="14sp" />
@@ -152,7 +154,7 @@
                 android:layout_marginTop="6dp"
                 android:background="#003C4567"
                 android:fontFamily="@font/roboto_flex"
-                android:hint="00tmt"
+                android:hint="00 tmt"
                 android:paddingVertical="15dp"
                 android:paddingStart="20dp"
                 android:textSize="14sp" />
@@ -176,7 +178,7 @@
                 android:layout_marginTop="6dp"
                 android:background="#003C4567"
                 android:fontFamily="@font/roboto_flex"
-                android:hint="00tmt"
+                android:hint="00 tmt"
                 android:paddingVertical="15dp"
                 android:paddingStart="20dp"
                 android:textSize="14sp" />
@@ -184,37 +186,41 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
     <LinearLayout
-        android:orientation="vertical"
+        android:id="@+id/buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/save_button"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginHorizontal="20dp"
-            android:paddingVertical="15dp"
-            android:textSize="14sp"
+            android:layout_marginBottom="10dp"
             android:fontFamily="@font/roboto_flex"
             android:gravity="center"
-            android:textColor="@color/black"
-            android:layout_height="wrap_content"
+            android:paddingVertical="15dp"
             android:text="Сохранить"
-            android:layout_gravity="center_horizontal"/>
+            android:textColor="@color/background"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/erase"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginHorizontal="20dp"
-            android:paddingVertical="15dp"
-            android:textSize="14sp"
+            android:layout_marginBottom="20dp"
             android:fontFamily="@font/roboto_flex"
             android:gravity="center"
-            android:textColor="@color/black"
-            android:layout_height="wrap_content"
+            android:paddingVertical="15dp"
             android:text="Сбросить фильтры"
-            android:layout_gravity="center_horizontal"/>
+            android:textColor="@color/black"
+            android:textSize="14sp" />
 
     </LinearLayout>
 </RelativeLayout>

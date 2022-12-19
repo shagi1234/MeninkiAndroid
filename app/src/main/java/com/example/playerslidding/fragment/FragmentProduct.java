@@ -138,7 +138,7 @@ public class FragmentProduct extends Fragment {
     }
 
     private void initListeners() {
-        b.back.setOnClickListener(v -> {
+        b.backBtn.setOnClickListener(v -> {
             getActivity().onBackPressed();
         });
 

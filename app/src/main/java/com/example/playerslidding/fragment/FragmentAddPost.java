@@ -51,8 +51,18 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
         b = FragmentAddPostBinding.inflate(inflater, container, false);
         setBackgrounds();
         setRecycler();
+        initListeners();
 
         return b.getRoot();
+    }
+
+    private void initListeners() {
+        b.backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+            }
+        });
     }
 
     private void setBackgrounds() {
