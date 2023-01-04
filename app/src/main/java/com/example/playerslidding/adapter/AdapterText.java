@@ -60,11 +60,11 @@ public class AdapterText extends RecyclerView.Adapter<AdapterText.TabLayoutHolde
         public void bind() {
 
             if (getAdapterPosition() == 0) {
-                setMargins(b.getRoot(), dpToPx(40, context), dpToPx(40, context), dpToPx(20, context), dpToPx(10, context));
+                setMargins(b.getRoot(), dpToPx(20, context), dpToPx(30, context), dpToPx(20, context), 0);
             } else if (getAdapterPosition() == getItemCount() - 1) {
-                setMargins(b.getRoot(), dpToPx(40, context), dpToPx(10, context), dpToPx(20, context), dpToPx(40, context));
+                setMargins(b.getRoot(), dpToPx(20, context), 0, dpToPx(20, context), dpToPx(30, context));
             } else {
-                setMargins(b.getRoot(), dpToPx(40, context), dpToPx(10, context), dpToPx(20, context), dpToPx(10, context));
+                setMargins(b.getRoot(), dpToPx(20, context), 0, dpToPx(20, context), 0);
             }
 
 

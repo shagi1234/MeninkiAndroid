@@ -123,6 +123,7 @@
                                 android:id="@+id/image_user"
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
+                                android:scaleType="centerCrop"
                                 android:src="@color/holder"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -547,6 +548,42 @@
     </LinearLayout>
 
     <FrameLayout
+        android:id="@+id/lay_big_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/big_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="100dp"
+            android:paddingBottom="30dp"
+            android:scaleType="fitCenter"
+            android:src="@color/holder" />
+
+        <FrameLayout
+            android:id="@+id/gray_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.2"
+            android:background="@color/black" />
+
+
+        <ImageView
+            android:id="@+id/clear_big"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_clear" />
+    </FrameLayout>
+
+
+    <FrameLayout
         android:id="@+id/frame_fab"
         android:layout_width="52dp"
         android:layout_height="52dp"
@@ -555,9 +592,9 @@
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/bg_fab"
-            android:padding="2dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:padding="2dp"
             android:src="@color/white"
             app:riv_corner_radius="20dp" />
 

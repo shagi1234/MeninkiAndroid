@@ -74,7 +74,7 @@ public class AdapterMedia extends RecyclerView.Adapter<AdapterMedia.ViewHolder> 
             holder.layCheckbox.setVisibility(View.GONE);
         }
 
-        holder.imageView.setOnClickListener(new View.OnClickListener() {
+        holder.click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MediaLocal media = medias.get(holder.getAdapterPosition());
@@ -123,7 +123,7 @@ public class AdapterMedia extends RecyclerView.Adapter<AdapterMedia.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageView;
-        private FrameLayout grayContainer;
+        private FrameLayout click;
         private ConstraintLayout constraintLayout;
         private FrameLayout layCheckbox;
         private ImageView icCheckbox;
@@ -132,7 +132,7 @@ public class AdapterMedia extends RecyclerView.Adapter<AdapterMedia.ViewHolder> 
             super(itemView);
             imageView = itemView.findViewById(R.id.image);
             constraintLayout = itemView.findViewById(R.id.container_media);
-            grayContainer = itemView.findViewById(R.id.gray_container);
+            click = itemView.findViewById(R.id.click);
             icCheckbox = itemView.findViewById(R.id.ic_checkbox);
             layCheckbox = itemView.findViewById(R.id.lay_checkbox);
 

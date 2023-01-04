@@ -110,7 +110,7 @@ public class FragmentCategory extends Fragment {
             addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentBasket.newInstance());
             new Handler().postDelayed(() -> b.icCart.setEnabled(true), 200);
         });
-        b.layUserInfo.setOnClickListener(v -> {
+        b.clickUserData.setOnClickListener(v -> {
             b.layUserInfo.setEnabled(false);
             addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(FragmentProfile.TYPE_USER));
             new Handler().postDelayed(() -> b.layUserInfo.setEnabled(true), 200);

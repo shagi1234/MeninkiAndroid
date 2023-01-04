@@ -10,6 +10,10 @@ import static com.example.playerslidding.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.transition.ChangeBounds;
+import android.transition.ChangeImageTransform;
+import android.transition.TransitionManager;
+import android.transition.TransitionSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +23,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.bumptech.glide.Glide;
 import com.example.playerslidding.R;
 import com.example.playerslidding.adapter.AdapterCircle;
 import com.example.playerslidding.adapter.AdapterGrid;
@@ -118,6 +123,9 @@ public class FragmentProfile extends Fragment {
                 break;
         }
         setRecyclerProducts();
+
+        Glide.with(getContext()).load("https://a.espncdn.com/photo/2022/1112/r1089820_1296x729_16-9.jpg").into(b.bigImage);
+        Glide.with(getContext()).load("https://a.espncdn.com/photo/2022/1112/r1089820_1296x729_16-9.jpg").into(b.imageUser);
     }
 
     private void setRecyclerProducts() {
@@ -140,7 +148,9 @@ public class FragmentProfile extends Fragment {
             addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentAddProduct.newInstance());
             new Handler().postDelayed(() -> b.frameFab.setEnabled(true), 200);
         });
+
     }
+
 
     private void setRecyclerCircle() {
         adapterCircle = new AdapterCircle(getContext(), getActivity());

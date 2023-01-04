@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.playerslidding.R;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 public class AdapterCharPick extends RecyclerView.Adapter<AdapterCharPick.CharImageHolder> {
     private ArrayList<String> picks = new ArrayList<>();
     private Context context;
-    private FrameLayout lastClicked;
+    private ConstraintLayout lastClicked;
     private TextView lastText;
 
     public AdapterCharPick(Context context) {
@@ -78,7 +79,7 @@ public class AdapterCharPick extends RecyclerView.Adapter<AdapterCharPick.CharIm
                 b.pickText.setTextColor(context.getResources().getColor(R.color.dark));
             }
 
-            b.getRoot().setOnClickListener(v -> {
+            b.click.setOnClickListener(v -> {
                 if (lastClicked == b.root) return;
 
                 setBackgroundDrawable(context, b.root, R.color.color_transparent, R.color.accent, 4, false, 3);

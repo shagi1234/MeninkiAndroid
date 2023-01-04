@@ -1,6 +1,7 @@
 package com.example.playerslidding.adapter;
 
 import static com.example.playerslidding.utils.StaticMethods.dpToPx;
+import static com.example.playerslidding.utils.StaticMethods.logWrite;
 import static com.example.playerslidding.utils.StaticMethods.setBackgroundDrawable;
 import static com.example.playerslidding.utils.StaticMethods.setMargins;
 
@@ -74,7 +75,10 @@ public class AdapterCharImage extends RecyclerView.Adapter<AdapterCharImage.Char
                 setBackgroundDrawable(context, b.image, R.color.hover, 0, 4, false, 0);
             }
 
-            b.getRoot().setOnClickListener(v -> {
+            b.click.setOnClickListener(v -> {
+
+                logWrite(lastClicked==b.image);
+
                 if (lastClicked == b.image) return;
 
                 setBackgroundDrawable(context, b.image, R.color.hover, R.color.accent, 4, false, 3);

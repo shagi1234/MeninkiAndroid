@@ -10,6 +10,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -84,7 +85,7 @@ public class AdapterCountry extends RecyclerView.Adapter<AdapterCountry.ViewHold
             setPadding(holder.itemView, dpToPx(20, context), 0, dpToPx(20, context), 0);
         }
 
-        holder.itemView.setOnClickListener(v -> activity.runOnUiThread(() -> {
+        holder.click.setOnClickListener(v -> activity.runOnUiThread(() -> {
             Fragment language = mainFragmentManager.findFragmentByTag(FragmentLanguage.class.getName());
             Fragment fragmentCountryAndNumberBinding = mainFragmentManager.findFragmentByTag(FragmentCountryAndNumberBinding.class.getName());
 
@@ -109,6 +110,7 @@ public class AdapterCountry extends RecyclerView.Adapter<AdapterCountry.ViewHold
         private TextView firstLetter;
         private TextView nameCountry;
         private TextView countryCode;
+        private FrameLayout click;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -116,6 +118,7 @@ public class AdapterCountry extends RecyclerView.Adapter<AdapterCountry.ViewHold
             firstLetter = itemView.findViewById(R.id.first_letter);
             nameCountry = itemView.findViewById(R.id.name_country);
             countryCode = itemView.findViewById(R.id.country_code);
+            click = itemView.findViewById(R.id.click);
         }
 
     }
