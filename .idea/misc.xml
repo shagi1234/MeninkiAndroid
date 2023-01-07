@@ -3,6 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Programmer/Desktop/sh/MeninkiAndroid/app/src/main/res/drawable/ripple.xml" value="0.2335" />
+        <entry key="..\:/Users/Programmer/Desktop/sh/MeninkiAndroid/app/src/main/res/layout/activity_login_register.xml" value="0.25" />
+        <entry key="..\:/Users/Programmer/Desktop/sh/MeninkiAndroid/app/src/main/res/layout/custom_toast_layout_primary.xml" value="0.25" />
+        <entry key="..\:/Users/Programmer/Desktop/sh/MeninkiAndroid/app/src/main/res/layout/fragment_add_post.xml" value="0.25" />
+        <entry key="..\:/Users/Programmer/Desktop/sh/MeninkiAndroid/app/src/main/res/layout/fragment_add_product.xml" value="0.25" />
+        <entry key="..\:/Users/Programmer/Desktop/sh/MeninkiAndroid/app/src/main/res/layout/fragment_filter_and_sort.xml" value="0.25" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/drawable-v24/bg_left_top_and_left_bottom_10.xml" value="0.137" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.153" />
         <entry key="..\:/Users/user/AndroidStudioProjects/playerSlidding/app/src/main/res/drawable/bg_more.xml" value="0.137" />
