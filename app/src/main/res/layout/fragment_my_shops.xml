@@ -90,47 +90,53 @@
                         android:layout_height="match_parent"
                         android:background="@color/background">
 
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/lay_btn"
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_marginHorizontal="20dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="60dp"
-                            android:background="@color/accent"
-                            android:paddingVertical="12dp">
+                            android:layout_height="wrap_content">
 
-                            <ImageView
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:layout_marginEnd="10dp"
-                                android:src="@drawable/ic_add"
-                                app:layout_constraintBottom_toBottomOf="@+id/textView"
-                                app:layout_constraintEnd_toStartOf="@+id/textView"
-                                app:layout_constraintTop_toTopOf="@+id/textView"
-                                app:tint="@color/white" />
-
-                            <TextView
-                                android:id="@+id/textView"
-                                android:layout_width="wrap_content"
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/lay_btn"
+                                android:layout_width="match_parent"
+                                android:layout_marginHorizontal="20dp"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:fontFamily="@font/roboto_flex"
-                                android:gravity="center"
-                                android:text="Создать новый магазин"
-                                android:textColor="@color/white"
-                                android:textStyle="bold"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
+                                android:layout_marginBottom="60dp"
+                                android:background="@color/accent"
+                                android:paddingVertical="12dp">
 
-                        </androidx.constraintlayout.widget.ConstraintLayout>
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:src="@drawable/ic_add"
+                                    app:layout_constraintBottom_toBottomOf="@+id/textView"
+                                    app:layout_constraintEnd_toStartOf="@+id/textView"
+                                    app:layout_constraintTop_toTopOf="@+id/textView"
+                                    app:tint="@color/white" />
 
+                                <TextView
+                                    android:id="@+id/textView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:fontFamily="@font/roboto_flex"
+                                    android:gravity="center"
+                                    android:text="Создать новый магазин"
+                                    android:textColor="@color/white"
+                                    android:textStyle="bold"
+
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
                     <androidx.appcompat.widget.Toolbar
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="65dp"
                         app:layout_collapseMode="pin"
                         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
 

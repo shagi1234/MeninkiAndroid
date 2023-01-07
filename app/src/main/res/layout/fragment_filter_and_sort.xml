@@ -10,10 +10,10 @@
     tools:context=".fragment.FragmentFilterAndSort">
 
     <androidx.core.widget.NestedScrollView
-        android:overScrollMode="never"
-        android:layout_above="@+id/buttons"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/buttons"
+        android:overScrollMode="never">
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -1,5 +1,7 @@
 package com.example.playerslidding.fragment;
 
+import static com.example.playerslidding.utils.Const.mainFragmentManager;
+import static com.example.playerslidding.utils.FragmentHelper.addFragment;
 import static com.example.playerslidding.utils.StaticMethods.navigationBarHeight;
 import static com.example.playerslidding.utils.StaticMethods.setBackgroundDrawable;
 import static com.example.playerslidding.utils.StaticMethods.setPadding;
@@ -45,8 +47,14 @@ public class FragmentFilterAndSort extends Fragment {
         // Inflate the layout for this fragment
         b = FragmentFilterAndSortBinding.inflate(inflater, container, false);
         setSpinners();
+        initListeners();
         setBackgrounds();
         return b.getRoot();
+    }
+
+    private void initListeners() {
+        b.saveButton.setOnClickListener(view -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentNewShop.newInstance()));
+
     }
 
     private void setBackgrounds() {
