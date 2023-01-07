@@ -68,7 +68,7 @@ public class AdapterMediaAddPost extends RecyclerView.Adapter<AdapterMediaAddPos
 
                 Glide.with(context).load(SelectedMedia.getArrayList().get(getAdapterPosition()).getPath()).placeholder(R.color.holder).into(b.image);
             }
-            b.getRoot().setOnClickListener(v -> {
+            b.click.setOnClickListener(v -> {
                 if (getAdapterPosition() == getItemCount() - 1) {
                     addFragment(mainFragmentManager, R.id.fragment_container_main, new FragmentOpenGallery());
                 }

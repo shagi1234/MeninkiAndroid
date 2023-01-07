@@ -80,6 +80,9 @@ public class StaticMethods {
     public static void logWrite(String msg) {
         Log.e(TAG, "logWrite: " + msg);
     }
+    public static void logWrite(boolean msg) {
+        Log.e(TAG, "logWrite: " + msg);
+    }
 
     public static void logWrite(int msg) {
         Log.e(TAG, "logWrite: " + msg);

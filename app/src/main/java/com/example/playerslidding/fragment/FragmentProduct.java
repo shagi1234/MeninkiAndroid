@@ -146,14 +146,24 @@ public class FragmentProduct extends Fragment {
             addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentAddPost.newInstance());
         });
 
-        b.bottomSheet.layBasket.setOnClickListener(v -> b.bottomSheet.layCountControl.setVisibility(View.VISIBLE));
+        b.bottomSheet.goBasket.setOnClickListener(v -> b.bottomSheet.layCountControl.setVisibility(View.VISIBLE));
+
+        b.bottomSheet.add.setOnClickListener(v -> {
+            int i = Integer.parseInt(b.bottomSheet.countProduct.getText().toString().trim());
+            b.bottomSheet.countProduct.setText(String.valueOf(i + 1));
+        });
+        b.bottomSheet.subs.setOnClickListener(v -> {
+            int i = Integer.parseInt(b.bottomSheet.countProduct.getText().toString().trim());
+            b.bottomSheet.countProduct.setText(String.valueOf(i - 1));
+        });
 
     }
 
     private void setBackgrounds() {
-        setBackgroundDrawable(getContext(), b.bottomSheet.goBasket, R.color.accent, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.bottomSheet.txtGoBasket, R.color.accent, 0, 4, false, 0);
+
         setBackgroundDrawable(getContext(), b.bottomSheet.layCountControl, R.color.grey, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.bottomSheet.btnCaption, R.color.white, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.bottomSheet.txtBtnCaption, R.color.white, 0, 4, false, 0);
     }
 
     private void setImagePager() {

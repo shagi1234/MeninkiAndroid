@@ -13,6 +13,14 @@
         android:layout_margin="5dp"
         app:riv_corner_radius="10dp" />
 
+    <FrameLayout
+        android:id="@+id/click"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/ripple"
+        android:clickable="true"
+        android:focusable="true" />
+
     <ImageView
         android:id="@+id/clear"
         android:layout_width="wrap_content"

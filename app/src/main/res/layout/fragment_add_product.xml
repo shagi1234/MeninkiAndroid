@@ -205,27 +205,18 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <FrameLayout
-        android:id="@+id/lay_btn_publish"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/search_btn"
+        style="@style/MyButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="20dp"
-        android:background="@drawable/ripple_white"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <TextView
-            android:id="@+id/btn_publish"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingVertical="10dp"
-            android:text="Опубликовать"
-            android:textColor="@color/background" />
-
-    </FrameLayout>
+        android:paddingVertical="10dp"
+        android:text="Оценить и отправить"
+        app:cornerRadius="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:rippleColor="@color/background" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -117,15 +117,26 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lay_price" />
 
-        <ImageView
+        <FrameLayout
             android:id="@+id/bookmark_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
-            android:src="@drawable/ic_bookmark_add"
+            android:background="@drawable/ripple"
+            android:clickable="true"
+            android:focusable="true"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lay_price" />
+            app:layout_constraintTop_toBottomOf="@+id/lay_price">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_bookmark_add" />
+
+        </FrameLayout>
+
 
         <LinearLayout
             android:id="@+id/lay_basket"
@@ -133,41 +144,65 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="30dp"
+            android:orientation="horizontal"
             android:visibility="visible"
             app:layout_constraintTop_toBottomOf="@+id/bookmark_add">
 
-            <TextView
-                android:id="@+id/go_basket"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/lay_btn_basket"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:paddingHorizontal="17dp"
-                android:paddingVertical="10dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/accent"
-                android:fontFamily="@font/roboto_flex"
-                android:gravity="center"
-                android:text="В корзине"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
+                app:layout_constraintTop_toBottomOf="@+id/lay_basket">
+
+                <TextView
+                    android:id="@+id/txt_go_basket"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@color/accent"
+                    android:fontFamily="@font/roboto_flex"
+                    android:gravity="center"
+                    android:paddingHorizontal="17dp"
+                    android:paddingVertical="10dp"
+                    android:text="В корзине"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <FrameLayout
+                    android:id="@+id/go_basket"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@drawable/ripple_white"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
-                android:visibility="gone"
                 android:id="@+id/lay_count_control"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:visibility="gone">
 
                 <ImageView
+                    android:id="@+id/add"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/ripple"
                     android:paddingHorizontal="17dp"
                     android:paddingVertical="10dp"
                     android:src="@drawable/ic_add_circle" />
 
                 <TextView
+                    android:id="@+id/count_product"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -175,11 +210,14 @@
                     android:gravity="center"
                     android:text="13"
                     android:textAlignment="center"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    tools:ignore="NestedWeights" />
 
                 <ImageView
+                    android:id="@+id/subs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/ripple"
                     android:paddingHorizontal="17dp"
                     android:paddingVertical="10dp"
                     android:src="@drawable/ic_subtract_circle" />
@@ -188,19 +226,37 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/btn_caption"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/lay_btn_caption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="10dp"
-            android:fontFamily="@font/roboto_medium"
-            android:gravity="center"
-            android:paddingVertical="10dp"
-            android:text="Создать пост с этим"
-            android:textColor="@color/dark"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@+id/lay_basket" />
+            app:layout_constraintTop_toBottomOf="@+id/lay_basket">
+
+            <TextView
+                android:id="@+id/txt_btn_caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:paddingVertical="10dp"
+                android:text="Создать пост с этим"
+                android:textColor="@color/dark"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <FrameLayout
+                android:id="@+id/btn_caption"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@drawable/ripple"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/desc"
@@ -212,13 +268,13 @@
             android:gravity="start"
             android:text="Description"
             android:textColor="@color/dark"
-            app:layout_constraintTop_toBottomOf="@+id/btn_caption" />
+            app:layout_constraintTop_toBottomOf="@+id/lay_btn_caption" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/check_store"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@+id/desc">
 
             <FrameLayout

@@ -127,7 +127,7 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             setBackgroundDrawable(context, b.posterImage, R.color.holder, R.color.accent, 0, true, 2);
 
-            b.getRoot().setOnClickListener(v -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProduct.newInstance("", FragmentProduct.PRODUCT)));
+            b.click.setOnClickListener(v -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProduct.newInstance("", FragmentProduct.PRODUCT)));
 
             if (grids == null) return;
 

@@ -55,8 +55,9 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
         b = FragmentAddProductBinding.inflate(inflater, container, false);
         setBackgrounds();
         setRecycler();
-        b.backBtn.setOnClickListener(v -> logWrite("salam"));
-        b.layBtnPublish.setOnClickListener(v -> logWrite("salam"));
+
+        b.backBtn.setOnClickListener(v -> getActivity().onBackPressed());
+
         return b.getRoot();
     }
 
@@ -65,7 +66,6 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
         setBackgroundDrawable(getContext(), b.desc, R.color.white, R.color.hover, 4, false, 1);
         setBackgroundDrawable(getContext(), b.price, R.color.hover, 0, 4, false, 0);
         setBackgroundDrawable(getContext(), b.oldPrice, R.color.white, R.color.hover, 4, false, 1);
-        setBackgroundDrawable(getContext(), b.btnPublish, R.color.accent, 0, 4, false, 0);
     }
 
     private void setRecycler() {
