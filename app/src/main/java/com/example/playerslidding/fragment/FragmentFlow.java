@@ -23,7 +23,6 @@ public class FragmentFlow extends Fragment implements ChangeFlowPage, OnBackPres
     public static FragmentFlow newInstance() {
         FragmentFlow fragment = new FragmentFlow();
         Bundle args = new Bundle();
-
         fragment.setArguments(args);
         return fragment;
     }

@@ -9,7 +9,7 @@
     <color name="color_transparent">#00000000</color>
     <color name="background">#F8F8F8</color>
     <color name="text_2nd_40">#66474747</color>
-    <color name="accent">#0055AA</color>
+    <color name="accent">#005FF0</color>
     <color name="accent_pressed">#063F78</color>
     <color name="dark">#3C4567</color>
     <color name="caption">#A0A0A0</color>

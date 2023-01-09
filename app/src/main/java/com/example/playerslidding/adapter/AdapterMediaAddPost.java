@@ -2,6 +2,7 @@ package com.example.playerslidding.adapter;
 
 import static com.example.playerslidding.utils.Const.mainFragmentManager;
 import static com.example.playerslidding.utils.FragmentHelper.addFragment;
+import static com.example.playerslidding.utils.StaticMethods.dpToPx;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -68,9 +69,10 @@ public class AdapterMediaAddPost extends RecyclerView.Adapter<AdapterMediaAddPos
 
                 Glide.with(context).load(SelectedMedia.getArrayList().get(getAdapterPosition()).getPath()).placeholder(R.color.holder).into(b.image);
             }
+
             b.click.setOnClickListener(v -> {
                 if (getAdapterPosition() == getItemCount() - 1) {
-                    addFragment(mainFragmentManager, R.id.fragment_container_main, new FragmentOpenGallery());
+                    addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentOpenGallery.newInstance(0));
                 }
             });
             b.clear.setOnClickListener(v -> removeAt(getAdapterPosition()));

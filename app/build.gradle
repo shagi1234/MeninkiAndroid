@@ -76,4 +76,7 @@ dependencies {
     //keyboard provider
     implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:3.0.0-RC3'
 
+    //color picker
+    implementation 'com.github.QuadFlask:colorpicker:0.0.15'
+
 }

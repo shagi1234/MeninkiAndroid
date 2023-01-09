@@ -70,6 +70,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.TimeZone;
 
 public class StaticMethods {
@@ -200,6 +201,30 @@ public class StaticMethods {
 
     }
 
+    public static void setBackgroundDrawable(Context context, View view, String color, int borderColor, int corner, boolean isOval, int border) {
+        if (context == null) return;
+
+        GradientDrawable shape = new GradientDrawable();
+        if (isOval) {
+            shape.setShape(GradientDrawable.OVAL);
+        } else {
+            shape.setShape(GradientDrawable.RECTANGLE);
+            shape.setCornerRadius(dpToPx(context, corner));
+        }
+        if (!Objects.equals(color, "")) {
+            shape.setColor(Color.parseColor(color));
+        } else {
+            shape.setColor(context.getResources().getColor(R.color.color_transparent));
+        }
+
+        if (borderColor != 0) {
+            shape.setStroke(dpToPx(border, context), context.getResources().getColor(borderColor));
+        }
+        view.setBackground(shape);
+
+    }
+
+
     public static void setBackgroundDrawable(Context context, View view, int color, int borderColor, int cornerLeftTop, int cornerRightTop, int cornerLeftBottom, int cornerRightBottom, boolean isOval, int border) {
         if (context == null) return;
 
@@ -208,6 +233,7 @@ public class StaticMethods {
             shape.setShape(GradientDrawable.OVAL);
         } else {
             shape.setShape(GradientDrawable.RECTANGLE);
+
             shape.setCornerRadii(new float[]{cornerLeftTop, cornerRightTop, 0, 0, 0, 0, cornerRightBottom, cornerLeftBottom});
         }
         if (color != 0) {

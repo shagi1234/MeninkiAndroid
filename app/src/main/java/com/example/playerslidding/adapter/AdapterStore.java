@@ -70,11 +70,11 @@ public class AdapterStore extends RecyclerView.Adapter<AdapterStore.StoreHolder>
 
 
             if (getAdapterPosition() == 0) {
-                setMargins(b.getRoot(), dpToPx(10, context), dpToPx(20, context), dpToPx(4, context), 0);
+                setMargins(b.getRoot(), dpToPx(10, context), dpToPx(20, context), dpToPx(2, context), 0);
             } else if (getAdapterPosition() == getItemCount() - 1) {
-                setMargins(b.getRoot(), dpToPx(4, context), dpToPx(20, context), dpToPx(10, context), 0);
+                setMargins(b.getRoot(), dpToPx(2, context), dpToPx(20, context), dpToPx(10, context), 0);
             } else {
-                setMargins(b.getRoot(), dpToPx(4, context), dpToPx(20, context), dpToPx(4, context), 0);
+                setMargins(b.getRoot(), dpToPx(2, context), dpToPx(20, context), dpToPx(2, context), 0);
             }
 
             setBackgroundDrawable(context, b.posterImage, R.color.holder, R.color.accent, 0, true, 2);

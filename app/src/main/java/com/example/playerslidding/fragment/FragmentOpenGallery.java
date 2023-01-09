@@ -2,7 +2,9 @@
 package com.example.playerslidding.fragment;
 
 import static androidx.core.content.ContextCompat.checkSelfPermission;
+import static com.example.playerslidding.utils.StaticMethods.hideSoftKeyboard;
 import static com.example.playerslidding.utils.StaticMethods.navigationBarHeight;
+import static com.example.playerslidding.utils.StaticMethods.setBackgroundDrawable;
 import static com.example.playerslidding.utils.StaticMethods.setPadding;
 import static com.example.playerslidding.utils.StaticMethods.statusBarHeight;
 
@@ -17,18 +19,22 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.example.playerslidding.R;
+import com.example.playerslidding.adapter.AdapterCharImage;
 import com.example.playerslidding.adapter.AdapterMedia;
 import com.example.playerslidding.adapter.AdapterMediaAddPost;
 import com.example.playerslidding.data.MediaLocal;
+import com.example.playerslidding.data.ProductImageDto;
 import com.example.playerslidding.data.SelectedMedia;
 import com.example.playerslidding.databinding.FragmentOpenGalleryBinding;
 import com.example.playerslidding.interfaces.OnBackPressedFragment;
+import com.example.playerslidding.utils.Lists;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrInterface;
@@ -41,8 +47,17 @@ public class FragmentOpenGallery extends Fragment implements OnBackPressedFragme
     private ArrayList<MediaLocal> media = new ArrayList<>();
     private String TAG = "Media";
     private AdapterMedia adapter;
+    private int chooseCount;
     private SlidrInterface slidrInterface;
     private int PERMISSION_FILE = 1;
+
+    public static FragmentOpenGallery newInstance(int chooseCount) {
+        Bundle args = new Bundle();
+        args.putInt("choose_count", chooseCount);
+        FragmentOpenGallery fragment = new FragmentOpenGallery();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onResume() {
@@ -56,6 +71,9 @@ public class FragmentOpenGallery extends Fragment implements OnBackPressedFragme
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            chooseCount = getArguments().getInt("choose_count");
+        }
     }
 
     @Override
@@ -63,6 +81,10 @@ public class FragmentOpenGallery extends Fragment implements OnBackPressedFragme
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         b = FragmentOpenGalleryBinding.inflate(inflater, container, false);
+        if (chooseCount == 1) {
+            b.appBarLayout.setVisibility(View.VISIBLE);
+        } else b.appBarLayout.setVisibility(View.GONE);
+
         if (checkPermissionWriteExternalStorage()) {
             AsyncTask.execute(this::getMediaFromGallery);
         }
@@ -92,20 +114,39 @@ public class FragmentOpenGallery extends Fragment implements OnBackPressedFragme
     private void initListener() {
         b.toolbar.setVisibility(View.VISIBLE);
         b.btnBack.setOnClickListener(view -> getActivity().onBackPressed());
+        setBackgroundDrawable(getContext(), b.edtTitle, R.color.white, 0, 10, false, 0);
 
         b.btnNext.setOnClickListener(v -> {
             b.btnNext.setEnabled(false);
-            if (AdapterMediaAddPost.getInstance() != null) {
-                SelectedMedia.getArrayList().addAll(media);
-                AdapterMediaAddPost.getInstance().notifyDataSetChanged();
+            if (chooseCount == 1) {
+                if (media.size() == 0 || b.edtTitle.getText().toString().trim().length() == 0) {
+                    Toast.makeText(getContext(), "Your image or text is empty", Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(() -> b.btnNext.setEnabled(true), 100);
+                    return;
+                }
+                if (AdapterCharImage.getInstance() != null) {
+                    Lists.getS().add(new ProductImageDto(media.get(0).getPath(), b.edtTitle.getText().toString()));
+                    AdapterCharImage.getInstance().notifyDataSetChanged();
+                }
+
+
+            } else {
+                if (AdapterMediaAddPost.getInstance() != null) {
+                    SelectedMedia.getArrayList().addAll(media);
+                    AdapterMediaAddPost.getInstance().notifyDataSetChanged();
+                }
             }
+
             new Handler().postDelayed(() -> b.btnNext.setEnabled(true), 200);
+
+            hideSoftKeyboard(getActivity());
             getActivity().onBackPressed();
+
         });
     }
 
     private void setRecycler(Cursor cursor) {
-        adapter = new AdapterMedia(getActivity(), getContext(), cursor, b.laySelectionMode, b.countSelection, media);
+        adapter = new AdapterMedia(getActivity(), getContext(), cursor, b.laySelectionMode, b.countSelection, media, chooseCount);
         b.recGallery.setLayoutManager(new GridLayoutManager(getContext(), 3));
         b.recGallery.setAdapter(adapter);
     }

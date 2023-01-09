@@ -27,6 +27,7 @@ import com.example.playerslidding.adapter.AdapterCharPick;
 import com.example.playerslidding.adapter.AdapterVerticalImagePager;
 import com.example.playerslidding.adapter.AdapterViewPager;
 import com.example.playerslidding.data.FragmentPager;
+import com.example.playerslidding.data.ProductImageDto;
 import com.example.playerslidding.databinding.FragmentProductBinding;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.tabs.TabLayout;
@@ -37,9 +38,10 @@ import java.util.Objects;
 public class FragmentProduct extends Fragment {
     private FragmentProductBinding b;
     private BottomSheetBehavior<View> bottomSheetBehavior;
-    private ArrayList<String> s = new ArrayList<>();
+    private ArrayList<ProductImageDto> s = new ArrayList<>();
+    private ArrayList<String> images = new ArrayList<>();
     private ArrayList<String> picks = new ArrayList<>();
-    private ArrayList<Integer> colors = new ArrayList<>();
+    private ArrayList<String> colors = new ArrayList<>();
     private String uuid;
     private int isStore;
     public final static int STORE = 0;
@@ -64,16 +66,27 @@ public class FragmentProduct extends Fragment {
             uuid = getArguments().getString("uuid");
             isStore = getArguments().getInt("is_store");
         }
-        s.add("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg");
-        s.add("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg");
-        s.add("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg");
-        s.add("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg");
-        s.add("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg");
-        s.add("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg");
-        s.add("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg");
-        s.add("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg");
-        s.add("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg");
-        s.add("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg");
+        s.add(new ProductImageDto("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg","salam"));
+        s.add(new ProductImageDto("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg","salam"));
+        s.add(new ProductImageDto("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg","salam"));
+        s.add(new ProductImageDto("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg","salam"));
+        s.add(new ProductImageDto("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg","salam"));
+
+        images.add("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg");
+        images.add("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg");
+        images.add("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg");
+        images.add("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg");
+        images.add("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg");
+
+
+        colors = new ArrayList<>();
+
+        colors.add("#000213");
+        colors.add("#005FF0");
+        colors.add("#D90169");
+        colors.add("#005FF0");
+        colors.add("#D90169");
+        colors.add("#000213");
 
         picks.add("XXL");
         picks.add("XL");
@@ -81,17 +94,6 @@ public class FragmentProduct extends Fragment {
         picks.add("M");
         picks.add("S");
         picks.add("XS");
-
-        colors.add(R.color.black);
-        colors.add(R.color.alert);
-        colors.add(R.color.alert);
-        colors.add(R.color.holder);
-        colors.add(R.color.black);
-        colors.add(R.color.black);
-        colors.add(R.color.dark);
-        colors.add(R.color.holder);
-
-
     }
 
     @Override
@@ -177,7 +179,7 @@ public class FragmentProduct extends Fragment {
 
         b.imagePager.setAdapter(adapterVerticalImagePager);
 
-        adapterVerticalImagePager.setImageList(s);
+        adapterVerticalImagePager.setImageList(images);
         b.indicator.setViewPager(b.imagePager);
 
 
@@ -197,19 +199,19 @@ public class FragmentProduct extends Fragment {
     }
 
     private void setRecyclerCharImage() {
-        adapterCharImage = new AdapterCharImage(getContext());
+        adapterCharImage = new AdapterCharImage(getContext(), AdapterCharPick.NOT_ADDABLE);
         b.bottomSheet.recCharImage.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         b.bottomSheet.recCharImage.setAdapter(adapterCharImage);
     }
 
     private void setRecyclerCharPick() {
-        adapterCharPick = new AdapterCharPick(getContext());
+        adapterCharPick = new AdapterCharPick(getContext(),AdapterCharPick.NOT_ADDABLE);
         b.bottomSheet.recCharPick.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         b.bottomSheet.recCharPick.setAdapter(adapterCharPick);
     }
 
     private void setRecyclerColor() {
-        adapterCharColor = new AdapterCharColor(getContext());
+        adapterCharColor = new AdapterCharColor(getContext(), AdapterCharPick.NOT_ADDABLE);
         b.bottomSheet.recCharColor.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         b.bottomSheet.recCharColor.setAdapter(adapterCharColor);
     }

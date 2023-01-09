@@ -26,10 +26,6 @@ public class ProductDto {
     private ArrayList<CategoryDto> categories;
     private ShopDTO shop;
 
-/*          "posts": null,
-            "rating": null,
-            "images": null,*/
-
     public ProductDto(String orientation, String imagePath, String title, String shopId, String id, String slug, String price, String description, String oldPrice, String sale, String createDate, int count, int moderationStatus, boolean isDeleted, ArrayList<CategoryDto> categories, ShopDTO shop) {
         this.orientation = orientation;
         this.imagePath = imagePath;

@@ -57,12 +57,9 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
     }
 
     private void initListeners() {
-        b.backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().onBackPressed();
-            }
-        });
+        b.backBtn.setOnClickListener(view -> getActivity().onBackPressed());
+        b.goBasket.setOnClickListener(v -> getActivity().onBackPressed());
+
     }
 
     private void setBackgrounds() {

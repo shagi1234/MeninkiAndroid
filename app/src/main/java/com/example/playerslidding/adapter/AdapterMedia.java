@@ -15,6 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -35,14 +36,16 @@ public class AdapterMedia extends RecyclerView.Adapter<AdapterMedia.ViewHolder> 
     private ArrayList<MediaLocal> selectedMediaPath;
     private ArrayList<MediaLocal> medias = new ArrayList<>();
     private TextView countSelection;
+    private int chooseCount;
 
-    public  AdapterMedia(Activity activity, Context context, Cursor mediaPath, LinearLayout laySelectionMode, TextView countSelection, ArrayList<MediaLocal> selectedMediaPath) {
+    public AdapterMedia(Activity activity, Context context, Cursor mediaPath, LinearLayout laySelectionMode, TextView countSelection, ArrayList<MediaLocal> selectedMediaPath, int chooseCount) {
         this.activity = activity;
         this.context = context;
         this.mediaCursor = mediaPath;
         this.laySelectionMode = laySelectionMode;
         this.countSelection = countSelection;
         this.selectedMediaPath = selectedMediaPath;
+        this.chooseCount = chooseCount;
     }
 
     @NonNull
@@ -60,9 +63,9 @@ public class AdapterMedia extends RecyclerView.Adapter<AdapterMedia.ViewHolder> 
             medias.add(media);
         }
 
-        if (!medias.contains(medias.get(holder.getAdapterPosition()))) {
-            medias.add(medias.get(holder.getAdapterPosition()));
-        }
+//        if (!medias.contains(medias.get(holder.getAdapterPosition()))) {
+//            medias.add(medias.get(holder.getAdapterPosition()));
+//        }
 
         Glide.with(context)
                 .load(medias.get(holder.getAdapterPosition()).getPath())
@@ -74,26 +77,29 @@ public class AdapterMedia extends RecyclerView.Adapter<AdapterMedia.ViewHolder> 
             holder.layCheckbox.setVisibility(View.GONE);
         }
 
-        holder.click.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MediaLocal media = medias.get(holder.getAdapterPosition());
+        holder.click.setOnClickListener(v -> {
+            MediaLocal media1 = medias.get(holder.getAdapterPosition());
 
-                if (!selectedMediaPath.contains(media)) {
-                    selectedMediaPath.add(media);
-                } else {
-                    selectedMediaPath.remove(media);
+            if (!selectedMediaPath.contains(media1)) {
+
+                if (chooseCount == 1 && selectedMediaPath.size() == 1) {
+                    Toast.makeText(context, "You cant select image more 1", Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
-                if (selectedMediaPath.size() != 0) {
-                    laySelectionMode.setVisibility(View.VISIBLE);
-                    countSelection.setText(String.valueOf(selectedMediaPath.size()));
-                } else {
-                    laySelectionMode.setVisibility(View.GONE);
-                }
-
-                notifyItemChanged(holder.getAdapterPosition());
+                selectedMediaPath.add(media1);
+            } else {
+                selectedMediaPath.remove(media1);
             }
+
+            if (selectedMediaPath.size() != 0) {
+                laySelectionMode.setVisibility(View.VISIBLE);
+                countSelection.setText(String.valueOf(selectedMediaPath.size()));
+            } else {
+                laySelectionMode.setVisibility(View.GONE);
+            }
+
+            notifyItemChanged(holder.getAdapterPosition());
         });
 
     }
@@ -113,7 +119,7 @@ public class AdapterMedia extends RecyclerView.Adapter<AdapterMedia.ViewHolder> 
 
         int typeMedia = mediaCursor.getInt(type);
 
-        return new MediaLocal(-1,mediaCursor.getString(dataColumnIndex),typeMedia);
+        return new MediaLocal(-1, mediaCursor.getString(dataColumnIndex), typeMedia);
     }
 
     @Override

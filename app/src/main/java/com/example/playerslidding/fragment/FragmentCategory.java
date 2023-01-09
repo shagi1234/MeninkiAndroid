@@ -153,7 +153,7 @@ public class FragmentCategory extends Fragment {
         });
 
         b.viewPager.setOffscreenPageLimit(2);
-
+//todo shu yeri zynya bosh wagt duzetmeli constructory ayyrmaly
         ArrayList<FragmentPager> mFragment = new ArrayList<>();
         for (int i = 0; i < data.size(); i++) {
             mFragment.add(new FragmentPager(new FragmentCategoryList(data.get(i).getSubCategories()), data.get(i).getName().toUpperCase()));

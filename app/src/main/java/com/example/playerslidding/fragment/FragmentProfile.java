@@ -10,10 +10,6 @@ import static com.example.playerslidding.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.transition.ChangeBounds;
-import android.transition.ChangeImageTransform;
-import android.transition.TransitionManager;
-import android.transition.TransitionSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +46,7 @@ public class FragmentProfile extends Fragment {
         super.onResume();
         setMargins(b.layHeader, 0, statusBarHeight, 0, 0);
         setMargins(b.coordinator, 0, 0, 0, navigationBarHeight);
-        setMargins(b.frameFab, 0, 0, 0, navigationBarHeight);
+        setMargins(b.frameFab, 0, 0, dpToPx(20, getContext()), navigationBarHeight + dpToPx(20, getContext()));
     }
 
     @Override
@@ -143,10 +139,10 @@ public class FragmentProfile extends Fragment {
 
         b.layBack.setOnClickListener(v -> getActivity().onBackPressed());
 
-        b.frameFab.setOnClickListener(v -> {
-            b.frameFab.setEnabled(false);
+        b.clickFab.setOnClickListener(v -> {
+            b.clickFab.setEnabled(false);
             addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentAddProduct.newInstance());
-            new Handler().postDelayed(() -> b.frameFab.setEnabled(true), 200);
+            new Handler().postDelayed(() -> b.clickFab.setEnabled(true), 200);
         });
 
     }

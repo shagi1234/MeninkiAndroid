@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -66,6 +67,8 @@ public class FragmentMyShops extends Fragment implements OnTabClicked {
 
     private void initListeners() {
         b.icBack.setOnClickListener(v -> getActivity().onBackPressed());
+
+        b.layBtn.setOnClickListener(v -> Toast.makeText(getContext(), "cvbn", Toast.LENGTH_SHORT).show());
     }
 
     private void setRecycler() {

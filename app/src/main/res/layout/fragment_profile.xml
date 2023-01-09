@@ -606,6 +606,14 @@
             android:src="@drawable/ic_shape"
             app:riv_corner_radius="20dp" />
 
+        <FrameLayout
+            android:id="@+id/click_fab"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/ripple_corner_20"
+            android:clickable="true"
+            android:focusable="true" />
+
     </FrameLayout>
 
 </FrameLayout>
