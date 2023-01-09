@@ -1,5 +1,7 @@
 package com.example.playerslidding.fragment;
 
+import static com.example.playerslidding.utils.Const.mainFragmentManager;
+import static com.example.playerslidding.utils.FragmentHelper.addFragment;
 import static com.example.playerslidding.utils.StaticMethods.navigationBarHeight;
 import static com.example.playerslidding.utils.StaticMethods.setBackgroundDrawable;
 import static com.example.playerslidding.utils.StaticMethods.setMargins;
@@ -66,9 +68,8 @@ public class FragmentMyShops extends Fragment implements OnTabClicked {
     }
 
     private void initListeners() {
+        b.click.setOnClickListener(view -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentNewShop.newInstance()));
         b.icBack.setOnClickListener(v -> getActivity().onBackPressed());
-
-        b.layBtn.setOnClickListener(v -> Toast.makeText(getContext(), "cvbn", Toast.LENGTH_SHORT).show());
     }
 
     private void setRecycler() {

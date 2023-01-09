@@ -86,23 +86,22 @@
                     app:layout_scrollFlags="scroll|exitUntilCollapsed"
                     app:titleEnabled="false">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/background">
+                        android:background="@color/background"
+                        android:orientation="vertical">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/lay_btn"
-                            android:layout_marginBottom="70dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
                             android:layout_marginHorizontal="20dp"
                             android:background="@color/accent"
-                            android:paddingVertical="12dp">
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
 
                             <ImageView
                                 android:layout_width="20dp"
@@ -121,6 +120,7 @@
                                 android:layout_gravity="center_horizontal"
                                 android:fontFamily="@font/roboto_flex"
                                 android:gravity="center"
+                                android:paddingVertical="12dp"
                                 android:text="Создать новый магазин"
                                 android:textColor="@color/white"
                                 android:textStyle="bold"
@@ -128,22 +128,24 @@
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
+                            <FrameLayout
+                                android:id="@+id/click"
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:background="@drawable/ripple_white"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rec_tab"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
 
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <androidx.appcompat.widget.Toolbar
-                        android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        app:layout_collapseMode="pin"
-                        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rec_tab"
-                        android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:layout_gravity="bottom" />
+                    </LinearLayout>
 
                 </com.google.android.material.appbar.CollapsingToolbarLayout>
 
