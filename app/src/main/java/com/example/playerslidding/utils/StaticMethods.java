@@ -53,6 +53,10 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.content.ContextCompat;
 
 import com.example.playerslidding.R;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.security.ProviderInstaller;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -599,7 +603,17 @@ public class StaticMethods {
 //            activity.getWindow().setStatusBarColor(Color.GREEN); // optional
         }
     }
-
+    private void updateAndroidSecurityProvider(Activity callingActivity) {
+        try {
+            ProviderInstaller.installIfNeeded(callingActivity);
+        } catch (GooglePlayServicesRepairableException e) {
+            // Thrown when Google Play Services is not installed, up-to-date, or enabled
+            // Show dialog to allow users to install, update, or otherwise enable Google Play services.
+            GooglePlayServicesUtil.getErrorDialog(e.getConnectionStatusCode(), callingActivity, 0);
+        } catch (GooglePlayServicesNotAvailableException e) {
+            Log.e("SecurityException", "Google Play Services not available.");
+        }
+    }
     public static void initSystemUIViewListeners(ViewGroup rootContainer) {
 
         rootContainer.setOnApplyWindowInsetsListener((v, windowInsets) -> {

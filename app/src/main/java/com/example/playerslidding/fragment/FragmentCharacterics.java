@@ -3,6 +3,7 @@ package com.example.playerslidding.fragment;
 import static com.example.playerslidding.utils.Const.mainFragmentManager;
 import static com.example.playerslidding.utils.StaticMethods.dpToPx;
 import static com.example.playerslidding.utils.StaticMethods.navigationBarHeight;
+import static com.example.playerslidding.utils.StaticMethods.setBackgroundDrawable;
 import static com.example.playerslidding.utils.StaticMethods.setMargins;
 import static com.example.playerslidding.utils.StaticMethods.setPadding;
 import static com.example.playerslidding.utils.StaticMethods.statusBarHeight;
@@ -17,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.playerslidding.R;
 import com.example.playerslidding.adapter.AdapterPersonalCharacters;
 import com.example.playerslidding.data.CharactersDto;
 import com.example.playerslidding.databinding.FragmentCharactericsBinding;
@@ -69,6 +71,8 @@ public class FragmentCharacterics extends Fragment implements OnBackPressedFragm
     }
 
     private void initBottomSheet() {
+        setBackgroundDrawable(getContext(), b.txtGoBasket, R.color.accent, 0, 4, false, 0);
+
         bottomSheetBehavior = BottomSheetBehavior.from(b.bottom.root);
         bottomSheetBehavior.setHideable(true);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
@@ -117,7 +121,7 @@ public class FragmentCharacterics extends Fragment implements OnBackPressedFragm
             adapterPersonalCharacters.insert(Lists.getPersonalCharacters().size() - 1);
         });
 
-        b.layBtn.setOnClickListener(v -> getActivity().onBackPressed());
+        b.goBasket.setOnClickListener(v -> getActivity().onBackPressed());
     }
 
     @Override

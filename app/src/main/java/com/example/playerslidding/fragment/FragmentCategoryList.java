@@ -17,23 +17,19 @@ import java.util.ArrayList;
 public class FragmentCategoryList extends Fragment {
     private FragmentCategoryListBinding b;
     private AdapterText adapterText;
-    private ArrayList<CategoryDto> sub = new ArrayList<>();
+    private static ArrayList<CategoryDto> subCategories;
 
-    public static FragmentCategoryList newInstance() {
+    public static FragmentCategoryList newInstance(ArrayList<CategoryDto> sub_categories) {
         Bundle args = new Bundle();
-
+        subCategories = sub_categories;
         FragmentCategoryList fragment = new FragmentCategoryList();
         fragment.setArguments(args);
         return fragment;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        sub.add(new CategoryDto("Мужская", "Мужская", "", null, "", "", "", null, null, null, false));
-        sub.add(new CategoryDto("Новинки", "Новинки", "", null, "", "", "", null, null, null, false));
-        sub.add(new CategoryDto("спецодежда (униформа)", "спецодежда (униформа)", "", null, "", "", "", null, null, null, false));
-        sub.add(new CategoryDto("Ткани", "Ткани", "", null, "", "", "", null, null, null, false));
     }
 
     @Override
@@ -48,8 +44,7 @@ public class FragmentCategoryList extends Fragment {
         // Inflate the layout for this fragment
         b = FragmentCategoryListBinding.inflate(inflater, container, false);
         setRecycler();
-
-        adapterText.setTabs(sub);
+        adapterText.setTabs(subCategories);
         return b.getRoot();
     }
 

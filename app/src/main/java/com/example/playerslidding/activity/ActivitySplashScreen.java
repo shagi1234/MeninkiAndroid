@@ -1,5 +1,6 @@
 package com.example.playerslidding.activity;
 
+import static com.example.playerslidding.utils.StaticMethods.setClearLightStatusBar;
 import static com.example.playerslidding.utils.StaticMethods.transparentStatusAndNavigation;
 
 import android.content.Intent;
@@ -15,9 +16,10 @@ public class ActivitySplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         transparentStatusAndNavigation(this);
-
         androidx.core.splashscreen.SplashScreen splashScreen = androidx.core.splashscreen.SplashScreen.installSplashScreen(this);
         splashScreen.setKeepOnScreenCondition(() -> true);
+        setClearLightStatusBar(this);
+
         accountPreferences = com.example.playerslidding.shared.Account.newInstance(this);
         Intent intent;
 

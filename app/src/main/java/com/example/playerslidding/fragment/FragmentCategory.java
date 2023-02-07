@@ -15,13 +15,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.TooltipCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.playerslidding.R;
 import com.example.playerslidding.adapter.AdapterViewPager;
 import com.example.playerslidding.api.ApiClient;
-import com.example.playerslidding.api.ApiInterface;
+import com.example.playerslidding.api.services.ServiceCategory;
 import com.example.playerslidding.data.CategoryDto;
 import com.example.playerslidding.data.FragmentPager;
 import com.example.playerslidding.databinding.FragmentCategoryBinding;
@@ -37,8 +38,6 @@ import retrofit2.Response;
 
 public class FragmentCategory extends Fragment {
     private FragmentCategoryBinding b;
-    private ArrayList<CategoryDto> categoryDtos = new ArrayList<>();
-    private ArrayList<CategoryDto> sub = new ArrayList<>();
 
     public static FragmentCategory newInstance() {
         FragmentCategory fragment = new FragmentCategory();
@@ -57,17 +56,6 @@ public class FragmentCategory extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sub.add(new CategoryDto("Мужская", "Мужская", "", null, "", "", "", null, null, null, false));
-        sub.add(new CategoryDto("Новинки", "Новинки", "", null, "", "", "", null, null, null, false));
-        sub.add(new CategoryDto("спецодежда (униформа)", "спецодежда (униформа)", "", null, "", "", "", null, null, null, false));
-        sub.add(new CategoryDto("Ткани", "Ткани", "", null, "", "", "", null, null, null, false));
-
-        categoryDtos.add(new CategoryDto("Ветеринария", "Ветеринария", "", null, "", "", "", sub, null, null, false));
-        categoryDtos.add(new CategoryDto("Авто", "Авто", "", null, "", "", "", sub, null, null, false));
-        categoryDtos.add(new CategoryDto("Техника", "Техника", "", null, "", "", "", sub, null, null, false));
-        categoryDtos.add(new CategoryDto("Одежда", "Одежда", "", null, "", "", "", sub, null, null, false));
-
-
     }
 
     @Override
@@ -77,17 +65,17 @@ public class FragmentCategory extends Fragment {
         b = FragmentCategoryBinding.inflate(inflater, container, false);
         setBackgrounds();
         initListeners();
-//        getAllCategories();
-        setViewPager(categoryDtos);
+        getAllCategories();
+//        setViewPager(categoryDtos);
         return b.getRoot();
     }
 
     private void getAllCategories() {
-        ApiInterface apiInterface = (ApiInterface) ApiClient.createRequest(ApiInterface.class);
-        Call<ArrayList<CategoryDto>> call = apiInterface.getAllCategory();
+        ServiceCategory serviceCategory = (ServiceCategory) ApiClient.createRequest(ServiceCategory.class);
+        Call<ArrayList<CategoryDto>> call = serviceCategory.getAllCategory();
         call.enqueue(new Callback<ArrayList<CategoryDto>>() {
             @Override
-            public void onResponse(Call<ArrayList<CategoryDto>> call, Response<ArrayList<CategoryDto>> response) {
+            public void onResponse(@NonNull Call<ArrayList<CategoryDto>> call, @NonNull Response<ArrayList<CategoryDto>> response) {
 
                 if (response.code() == 200 && response.body() != null) {
                     setViewPager(response.body());
@@ -97,7 +85,7 @@ public class FragmentCategory extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ArrayList<CategoryDto>> call, Throwable t) {
+            public void onFailure(@NonNull Call<ArrayList<CategoryDto>> call, @NonNull Throwable t) {
                 logWrite(t.getMessage());
 
             }
@@ -156,7 +144,7 @@ public class FragmentCategory extends Fragment {
 //todo shu yeri zynya bosh wagt duzetmeli constructory ayyrmaly
         ArrayList<FragmentPager> mFragment = new ArrayList<>();
         for (int i = 0; i < data.size(); i++) {
-            mFragment.add(new FragmentPager(FragmentCategoryList.newInstance(), data.get(i).getName().toUpperCase()));
+            mFragment.add(new FragmentPager(FragmentCategoryList.newInstance(data.get(i).getSubCategories()), data.get(i).getName().toUpperCase()));
         }
 
         AdapterViewPager adapterFeedPager = new AdapterViewPager(getChildFragmentManager(), mFragment);

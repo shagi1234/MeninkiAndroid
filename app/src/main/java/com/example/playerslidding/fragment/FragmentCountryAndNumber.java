@@ -10,6 +10,7 @@ import static com.example.playerslidding.utils.StaticMethods.statusBarHeight;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +20,15 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.playerslidding.R;
+import com.example.playerslidding.api.ApiClient;
+import com.example.playerslidding.api.RetrofitCallback;
+import com.example.playerslidding.api.data.DataSendSms;
+import com.example.playerslidding.api.services.ServiceLogin;
 import com.example.playerslidding.databinding.FragmentCountryAndNumberBinding;
 import com.example.playerslidding.interfaces.CountryClickListener;
+import com.google.gson.JsonObject;
+
+import retrofit2.Call;
 
 public class FragmentCountryAndNumber extends Fragment implements CountryClickListener {
     private FragmentCountryAndNumberBinding b;
@@ -65,15 +73,35 @@ public class FragmentCountryAndNumber extends Fragment implements CountryClickLi
         showKeyboard();
         b.btnLogin.setOnClickListener(v -> {
             b.btnLogin.setEnabled(false);
-            addFragment(mainFragmentManager, R.id.container_login, FragmentSmsCode.newInstance());
+            sendSms();
             new Handler().postDelayed(() -> b.btnLogin.setEnabled(true), 200);
         });
-        b.selectCode.setOnClickListener(new View.OnClickListener() {
+        b.selectCode.setOnClickListener(v -> {
+            b.selectCode.setEnabled(false);
+            addFragment(mainFragmentManager, R.id.container_login, FragmentCountryCode.newInstance(FragmentCountryCode.TYPE_COUNTRY_CODE));
+            new Handler().postDelayed(() -> b.selectCode.setEnabled(true), 200);
+        });
+    }
+
+    private void sendSms() {
+        ServiceLogin serviceLogin = (ServiceLogin) ApiClient.createRequest(ServiceLogin.class);
+        JsonObject j = new JsonObject();
+        j.addProperty("phoneNumber", b.selectCode.getText().toString().trim().substring(1) + b.edtNumber.getText().toString().trim());
+
+        Log.e("TAG_send", "sendSms: " + j);
+
+        Call<DataSendSms> call = serviceLogin.sendSms(j);
+        call.enqueue(new RetrofitCallback<DataSendSms>() {
             @Override
-            public void onClick(View v) {
-                b.selectCode.setEnabled(false);
-                addFragment(mainFragmentManager, R.id.container_login, FragmentCountryCode.newInstance(FragmentCountryCode.TYPE_COUNTRY_CODE));
-                new Handler().postDelayed(() -> b.selectCode.setEnabled(true), 200);
+            public void onResponse(DataSendSms response) {
+
+                addFragment(mainFragmentManager, R.id.container_login, FragmentSmsCode.newInstance());
+
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
             }
         });
     }

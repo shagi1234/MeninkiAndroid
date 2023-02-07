@@ -43,7 +43,7 @@ public class FragmentLoginUserInfo extends Fragment implements KeyboardHeightPro
     @Override
     public void onResume() {
         super.onResume();
-        setPadding(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight);
+        new Handler().postDelayed(() -> setPadding(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight), 50);
         keyboardHeightProvider.start();
     }
 

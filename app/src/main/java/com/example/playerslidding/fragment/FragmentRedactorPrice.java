@@ -1,6 +1,7 @@
 package com.example.playerslidding.fragment;
 
 import static com.example.playerslidding.utils.StaticMethods.navigationBarHeight;
+import static com.example.playerslidding.utils.StaticMethods.setBackgroundDrawable;
 import static com.example.playerslidding.utils.StaticMethods.setPadding;
 import static com.example.playerslidding.utils.StaticMethods.statusBarHeight;
 
@@ -13,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.playerslidding.R;
 import com.example.playerslidding.adapter.AdapterRedactorPrice;
 import com.example.playerslidding.databinding.FragmentReadactorPriceBinding;
 
@@ -48,6 +50,8 @@ public class FragmentRedactorPrice extends Fragment {
     }
 
     private void setRecycler() {
+        setBackgroundDrawable(getContext(), b.txtGoBasket, R.color.accent, 0, 4, false, 0);
+
         AdapterRedactorPrice adapterRedactorPrice = new AdapterRedactorPrice(getContext());
         b.recMedia.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         b.recMedia.setAdapter(adapterRedactorPrice);

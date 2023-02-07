@@ -109,6 +109,7 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
         setBackgroundDrawable(getContext(), b.title, R.color.white, R.color.hover, 4, false, 1);
         setBackgroundDrawable(getContext(), b.desc, R.color.white, R.color.hover, 4, false, 1);
         setBackgroundDrawable(getContext(), b.price, R.color.white, R.color.hover, 4, false, 1);
+        setBackgroundDrawable(getContext(), b.txtGoBasket, R.color.accent, 0, 4, false, 0);
         setBackgroundDrawable(getContext(), b.oldPrice, R.color.white, R.color.hover, 4, false, 1);
         setBackgroundDrawable(getContext(), b.desc, R.color.white, R.color.hover, 4, false, 1);
         setBackgroundDrawable(getContext(), b.wariants, R.color.hover, 0, 10, 10, 0, 0, false, 0);
