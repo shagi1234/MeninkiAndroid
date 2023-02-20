@@ -26,6 +26,7 @@ import com.example.playerslidding.api.data.DataSendSms;
 import com.example.playerslidding.api.services.ServiceLogin;
 import com.example.playerslidding.databinding.FragmentCountryAndNumberBinding;
 import com.example.playerslidding.interfaces.CountryClickListener;
+import com.example.playerslidding.shared.Account;
 import com.google.gson.JsonObject;
 
 import retrofit2.Call;
@@ -88,12 +89,12 @@ public class FragmentCountryAndNumber extends Fragment implements CountryClickLi
         JsonObject j = new JsonObject();
         j.addProperty("phoneNumber", b.selectCode.getText().toString().trim().substring(1) + b.edtNumber.getText().toString().trim());
 
-        Log.e("TAG_send", "sendSms: " + j);
-
         Call<DataSendSms> call = serviceLogin.sendSms(j);
         call.enqueue(new RetrofitCallback<DataSendSms>() {
             @Override
             public void onResponse(DataSendSms response) {
+
+                Account.newInstance(getContext()).saveSendSmsId(response.getId());
 
                 addFragment(mainFragmentManager, R.id.container_login, FragmentSmsCode.newInstance());
 

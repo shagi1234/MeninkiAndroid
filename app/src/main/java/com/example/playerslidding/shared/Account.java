@@ -18,6 +18,7 @@ public class Account {
     private static final String PREF_COLOR_CODE = "color_code";
     private static final String PREF_FIREBASE_TOKEN = "firebase_token";
     private static final String PREF_TOKEN = "token";
+    private static final String PREF_REFRESH_TOKEN = "refresh_token";
     private static final String PREF_SMS_TOKEN = "sms_token";
     private static final String PREF_CHECK_SMS_TOKEN = "check_sms_token";
     private static final String PREF_CURRENT_TIME = "current_time";
@@ -45,41 +46,52 @@ public class Account {
     }
 
 
-    public void saveToken(String token) {
+    public void saveAccessToken(String token) {
         editor.putString(PREF_TOKEN, token);
         editor.commit();
     }
 
-    public void saveSendSmsToken(String token) {
+    public String getAccessToken() {
+        if (_context == null) {
+            return "";
+        } else
+            return pref.getString(PREF_TOKEN, "");
+    }
+
+    public void saveRefreshToken(String token) {
+        editor.putString(PREF_REFRESH_TOKEN, token);
+        editor.commit();
+    }
+
+    public String getRefreshToken() {
+        if (_context == null) {
+            return "";
+        } else
+            return pref.getString(PREF_REFRESH_TOKEN, "");
+    }
+
+    public void saveSendSmsId(String token) {
         editor.putString(PREF_SMS_TOKEN, token);
         editor.commit();
     }
 
-    public void saveCheckSmsToken(String token) {
+    public void saveCheckSmsId(String token) {
         editor.putString(PREF_CHECK_SMS_TOKEN, token);
         editor.commit();
     }
 
-
-    public String getSendSmsToken() {
+    public String getSendSmsId() {
         if (_context == null) {
             return "";
         } else
             return pref.getString(PREF_SMS_TOKEN, "");
     }
 
-    public String getCheckSmsToken() {
+    public String getCheckSmsId() {
         if (_context == null) {
             return "";
         } else
             return pref.getString(PREF_CHECK_SMS_TOKEN, "");
-    }
-
-    public String getToken() {
-        if (_context == null) {
-            return "";
-        } else
-            return pref.getString(PREF_TOKEN, "");
     }
 
     public void saveCurrentTime(long t) {
@@ -115,7 +127,6 @@ public class Account {
             return pref.getLong(PREF_CURRENT_CHECK_SMS_TIME, 0);
     }
 
-
     public void saveRegisterName(String registerName) {
         editor.putString(PREF_REGISTER_NAME, registerName);
         editor.commit();
@@ -145,14 +156,12 @@ public class Account {
         editor.commit();
     }
 
-
     public String getPrefUserUUID() {
         if (_context == null) {
             return "";
         } else
             return pref.getString(PREF_USER_UUID, "");
     }
-
 
     public void saveRegisterImage(String registerImage) {
         editor.putString(PREF_REGISTER_IMAGE, registerImage);
@@ -185,7 +194,6 @@ public class Account {
             return pref.getBoolean(PREF_USER_IS_LOGGED_IN, false);
     }
 
-
     public void saveUserBirthday(String userBirthday) {
 
         editor.putString(PREF_USER_BIRTHDAY, userBirthday);
@@ -198,7 +206,6 @@ public class Account {
         } else
             return pref.getString(PREF_USER_BIRTHDAY, "");
     }
-
 
     public void saveUserType(int userType) {
         editor.putInt(PREF_USER_TYPE, userType);
@@ -230,7 +237,7 @@ public class Account {
     }
 
     public void logout() {
-        saveToken("");
+        saveAccessToken("");
         editor.putBoolean(PREF_USER_IS_LOGGED_IN, false);
         editor.commit();
     }

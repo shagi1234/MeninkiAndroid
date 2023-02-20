@@ -2,9 +2,7 @@ package com.example.playerslidding.fragment;
 
 import static com.example.playerslidding.utils.Const.mainFragmentManager;
 import static com.example.playerslidding.utils.FragmentHelper.addFragment;
-import static com.example.playerslidding.utils.StaticMethods.dpToPx;
 import static com.example.playerslidding.utils.StaticMethods.navigationBarHeight;
-import static com.example.playerslidding.utils.StaticMethods.setMargins;
 import static com.example.playerslidding.utils.StaticMethods.setPadding;
 import static com.example.playerslidding.utils.StaticMethods.statusBarHeight;
 
@@ -28,11 +26,20 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.playerslidding.R;
+import com.example.playerslidding.api.ApiClient;
+import com.example.playerslidding.api.RetrofitCallback;
+import com.example.playerslidding.api.data.DataCheckSms;
+import com.example.playerslidding.api.services.ServiceLogin;
 import com.example.playerslidding.databinding.FragmentSmsCodeBinding;
+import com.example.playerslidding.shared.Account;
+import com.google.gson.JsonObject;
+
+import retrofit2.Call;
 
 public class FragmentSmsCode extends Fragment {
     private FragmentSmsCodeBinding b;
     private CountDownTimer countDownTimer;
+    private Account account;
 
     public static FragmentSmsCode newInstance() {
         FragmentSmsCode fragment = new FragmentSmsCode();
@@ -45,6 +52,7 @@ public class FragmentSmsCode extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        account = Account.newInstance(getContext());
     }
 
     @Override
@@ -60,7 +68,7 @@ public class FragmentSmsCode extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        setPadding(b.getRoot(),0,statusBarHeight,0,navigationBarHeight);
+        setPadding(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight);
     }
 
     private void initListeners() {
@@ -86,12 +94,31 @@ public class FragmentSmsCode extends Fragment {
     }
 
     private void checkSmsCode(String trim) {
-        if (trim.equals("1409")) {
-            addFragment(mainFragmentManager, R.id.container_login, FragmentLoginUserInfo.newInstance());
-            return;
-        }
-        b.edtCode.setText("");
-        if (getContext() == null) return;
+        ServiceLogin serviceLogin = (ServiceLogin) ApiClient.createRequest(ServiceLogin.class);
+        JsonObject j = new JsonObject();
+        j.addProperty("id", account.getSendSmsId());
+        j.addProperty("phoneConfirmationCode", trim);
+
+        Call<DataCheckSms> call = serviceLogin.checkSms(j);
+        call.enqueue(new RetrofitCallback<DataCheckSms>() {
+            @Override
+            public void onResponse(DataCheckSms response) {
+                account.saveRefreshToken(response.getRefreshToken());
+                account.saveAccessToken(response.getAccessToken());
+
+                addFragment(mainFragmentManager, R.id.container_login, FragmentLoginUserInfo.newInstance());
+                b.edtCode.setText("");
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                shake();
+            }
+        });
+
+    }
+
+    private void shake() {
         Animation shake = AnimationUtils.loadAnimation(getContext(), R.anim.shake);
 
         b.edtCode.startAnimation(shake);
@@ -103,6 +130,7 @@ public class FragmentSmsCode extends Fragment {
             v.vibrate(300);
         }
     }
+
 
     private void showKeyboard() {
         b.edtCode.requestFocus();
