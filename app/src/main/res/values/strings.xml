@@ -1,7 +1,6 @@
 <resources>
-    <string name="app_name">playerSlidding</string>
+    <string name="app_name">Meninki</string>
     <string name="just_now">just now</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="repeat_after">repeat after </string>
     <string name="send_again">Send again</string>

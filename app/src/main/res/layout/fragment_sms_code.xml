@@ -39,7 +39,7 @@
 
         </LinearLayout>
 
-        <com.example.playerslidding.utils.OtpEditText
+        <tm.store.meninki.utils.OtpEditText
             android:id="@+id/edt_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

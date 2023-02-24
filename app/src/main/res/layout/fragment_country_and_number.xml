@@ -89,6 +89,22 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/sign_in_google"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottom"
+        android:layout_marginHorizontal="20dp"
+        android:background="@color/white"
+        android:drawableStart="@drawable/company_logos"
+        android:drawablePadding="8dp"
+        android:fontFamily="@font/roboto_flex"
+        android:gravity="center"
+        android:paddingVertical="8dp"
+        android:text="Sign in with Google"
+        android:textColor="@color/text_3341"
+        android:textSize="14sp" />
+
     <LinearLayout
         android:id="@+id/bottom"
         android:layout_width="wrap_content"
@@ -115,6 +131,5 @@
             app:tint="@color/dark" />
 
     </LinearLayout>
-
 
 </RelativeLayout>
