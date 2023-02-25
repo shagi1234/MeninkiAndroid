@@ -4,6 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
+import tm.store.meninki.api.data.ProductDto;
+
 public class CategoryDto {
     @SerializedName("nameRu")
     private String name;

@@ -48,9 +48,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.content.ContextCompat;
 
-import tm.store.meninki.R;
-import tm.store.meninki.api.ApiClient;
-import tm.store.meninki.api.services.ServiceLogin;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -75,6 +72,11 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.TimeZone;
 
+import tm.store.meninki.R;
+import tm.store.meninki.api.ApiClient;
+import tm.store.meninki.api.services.ServiceHome;
+import tm.store.meninki.api.services.ServiceLogin;
+
 public class StaticMethods {
     public static int statusBarHeight;
     public static int navigationBarHeight;
@@ -91,7 +93,6 @@ public class StaticMethods {
     public static void logWrite(int msg) {
         Log.e(TAG, "logWrite: " + msg);
     }
-
 
     public static void setVibrate(Context context, long sec) {
         Vibrator vibrator = (Vibrator) context.getSystemService(context.VIBRATOR_SERVICE);
@@ -112,6 +113,10 @@ public class StaticMethods {
 
     public static ServiceLogin getApiLogin() {
         return (ServiceLogin) ApiClient.createRequest(ServiceLogin.class);
+    }
+
+    public static ServiceHome getApiHome() {
+        return (ServiceHome) ApiClient.createRequest(ServiceHome.class);
     }
 
     public static String getTimeOrDayOrDate(Date date) {
@@ -230,7 +235,6 @@ public class StaticMethods {
         view.setBackground(shape);
 
     }
-
 
     public static void setBackgroundDrawable(Context context, View view, int color, int borderColor, int cornerLeftTop, int cornerRightTop, int cornerLeftBottom, int cornerRightBottom, boolean isOval, int border) {
         if (context == null) return;
@@ -428,7 +432,6 @@ public class StaticMethods {
 
     }
 
-
     public static void setPadding(View v, int l, int t, int r, int b) {
         try {
             if (v.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
@@ -443,7 +446,6 @@ public class StaticMethods {
         }
 
     }
-
 
     public static int getWindowHeight(Activity activity) {
         if (activity == null) return 0;

@@ -10,11 +10,17 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import tm.store.meninki.adapter.AdapterGrid;
-import tm.store.meninki.data.StoreDTO;
-import tm.store.meninki.databinding.FragmentListGridBinding;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import tm.store.meninki.adapter.AdapterGrid;
+import tm.store.meninki.api.RetrofitCallback;
+import tm.store.meninki.api.data.ProductDto;
+import tm.store.meninki.data.StoreDTO;
+import tm.store.meninki.databinding.FragmentListGridBinding;
+import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentListGrid extends Fragment {
     private FragmentListGridBinding b;
@@ -53,7 +59,6 @@ public class FragmentListGrid extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-//        setMargins(b.recGrid, 0, 0, 0, navigationBarHeight);
     }
 
     @Override
@@ -62,8 +67,30 @@ public class FragmentListGrid extends Fragment {
         // Inflate the layout for this fragment
         b = FragmentListGridBinding.inflate(inflater, container, false);
         setRecycler();
-        adapterGrid.setStories(null);
+        check();
         return b.getRoot();
+    }
+
+    private void check() {
+        JsonObject j = new JsonObject();
+        j.addProperty("sortType", 0);
+        j.addProperty("descending", true);
+        j.addProperty("categoryIds", "");
+        j.addProperty("pageNumber", 1);
+        j.addProperty("take", 10);
+
+        Call<ArrayList<ProductDto>> call = StaticMethods.getApiHome().getProducts(j);
+        call.enqueue(new RetrofitCallback<ArrayList<ProductDto>>() {
+            @Override
+            public void onResponse(ArrayList<ProductDto> response) {
+                adapterGrid.setStories(response);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
     }
 
 

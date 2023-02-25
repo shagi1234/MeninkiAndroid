@@ -1,6 +1,6 @@
 package tm.store.meninki.adapter;
 
-import static tm.store.meninki.utils.StaticMethods.dpToPx;
+import static tm.store.meninki.api.Network.BASE_URL;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.setMargins;
 
@@ -15,14 +15,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import tm.store.meninki.R;
-import tm.store.meninki.data.ProductDto;
-import tm.store.meninki.databinding.ItemBasketBinding;
-import tm.store.meninki.databinding.ItemStaggeredGridBinding;
-import tm.store.meninki.fragment.FragmentProduct;
 
 import java.util.ArrayList;
 
+import tm.store.meninki.R;
+import tm.store.meninki.api.data.ProductDto;
+import tm.store.meninki.databinding.ItemBasketBinding;
+import tm.store.meninki.databinding.ItemStaggeredGridBinding;
+import tm.store.meninki.fragment.FragmentProduct;
 import tm.store.meninki.utils.Const;
 import tm.store.meninki.utils.FragmentHelper;
 import tm.store.meninki.utils.StaticMethods;
@@ -133,18 +133,21 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             if (grids == null) return;
 
-            Glide.with(context)
-                    .load(grids.get(getAdapterPosition()).getImagePath())
-                    .into(b.image);
-            Glide.with(context)
-                    .load(grids.get(getAdapterPosition()).getImagePath())
-                    .into(b.posterImage);
+            if (grids.get(getAdapterPosition()).getMedias().size() > 0)
+                Glide.with(context)
+                        .load(BASE_URL + "/" + grids.get(getAdapterPosition()).getMedias().get(0).getImage().getDirectoryThumbnails())
+                        .centerCrop()
+                        .into(b.image);
 
-            b.title.setText(grids.get(getAdapterPosition()).getTitle());
+//            Glide.with(context)
+//                    .load(grids.get(getAdapterPosition()).getImagePath())
+//                    .into(b.posterImage);
+
+            b.title.setText(grids.get(getAdapterPosition()).getName());
             b.price.setText(grids.get(getAdapterPosition()).getPrice() + " TMT");
-            b.oldPrice.setText(grids.get(getAdapterPosition()).getOldPrice() + " TMT");
+            b.oldPrice.setText(grids.get(getAdapterPosition()).getDiscountPrice() + " TMT");
             b.count.setText(String.valueOf(grids.get(getAdapterPosition()).getCount()));
-            b.sale.setText("- " + grids.get(getAdapterPosition()).getSale() + " %");
+            b.sale.setText("- " + grids.get(getAdapterPosition()).getPriceBonus() + " %");
 
         }
     }
@@ -166,35 +169,32 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             if (grids == null) return;
 
-            Glide.with(context)
-                    .load(grids.get(getAdapterPosition()).getImagePath())
-                    .into(b.posterImage);
+//            Glide.with(context)
+//                    .load(grids.get(getAdapterPosition()).getImagePath())
+//                    .into(b.posterImage);
 
             ArrayList<String> images = new ArrayList<>();
-            images.add(grids.get(getAdapterPosition()).getImagePath());
+            images.add(BASE_URL + "/" + grids.get(getAdapterPosition()).getMedias().get(0).getImage().getDirectoryCompressed());
             adapterImageHorizontal.setImageUrl(images);
 
-            b.name.setText(grids.get(getAdapterPosition()).getTitle());
+            b.name.setText(grids.get(getAdapterPosition()).getName());
 
-            if (grids.get(getAdapterPosition()).getPrice() != null) {
-                int price = Integer.parseInt(grids.get(getAdapterPosition()).getPrice()) * grids.get(getAdapterPosition()).getCount();
-                b.price.setText(price + " TMT");
-            }
+            int price = grids.get(getAdapterPosition()).getPrice();
+            b.price.setText(price + " TMT");
 
-            b.count.setText(String.valueOf(grids.get(getAdapterPosition()).getCount()));
+//            b.count.setText(String.valueOf(grids.get(getAdapterPosition()).get()));
 
             b.btnAdd.setOnClickListener(v -> {
                 ProductDto data = grids.get(getAdapterPosition());
-                data.setCount(data.getCount() + 1);
+//                data.setCount(data.getCount() + 1);
                 notifyItemChanged(getAdapterPosition());
             });
 
             b.btnSubs.setOnClickListener(v -> {
                 ProductDto data = grids.get(getAdapterPosition());
-                data.setCount(data.getCount() - 1);
+//                data.setCount(data.getCount() - 1);
                 notifyItemChanged(getAdapterPosition());
             });
-
 
         }
 

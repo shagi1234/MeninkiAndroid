@@ -114,8 +114,8 @@ public class FragmentMain extends Fragment {
 
         b.viewPager.setOffscreenPageLimit(2);
         ArrayList<FragmentPager> mFragment = new ArrayList<>();
-        mFragment.add(new FragmentPager(FragmentFeed.newInstance(), "Лента" + "\n" + "Новые 13"));
-        mFragment.add(new FragmentPager(FragmentHome.newInstance(), "Домашняя" + "\n" + "Новые 11"));
+        mFragment.add(new FragmentPager(FragmentHome.newInstance(), "Лента" + "\n" + "Новые 13"));
+        mFragment.add(new FragmentPager(FragmentFeed.newInstance(), "Домашняя" + "\n" + "Новые 11"));
 
         adapterFeedPager = new AdapterViewPager(getChildFragmentManager(), mFragment);
         b.viewPager.setAdapter(adapterFeedPager);

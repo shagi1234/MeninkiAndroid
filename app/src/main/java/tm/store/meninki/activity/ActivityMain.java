@@ -5,11 +5,18 @@ import static tm.store.meninki.utils.FragmentHelper.addFragment;
 import static tm.store.meninki.utils.StaticMethods.initSystemUIViewListeners;
 import static tm.store.meninki.utils.StaticMethods.transparentStatusAndNavigation;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.security.ProviderInstaller;
 
 import tm.store.meninki.R;
 import tm.store.meninki.fragment.FragmentFlow;
@@ -25,10 +32,24 @@ public class ActivityMain extends AppCompatActivity {
         transparentStatusAndNavigation(this);
         setContentView(R.layout.activity_main);
         root = findViewById(R.id.main);
-//        updateAndroidSecurityProvider(this);
+        updateAndroidSecurityProvider(this);
         mainFragmentManager = getSupportFragmentManager();
         addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentFlow.newInstance());
     }
+
+
+    private void updateAndroidSecurityProvider(Activity callingActivity) {
+        try {
+            ProviderInstaller.installIfNeeded(this);
+        } catch (GooglePlayServicesRepairableException e) {
+            // Thrown when Google Play Services is not installed, up-to-date, or enabled
+            // Show dialog to allow users to install, update, or otherwise enable Google Play services.
+            GooglePlayServicesUtil.getErrorDialog(e.getConnectionStatusCode(), callingActivity, 0);
+        } catch (GooglePlayServicesNotAvailableException e) {
+            Log.e("SecurityException", "Google Play Services not available.");
+        }
+    }
+
 
     @Override
     protected void onResume() {

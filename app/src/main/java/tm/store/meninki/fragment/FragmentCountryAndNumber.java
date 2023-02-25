@@ -21,6 +21,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
+import com.google.gson.JsonObject;
+
+import retrofit2.Call;
 import tm.store.meninki.R;
 import tm.store.meninki.activity.ActivityMain;
 import tm.store.meninki.api.ApiClient;
@@ -32,15 +41,6 @@ import tm.store.meninki.databinding.FragmentCountryAndNumberBinding;
 import tm.store.meninki.interfaces.CountryClickListener;
 import tm.store.meninki.shared.Account;
 import tm.store.meninki.utils.StaticMethods;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.Task;
-import com.google.gson.JsonObject;
-
-import retrofit2.Call;
 
 public class FragmentCountryAndNumber extends Fragment implements CountryClickListener {
     private FragmentCountryAndNumberBinding b;
@@ -125,7 +125,10 @@ public class FragmentCountryAndNumber extends Fragment implements CountryClickLi
                 account.saveRefreshToken(response.getRefreshToken());
                 account.saveValidToToken(response.getValidTo());
                 account.saveUserUUID(response.getUserId());
+
                 //go next activity
+                account.saveUserIsLoggedIn();
+
                 startActivity(new Intent(getContext(), ActivityMain.class));
                 getActivity().finish();
 
@@ -173,7 +176,8 @@ public class FragmentCountryAndNumber extends Fragment implements CountryClickLi
             @Override
             public void onResponse(DataSendSms response) {
 
-                Account.newInstance(getContext()).saveSendSmsId(response.getId());
+                account.saveSendSmsId(response.getId());
+                account.saveUserPhoneNumber(b.selectCode.getText().toString().trim().substring(1) + b.edtNumber.getText().toString().trim());
 
                 addFragment(mainFragmentManager, R.id.container_login, FragmentSmsCode.newInstance());
 

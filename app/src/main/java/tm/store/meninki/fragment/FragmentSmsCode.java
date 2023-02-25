@@ -25,6 +25,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.google.gson.JsonObject;
+
+import retrofit2.Call;
 import tm.store.meninki.R;
 import tm.store.meninki.api.ApiClient;
 import tm.store.meninki.api.RetrofitCallback;
@@ -32,9 +35,6 @@ import tm.store.meninki.api.data.DataCheckSms;
 import tm.store.meninki.api.services.ServiceLogin;
 import tm.store.meninki.databinding.FragmentSmsCodeBinding;
 import tm.store.meninki.shared.Account;
-import com.google.gson.JsonObject;
-
-import retrofit2.Call;
 
 public class FragmentSmsCode extends Fragment {
     private FragmentSmsCodeBinding b;
@@ -105,6 +105,8 @@ public class FragmentSmsCode extends Fragment {
             public void onResponse(DataCheckSms response) {
                 account.saveRefreshToken(response.getRefreshToken());
                 account.saveAccessToken(response.getAccessToken());
+                account.saveValidToToken(response.getValidTo());
+                account.saveUserUUID(response.getUserId());
 
                 addFragment(mainFragmentManager, R.id.container_login, FragmentLoginUserInfo.newInstance());
                 b.edtCode.setText("");

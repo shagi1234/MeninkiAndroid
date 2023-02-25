@@ -82,19 +82,9 @@ public class FragmentHelper {
     }
 
     public static void replaceFragment(FragmentManager fragmentManager, int containerViewId, Fragment fragment) {
-        String backStateName = fragment.getClass().getName();
-
-        FragmentManager manager = fragmentManager;
-//        boolean fragmentPopped = manager.popBackStackImmediate(backStateName, 0);
-
-//        if (!fragmentPopped) { //fragment not in back stack, create it.
-        FragmentTransaction ft = manager.beginTransaction();
-//        ft.setCustomAnimations(salam.messengertm.R.anim.enter_anim, 0, 0, salam.messengertm.R.anim.pop_exit_anim);
-        ft.replace(containerViewId, fragment, backStateName);
-        ft.addToBackStack(backStateName);
-
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.replace(containerViewId, fragment);
         ft.commit();
-//        }
     }
 
     public static void addFragmentWithAnim(FragmentManager fragmentManager, int containerViewId, Fragment fragment) {

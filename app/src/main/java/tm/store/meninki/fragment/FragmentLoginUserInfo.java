@@ -19,13 +19,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.google.gson.JsonObject;
+
+import retrofit2.Call;
 import tm.store.meninki.R;
 import tm.store.meninki.activity.ActivityMain;
+import tm.store.meninki.api.RetrofitCallback;
 import tm.store.meninki.databinding.FragmentLoginUserInformationBinding;
 import tm.store.meninki.shared.Account;
 import tm.store.meninki.utils.KeyboardHeightProvider;
+import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentLoginUserInfo extends Fragment implements KeyboardHeightProvider.KeyboardHeightListener {
     private FragmentLoginUserInformationBinding b;
@@ -50,6 +56,7 @@ public class FragmentLoginUserInfo extends Fragment implements KeyboardHeightPro
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getActivity() == null) return;
         account = Account.newInstance(getContext());
         keyboardHeightProvider = new KeyboardHeightProvider(getContext(), getActivity().getWindowManager(), getActivity().getWindow().getDecorView(), this);
         hideSoftKeyboard(getActivity());
@@ -62,7 +69,7 @@ public class FragmentLoginUserInfo extends Fragment implements KeyboardHeightPro
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         b = FragmentLoginUserInformationBinding.inflate(inflater, container, false);
@@ -73,10 +80,9 @@ public class FragmentLoginUserInfo extends Fragment implements KeyboardHeightPro
 
     private void initListeners() {
         b.btnLogin.setOnClickListener(v -> {
+            if (getActivity() == null) return;
             b.btnLogin.setEnabled(false);
-            startActivity(new Intent(getContext(), ActivityMain.class));
-            getActivity().finish();
-            account.saveUserIsLoggedIn();
+            createUser();
             new Handler().postDelayed(() -> b.btnLogin.setEnabled(true), 200);
         });
 
@@ -104,6 +110,36 @@ public class FragmentLoginUserInfo extends Fragment implements KeyboardHeightPro
 
             }
         });
+    }
+
+    private void createUser() {
+        JsonObject j = new JsonObject();
+        j.addProperty("id", account.getPrefUserUUID());
+        j.addProperty("firstName", b.edtName.getText().toString().trim());
+        j.addProperty("phoneNumber", account.getUserPhoneNumber());
+
+        Call<Boolean> call = StaticMethods.getApiLogin().updateUser(j);
+        call.enqueue(new RetrofitCallback<Boolean>() {
+            @Override
+            public void onResponse(Boolean response) {
+                if (!response) return;
+
+                account.saveRegisterName(b.edtName.getText().toString().trim());
+                account.saveUserIsLoggedIn();
+                goNextActivity();
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
+    }
+
+    private void goNextActivity() {
+        if (getActivity() == null) return;
+        startActivity(new Intent(getContext(), ActivityMain.class));
+        getActivity().finish();
     }
 
     private void setBackgrounds() {
