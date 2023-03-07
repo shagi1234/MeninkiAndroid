@@ -1,10 +1,14 @@
 package tm.store.meninki.fragment;
 
+import static tm.store.meninki.utils.Const.mainFragmentManager;
+import static tm.store.meninki.utils.FragmentHelper.addFragment;
+import static tm.store.meninki.utils.FragmentHelper.replaceFragment;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.setPadding;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,28 +16,24 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.viewpager.widget.ViewPager;
-
-import tm.store.meninki.R;
-import tm.store.meninki.adapter.AdapterCircle;
-import tm.store.meninki.adapter.AdapterShops;
-import tm.store.meninki.adapter.AdapterStore;
-import tm.store.meninki.adapter.AdapterTabLayout;
-import tm.store.meninki.adapter.AdapterViewPager;
-import tm.store.meninki.data.FragmentPager;
-import tm.store.meninki.data.TabItemCustom;
-import tm.store.meninki.databinding.FragmentPostBinding;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import tm.store.meninki.R;
+import tm.store.meninki.adapter.AdapterStore;
+import tm.store.meninki.adapter.AdapterViewPager;
+import tm.store.meninki.api.RetrofitCallback;
+import tm.store.meninki.api.enums.CardType;
+import tm.store.meninki.api.request.RequestCard;
+import tm.store.meninki.api.response.ResponseCard;
+import tm.store.meninki.databinding.FragmentFeedBinding;
+import tm.store.meninki.utils.StaticMethods;
+
 public class FragmentFeed extends Fragment {
-    private FragmentPostBinding b;
+    private FragmentFeedBinding b;
+    private AdapterViewPager adapterFeedPager;
     private AdapterStore adapterStore;
-    private AdapterTabLayout adapterTabLayout;
-    private ArrayList<TabItemCustom> tabs = new ArrayList<>();
-    private AdapterCircle adapterCircle;
-    private AdapterShops adapterShops;
-    private AdapterTabLayout adapterTabLayoutNew;
 
     public static FragmentFeed newInstance() {
         FragmentFeed fragment = new FragmentFeed();
@@ -45,7 +45,6 @@ public class FragmentFeed extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -58,110 +57,49 @@ public class FragmentFeed extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        b = FragmentPostBinding.inflate(inflater, container, false);
+        b = FragmentFeedBinding.inflate(inflater, container, false);
         setBackground();
         setRecycler();
-        setRecyclerShops();
-        setRecyclerCircle();
-        setRecyclerTab();
-        setRecyclerTabNew();
-        setResources();
-        setViewPager(b.viewPager);
-        setViewPager(b.viewPagerNew);
+        replaceFragment(mainFragmentManager, R.id.content_view_pager, FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, FragmentListGrid.FEED, -1, null));
         initListeners();
 
+        getPosts();
         adapterStore.setStories(null);
-        adapterShops.setStories(null);
-        adapterCircle.setStories(null);
-        adapterTabLayout.setTabs(tabs);
-        adapterTabLayoutNew.setTabs(tabs);
 
         return b.getRoot();
     }
 
-    private void setRecyclerShops() {
-        adapterShops = new AdapterShops(getContext(), getActivity());
-        b.recMarkets.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        b.recMarkets.setAdapter(adapterShops);
-    }
+    private void getPosts() {
 
-    private void setRecyclerCircle() {
-        adapterCircle = new AdapterCircle(getContext(), getActivity());
-        b.recCircular.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        b.recCircular.setAdapter(adapterCircle);
+        RequestCard requestCard = new RequestCard();
+        requestCard.setCardTypes(new int[]{CardType.post});
+        requestCard.setCategoryIds(null);
+        requestCard.setDescending(true);
+        requestCard.setPageNumber(1);
+        requestCard.setTake(10);
+
+        Call<ArrayList<ResponseCard>> call = StaticMethods.getApiHome().getCard(requestCard);
+        call.enqueue(new RetrofitCallback<ArrayList<ResponseCard>>() {
+            @Override
+            public void onResponse(ArrayList<ResponseCard> response) {
+                adapterStore.setStories(response);
+
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.e("TAG_Error", "onFailure: " + t);
+            }
+        });
     }
 
     private void initListeners() {
-
-        b.viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-                if (adapterTabLayout.isClicked) {
-                    adapterTabLayout.lastClicked = position;
-                    adapterTabLayout.isClicked = false;
-                    return;
-                }
-
-                tabs.get(position).setActive(true);
-                tabs.get(adapterTabLayout.lastClicked).setActive(false);
-
-                adapterTabLayout.notifyItemChanged(position);
-                adapterTabLayout.notifyItemChanged(adapterTabLayout.lastClicked);
-
-                adapterTabLayout.lastClicked = position;
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-        b.viewPagerNew.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-                if (adapterTabLayoutNew.isClicked) {
-                    adapterTabLayoutNew.lastClicked = position;
-                    adapterTabLayoutNew.isClicked = false;
-                    return;
-                }
-
-                tabs.get(position).setActive(true);
-                tabs.get(adapterTabLayoutNew.lastClicked).setActive(false);
-
-                adapterTabLayoutNew.notifyItemChanged(position);
-                adapterTabLayoutNew.notifyItemChanged(adapterTabLayoutNew.lastClicked);
-
-                adapterTabLayoutNew.lastClicked = position;
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-    }
-
-    private void setResources() {
-//        Glide.with(getContext()).load(StoreList.getStoreDTOS().get(0).getImagePath()).into(b.bigImage1);
-//        Glide.with(getContext()).load(StoreList.getStoreDTOS().get(0).getImagePath()).into(b.bigImage2);
+        b.filter.setOnClickListener(view -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentFilterAndSort.newInstance()));
     }
 
     private void setBackground() {
         setBackgroundDrawable(getContext(), b.backgroundSearch, R.color.white, 0, 10, false, 0);
         setBackgroundDrawable(getContext(), b.edtSearch, R.color.white, 0, 10, false, 0);
-        setBackgroundDrawable(getContext(), b.btnCaption, R.color.white, 0, 10, false, 0);
     }
 
     private void setRecycler() {
@@ -170,25 +108,4 @@ public class FragmentFeed extends Fragment {
         b.recStores.setAdapter(adapterStore);
     }
 
-    private void setRecyclerTab() {
-        adapterTabLayout = new AdapterTabLayout(getContext(), b.viewPagerNew);
-        b.recTab.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        b.recTab.setAdapter(adapterTabLayout);
-    }
-
-    private void setRecyclerTabNew() {
-        adapterTabLayoutNew = new AdapterTabLayout(getContext(), b.viewPager);
-        b.recTabNew.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        b.recTabNew.setAdapter(adapterTabLayoutNew);
-    }
-
-    private void setViewPager(ViewPager viewPager) {
-        ArrayList<FragmentPager> mFragment = new ArrayList<>();
-
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, "", FragmentListGrid.POPULAR), ""));
-
-        AdapterViewPager adapterFeedPager = new AdapterViewPager(getChildFragmentManager(), mFragment);
-        viewPager.setAdapter(adapterFeedPager);
-        viewPager.setEnabled(false);
-    }
 }

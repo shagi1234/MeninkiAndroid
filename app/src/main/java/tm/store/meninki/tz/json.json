@@ -1,574 +1,103 @@
-[
-  {
-    "count": null,
-    "personalCharacteristics": [],
-    "orderQuantityProducts": [],
-    "posts": [],
-    "id": "5a038787-0103-47cd-9089-d52bf707704a",
-    "slug": "More,-zakat,-plyaj",
-    "name": "More, zakat, plyaj",
-    "description": "Avaza, wecer, zakat, more, plyaj, i ocen holodno))",
-    "isDeleted": false,
-    "cardType": 1,
-    "moderationStatus": 1,
-    "createDate": "2023-02-23T15:46:18.883604Z",
-    "numberView": 0,
-    "priceBonus": null,
-    "price": 10000,
-    "discountPrice": 10000,
-    "shopId": "e4e78838-cab0-4a4c-8830-693308021bab",
-    "shop": null,
-    "userId": null,
-    "user": null,
-    "rating": null,
-    "medias": [
-      {
-        "id": "b7b0b124-c754-4af3-a99d-23594a18e1eb",
-        "image": {
-          "postMediaId": "00000000-0000-0000-0000-000000000000",
-          "postMedia": null,
-          "id": "abcd113f-835f-47d5-8459-adb5327329a8",
-          "orientationType": 0,
-          "imageType": 5,
-          "directoryThumbnails": "StaticFiles/ProductMediaImage/Thumbnail/17855e72-44ee-4ec9-89ab-464bcc6da20f.webp",
-          "directoryCompressed": "StaticFiles/ProductMediaImage/Compressed/761a8969-e0f5-42a1-a7fa-bdbbc7f323a3.webp",
-          "directoryOriginal": "StaticFiles/Original/ProductMediaImage/86368563-03bf-4ead-88b6-594a64f9ae79.webp",
-          "isAvatar": false
-        },
-        "video": null,
-        "number": 0,
-        "mediaType": 0,
-        "productBaseId": "5a038787-0103-47cd-9089-d52bf707704a",
-        "productBase": {
-          "id": "5a038787-0103-47cd-9089-d52bf707704a",
-          "slug": "More,-zakat,-plyaj",
-          "name": "More, zakat, plyaj",
-          "description": "Avaza, wecer, zakat, more, plyaj, i ocen holodno))",
-          "isDeleted": false,
-          "cardType": 1,
-          "moderationStatus": 1,
-          "createDate": "2023-02-23T15:46:18.883604Z",
-          "numberView": 0,
-          "priceBonus": null,
-          "price": 10000,
-          "discountPrice": 10000,
-          "shopId": "e4e78838-cab0-4a4c-8830-693308021bab",
-          "shop": null,
-          "userId": null,
-          "user": null,
-          "rating": null,
-          "medias": [
-            {
-              "id": "fa2f3e6f-3976-4e18-9440-30a30eba0de4",
-              "image": {
-                "postMediaId": "00000000-0000-0000-0000-000000000000",
-                "postMedia": null,
-                "id": "32aec65c-284f-4b59-ae8e-6cea3021f0f1",
-                "orientationType": 0,
-                "imageType": 5,
-                "directoryThumbnails": "StaticFiles/ProductMediaImage/Thumbnail/55f9d8b5-c65c-4c78-bf86-b37e53924fe7.webp",
-                "directoryCompressed": "StaticFiles/ProductMediaImage/Compressed/3022312f-67cf-4aae-b522-6b5c7e4c4c8c.webp",
-                "directoryOriginal": "StaticFiles/Original/ProductMediaImage/e4187cfc-a069-4320-a6a0-3e0213aae625.webp",
-                "isAvatar": false
-              },
-              "video": null,
-              "number": 0,
-              "mediaType": 0,
-              "productBaseId": "5a038787-0103-47cd-9089-d52bf707704a"
-            }
-          ],
-          "categories": [],
-          "comments": [],
-          "favourites": []
-        }
-      },
-      {
-        "id": "fa2f3e6f-3976-4e18-9440-30a30eba0de4",
-        "image": {
-          "postMediaId": "00000000-0000-0000-0000-000000000000",
-          "postMedia": null,
-          "id": "32aec65c-284f-4b59-ae8e-6cea3021f0f1",
-          "orientationType": 0,
-          "imageType": 5,
-          "directoryThumbnails": "StaticFiles/ProductMediaImage/Thumbnail/55f9d8b5-c65c-4c78-bf86-b37e53924fe7.webp",
-          "directoryCompressed": "StaticFiles/ProductMediaImage/Compressed/3022312f-67cf-4aae-b522-6b5c7e4c4c8c.webp",
-          "directoryOriginal": "StaticFiles/Original/ProductMediaImage/e4187cfc-a069-4320-a6a0-3e0213aae625.webp",
-          "isAvatar": false
-        },
-        "video": null,
-        "number": 0,
-        "mediaType": 0,
-        "productBaseId": "5a038787-0103-47cd-9089-d52bf707704a",
-        "productBase": {
-          "id": "5a038787-0103-47cd-9089-d52bf707704a",
-          "slug": "More,-zakat,-plyaj",
-          "name": "More, zakat, plyaj",
-          "description": "Avaza, wecer, zakat, more, plyaj, i ocen holodno))",
-          "isDeleted": false,
-          "cardType": 1,
-          "moderationStatus": 1,
-          "createDate": "2023-02-23T15:46:18.883604Z",
-          "numberView": 0,
-          "priceBonus": null,
-          "price": 10000,
-          "discountPrice": 10000,
-          "shopId": "e4e78838-cab0-4a4c-8830-693308021bab",
-          "shop": null,
-          "userId": null,
-          "user": null,
-          "rating": null,
-          "medias": [
-            {
-              "id": "b7b0b124-c754-4af3-a99d-23594a18e1eb",
-              "image": {
-                "postMediaId": "00000000-0000-0000-0000-000000000000",
-                "postMedia": null,
-                "id": "abcd113f-835f-47d5-8459-adb5327329a8",
-                "orientationType": 0,
-                "imageType": 5,
-                "directoryThumbnails": "StaticFiles/ProductMediaImage/Thumbnail/17855e72-44ee-4ec9-89ab-464bcc6da20f.webp",
-                "directoryCompressed": "StaticFiles/ProductMediaImage/Compressed/761a8969-e0f5-42a1-a7fa-bdbbc7f323a3.webp",
-                "directoryOriginal": "StaticFiles/Original/ProductMediaImage/86368563-03bf-4ead-88b6-594a64f9ae79.webp",
-                "isAvatar": false
-              },
-              "video": null,
-              "number": 0,
-              "mediaType": 0,
-              "productBaseId": "5a038787-0103-47cd-9089-d52bf707704a"
-            }
-          ],
-          "categories": [],
-          "comments": [],
-          "favourites": []
-        }
-      }
-    ],
-    "categories": [],
-    "comments": [],
-    "favourites": []
+{
+  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "name": "string",
+  "description": "string",
+  "count": 0,
+  "inCartCount": 0,
+  "price": 0,
+  "discountPrice": 0,
+  "user": {
+    "id": "string",
+    "imagePath": "string",
+    "name": "string",
+    "phoneNumber": "string",
+    "email": "string",
+    "isSubscribed": true,
+    "subscriberCount": 0,
+    "subscriptionCount": 0,
+    "boughtProducts": 0,
+    "favoriteCount": 0,
+    "shopCount": 0
   },
-  {
-    "count": null,
-    "personalCharacteristics": [],
-    "orderQuantityProducts": [],
-    "posts": [],
-    "id": "4a3acc29-5428-4b8e-ba6e-65b7f83b80a8",
-    "slug": "The-director",
-    "name": "The director",
-    "description": "The director))",
-    "isDeleted": true,
-    "cardType": 1,
-    "moderationStatus": 1,
-    "createDate": "2023-02-23T15:43:50.303581Z",
-    "numberView": 0,
-    "priceBonus": null,
-    "price": 1000,
-    "discountPrice": 1000,
-    "shopId": "81bf952a-7365-4af2-a5bf-855967172d80",
-    "shop": null,
-    "userId": null,
-    "user": null,
-    "rating": null,
-    "medias": [
+  "shop": {
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "imgPath": "string",
+    "name": "string",
+    "description": "string",
+    "phone": "string",
+    "email": "string",
+    "isSubscribed": true,
+    "subscriberCount": 0,
+    "placeInRating": 0,
+    "orderCount": 0,
+    "visiterCount": 0,
+    "totalProduct": 0,
+    "socialMedias": [
       {
-        "id": "184a1477-0aec-4da4-896c-50f7dfe2ce7c",
-        "image": {
-          "postMediaId": "00000000-0000-0000-0000-000000000000",
-          "postMedia": null,
-          "id": "b488cdf0-600a-4385-96a3-05897a79bc9d",
-          "orientationType": 0,
-          "imageType": 5,
-          "directoryThumbnails": "StaticFiles/ProductMediaImage/Thumbnail/2d83a3de-97e3-4bb8-8e0f-41c056b3c59d.webp",
-          "directoryCompressed": "StaticFiles/ProductMediaImage/Compressed/450c8973-ea87-42d5-afd0-2f3123c93f80.webp",
-          "directoryOriginal": "StaticFiles/Original/ProductMediaImage/be98e488-1456-4f1e-b5f2-e5d241642d5e.webp",
-          "isAvatar": false
-        },
-        "video": null,
-        "number": 0,
-        "mediaType": 0,
-        "productBaseId": "4a3acc29-5428-4b8e-ba6e-65b7f83b80a8",
-        "productBase": {
-          "id": "4a3acc29-5428-4b8e-ba6e-65b7f83b80a8",
-          "slug": "The-director",
-          "name": "The director",
-          "description": "The director))",
-          "isDeleted": true,
-          "cardType": 1,
-          "moderationStatus": 1,
-          "createDate": "2023-02-23T15:43:50.303581Z",
-          "numberView": 0,
-          "priceBonus": null,
-          "price": 1000,
-          "discountPrice": 1000,
-          "shopId": "81bf952a-7365-4af2-a5bf-855967172d80",
-          "shop": null,
-          "userId": null,
-          "user": null,
-          "rating": null,
-          "medias": [],
-          "categories": [],
-          "comments": [],
-          "favourites": []
-        }
+        "socialMediaType": 0,
+        "url": "string"
       }
-    ],
-    "categories": [],
-    "comments": [],
-    "favourites": []
+    ]
   },
-  {
-    "count": null,
-    "personalCharacteristics": [],
-    "orderQuantityProducts": [],
-    "posts": [],
-    "id": "f1f57dab-539b-4bef-9546-6ea474249b2a",
-    "slug": "Ios-developer",
-    "name": "Ios developer",
-    "description": "Eto ya. I opisaniye menya doljno byt tut. S fantaziyey u menya ne ocen(",
-    "isDeleted": false,
-    "cardType": 1,
-    "moderationStatus": 1,
-    "createDate": "2023-02-23T15:37:49.453438Z",
-    "numberView": 0,
-    "priceBonus": null,
-    "price": 1000000,
-    "discountPrice": 1000000,
-    "shopId": "b7c286fe-9028-4e08-9806-a08c64e4cb32",
-    "shop": null,
-    "userId": null,
-    "user": null,
-    "rating": null,
-    "medias": [
-      {
-        "id": "86196150-da4b-46e8-9bbe-7e58d62b0e50",
-        "image": {
-          "postMediaId": "00000000-0000-0000-0000-000000000000",
-          "postMedia": null,
-          "id": "a80e4e9a-b7ce-44fc-9aac-f6366679c274",
-          "orientationType": 0,
-          "imageType": 5,
-          "directoryThumbnails": "StaticFiles/ProductMediaImage/Thumbnail/d6a28027-2234-44c9-a656-e2b71fff9782.webp",
-          "directoryCompressed": "StaticFiles/ProductMediaImage/Compressed/7098aba0-c899-491e-8f9c-fd5200a6980a.webp",
-          "directoryOriginal": "StaticFiles/Original/ProductMediaImage/1eceebea-c2d1-49df-aca4-7d133ec7fb01.webp",
-          "isAvatar": false
-        },
-        "video": null,
-        "number": 0,
-        "mediaType": 0,
-        "productBaseId": "f1f57dab-539b-4bef-9546-6ea474249b2a",
-        "productBase": {
-          "id": "f1f57dab-539b-4bef-9546-6ea474249b2a",
-          "slug": "Ios-developer",
-          "name": "Ios developer",
-          "description": "Eto ya. I opisaniye menya doljno byt tut. S fantaziyey u menya ne ocen(",
-          "isDeleted": false,
-          "cardType": 1,
-          "moderationStatus": 1,
-          "createDate": "2023-02-23T15:37:49.453438Z",
-          "numberView": 0,
-          "priceBonus": null,
-          "price": 1000000,
-          "discountPrice": 1000000,
-          "shopId": "b7c286fe-9028-4e08-9806-a08c64e4cb32",
-          "shop": null,
-          "userId": null,
-          "user": null,
-          "rating": null,
-          "medias": [
-            {
-              "id": "db2cfb53-a66c-4515-ba50-491534316cc5",
-              "image": {
-                "postMediaId": "00000000-0000-0000-0000-000000000000",
-                "postMedia": null,
-                "id": "5bab4cf3-4224-4c55-ac24-4ce5399a19e6",
-                "orientationType": 0,
-                "imageType": 5,
-                "directoryThumbnails": "StaticFiles/ProductMediaImage/Thumbnail/a9bde20b-3a3e-4464-a7b9-989588b5bf38.webp",
-                "directoryCompressed": "StaticFiles/ProductMediaImage/Compressed/3a6cc8df-291c-41d1-839c-d079be5dbdde.webp",
-                "directoryOriginal": "StaticFiles/Original/ProductMediaImage/833d37d7-e3a8-4557-ac40-80fb82194966.webp",
-                "isAvatar": false
-              },
-              "video": null,
-              "number": 0,
-              "mediaType": 0,
-              "productBaseId": "f1f57dab-539b-4bef-9546-6ea474249b2a"
-            }
-          ],
-          "categories": [],
-          "comments": [],
-          "favourites": []
-        }
-      },
-      {
-        "id": "db2cfb53-a66c-4515-ba50-491534316cc5",
-        "image": {
-          "postMediaId": "00000000-0000-0000-0000-000000000000",
-          "postMedia": null,
-          "id": "5bab4cf3-4224-4c55-ac24-4ce5399a19e6",
-          "orientationType": 0,
-          "imageType": 5,
-          "directoryThumbnails": "StaticFiles/ProductMediaImage/Thumbnail/a9bde20b-3a3e-4464-a7b9-989588b5bf38.webp",
-          "directoryCompressed": "StaticFiles/ProductMediaImage/Compressed/3a6cc8df-291c-41d1-839c-d079be5dbdde.webp",
-          "directoryOriginal": "StaticFiles/Original/ProductMediaImage/833d37d7-e3a8-4557-ac40-80fb82194966.webp",
-          "isAvatar": false
-        },
-        "video": null,
-        "number": 0,
-        "mediaType": 0,
-        "productBaseId": "f1f57dab-539b-4bef-9546-6ea474249b2a",
-        "productBase": {
-          "id": "f1f57dab-539b-4bef-9546-6ea474249b2a",
-          "slug": "Ios-developer",
-          "name": "Ios developer",
-          "description": "Eto ya. I opisaniye menya doljno byt tut. S fantaziyey u menya ne ocen(",
-          "isDeleted": false,
-          "cardType": 1,
-          "moderationStatus": 1,
-          "createDate": "2023-02-23T15:37:49.453438Z",
-          "numberView": 0,
-          "priceBonus": null,
-          "price": 1000000,
-          "discountPrice": 1000000,
-          "shopId": "b7c286fe-9028-4e08-9806-a08c64e4cb32",
-          "shop": null,
-          "userId": null,
-          "user": null,
-          "rating": null,
-          "medias": [
-            {
-              "id": "86196150-da4b-46e8-9bbe-7e58d62b0e50",
-              "image": {
-                "postMediaId": "00000000-0000-0000-0000-000000000000",
-                "postMedia": null,
-                "id": "a80e4e9a-b7ce-44fc-9aac-f6366679c274",
-                "orientationType": 0,
-                "imageType": 5,
-                "directoryThumbnails": "StaticFiles/ProductMediaImage/Thumbnail/d6a28027-2234-44c9-a656-e2b71fff9782.webp",
-                "directoryCompressed": "StaticFiles/ProductMediaImage/Compressed/7098aba0-c899-491e-8f9c-fd5200a6980a.webp",
-                "directoryOriginal": "StaticFiles/Original/ProductMediaImage/1eceebea-c2d1-49df-aca4-7d133ec7fb01.webp",
-                "isAvatar": false
-              },
-              "video": null,
-              "number": 0,
-              "mediaType": 0,
-              "productBaseId": "f1f57dab-539b-4bef-9546-6ea474249b2a"
-            }
-          ],
-          "categories": [],
-          "comments": [],
-          "favourites": []
-        }
-      }
-    ],
-    "categories": [],
-    "comments": [],
-    "favourites": []
+  "rating": {
+    "userRating": {
+      "additionalProp1": true,
+      "additionalProp2": true,
+      "additionalProp3": true
+    },
+    "total": 0
   },
-  {
-    "count": null,
-    "personalCharacteristics": [],
-    "orderQuantityProducts": [],
-    "posts": [],
-    "id": "73dcc4f8-59a3-40ee-95db-4df1021f3ffc",
-    "slug": "Yubka",
-    "name": "Yubka",
-    "description": "Description of that yubka goes here. \n\nI do not know what to say about that brown skirt. \n\nIt is good enough to wear, I think",
-    "isDeleted": false,
-    "cardType": 1,
-    "moderationStatus": 1,
-    "createDate": "2023-02-23T15:33:28.113814Z",
-    "numberView": 0,
-    "priceBonus": null,
-    "price": 200,
-    "discountPrice": 200,
-    "shopId": "320b11e8-a248-4474-a5b1-9253663190ef",
-    "shop": null,
-    "userId": null,
-    "user": null,
-    "rating": null,
-    "medias": [
-      {
-        "id": "7dbf2c35-a487-4807-a3a9-c58444e2c099",
-        "image": {
-          "postMediaId": "00000000-0000-0000-0000-000000000000",
-          "postMedia": null,
-          "id": "e17b392e-b4a2-40dd-be48-f0717b729843",
-          "orientationType": 0,
-          "imageType": 5,
-          "directoryThumbnails": "StaticFiles/ProductMediaImage/Thumbnail/7cd18458-5b26-491f-a605-ac68a32bee9e.webp",
-          "directoryCompressed": "StaticFiles/ProductMediaImage/Compressed/d6363b14-89e2-4b0b-bd3d-c753541f9db6.webp",
-          "directoryOriginal": "StaticFiles/Original/ProductMediaImage/89f978ac-0fb0-4640-9864-79db839f5565.webp",
-          "isAvatar": false
-        },
-        "video": null,
-        "number": 0,
-        "mediaType": 0,
-        "productBaseId": "73dcc4f8-59a3-40ee-95db-4df1021f3ffc",
-        "productBase": {
-          "id": "73dcc4f8-59a3-40ee-95db-4df1021f3ffc",
-          "slug": "Yubka",
-          "name": "Yubka",
-          "description": "Description of that yubka goes here. \n\nI do not know what to say about that brown skirt. \n\nIt is good enough to wear, I think",
-          "isDeleted": false,
-          "cardType": 1,
-          "moderationStatus": 1,
-          "createDate": "2023-02-23T15:33:28.113814Z",
-          "numberView": 0,
-          "priceBonus": null,
-          "price": 200,
-          "discountPrice": 200,
-          "shopId": "320b11e8-a248-4474-a5b1-9253663190ef",
-          "shop": null,
-          "userId": null,
-          "user": null,
-          "rating": null,
-          "medias": [],
-          "categories": [],
-          "comments": [],
-          "favourites": []
+  "categories": [
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "nameRu": "string",
+      "nameTm": "string",
+      "nameEn": "string",
+      "categoryImage": "string",
+      "parentId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "subCategories": [
+        "string"
+      ]
+    }
+  ],
+  "options": [
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "optionType": 0,
+      "optionLevel": 0,
+      "imagePath": "string",
+      "value": "string",
+      "optionsImageId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "productId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    }
+  ],
+  "personalCharacteristics": [
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "options": [
+        {
+          "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "optionType": 0,
+          "optionLevel": 0,
+          "imagePath": "string",
+          "value": "string",
+          "optionsImageId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "productId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
         }
-      }
-    ],
-    "categories": [],
-    "comments": [],
-    "favourites": []
-  },
-  {
-    "count": null,
-    "personalCharacteristics": [],
-    "orderQuantityProducts": [],
-    "posts": [],
-    "id": "df98e563-e77f-4c9b-bed2-26fa4bdaa8b2",
-    "slug": "Jemskaya-sumka",
-    "name": "Jemskaya sumka",
-    "description": "Ne plohaya sumka ",
-    "isDeleted": false,
-    "cardType": 1,
-    "moderationStatus": 1,
-    "createDate": "2023-02-23T15:30:48.908923Z",
-    "numberView": 0,
-    "priceBonus": null,
-    "price": 100,
-    "discountPrice": 100,
-    "shopId": "320b11e8-a248-4474-a5b1-9253663190ef",
-    "shop": null,
-    "userId": null,
-    "user": null,
-    "rating": null,
-    "medias": [
-      {
-        "id": "20697064-5b9a-4147-9342-109ee95e647d",
-        "image": {
-          "postMediaId": "00000000-0000-0000-0000-000000000000",
-          "postMedia": null,
-          "id": "0759d347-28b0-4380-8667-851b634be4d2",
-          "orientationType": 0,
-          "imageType": 5,
-          "directoryThumbnails": "StaticFiles/ProductMediaImage/Thumbnail/1d32fdc2-4f61-4e30-95af-1712ff8a87b2.webp",
-          "directoryCompressed": "StaticFiles/ProductMediaImage/Compressed/e45a4da6-3e9b-4dcf-b4ec-0c2ee323be2a.webp",
-          "directoryOriginal": "StaticFiles/Original/ProductMediaImage/ed9da05d-45ba-4b45-9997-ff4bbbdd8b64.webp",
-          "isAvatar": false
-        },
-        "video": null,
-        "number": 0,
-        "mediaType": 0,
-        "productBaseId": "df98e563-e77f-4c9b-bed2-26fa4bdaa8b2",
-        "productBase": {
-          "id": "df98e563-e77f-4c9b-bed2-26fa4bdaa8b2",
-          "slug": "Jemskaya-sumka",
-          "name": "Jemskaya sumka",
-          "description": "Ne plohaya sumka ",
-          "isDeleted": false,
-          "cardType": 1,
-          "moderationStatus": 1,
-          "createDate": "2023-02-23T15:30:48.908923Z",
-          "numberView": 0,
-          "priceBonus": null,
-          "price": 100,
-          "discountPrice": 100,
-          "shopId": "320b11e8-a248-4474-a5b1-9253663190ef",
-          "shop": null,
-          "userId": null,
-          "user": null,
-          "rating": null,
-          "medias": [],
-          "categories": [],
-          "comments": [],
-          "favourites": []
-        }
-      }
-    ],
-    "categories": [],
-    "comments": [],
-    "favourites": []
-  },
-  {
-    "count": null,
-    "personalCharacteristics": [],
-    "orderQuantityProducts": [],
-    "posts": [],
-    "id": "cef7b0cb-d5b6-4824-8938-6884325093e0",
-    "slug": "Bluzka-jenskaya",
-    "name": "Bluzka jenskaya",
-    "description": "Jenskaya bluzka horoshaya)",
-    "isDeleted": false,
-    "cardType": 1,
-    "moderationStatus": 1,
-    "createDate": "2023-02-23T15:30:01.600409Z",
-    "numberView": 0,
-    "priceBonus": null,
-    "price": 100,
-    "discountPrice": 100,
-    "shopId": "320b11e8-a248-4474-a5b1-9253663190ef",
-    "shop": null,
-    "userId": null,
-    "user": null,
-    "rating": null,
-    "medias": [
-      {
-        "id": "e1f7732f-e2d8-4875-81dd-128c2d76c1ad",
-        "image": {
-          "postMediaId": "00000000-0000-0000-0000-000000000000",
-          "postMedia": null,
-          "id": "baab0cb4-c40c-4e87-bca8-00d0cfeb5474",
-          "orientationType": 0,
-          "imageType": 5,
-          "directoryThumbnails": "StaticFiles/ProductMediaImage/Thumbnail/c3489da4-3c6c-40b5-ad5c-947231792a10.webp",
-          "directoryCompressed": "StaticFiles/ProductMediaImage/Compressed/6e03d0ef-5837-4c9a-8a60-aad74f071035.webp",
-          "directoryOriginal": "StaticFiles/Original/ProductMediaImage/8ffaacc4-8a3a-4259-96be-01bbbc3766bb.webp",
-          "isAvatar": false
-        },
-        "video": null,
-        "number": 0,
-        "mediaType": 0,
-        "productBaseId": "cef7b0cb-d5b6-4824-8938-6884325093e0",
-        "productBase": {
-          "id": "cef7b0cb-d5b6-4824-8938-6884325093e0",
-          "slug": "Bluzka-jenskaya",
-          "name": "Bluzka jenskaya",
-          "description": "Jenskaya bluzka horoshaya)",
-          "isDeleted": false,
-          "cardType": 1,
-          "moderationStatus": 1,
-          "createDate": "2023-02-23T15:30:01.600409Z",
-          "numberView": 0,
-          "priceBonus": null,
-          "price": 100,
-          "discountPrice": 100,
-          "shopId": "320b11e8-a248-4474-a5b1-9253663190ef",
-          "shop": null,
-          "userId": null,
-          "user": null,
-          "rating": null,
-          "medias": [],
-          "categories": [],
-          "comments": [],
-          "favourites": []
-        }
-      }
-    ],
-    "categories": [],
-    "comments": [],
-    "favourites": []
-  }
-]
+      ],
+      "count": 0,
+      "priceBonus": 0,
+      "price": 0,
+      "discountPrice": 0,
+      "productId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    }
+  ],
+  "medias": [
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "path": "string",
+      "orientationType": 0
+    }
+  ],
+  "isFavorited": true
+}

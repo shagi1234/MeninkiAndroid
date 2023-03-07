@@ -2,14 +2,12 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    android:orientation="vertical"
     tools:context=".fragment.FragmentHome">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/container_profile_id"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,97 +15,210 @@
         android:background="@color/background"
         android:orientation="vertical">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/app_bar_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/collapsing_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
-                app:titleEnabled="false">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/background"
-                    android:orientation="vertical">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rec_stores"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="70dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.appcompat.widget.Toolbar
-                    android:layout_width="match_parent"
-                    android:layout_height="65dp"
-                    app:layout_collapseMode="pin"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
-
-                <LinearLayout
-                    android:id="@+id/background_search"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:orientation="horizontal">
-
-                    <EditText
-                        android:id="@+id/edt_search"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@color/white"
-                        android:fontFamily="@font/roboto_medium"
-                        android:gravity="center_vertical"
-                        android:hint="Поиск"
-                        android:maxLines="1"
-                        android:paddingVertical="10dp"
-                        android:paddingStart="14dp"
-                        android:singleLine="true" />
-
-                    <ImageView
-                        android:id="@+id/filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginEnd="14dp"
-                        android:padding="5dp"
-                        android:src="@drawable/ic_icon__1_" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginEnd="14dp"
-                        android:padding="5dp"
-                        android:src="@drawable/ic_search"
-                        app:tint="@color/dark" />
-
-                </LinearLayout>
-
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-
-        <FrameLayout
-            android:id="@+id/content_view_pager"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rec_tab" />
+            android:background="@color/background"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rec_stores"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/background_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/rec_stores">
+
+                <EditText
+                    android:id="@+id/edt_search"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:fontFamily="@font/roboto_flex"
+                    android:gravity="center_vertical"
+                    android:hint="Поиск"
+                    android:maxLines="1"
+                    android:paddingVertical="10dp"
+                    android:paddingStart="14dp"
+                    android:singleLine="true"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="14dp"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_search" />
+            </LinearLayout>
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/banner_1"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginBottom="20dp"
+                android:scaleType="centerCrop"
+                android:src="@color/holder"
+                android:visibility="gone"
+                app:riv_corner_radius="10dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rec_circular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/big_image_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:scaleType="centerCrop"
+                    android:src="@color/holder"
+                    app:riv_corner_radius="10dp" />
+
+                <TextView
+                    android:id="@+id/desc_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Description label"
+                    android:textColor="@color/dark" />
+
+                <TextView
+                    android:id="@+id/desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Description"
+                    android:textColor="@color/caption" />
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/header_markets"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="Магазины"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+            </FrameLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rec_markets"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="14dp" />
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/btn_caption"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginHorizontal="10dp"-->
+            <!--                android:layout_marginTop="10dp"-->
+            <!--                android:fontFamily="@font/roboto_medium"-->
+            <!--                android:gravity="center"-->
+            <!--                android:paddingVertical="10dp"-->
+            <!--                android:text="Caption"-->
+            <!--                android:textColor="@color/dark" />-->
+
+            <FrameLayout
+                android:id="@+id/header_popular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="Популярное"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+            </FrameLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rec_tab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background" />
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="530dp"
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rec_tab" />
+
+            <FrameLayout
+                android:id="@+id/header_new"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="Новинки"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+            </FrameLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rec_tab_new"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background" />
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/view_pager_new"
+                android:layout_width="match_parent"
+                android:layout_height="530dp"
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rec_tab" />
 
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </LinearLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
 
 </FrameLayout>

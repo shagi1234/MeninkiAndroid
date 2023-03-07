@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.bumptech.glide.Glide;
+
 import tm.store.meninki.R;
 import tm.store.meninki.adapter.AdapterCircle;
 import tm.store.meninki.adapter.AdapterGrid;
@@ -125,7 +126,7 @@ public class FragmentProfile extends Fragment {
     }
 
     private void setRecyclerProducts() {
-        adapterGrid = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_GRID);
+        adapterGrid = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_GRID, -1);
         b.recProducts.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         b.recProducts.setAdapter(adapterGrid);
     }

@@ -1,4 +1,4 @@
-package tm.store.meninki.api.data;
+package tm.store.meninki.api.response;
 
 public class DataCheckSms {
     String accessToken;

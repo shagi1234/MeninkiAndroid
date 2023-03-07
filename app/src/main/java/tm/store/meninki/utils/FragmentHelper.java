@@ -38,47 +38,35 @@ public class FragmentHelper {
         String backStateName = fragment.getClass().getName();
 
         FragmentManager manager = fragmentManager;
-//        boolean fragmentPopped = manager.popBackStackImmediate(backStateName, 0);
 
-//        if (!fragmentPopped) { //fragment not in back stack, create it.
         FragmentTransaction ft = manager.beginTransaction();
         ft.setCustomAnimations(R.anim.enter_anim, 0, 0, R.anim.pop_exit_anim);
         ft.add(containerViewId, fragment, backStateName);
         ft.addToBackStack(backStateName);
 
         ft.commit();
-//        }
     }
 
     public static void addFragmentNoAnim(FragmentManager fragmentManager, int containerViewId, Fragment fragment) {
         String backStateName = fragment.getClass().getName();
 
         FragmentManager manager = fragmentManager;
-//        boolean fragmentPopped = manager.popBackStackImmediate(backStateName, 0);
-
-//        if (!fragmentPopped) { //fragment not in back stack, create it.
         FragmentTransaction ft = manager.beginTransaction();
-//        ft.setCustomAnimations(R.anim.enter_anim, 0, 0, R.anim.pop_exit_anim);
         ft.add(containerViewId, fragment, backStateName);
         ft.addToBackStack(backStateName);
 
         ft.commit();
-//        }
     }
 
     public static void addFragmentTag(FragmentManager fragmentManager, int containerViewId, Fragment fragment, String backStateName) {
 
         FragmentManager manager = fragmentManager;
-//        boolean fragmentPopped = manager.popBackStackImmediate(backStateName, 0);
 
-//        if (!fragmentPopped) { //fragment not in back stack, create it.
         FragmentTransaction ft = manager.beginTransaction();
-//        ft.setCustomAnimations(salam.messengertm.R.anim.enter_anim, 0, 0, salam.messengertm.R.anim.pop_exit_anim);
         ft.add(containerViewId, fragment, backStateName);
         ft.addToBackStack(backStateName);
 
         ft.commit();
-//        }
     }
 
     public static void replaceFragment(FragmentManager fragmentManager, int containerViewId, Fragment fragment) {
@@ -91,22 +79,13 @@ public class FragmentHelper {
         String backStateName = fragment.getClass().getName();
 
         FragmentManager manager = fragmentManager;
-//        boolean fragmentPopped = manager.popBackStackImmediate(backStateName, 0);
 
-//        if (!fragmentPopped) { //fragment not in back stack, create it.
         FragmentTransaction ft = manager.beginTransaction();
-//        ft.setCustomAnimations(R.anim.open, 0, 0, R.anim.close);
+        ft.setCustomAnimations(R.anim.open, 0, 0, R.anim.close);
         ft.add(containerViewId, fragment, backStateName);
         ft.addToBackStack(backStateName);
         ft.commit();
-//        }
     }
-
-//    public static Fragment getCurrentFragment(FragmentActivity activity) {
-//        return activity
-//                .getSupportFragmentManager()
-//                .findFragmentById(R.id.fragment_container_main);
-//    }
 
     public static class DetailsTransition extends TransitionSet {
         public DetailsTransition() {
@@ -116,32 +95,6 @@ public class FragmentHelper {
                     addTransition(new ChangeImageTransform());
         }
     }
-
-
-/*    public static void addFragmentWithSharedItem(FragmentActivity activity,FragmentManager fragmentManager, int containerViewId, Fragment fragment, View itemImageView, String transName) {
-        String backStateName = fragment.getClass().getName();
-
-//        fragment.setSharedElementEnterTransition(new DetailsTransition().setDuration(200));
-        fragment.setEnterTransition(new Fade().setDuration(150));
-
-        fragment.setExitTransition(new Fade().setDuration(150));
-//        fragment.setSharedElementReturnTransition(new DetailsTransition().setDuration(200));
-
-        FragmentManager manager = fragmentManager;
-
-        Fragment currentFragment = getCurrentFragment(activity);
-
-        manager.beginTransaction()
-                .setReorderingAllowed(true)
-                .addSharedElement(itemImageView, transName)
-                .hide(currentFragment)
-                .add(containerViewId, fragment)
-                .addToBackStack(backStateName)
-                .commit();
-
-
-
-    }*/
 
     public static void disableEnableControls(boolean enable, ViewGroup vg) {
         for (int i = 0; i < vg.getChildCount(); i++) {
@@ -167,7 +120,6 @@ public class FragmentHelper {
             if (fragmentTemp.isAdded()) {
                 fragmentTransaction.show(fragmentTemp);
             } else {
-//                fragmentTransaction.setCustomAnimations(R.anim.enter_anim, 0);
                 fragmentTransaction.add(frame, fragmentTemp, tagFragmentName);
             }
         } else {

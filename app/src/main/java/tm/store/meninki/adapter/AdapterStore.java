@@ -15,17 +15,18 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import tm.store.meninki.R;
-import tm.store.meninki.data.StoreDTO;
-import tm.store.meninki.databinding.ItemStoreBinding;
-import tm.store.meninki.fragment.FragmentProduct;
 
 import java.util.ArrayList;
+
+import tm.store.meninki.R;
+import tm.store.meninki.api.response.ResponseCard;
+import tm.store.meninki.databinding.ItemStoreBinding;
+import tm.store.meninki.fragment.FragmentProduct;
 
 public class AdapterStore extends RecyclerView.Adapter<AdapterStore.StoreHolder> {
     private Context context;
     private FragmentActivity activity;
-    private ArrayList<StoreDTO> stories = new ArrayList<>();
+    private ArrayList<ResponseCard> stories = new ArrayList<>();
 
     public AdapterStore(Context context, FragmentActivity activity) {
         this.context = context;
@@ -48,12 +49,12 @@ public class AdapterStore extends RecyclerView.Adapter<AdapterStore.StoreHolder>
     @Override
     public int getItemCount() {
         if (stories == null) {
-            return 5;
+            return 0;
         }
         return stories.size();
     }
 
-    public void setStories(ArrayList<StoreDTO> stories) {
+    public void setStories(ArrayList<ResponseCard> stories) {
         this.stories = stories;
         notifyDataSetChanged();
     }
@@ -82,16 +83,16 @@ public class AdapterStore extends RecyclerView.Adapter<AdapterStore.StoreHolder>
             b.click.setOnClickListener(v -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProduct.newInstance("", FragmentProduct.STORE)));
 
             if (stories == null) return;
+            if (stories.get(getAdapterPosition()).getImages().length > 0)
+                Glide.with(context)
+                        .load(stories.get(getAdapterPosition()).getImages()[0])
+                        .into(b.image);
 
             Glide.with(context)
-                    .load(stories.get(getAdapterPosition()).getImagePath())
-                    .into(b.image);
-
-            Glide.with(context)
-                    .load(stories.get(getAdapterPosition()).getPosterImagePath())
+                    .load(stories.get(getAdapterPosition()).getAvatar())
                     .into(b.posterImage);
 
-            b.storeName.setText(stories.get(getAdapterPosition()).getStoreName());
+            b.storeName.setText(stories.get(getAdapterPosition()).getName());
 
         }
     }

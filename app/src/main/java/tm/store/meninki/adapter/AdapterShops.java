@@ -12,20 +12,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import tm.store.meninki.R;
-import tm.store.meninki.data.ShopDTO;
-import tm.store.meninki.databinding.ItemShopBinding;
-import tm.store.meninki.fragment.FragmentProfile;
 
 import java.util.ArrayList;
 
+import tm.store.meninki.R;
+import tm.store.meninki.api.response.ResponseHomeShops;
+import tm.store.meninki.databinding.ItemShopBinding;
+import tm.store.meninki.fragment.FragmentProfile;
 import tm.store.meninki.utils.Const;
 import tm.store.meninki.utils.FragmentHelper;
 
 public class AdapterShops extends RecyclerView.Adapter<AdapterShops.StoreHolder> {
     private final Context context;
     private final FragmentActivity activity;
-    private ArrayList<ShopDTO> grids = new ArrayList<>();
+    private ArrayList<ResponseHomeShops> grids = new ArrayList<>();
     private AdapterGrid adapterGrid;
 
     public AdapterShops(Context context, FragmentActivity activity) {
@@ -49,12 +49,12 @@ public class AdapterShops extends RecyclerView.Adapter<AdapterShops.StoreHolder>
     @Override
     public int getItemCount() {
         if (grids == null) {
-            return 5;
+            return 0;
         }
         return grids.size();
     }
 
-    public void setStories(ArrayList<ShopDTO> stories) {
+    public void setStories(ArrayList<ResponseHomeShops> stories) {
         this.grids = stories;
         notifyDataSetChanged();
     }
@@ -83,25 +83,22 @@ public class AdapterShops extends RecyclerView.Adapter<AdapterShops.StoreHolder>
 
             setRecycler();
 
-            adapterGrid.setStories(null);
-
-            if (grids == null) return;
-
             Glide.with(context)
-                    .load(grids.get(getAdapterPosition()).getImage())
+                    .load(grids.get(getAdapterPosition()).getShop().getImgPath())
                     .into(b.shopImage);
 
-            b.name.setText(grids.get(getAdapterPosition()).getName());
+            b.name.setText(grids.get(getAdapterPosition()).getShop().getName());
 
-            b.desc.setText(grids.get(getAdapterPosition()).getDesc());
-
+            b.desc.setText(grids.get(getAdapterPosition()).getShop().getDescription());
 
         }
 
         private void setRecycler() {
-            adapterGrid = new AdapterGrid(context, activity, AdapterGrid.TYPE_HORIZONTAL_SMALL);
+            adapterGrid = new AdapterGrid(context, activity, AdapterGrid.TYPE_HORIZONTAL_SMALL, -1);
             b.recProducts.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
             b.recProducts.setAdapter(adapterGrid);
+
+            adapterGrid.setStories(grids.get(getAdapterPosition()).getProducts());
         }
     }
 }

@@ -7,6 +7,7 @@ import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +15,17 @@ import android.widget.ArrayAdapter;
 
 import androidx.fragment.app.Fragment;
 
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import tm.store.meninki.R;
+import tm.store.meninki.api.data.UserProfile;
+import tm.store.meninki.api.request.RequestCreateShop;
 import tm.store.meninki.databinding.FragmentNewShopBinding;
+import tm.store.meninki.shared.Account;
+import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentNewShop extends Fragment {
     private FragmentNewShopBinding b;
@@ -49,7 +59,51 @@ public class FragmentNewShop extends Fragment {
             setSpinners();
         }, 100);
 
+        initListeners();
         return b.getRoot();
+    }
+
+    private void initListeners() {
+        b.goBasket.setOnClickListener(v -> {
+            b.goBasket.setEnabled(false);
+
+            createShop();
+
+            new Handler().postDelayed(() -> b.goBasket.setEnabled(true), 200);
+        });
+    }
+
+    private void createShop() {
+        RequestCreateShop requestCreateShop = new RequestCreateShop();
+
+        requestCreateShop.setCategories(new String[]{"ab45f412-d713-4bd4-b7d6-568a488a2381"});
+        requestCreateShop.setUserId(Account.newInstance(getContext()).getPrefUserUUID());
+        requestCreateShop.setDescriptionTm(b.about.getText().toString());
+        requestCreateShop.setName(b.storeName.getText().toString());
+        requestCreateShop.setPhoneNumber(b.phoneNumber.getText().toString());
+        requestCreateShop.setEmail(b.extraContact.getText().toString());
+
+        Call<UserProfile> call = StaticMethods.getApiHome().createShop(requestCreateShop);
+        call.enqueue(new Callback<UserProfile>() {
+            @Override
+            public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
+
+                if (response.code() == 200 && response.body() != null) {
+                    // onResponse
+                    Log.e("TAG", "initListeners: " + response.code());
+
+
+                } else {
+                    // onError
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<UserProfile> call, Throwable t) {
+                //onError
+            }
+        });
     }
 
 
@@ -64,8 +118,6 @@ public class FragmentNewShop extends Fragment {
         setBackgroundDrawable(getContext(), b.extraContactTwo, R.color.hover, 0, 4, false, 0);
         setBackgroundDrawable(getContext(), b.website, R.color.hover, 0, 4, false, 0);
         setBackgroundDrawable(getContext(), b.saveButton, R.color.accent, 0, 4, false, 0);
-
-        b.goBasket.setOnClickListener(v -> getActivity().onBackPressed());
 
     }
 

@@ -2,6 +2,7 @@ package tm.store.meninki.fragment;
 
 import static tm.store.meninki.utils.Const.mainFragmentManager;
 import static tm.store.meninki.utils.FragmentHelper.addFragment;
+import static tm.store.meninki.utils.StaticMethods.logWrite;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.setMargins;
@@ -15,14 +16,20 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import tm.store.meninki.R;
 import tm.store.meninki.adapter.AdapterMyShops;
 import tm.store.meninki.adapter.AdapterTabLayout;
+import tm.store.meninki.api.data.UserProfile;
 import tm.store.meninki.data.TabItemCustom;
 import tm.store.meninki.databinding.FragmentMyShopsBinding;
 import tm.store.meninki.interfaces.OnTabClicked;
-
-import java.util.ArrayList;
+import tm.store.meninki.shared.Account;
+import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentMyShops extends Fragment implements OnTabClicked {
     private FragmentMyShopsBinding b;
@@ -60,10 +67,29 @@ public class FragmentMyShops extends Fragment implements OnTabClicked {
         setBackgrounds();
         setRecyclerTab();
         setRecycler();
+        getMyShops();
         initListeners();
-        adapterMyShops.setStories(null);
         adapterTabLayout.setTabs(tabs);
         return b.getRoot();
+    }
+
+    private void getMyShops() {
+        Call<ArrayList<UserProfile>> call = StaticMethods.getApiHome().getMyShops(Account.newInstance(getContext()).getPrefUserUUID(), 0, 1, 10);
+        call.enqueue(new Callback<ArrayList<UserProfile>>() {
+            @Override
+            public void onResponse(Call<ArrayList<UserProfile>> call, Response<ArrayList<UserProfile>> response) {
+                if (response.code() == 200 && response.body() != null) {
+                    adapterMyShops.setStories(response.body());
+                } else {
+                    logWrite(response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<UserProfile>> call, Throwable t) {
+                logWrite(t.getMessage());
+            }
+        });
     }
 
     private void initListeners() {

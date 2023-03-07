@@ -1,6 +1,7 @@
 package tm.store.meninki.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +11,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import com.google.gson.JsonObject;
-
 import java.util.ArrayList;
 
 import retrofit2.Call;
 import tm.store.meninki.adapter.AdapterGrid;
 import tm.store.meninki.api.RetrofitCallback;
-import tm.store.meninki.api.data.ProductDto;
+import tm.store.meninki.api.enums.CardType;
+import tm.store.meninki.api.request.RequestCard;
+import tm.store.meninki.api.response.ResponseCard;
 import tm.store.meninki.data.StoreDTO;
 import tm.store.meninki.databinding.FragmentListGridBinding;
 import tm.store.meninki.utils.StaticMethods;
@@ -28,20 +29,24 @@ public class FragmentListGrid extends Fragment {
     private AdapterGrid adapterGrid;
     private int orientation;
     private int type;
-    private String id;
     public final static int VERTICAL_GRID = 0;
     public final static int HORIZONTAL_LINEAR = 1;
-
+    private String[] categoryIds;
     public final static int CATEGORY = 1;
     public final static int POPULAR = 2;
     public final static int NEW = 3;
+    public final static int FEED = 4;
+    private int page = 1;
+    private int limit = 10;
+    public int maxSize;
 
-    public static FragmentListGrid newInstance(int orientation, String id, int type) {
+    public static FragmentListGrid newInstance(int orientation, int type, int maxSize, String[] categoryIds) {
         FragmentListGrid fragment = new FragmentListGrid();
         Bundle args = new Bundle();
         args.putInt("orientation", orientation);
-        args.putString("id", id);
+        args.putStringArray("category_ids", categoryIds);
         args.putInt("type", type);
+        args.putInt("max_size", maxSize);
         fragment.setArguments(args);
         return fragment;
     }
@@ -52,7 +57,8 @@ public class FragmentListGrid extends Fragment {
         if (getArguments() != null) {
             orientation = getArguments().getInt("orientation");
             type = getArguments().getInt("type");
-            id = getArguments().getString("id");
+            maxSize = getArguments().getInt("max_size");
+            categoryIds = getArguments().getStringArray("category_ids");
         }
     }
 
@@ -67,28 +73,43 @@ public class FragmentListGrid extends Fragment {
         // Inflate the layout for this fragment
         b = FragmentListGridBinding.inflate(inflater, container, false);
         setRecycler();
+        setProgress(true);
         check();
         return b.getRoot();
     }
 
-    private void check() {
-        JsonObject j = new JsonObject();
-        j.addProperty("sortType", 0);
-        j.addProperty("descending", true);
-        j.addProperty("categoryIds", "");
-        j.addProperty("pageNumber", 1);
-        j.addProperty("take", 10);
+    private void setProgress(boolean isProgress) {
+        if (isProgress) {
+            b.progressBar.setVisibility(View.VISIBLE);
+            b.recGrid.setVisibility(View.GONE);
+        } else {
+            b.progressBar.setVisibility(View.GONE);
+            b.recGrid.setVisibility(View.VISIBLE);
+        }
+    }
 
-        Call<ArrayList<ProductDto>> call = StaticMethods.getApiHome().getProducts(j);
-        call.enqueue(new RetrofitCallback<ArrayList<ProductDto>>() {
+    private void check() {
+        RequestCard requestCard = new RequestCard();
+        requestCard.setCardTypes(new int[]{CardType.product});
+        requestCard.setCategoryIds(categoryIds);
+        requestCard.setDescending(true);
+        requestCard.setPageNumber(page);
+        requestCard.setTake(limit);
+
+        Call<ArrayList<ResponseCard>> call = StaticMethods.getApiHome().getCard(requestCard);
+        call.enqueue(new RetrofitCallback<ArrayList<ResponseCard>>() {
             @Override
-            public void onResponse(ArrayList<ProductDto> response) {
+            public void onResponse(ArrayList<ResponseCard> response) {
                 adapterGrid.setStories(response);
+                setProgress(false);
+                Log.e("TAG_Error", "onResponse: " + response.size());
+
             }
 
             @Override
             public void onFailure(Throwable t) {
-
+                setProgress(false);
+                Log.e("TAG_Error", "onFailure: " + t);
             }
         });
     }
@@ -96,10 +117,10 @@ public class FragmentListGrid extends Fragment {
 
     private void setRecycler() {
         if (orientation == HORIZONTAL_LINEAR) {
-            adapterGrid = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_HORIZONTAL);
+            adapterGrid = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_HORIZONTAL, maxSize);
             b.recGrid.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         } else {
-            adapterGrid = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_GRID);
+            adapterGrid = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_GRID, maxSize);
             b.recGrid.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         }
         b.recGrid.setAdapter(adapterGrid);

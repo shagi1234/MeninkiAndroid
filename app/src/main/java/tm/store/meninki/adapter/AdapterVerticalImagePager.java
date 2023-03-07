@@ -8,12 +8,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import tm.store.meninki.databinding.ItemImageVerticalBinding;
 
 import java.util.ArrayList;
 
+import tm.store.meninki.api.data.MediaDto;
+import tm.store.meninki.databinding.ItemImageVerticalBinding;
+
 public class AdapterVerticalImagePager extends RecyclerView.Adapter<AdapterVerticalImagePager.ImageHolder> {
-    private ArrayList<String> imageList = new ArrayList<>();
+    private ArrayList<MediaDto> imageList = new ArrayList<>();
     private Context context;
 
     public AdapterVerticalImagePager(Context context) {
@@ -51,16 +53,16 @@ public class AdapterVerticalImagePager extends RecyclerView.Adapter<AdapterVerti
 
         public void bind() {
             Glide.with(context)
-                    .load(imageList.get(getAdapterPosition()))
+                    .load(imageList.get(getAdapterPosition()).getPath())
                     .into(b.image);
 
             Glide.with(context)
-                    .load(imageList.get(getAdapterPosition()))
+                    .load(imageList.get(getAdapterPosition()).getPath())
                     .into(b.imageSmall);
         }
     }
 
-    public void setImageList(ArrayList<String> imageList) {
+    public void setImageList(ArrayList<MediaDto> imageList) {
         this.imageList = imageList;
         notifyDataSetChanged();
     }

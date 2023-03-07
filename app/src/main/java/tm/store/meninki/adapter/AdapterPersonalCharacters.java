@@ -116,7 +116,7 @@ public class AdapterPersonalCharacters extends RecyclerView.Adapter<AdapterPerso
             b.recItem.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
             b.recItem.setAdapter(adapter);
 
-            adapter.setImageUrl(Lists.getS());
+            adapter.setImageUrl(null);
         }
 
         private void setRecyclerText() {

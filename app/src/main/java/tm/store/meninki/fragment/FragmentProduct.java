@@ -10,6 +10,7 @@ import static tm.store.meninki.utils.StaticMethods.setPadding;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,20 +21,27 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.tabs.TabLayout;
+
+import java.util.ArrayList;
+import java.util.Objects;
+
+import retrofit2.Call;
 import tm.store.meninki.R;
 import tm.store.meninki.adapter.AdapterCharColor;
 import tm.store.meninki.adapter.AdapterCharImage;
 import tm.store.meninki.adapter.AdapterCharPick;
 import tm.store.meninki.adapter.AdapterVerticalImagePager;
 import tm.store.meninki.adapter.AdapterViewPager;
+import tm.store.meninki.api.RetrofitCallback;
+import tm.store.meninki.api.data.MediaDto;
+import tm.store.meninki.api.data.ProductDetails;
+import tm.store.meninki.data.CategoryDto;
 import tm.store.meninki.data.FragmentPager;
 import tm.store.meninki.data.ProductImageDto;
 import tm.store.meninki.databinding.FragmentProductBinding;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.tabs.TabLayout;
-
-import java.util.ArrayList;
-import java.util.Objects;
+import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentProduct extends Fragment {
     private FragmentProductBinding b;
@@ -66,11 +74,11 @@ public class FragmentProduct extends Fragment {
             uuid = getArguments().getString("uuid");
             isStore = getArguments().getInt("is_store");
         }
-        s.add(new ProductImageDto("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg","salam"));
-        s.add(new ProductImageDto("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg","salam"));
-        s.add(new ProductImageDto("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg","salam"));
-        s.add(new ProductImageDto("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg","salam"));
-        s.add(new ProductImageDto("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg","salam"));
+        s.add(new ProductImageDto("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg", "salam"));
+        s.add(new ProductImageDto("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg", "salam"));
+        s.add(new ProductImageDto("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg", "salam"));
+        s.add(new ProductImageDto("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg", "salam"));
+        s.add(new ProductImageDto("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg", "salam"));
 
         images.add("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg");
         images.add("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg");
@@ -114,10 +122,36 @@ public class FragmentProduct extends Fragment {
 
         setBottomSheet();
 
-        setImagePager();
-        setViewPager();
+        getData();
 
         return b.getRoot();
+    }
+
+    private void getData() {
+        Call<ProductDetails> call = StaticMethods.getApiHome().getProductsById(uuid);
+        call.enqueue(new RetrofitCallback<ProductDetails>() {
+            @Override
+            public void onResponse(ProductDetails response) {
+                if (response == null) {
+                    return;
+                }
+                setResources(response);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.e("Error", "onFailure: " + t);
+            }
+        });
+    }
+
+    private void setResources(ProductDetails productDetails) {
+        setImagePager(productDetails.getMedias());
+        setViewPager(productDetails.getCategories());
+        b.bottomSheet.itemName.setText(productDetails.getName());
+        b.bottomSheet.desc.setText(productDetails.getDescription());
+        b.bottomSheet.price.setText(productDetails.getPrice());
+        b.bottomSheet.oldPrice.setText(productDetails.getDiscountPrice());
     }
 
     private void checkUI() {
@@ -133,8 +167,6 @@ public class FragmentProduct extends Fragment {
             setRecyclerCharImage();
             setRecyclerCharPick();
             setRecyclerColor();
-
-            getProductData();
 
         }
     }
@@ -168,7 +200,7 @@ public class FragmentProduct extends Fragment {
         setBackgroundDrawable(getContext(), b.bottomSheet.txtBtnCaption, R.color.white, 0, 4, false, 0);
     }
 
-    private void setImagePager() {
+    private void setImagePager(ArrayList<MediaDto> medias) {
         AdapterVerticalImagePager adapterVerticalImagePager = new AdapterVerticalImagePager(getContext());
         b.imagePager.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getWindowHeight(getActivity()) * 55 / 75));
 
@@ -179,7 +211,7 @@ public class FragmentProduct extends Fragment {
 
         b.imagePager.setAdapter(adapterVerticalImagePager);
 
-        adapterVerticalImagePager.setImageList(images);
+        adapterVerticalImagePager.setImageList(medias);
         b.indicator.setViewPager(b.imagePager);
 
 
@@ -192,12 +224,6 @@ public class FragmentProduct extends Fragment {
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 
-    private void getProductData() {
-        adapterCharImage.setImageUrl(s);
-        adapterCharPick.setPicks(picks);
-        adapterCharColor.setColor(colors);
-    }
-
     private void setRecyclerCharImage() {
         adapterCharImage = new AdapterCharImage(getContext(), AdapterCharPick.NOT_ADDABLE);
         b.bottomSheet.recCharImage.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -205,7 +231,7 @@ public class FragmentProduct extends Fragment {
     }
 
     private void setRecyclerCharPick() {
-        adapterCharPick = new AdapterCharPick(getContext(),AdapterCharPick.NOT_ADDABLE);
+        adapterCharPick = new AdapterCharPick(getContext(), AdapterCharPick.NOT_ADDABLE);
         b.bottomSheet.recCharPick.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         b.bottomSheet.recCharPick.setAdapter(adapterCharPick);
     }
@@ -216,7 +242,12 @@ public class FragmentProduct extends Fragment {
         b.bottomSheet.recCharColor.setAdapter(adapterCharColor);
     }
 
-    private void setViewPager() {
+    private void setViewPager(ArrayList<CategoryDto> categories) {
+        String[] categoryIds = new String[categories.size()];
+
+        for (int i = 0; i < categories.size(); i++) {
+            categoryIds[i] = categories.get(i).getId();
+        }
 
         b.bottomSheet.tabLayout.setupWithViewPager(b.bottomSheet.viewPager);
 
@@ -247,7 +278,7 @@ public class FragmentProduct extends Fragment {
 
         b.bottomSheet.viewPager.setOffscreenPageLimit(2);
         ArrayList<FragmentPager> mFragment = new ArrayList<>();
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.HORIZONTAL_LINEAR, uuid, FragmentListGrid.CATEGORY), "Похожие".toUpperCase()));
+        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.HORIZONTAL_LINEAR, FragmentListGrid.CATEGORY, -1, categoryIds), "Похожие".toUpperCase()));
 
         AdapterViewPager adapterFeedPager = new AdapterViewPager(getChildFragmentManager(), mFragment);
         b.bottomSheet.viewPager.setAdapter(adapterFeedPager);

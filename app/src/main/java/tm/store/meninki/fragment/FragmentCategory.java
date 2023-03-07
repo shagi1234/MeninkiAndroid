@@ -19,13 +19,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.TooltipCompat;
 import androidx.fragment.app.Fragment;
 
-import tm.store.meninki.R;
-import tm.store.meninki.adapter.AdapterViewPager;
-import tm.store.meninki.api.ApiClient;
-import tm.store.meninki.api.services.ServiceCategory;
-import tm.store.meninki.data.CategoryDto;
-import tm.store.meninki.data.FragmentPager;
-import tm.store.meninki.databinding.FragmentCategoryBinding;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -34,6 +27,13 @@ import java.util.Objects;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import tm.store.meninki.R;
+import tm.store.meninki.adapter.AdapterViewPager;
+import tm.store.meninki.api.ApiClient;
+import tm.store.meninki.api.services.ServiceCategory;
+import tm.store.meninki.data.CategoryDto;
+import tm.store.meninki.data.FragmentPager;
+import tm.store.meninki.databinding.FragmentCategoryBinding;
 
 
 public class FragmentCategory extends Fragment {
@@ -144,7 +144,7 @@ public class FragmentCategory extends Fragment {
 //todo shu yeri zynya bosh wagt duzetmeli constructory ayyrmaly
         ArrayList<FragmentPager> mFragment = new ArrayList<>();
         for (int i = 0; i < data.size(); i++) {
-            mFragment.add(new FragmentPager(FragmentCategoryList.newInstance(data.get(i).getSubCategories()), data.get(i).getName().toUpperCase()));
+            mFragment.add(new FragmentPager(FragmentCategoryList.newInstance(data.get(i).getSubCategories(), FragmentCategoryList.TYPE_SUBCATEGORY), data.get(i).getName().toUpperCase()));
         }
 
         AdapterViewPager adapterFeedPager = new AdapterViewPager(getChildFragmentManager(), mFragment);

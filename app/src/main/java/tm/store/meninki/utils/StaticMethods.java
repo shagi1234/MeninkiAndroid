@@ -74,6 +74,7 @@ import java.util.TimeZone;
 
 import tm.store.meninki.R;
 import tm.store.meninki.api.ApiClient;
+import tm.store.meninki.api.services.ServiceCategory;
 import tm.store.meninki.api.services.ServiceHome;
 import tm.store.meninki.api.services.ServiceLogin;
 
@@ -117,6 +118,9 @@ public class StaticMethods {
 
     public static ServiceHome getApiHome() {
         return (ServiceHome) ApiClient.createRequest(ServiceHome.class);
+    }
+    public static ServiceCategory getApiCategory() {
+        return (ServiceCategory) ApiClient.createRequest(ServiceCategory.class);
     }
 
     public static String getTimeOrDayOrDate(Date date) {

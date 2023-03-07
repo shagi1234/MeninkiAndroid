@@ -7,8 +7,20 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rec_grid"
-        android:layout_marginHorizontal="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="10dp"
+        android:overScrollMode="ifContentScrolls"
+        android:visibility="gone" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:indeterminate="false"
+        android:progress="0"
+        android:progressTint="@color/accent"
+        android:visibility="visible" />
 
 </FrameLayout>

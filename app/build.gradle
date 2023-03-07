@@ -80,4 +80,11 @@ dependencies {
     //color picker
     implementation 'com.github.QuadFlask:colorpicker:0.0.15'
 
+    //Slider
+    implementation 'com.r0adkll:slidableactivity:2.1.0'
+
+    //compressor
+//    implementation 'id.zelory:compressor:1.0.4'
+
+
 }

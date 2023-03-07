@@ -1,14 +1,13 @@
 package tm.store.meninki.api.services;
 
 import retrofit2.http.PUT;
-import tm.store.meninki.api.data.DataCheckSms;
-import tm.store.meninki.api.data.DataSendSms;
+import tm.store.meninki.api.response.DataCheckSms;
+import tm.store.meninki.api.response.DataSendSms;
 import com.google.gson.JsonObject;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
-import tm.store.meninki.api.data.Response;
 
 public interface ServiceLogin {
     @POST("/api/User/Registration")

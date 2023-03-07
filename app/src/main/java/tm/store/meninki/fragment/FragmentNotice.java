@@ -60,14 +60,14 @@ public class FragmentNotice extends Fragment {
     }
 
     private void setRecyclerGrid() {
-        adapterGrid = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_GRID);
+        adapterGrid = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_GRID, -1);
         RecyclerView.LayoutManager staggered = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         b.recProducts.setLayoutManager(staggered);
         b.recProducts.setAdapter(adapterGrid);
     }
 
     private void setRecyclerHorizontal() {
-        adapterGridHorizontal = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_HORIZONTAL_SMALL);
+        adapterGridHorizontal = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_HORIZONTAL_SMALL, -1);
         b.recProductsHorizontal.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         b.recProductsHorizontal.setAdapter(adapterGridHorizontal);
     }

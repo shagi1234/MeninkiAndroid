@@ -31,7 +31,7 @@ import retrofit2.Call;
 import tm.store.meninki.R;
 import tm.store.meninki.api.ApiClient;
 import tm.store.meninki.api.RetrofitCallback;
-import tm.store.meninki.api.data.DataCheckSms;
+import tm.store.meninki.api.response.DataCheckSms;
 import tm.store.meninki.api.services.ServiceLogin;
 import tm.store.meninki.databinding.FragmentSmsCodeBinding;
 import tm.store.meninki.shared.Account;

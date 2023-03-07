@@ -94,7 +94,31 @@
                 android:textColorHint="@color/caption" />
 
             <TextView
-                android:id="@+id/count"
+                android:id="@+id/choose_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/roboto_medium"
+                android:padding="14dp"
+                android:text="Choose category"
+                android:textColor="@color/caption"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/choose_shop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/roboto_medium"
+                android:padding="14dp"
+                android:text="Choose shop"
+                android:textColor="@color/caption"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/h_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="20dp"
@@ -158,6 +182,7 @@
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/roboto_medium"
                     android:hint="Обязательное поле"
+                    android:inputType="numberDecimal"
                     android:padding="14dp"
                     android:textColor="@color/dark"
                     android:textColorHint="@color/caption" />
@@ -183,7 +208,34 @@
                     android:fontFamily="@font/roboto_medium"
                     android:gravity="start"
                     android:hint="Необязательно"
+                    android:inputType="numberDecimal"
                     android:padding="14dp"
+                    android:textColor="@color/dark"
+                    android:textColorHint="@color/caption" />
+
+                <TextView
+                    android:id="@+id/h_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="30dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="start"
+                    android:maxLines="1"
+                    android:text="Count"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/count"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="start"
+                    android:inputType="number"
+                    android:padding="14dp"
+                    android:text="1"
                     android:textColor="@color/dark"
                     android:textColorHint="@color/caption" />
             </LinearLayout>
@@ -209,70 +261,14 @@
                 android:layout_marginHorizontal="15dp"
                 android:layout_marginTop="20dp" />
 
-            <TextView
-                android:id="@+id/header_product_characteristic"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="30dp"
-                android:fontFamily="@font/roboto_medium"
-                android:gravity="center"
-                android:maxLines="1"
-                android:text="Характеристики товара"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/txt_product_characteristic"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginVertical="14dp"
-                android:fontFamily="@font/roboto_medium"
-                android:gravity="start"
-                android:text="Здесь вы сможете добавить характеристики к вашему товару и создать вариации к каждой характеристике. Дальше прочая справка."
-                android:textColor="@color/caption"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/wariants"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="20dp"
-                android:fontFamily="@font/roboto_flex"
-                android:gravity="center"
-                android:visibility="gone"
-                android:paddingVertical="14dp"
-                android:text="13 вариантов"
-                android:textColor="@color/dark"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/redactor_character"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="1dp"
-                android:drawableEnd="@drawable/ic_chevron__1_"
-                android:drawableTint="@color/accent"
-                android:fontFamily="@font/roboto_flex"
-                android:gravity="start"
-                android:padding="14dp"
-                android:text="Редактировать характеристики"
-                android:textColor="@color/accent"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
             <LinearLayout
-                android:visibility="gone"
-                android:id="@+id/lay_price_if_many"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
-                    android:id="@+id/header_price"
+                    android:id="@+id/header_product_characteristic"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="20dp"
@@ -280,26 +276,38 @@
                     android:fontFamily="@font/roboto_medium"
                     android:gravity="center"
                     android:maxLines="1"
-                    android:text="Ценообразование"
+                    android:text="Характеристики товара"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/prices"
+                    android:id="@+id/txt_product_characteristic"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="14dp"
+                    android:layout_marginVertical="14dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="start"
+                    android:text="Здесь вы сможете добавить характеристики к вашему товару и создать вариации к каждой характеристике. Дальше прочая справка."
+                    android:textColor="@color/caption"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/wariants"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="20dp"
                     android:fontFamily="@font/roboto_flex"
                     android:gravity="center"
                     android:paddingVertical="14dp"
-                    android:text="1313 - 1313 ТМТ"
+                    android:text="13 вариантов"
                     android:textColor="@color/dark"
                     android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone" />
 
                 <TextView
-                    android:id="@+id/redactor_price"
+                    android:id="@+id/redactor_character"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="20dp"
@@ -309,10 +317,62 @@
                     android:fontFamily="@font/roboto_flex"
                     android:gravity="start"
                     android:padding="14dp"
-                    android:text="Редактировать стоимость"
+                    android:text="Редактировать характеристики"
                     android:textColor="@color/accent"
                     android:textSize="14sp"
                     android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/lay_price_if_many"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/header_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginTop="30dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="Ценообразование"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/prices"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginTop="14dp"
+                        android:fontFamily="@font/roboto_flex"
+                        android:gravity="center"
+                        android:paddingVertical="14dp"
+                        android:text="1313 - 1313 ТМТ"
+                        android:textColor="@color/dark"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/redactor_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginTop="1dp"
+                        android:drawableEnd="@drawable/ic_chevron__1_"
+                        android:drawableTint="@color/accent"
+                        android:fontFamily="@font/roboto_flex"
+                        android:gravity="start"
+                        android:padding="14dp"
+                        android:text="Редактировать стоимость"
+                        android:textColor="@color/accent"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -321,48 +381,63 @@
                 android:layout_height="170dp" />
 
         </LinearLayout>
+
     </androidx.core.widget.NestedScrollView>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/lay_btn_basket"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/lay_btn_basket"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_weight="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/txt_go_basket"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginBottom="20dp"
-            android:layout_weight="1"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@color/accent"
+            android:fontFamily="@font/roboto_flex"
+            android:gravity="center"
+            android:paddingHorizontal="17dp"
+            android:paddingVertical="10dp"
+            android:text="Оценить и отправить"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent" />
 
-            <TextView
-                android:id="@+id/txt_go_basket"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:background="@color/accent"
-                android:fontFamily="@font/roboto_flex"
-                android:gravity="center"
-                android:paddingHorizontal="17dp"
-                android:paddingVertical="10dp"
-                android:text="Оценить и отправить"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+        <FrameLayout
+            android:id="@+id/go_basket"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/ripple_white"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <FrameLayout
-                android:id="@+id/go_basket"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:background="@drawable/ripple_white"
-                android:clickable="true"
-                android:focusable="true"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+    <FrameLayout
+        android:id="@+id/gray_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.3"
+        android:background="@color/black"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
