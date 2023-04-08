@@ -60,17 +60,15 @@ public class FragmentFeed extends Fragment {
         b = FragmentFeedBinding.inflate(inflater, container, false);
         setBackground();
         setRecycler();
-        replaceFragment(mainFragmentManager, R.id.content_view_pager, FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, FragmentListGrid.FEED, -1, null));
+        replaceFragment(mainFragmentManager, R.id.content_view_pager, FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, FragmentListGrid.FEED, -1, null,CardType.getAll()));
         initListeners();
 
         getPosts();
-        adapterStore.setStories(null);
 
         return b.getRoot();
     }
 
     private void getPosts() {
-
         RequestCard requestCard = new RequestCard();
         requestCard.setCardTypes(new int[]{CardType.post});
         requestCard.setCategoryIds(null);
@@ -83,7 +81,6 @@ public class FragmentFeed extends Fragment {
             @Override
             public void onResponse(ArrayList<ResponseCard> response) {
                 adapterStore.setStories(response);
-
             }
 
             @Override

@@ -32,6 +32,7 @@ public class FragmentListGrid extends Fragment {
     public final static int VERTICAL_GRID = 0;
     public final static int HORIZONTAL_LINEAR = 1;
     private String[] categoryIds;
+    private int[] cardTypes;
     public final static int CATEGORY = 1;
     public final static int POPULAR = 2;
     public final static int NEW = 3;
@@ -40,11 +41,12 @@ public class FragmentListGrid extends Fragment {
     private int limit = 10;
     public int maxSize;
 
-    public static FragmentListGrid newInstance(int orientation, int type, int maxSize, String[] categoryIds) {
+    public static FragmentListGrid newInstance(int orientation, int type, int maxSize, String[] categoryIds,int[] cardType) {
         FragmentListGrid fragment = new FragmentListGrid();
         Bundle args = new Bundle();
         args.putInt("orientation", orientation);
         args.putStringArray("category_ids", categoryIds);
+        args.putIntArray("card_types", cardType);
         args.putInt("type", type);
         args.putInt("max_size", maxSize);
         fragment.setArguments(args);
@@ -59,6 +61,7 @@ public class FragmentListGrid extends Fragment {
             type = getArguments().getInt("type");
             maxSize = getArguments().getInt("max_size");
             categoryIds = getArguments().getStringArray("category_ids");
+            cardTypes = getArguments().getIntArray("card_types");
         }
     }
 
@@ -90,7 +93,7 @@ public class FragmentListGrid extends Fragment {
 
     private void check() {
         RequestCard requestCard = new RequestCard();
-        requestCard.setCardTypes(new int[]{CardType.product});
+        requestCard.setCardTypes(cardTypes);
         requestCard.setCategoryIds(categoryIds);
         requestCard.setDescending(true);
         requestCard.setPageNumber(page);

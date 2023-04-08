@@ -1,5 +1,6 @@
 package tm.store.meninki.fragment;
 
+import static tm.store.meninki.api.enums.CardType.product;
 import static tm.store.meninki.utils.Const.mainFragmentManager;
 import static tm.store.meninki.utils.FragmentHelper.addFragment;
 import static tm.store.meninki.utils.StaticMethods.getWindowHeight;
@@ -41,6 +42,7 @@ import tm.store.meninki.data.CategoryDto;
 import tm.store.meninki.data.FragmentPager;
 import tm.store.meninki.data.ProductImageDto;
 import tm.store.meninki.databinding.FragmentProductBinding;
+import tm.store.meninki.shared.Account;
 import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentProduct extends Fragment {
@@ -116,8 +118,11 @@ public class FragmentProduct extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         b = FragmentProductBinding.inflate(inflater, container, false);
+
         checkUI();
+
         setBackgrounds();
+
         initListeners();
 
         setBottomSheet();
@@ -128,7 +133,7 @@ public class FragmentProduct extends Fragment {
     }
 
     private void getData() {
-        Call<ProductDetails> call = StaticMethods.getApiHome().getProductsById(uuid);
+        Call<ProductDetails> call = StaticMethods.getApiHome().getProductsById(Account.newInstance(getContext()).getAccessToken(), uuid);
         call.enqueue(new RetrofitCallback<ProductDetails>() {
             @Override
             public void onResponse(ProductDetails response) {
@@ -150,8 +155,8 @@ public class FragmentProduct extends Fragment {
         setViewPager(productDetails.getCategories());
         b.bottomSheet.itemName.setText(productDetails.getName());
         b.bottomSheet.desc.setText(productDetails.getDescription());
-        b.bottomSheet.price.setText(productDetails.getPrice());
-        b.bottomSheet.oldPrice.setText(productDetails.getDiscountPrice());
+        b.bottomSheet.price.setText(String.valueOf(productDetails.getPrice()));
+        b.bottomSheet.oldPrice.setText(String.valueOf(productDetails.getDiscountPrice()));
     }
 
     private void checkUI() {
@@ -278,7 +283,7 @@ public class FragmentProduct extends Fragment {
 
         b.bottomSheet.viewPager.setOffscreenPageLimit(2);
         ArrayList<FragmentPager> mFragment = new ArrayList<>();
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.HORIZONTAL_LINEAR, FragmentListGrid.CATEGORY, -1, categoryIds), "Похожие".toUpperCase()));
+        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.HORIZONTAL_LINEAR, FragmentListGrid.CATEGORY, -1, categoryIds, new int[]{product}), "Похожие".toUpperCase()));
 
         AdapterViewPager adapterFeedPager = new AdapterViewPager(getChildFragmentManager(), mFragment);
         b.bottomSheet.viewPager.setAdapter(adapterFeedPager);

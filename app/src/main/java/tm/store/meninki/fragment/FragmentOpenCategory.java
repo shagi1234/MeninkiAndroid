@@ -1,5 +1,6 @@
 package tm.store.meninki.fragment;
 
+import static tm.store.meninki.api.enums.CardType.product;
 import static tm.store.meninki.utils.StaticMethods.dpToPx;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setPadding;
@@ -130,9 +131,9 @@ public class FragmentOpenCategory extends Fragment {
     private void setViewPager() {
         ArrayList<FragmentPager> mFragment = new ArrayList<>();
 
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, FragmentListGrid.CATEGORY, -1, new String[]{uuid}), ""));
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, FragmentListGrid.CATEGORY, -1, new String[]{uuid}), ""));
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, FragmentListGrid.CATEGORY, -1, new String[]{uuid}), ""));
+        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, FragmentListGrid.CATEGORY, -1, new String[]{uuid}, new int[]{product}), ""));
+        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, FragmentListGrid.CATEGORY, -1, new String[]{uuid}, new int[]{product}), ""));
+        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, FragmentListGrid.CATEGORY, -1, new String[]{uuid}, new int[]{product}), ""));
 
         adapterFeedPager = new AdapterViewPager(getChildFragmentManager(), mFragment);
         b.viewPager.setAdapter(adapterFeedPager);

@@ -25,6 +25,7 @@ public class Account {
     private static final String PREF_USER_TYPE = "user_role";
     private static final String PREF_USER_PHONE_NUMBER = "user_phone_num";
     private static final String PREF_USER_IS_LOGGED_IN = "user_is_logged_in";
+    private static final String PREF_MY_SHOP_ID = "__my_shops";
 
     public static Account newInstance(Context context) {
         if (accountPreferences == null) {
@@ -44,11 +45,23 @@ public class Account {
         editor.commit();
     }
 
+    public void setMyShops(String ids) {
+        editor.putString(PREF_MY_SHOP_ID, ids);
+        editor.commit();
+    }
+
+    public String getMyShop() {
+        if (_context == null) {
+            return "";
+        } else
+            return pref.getString(PREF_MY_SHOP_ID, "");
+    }
+
     public String getAccessToken() {
         if (_context == null) {
             return "";
         } else
-            return pref.getString(PREF_TOKEN, "");
+            return "Bearer " + pref.getString(PREF_TOKEN, "");
     }
 
 

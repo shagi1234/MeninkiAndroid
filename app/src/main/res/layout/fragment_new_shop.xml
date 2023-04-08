@@ -88,13 +88,22 @@
                     android:textSize="14sp"
                     android:textStyle="normal" />
 
-                <Spinner
-                    android:id="@+id/spinner_store"
+                <TextView
+                    android:id="@+id/choose_category"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="10dp"
-                    android:background="@color/white" />
+                    android:background="@color/white"
+                    android:drawableEnd="@drawable/ic_ffrd"
+                    android:drawableTint="@color/black"
+                    android:fontFamily="@font/roboto_flex"
+                    android:gravity="start"
+                    android:paddingVertical="15dp"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="10dp"
+                    android:text="Choose Category" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -196,8 +205,8 @@
                     android:fontFamily="@font/roboto_flex"
                     android:hint="(необязательно)"
                     android:minHeight="100dp"
-                    android:paddingVertical="15dp"
-                    android:paddingStart="20dp"
+                    android:gravity="start|top"
+                    android:padding="15dp"
                     android:textSize="14sp" />
 
                 <TextView

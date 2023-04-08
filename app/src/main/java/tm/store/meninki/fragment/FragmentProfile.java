@@ -1,5 +1,6 @@
 package tm.store.meninki.fragment;
 
+import static tm.store.meninki.api.Network.BASE_URL;
 import static tm.store.meninki.utils.Const.mainFragmentManager;
 import static tm.store.meninki.utils.FragmentHelper.addFragment;
 import static tm.store.meninki.utils.StaticMethods.dpToPx;
@@ -16,28 +17,45 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Objects;
+
+import retrofit2.Call;
 import tm.store.meninki.R;
-import tm.store.meninki.adapter.AdapterCircle;
 import tm.store.meninki.adapter.AdapterGrid;
+import tm.store.meninki.api.RetrofitCallback;
+import tm.store.meninki.api.data.UserProfile;
+import tm.store.meninki.api.request.RequestCard;
+import tm.store.meninki.api.response.ResponseCard;
 import tm.store.meninki.databinding.FragmentProfileBinding;
+import tm.store.meninki.shared.Account;
+import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentProfile extends Fragment {
     private FragmentProfileBinding b;
-    private AdapterCircle adapterCircle;
     private AdapterGrid adapterGrid;
     private String type;
     public final static String TYPE_USER = "user";
     public final static String TYPE_SHOP = "shop";
+    private boolean isMyShop;
+    private Account account;
+    private UserProfile user;
+    private String id;
 
-    public static FragmentProfile newInstance(String param) {
+    public static FragmentProfile newInstance(String param, String id) {
         FragmentProfile fragment = new FragmentProfile();
         Bundle args = new Bundle();
         args.putString("type", param);
+        args.putString("id", id);
         fragment.setArguments(args);
         return fragment;
     }
@@ -47,14 +65,15 @@ public class FragmentProfile extends Fragment {
         super.onResume();
         setMargins(b.layHeader, 0, statusBarHeight, 0, 0);
         setMargins(b.coordinator, 0, 0, 0, navigationBarHeight);
-        setMargins(b.frameFab, 0, 0, dpToPx(20, getContext()), navigationBarHeight + dpToPx(20, getContext()));
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        account = Account.newInstance(getContext());
         if (getActivity() != null) {
             type = getArguments().getString("type");
+            id = getArguments().getString("id");
         }
     }
 
@@ -63,8 +82,8 @@ public class FragmentProfile extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         b = FragmentProfileBinding.inflate(inflater, container, false);
+        setRecyclerProducts();
         check();
-        adapterGrid.setStories(null);
         initListeners();
         return b.getRoot();
     }
@@ -74,55 +93,203 @@ public class FragmentProfile extends Fragment {
 
         switch (type) {
             case TYPE_USER:
-                b.recCategories.setVisibility(View.GONE);
-                b.textContent.setVisibility(View.GONE);
-                b.layFollowsAndSubs.setVisibility(View.GONE);
-                b.icMore.setVisibility(View.GONE);
-                b.settings.setVisibility(View.VISIBLE);
-                b.nameUser.setText("Майса гелнеджен");
-                b.myBookmarks.setText("Избранное");
-                b.myShops.setText("Мои магазины");
-                b.countShops.setVisibility(View.VISIBLE);
-                b.nextBtn.setImageResource(R.drawable.ic_ffrd);
-                b.allSoldProducts.setText("Куплено за все время");
-                b.allMessages.setText("Подписчики");
-                b.allPosts.setText("Подписки");
-                b.countBookmark.setVisibility(View.VISIBLE);
-                b.editUser.setVisibility(View.VISIBLE);
-                b.edit.setVisibility(View.GONE);
-                b.frameFab.setVisibility(View.GONE);
-
                 setMargins(b.layReply, dpToPx(20, getContext()), dpToPx(4, getContext()), dpToPx(20, getContext()), dpToPx(70, getContext()));
+                b.layReply.setVisibility(View.GONE);
+                b.editShop.setVisibility(View.GONE);
+
+                if (isMe()) {
+                    b.editUser.setVisibility(View.VISIBLE);
+                    b.myShops.setText("Мои магазины");
+                    b.nextBtn.setImageResource(R.drawable.ic_ffrd);
+                    b.settings.setVisibility(View.VISIBLE);
+                    b.icMore.setVisibility(View.GONE);
+                    b.countShops.setVisibility(View.VISIBLE);
+                    b.myBookmarks.setText("Избранное");
+                    b.myBookmarks.setTextColor(getResources().getColor(R.color.black));
+                    b.icSubscribe.setVisibility(View.GONE);
+                    b.countBookmark.setVisibility(View.VISIBLE);
+
+                    setBackgroundDrawable(getContext(), b.layBookmark, R.color.white, R.color.hover, 0, 0, 4, 4, false, 1);
+
+                    b.allSoldProducts.setText("in card");
+
+                    b.countBookmark.setVisibility(View.VISIBLE);
+                    b.editUser.setVisibility(View.VISIBLE);
+                } else {
+                    b.editUser.setVisibility(View.GONE);
+                    b.myBookmarks.setText("Subscribe");
+                    b.myBookmarks.setTextColor(getResources().getColor(R.color.white));
+                    b.icSubscribe.setVisibility(View.VISIBLE);
+                    b.countBookmark.setVisibility(View.GONE);
+                    setBackgroundDrawable(getContext(), b.layBookmark, R.color.accent, 0, 0, 0, 4, 4, false, 0);
+                    b.nextBtn.setImageResource(R.drawable.ic_person_arrow_right);
+                    b.settings.setVisibility(View.GONE);
+                    b.icMore.setVisibility(View.GONE);
+                    b.countShops.setVisibility(View.GONE);
+                }
+
+                getUserById();
 
                 break;
             case TYPE_SHOP:
-                b.nameUser.setText("Вино Газиза Store");
-                b.layFollowsAndSubs.setVisibility(View.VISIBLE);
-                b.myBookmarks.setText("Настроить магазин");
-                b.icMore.setVisibility(View.VISIBLE);
-                b.settings.setVisibility(View.GONE);
-                b.myShops.setText("Контакты");
-                b.countShops.setVisibility(View.GONE);
-                b.nextBtn.setImageResource(R.drawable.ic_person_arrow_right);
-                b.allSoldProducts.setText("Место в общем рейтинге");
-                b.allMessages.setText("Заказы");
-                b.allPosts.setText("Посетителей");
                 b.countBookmark.setVisibility(View.GONE);
+                b.settings.setVisibility(View.GONE);
                 b.editUser.setVisibility(View.GONE);
-                b.edit.setVisibility(View.VISIBLE);
-                setMargins(b.layReply, dpToPx(20, getContext()), dpToPx(4, getContext()), dpToPx(20, getContext()), dpToPx(20, getContext()));
-                b.recCategories.setVisibility(View.VISIBLE);
-                b.textContent.setVisibility(View.GONE);
-                b.frameFab.setVisibility(View.VISIBLE);
+                b.icMore.setVisibility(View.GONE);
 
-                setRecyclerCircle();
-                adapterCircle.setStories(null);
+                try {
+                    JSONArray shop = new JSONArray(Account.newInstance(getContext()).getMyShop());
+                    int j = 0;
+                    while (!isMyShop && j < shop.length()) {
+                        JSONObject jsonObject = shop.getJSONObject(j);
+                        isMyShop = jsonObject.getString("id").equals(id);
+                        j++;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (isMyShop) {
+                    b.layReply.setVisibility(View.VISIBLE);
+                    b.myShops.setText("Contacts");
+                    b.nextBtn.setImageResource(R.drawable.ic_ffrd);
+                    b.countShops.setVisibility(View.VISIBLE);
+                    b.myBookmarks.setText("Shop settings");
+                    b.myBookmarks.setTextColor(getResources().getColor(R.color.black));
+                    b.editShop.setVisibility(View.VISIBLE);
+                    b.allFollows.setText("Products");
+                    b.layReply.setVisibility(View.VISIBLE);
+                    setBackgroundDrawable(getContext(), b.layBookmark, R.color.white, R.color.hover, 0, 0, 4, 4, false, 1);
+                    b.allSoldProducts.setText("total rating");
+                } else {
+                    b.layReply.setVisibility(View.GONE);
+                    b.countBookmark.setVisibility(View.VISIBLE);
+                    b.myBookmarks.setText("Subscribe");
+                    b.myShops.setText("Contacts");
+                    b.allSoldProducts.setVisibility(View.GONE);
+                    b.myBookmarks.setTextColor(getResources().getColor(R.color.white));
+                    b.icSubscribe.setVisibility(View.VISIBLE);
+                    b.countBookmark.setVisibility(View.GONE);
+                    setBackgroundDrawable(getContext(), b.layBookmark, R.color.accent, 0, 0, 0, 4, 4, false, 0);
+                    b.nextBtn.setImageResource(R.drawable.ic_person_arrow_right);
+                    b.countShops.setVisibility(View.GONE);
+                }
+
+//                setMargins(b.layReply, dpToPx(20, getContext()), dpToPx(4, getContext()), dpToPx(20, getContext()), dpToPx(20, getContext()));
+
+                getShopById();
+
                 break;
         }
-        setRecyclerProducts();
+    }
 
-        Glide.with(getContext()).load("https://a.espncdn.com/photo/2022/1112/r1089820_1296x729_16-9.jpg").into(b.bigImage);
-        Glide.with(getContext()).load("https://a.espncdn.com/photo/2022/1112/r1089820_1296x729_16-9.jpg").into(b.imageUser);
+    private void getShopById() {
+
+        Call<UserProfile> call = StaticMethods.getApiHome().getShopById(id);
+        call.enqueue(new RetrofitCallback<UserProfile>() {
+            @Override
+            public void onResponse(UserProfile response) {
+                setResources(response);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
+    }
+
+    private void getUserById() {
+        Call<UserProfile> call = StaticMethods.getApiHome().getUserById(id);
+        call.enqueue(new RetrofitCallback<UserProfile>() {
+            @Override
+            public void onResponse(UserProfile response) {
+                setResources(response);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
+    }
+
+    private void setResources(UserProfile response) {
+        user = response;
+        if (getContext() == null) return;
+        b.nameUser.setText(response.getName());
+        b.desc.setText(response.getDescription());
+        b.phoneNum.setText(response.getPhoneNumber());
+        b.countSubscribers.setText(String.valueOf(response.getSubscriberCount()));
+
+        Glide.with(getContext())
+                .load(BASE_URL + response.getImgPath())
+                .into(b.bigImage);
+
+        Glide.with(getContext())
+                .load(BASE_URL + response.getImgPath())
+                .into(b.imageUser);
+
+        if (Objects.equals(type, TYPE_USER)) {
+            b.countProducts.setText(String.valueOf(response.getSubscriptionCount()));
+
+            if (isMe()) {
+                b.countShops.setText(String.valueOf(response.getShopCount()));
+                b.countBookmark.setText(String.valueOf(response.getFavoriteCount()));
+
+            } else {
+                checkSubscribe(response.isSubscribed());
+
+            }
+
+        } else {
+            b.countProducts.setText(String.valueOf(response.getProductCount()));
+
+            if (isMyShop) {
+                b.countVisitors.setText(String.valueOf(response.getVisiterCount()));
+                b.countOrders.setText(String.valueOf(response.getOrderCount()));
+                b.countSold.setText(String.valueOf(response.getPlaceInRating()));
+            } else {
+                checkSubscribe(response.isSubscribed());
+            }
+        }
+
+
+        getProducts();
+    }
+
+    private void checkSubscribe(boolean subscribed) {
+        if (subscribed) {
+            b.myBookmarks.setText("Unsubscribe");
+            b.icSubscribe.setImageResource(R.drawable.ic_subtract_circle__2_);
+        } else {
+            b.myBookmarks.setText("Subscribe");
+            b.icSubscribe.setImageResource(R.drawable.ic_add);
+        }
+    }
+
+    private void getProducts() {
+        RequestCard requestCard = new RequestCard();
+        requestCard.setSortType(0);
+        requestCard.setUserId(id);
+        requestCard.setTake(10);
+        requestCard.setPageNumber(1);
+        requestCard.setDescending(true);
+        requestCard.setCategoryIds(null);
+        Call<ArrayList<ResponseCard>> call = StaticMethods.getApiHome().getCard(requestCard);
+        call.enqueue(new RetrofitCallback<ArrayList<ResponseCard>>() {
+            @Override
+            public void onResponse(ArrayList<ResponseCard> response) {
+                if (response != null) {
+                    adapterGrid.setStories(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
     }
 
     private void setRecyclerProducts() {
@@ -138,21 +305,67 @@ public class FragmentProfile extends Fragment {
             new Handler().postDelayed(() -> b.layShops.setEnabled(true), 200);
         });
 
+        b.laySubscribers.setOnClickListener(v -> {
+            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentUserSubscribers.newInstance(type, id, true));
+        });
+
+        b.layFollows.setOnClickListener(v -> {
+            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentUserSubscribers.newInstance(type, id, false));
+        });
+
         b.layBack.setOnClickListener(v -> getActivity().onBackPressed());
 
-        b.clickFab.setOnClickListener(v -> {
-            b.clickFab.setEnabled(false);
-            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentAddProduct.newInstance());
-            new Handler().postDelayed(() -> b.clickFab.setEnabled(true), 200);
+        b.layBookmark.setOnClickListener(v -> {
+            if (type.equals(TYPE_SHOP)) {
+
+                if (isMyShop) {
+
+                } else {
+                    userSubscribe(!user.isSubscribed(), true);
+                    checkSubscribe(!user.isSubscribed());
+                }
+
+            } else {
+
+                if (isMe()) {
+
+                } else {
+                    userSubscribe(!user.isSubscribed(), false);
+                    checkSubscribe(!user.isSubscribed());
+                }
+            }
         });
 
     }
 
+    private void userSubscribe(boolean isSubscribe, boolean isShop) {
+        JsonObject j = new JsonObject();
+        j.addProperty("id", id);
+        j.addProperty("isSubscribe", isSubscribe);
+        Call<Boolean> call = null;
+        if (isShop) {
+            call = StaticMethods.getApiHome().shopSubscribe(account.getAccessToken(), j);
+        } else {
+            call = StaticMethods.getApiHome().userSubscribe(account.getAccessToken(), j);
+        }
+        call.enqueue(new RetrofitCallback<Boolean>() {
+            @Override
+            public void onResponse(Boolean response) {
+                if (response) {
+                    user.setSubscribed(!user.isSubscribed());
+                }
+            }
 
-    private void setRecyclerCircle() {
-        adapterCircle = new AdapterCircle(getContext(), getActivity());
-        b.recCategories.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        b.recCategories.setAdapter(adapterCircle);
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
+
+    }
+
+    private boolean isMe() {
+        return Objects.equals(id, Account.newInstance(getContext()).getPrefUserUUID());
     }
 
 
@@ -163,10 +376,9 @@ public class FragmentProfile extends Fragment {
         setBackgroundDrawable(getContext(), b.layShops, R.color.white, R.color.hover, 4, false, 1);
         setBackgroundDrawable(getContext(), b.layBookmark, R.color.white, R.color.hover, 0, 0, 4, 4, false, 1);
         setBackgroundDrawable(getContext(), b.layStatistics, R.color.hover, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.layPosts, R.color.hover, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.layVisitors, R.color.hover, 0, 4, false, 0);
         setBackgroundDrawable(getContext(), b.layFollows, R.color.white, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.layMessages, R.color.hover, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.layOrders, R.color.hover, 0, 4, false, 0);
         setBackgroundDrawable(getContext(), b.laySubscribers, R.color.white, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.frameFab, R.color.white, R.color.accent, 10, false, 2);
     }
 }

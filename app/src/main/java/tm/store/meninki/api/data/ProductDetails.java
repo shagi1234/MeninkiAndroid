@@ -19,7 +19,7 @@ public class ProductDetails {
     private Rating rating;
     private ArrayList<OptionDto> options;
     private ArrayList<CategoryDto> categories;
-    private PersonalCharacterDto personalCharacteristics;
+    private ArrayList<PersonalCharacterDto> personalCharacteristics;
     private ArrayList<MediaDto> medias;
 
     public String getId() {
@@ -74,7 +74,7 @@ public class ProductDetails {
         return categories;
     }
 
-    public PersonalCharacterDto getPersonalCharacteristics() {
+    public ArrayList<PersonalCharacterDto> getPersonalCharacteristics() {
         return personalCharacteristics;
     }
 

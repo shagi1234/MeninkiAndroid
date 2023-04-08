@@ -1,5 +1,7 @@
 package tm.store.meninki.api.data;
 
+import com.google.gson.annotations.SerializedName;
+
 public class UserProfile {
     private String id;
     private String imgPath;
@@ -9,6 +11,7 @@ public class UserProfile {
     private boolean isSubscribed;
     private int subscriberCount;
     private int subscriptionCount;
+    @SerializedName("totalProduct")
     private int productCount;
     private int placeInRating; // ine shop-da bar, user profile-da yok
     private String description;  //dine shop-da bar, user profile-da yok

@@ -3,35 +3,31 @@ package tm.store.meninki.api.services;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import tm.store.meninki.api.data.ProductDetails;
-import tm.store.meninki.api.data.ProductDto;
 import tm.store.meninki.api.data.UserProfile;
 import tm.store.meninki.api.enums.Image;
 import tm.store.meninki.api.request.RequestAddProduct;
 import tm.store.meninki.api.request.RequestCard;
 import tm.store.meninki.api.request.RequestCreateShop;
-import tm.store.meninki.api.request.RequestUploadImage;
 import tm.store.meninki.api.response.ResponseCard;
 import tm.store.meninki.api.response.ResponseHomeShops;
 
 public interface ServiceHome {
-    @POST("api/Product/GetAll")
-    Call<ArrayList<ProductDto>> getProducts(@Body JsonObject jsonObject);
-
     @GET("api/Product/GetById/{id}")
-    Call<ProductDetails> getProductsById(@Path("id") String id);
+    Call<ProductDetails> getProductsById(@Header("Authorization")  String token,@Path("id") String id);
 
     @POST("api/Shop/GetAll")
     Call<ArrayList<ResponseHomeShops>> getAllShop(@Body RequestCard requestCard);
@@ -60,6 +56,27 @@ public interface ServiceHome {
 
     @POST("api/Shop")
     Call<UserProfile> createShop(@Body RequestCreateShop requestAddProduct);
+
+    @GET("api/Shop/GetById/{id}")
+    Call<UserProfile> getShopById(@Path("id") String id);
+
+    @GET("api/User/GetById/{id}")
+    Call<UserProfile> getUserById(@Path("id") String id);
+
+    @POST("api/User/GetSubscriber")
+    Call<ArrayList<UserProfile>> getUserUserSubscribers(@Header("Authorization") String token, @Body JsonObject jsonObject);
+
+    @POST("api/User/GetShopSubscriber")
+    Call<ArrayList<UserProfile>> getUserShopSubscribers(@Header("Authorization") String token, @Body JsonObject jsonObject);
+
+    @POST("api/Shop/GetUserSubscriber")
+    Call<ArrayList<UserProfile>> getShopSubscribers(@Header("Authorization") String token, @Body JsonObject jsonObject);
+
+    @POST("api/User/Subscribe")
+    Call<Boolean> userSubscribe(@Header("Authorization") String token, @Body JsonObject jsonObject);
+
+    @POST("api/Shop/Subscribe")
+    Call<Boolean> shopSubscribe(@Header("Authorization") String token, @Body JsonObject jsonObject);
 
 
 }

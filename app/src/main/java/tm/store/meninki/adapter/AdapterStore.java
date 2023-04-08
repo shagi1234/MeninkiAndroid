@@ -80,7 +80,7 @@ public class AdapterStore extends RecyclerView.Adapter<AdapterStore.StoreHolder>
 
             setBackgroundDrawable(context, b.posterImage, R.color.holder, R.color.accent, 0, true, 2);
 
-            b.click.setOnClickListener(v -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProduct.newInstance("", FragmentProduct.STORE)));
+            b.click.setOnClickListener(v -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProduct.newInstance(stories.get(getAdapterPosition()).getId(), FragmentProduct.STORE)));
 
             if (stories == null) return;
             if (stories.get(getAdapterPosition()).getImages().length > 0)

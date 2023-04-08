@@ -1,11 +1,16 @@
 package tm.store.meninki.fragment;
 
+import static tm.store.meninki.utils.Const.mainFragmentManager;
+import static tm.store.meninki.utils.FragmentHelper.addFragment;
+import static tm.store.meninki.utils.StaticMethods.dpToPx;
 import static tm.store.meninki.utils.StaticMethods.logWrite;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
+import static tm.store.meninki.utils.StaticMethods.setMargins;
 import static tm.store.meninki.utils.StaticMethods.setPadding;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,6 +69,7 @@ public class FragmentHome extends Fragment {
     public void onResume() {
         super.onResume();
         setPadding(b.containerProfileId, 0, 0, 0, navigationBarHeight);
+        setMargins(b.fab, dpToPx(20, getContext()), dpToPx(20, getContext()), dpToPx(20, getContext()), dpToPx(20, getContext()) + navigationBarHeight);
     }
 
     @Override
@@ -77,7 +83,6 @@ public class FragmentHome extends Fragment {
         setRecyclerCircle();
         setRecyclerTab();
         setRecyclerTabNew();
-        setResources();
         setViewPager(b.viewPager, FragmentListGrid.POPULAR);
         setViewPager(b.viewPagerNew, FragmentListGrid.NEW);
         initListeners();
@@ -211,11 +216,12 @@ public class FragmentHome extends Fragment {
 
             }
         });
-    }
 
-    private void setResources() {
-//        Glide.with(getContext()).load(StoreList.getStoreDTOS().get(0).getImagePath()).into(b.bigImage1);
-//        Glide.with(getContext()).load(StoreList.getStoreDTOS().get(0).getImagePath()).into(b.bigImage2);
+        b.clickFab.setOnClickListener(v -> {
+            b.clickFab.setEnabled(false);
+            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentAddProduct.newInstance());
+            new Handler().postDelayed(() -> b.clickFab.setEnabled(true), 200);
+        });
     }
 
     private void getPosts() {
@@ -245,7 +251,6 @@ public class FragmentHome extends Fragment {
     private void setBackground() {
         setBackgroundDrawable(getContext(), b.backgroundSearch, R.color.white, 0, 10, false, 0);
         setBackgroundDrawable(getContext(), b.edtSearch, R.color.white, 0, 10, false, 0);
-//        setBackgroundDrawable(getContext(), b.btnCaption, R.color.white, 0, 10, false, 0);
     }
 
     private void setRecycler() {
@@ -269,7 +274,7 @@ public class FragmentHome extends Fragment {
     private void setViewPager(ViewPager viewPager, int type) {
         ArrayList<FragmentPager> mFragment = new ArrayList<>();
 
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, type, 4,null), ""));
+        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, type, 4, null, CardType.getAll()), ""));
 
         AdapterViewPager adapterFeedPager = new AdapterViewPager(getChildFragmentManager(), mFragment);
         viewPager.setAdapter(adapterFeedPager);

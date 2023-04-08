@@ -34,6 +34,7 @@ import tm.store.meninki.api.services.ServiceCategory;
 import tm.store.meninki.data.CategoryDto;
 import tm.store.meninki.data.FragmentPager;
 import tm.store.meninki.databinding.FragmentCategoryBinding;
+import tm.store.meninki.shared.Account;
 
 
 public class FragmentCategory extends Fragment {
@@ -66,7 +67,6 @@ public class FragmentCategory extends Fragment {
         setBackgrounds();
         initListeners();
         getAllCategories();
-//        setViewPager(categoryDtos);
         return b.getRoot();
     }
 
@@ -100,7 +100,7 @@ public class FragmentCategory extends Fragment {
         });
         b.clickUserData.setOnClickListener(v -> {
             b.layUserInfo.setEnabled(false);
-            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(FragmentProfile.TYPE_USER));
+            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(FragmentProfile.TYPE_USER, Account.newInstance(getContext()).getPrefUserUUID()));
             new Handler().postDelayed(() -> b.layUserInfo.setEnabled(true), 200);
         });
     }

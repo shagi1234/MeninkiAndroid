@@ -5,4 +5,15 @@ public class CardType {
     public static final int product = 1;
     public static final int storeService = 2;
     public static final int post = 3;
+
+    private static int[] all = new int[]{
+            advertisementBoard,
+            product,
+            storeService,
+            post
+    };
+
+    public static int[] getAll() {
+        return all;
+    }
 }

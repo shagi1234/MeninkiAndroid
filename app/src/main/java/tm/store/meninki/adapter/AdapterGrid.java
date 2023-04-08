@@ -15,6 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.model.LazyHeaders;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 
 import java.util.ArrayList;
@@ -138,18 +141,33 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             setBackgroundDrawable(context, b.posterImage, R.color.holder, R.color.accent, 0, true, 2);
 
-            b.click.setOnClickListener(v -> FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentProduct.newInstance("", FragmentProduct.PRODUCT)));
+            b.click.setOnClickListener(v -> FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentProduct.newInstance(grids.get(getAdapterPosition()).getId(), FragmentProduct.PRODUCT)));
 
             if (grids == null) return;
 
             if (grids.get(getAdapterPosition()).getImages().length > 0)
-                Glide.with(context)
-                        .load(BASE_URL + "/" + grids.get(getAdapterPosition()).getImages()[0])
-                        .centerCrop()
-                        .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                        .placeholder(R.color.color_inactive)
-                        .error(R.color.holder)
-                        .into(b.image);
+                try {
+                    String USER_AGENT = "Mozilla/5.0 (Linux; Android 11) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.181 Mobile Safari/537.36";
+
+                    GlideUrl glideUrl = new GlideUrl(BASE_URL + "/" + grids.get(getAdapterPosition()).getImages()[0],
+                            new LazyHeaders.Builder()
+                                    .addHeader("User-Agent", USER_AGENT)
+                                    .build());
+
+                    RequestOptions requestOptions = new RequestOptions()
+                            .placeholder(R.color.color_inactive)
+                            .error(R.color.holder);
+
+                    Glide.with(context)
+                            .applyDefaultRequestOptions(requestOptions)
+                            .load(glideUrl)
+                            .timeout(60000)
+                            .override(320, 480)
+                            .into(b.image);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
 
             Glide.with(context)
                     .load(BASE_URL + "/" + grids.get(getAdapterPosition()).getAvatar())

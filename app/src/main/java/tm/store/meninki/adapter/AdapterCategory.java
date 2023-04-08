@@ -24,6 +24,7 @@ import tm.store.meninki.databinding.ItemCategoriesBinding;
 import tm.store.meninki.databinding.ItemShopBindingBinding;
 import tm.store.meninki.fragment.FragmentAddProduct;
 import tm.store.meninki.fragment.FragmentCategoryList;
+import tm.store.meninki.fragment.FragmentNewShop;
 import tm.store.meninki.fragment.FragmentOpenCategory;
 import tm.store.meninki.interfaces.OnCategoryChecked;
 import tm.store.meninki.interfaces.OnShopChecked;
@@ -120,8 +121,12 @@ public class AdapterCategory extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             b.title.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 Fragment addProduct = mainFragmentManager.findFragmentByTag(FragmentAddProduct.class.getName());
+                Fragment addShop = mainFragmentManager.findFragmentByTag(FragmentNewShop.class.getName());
                 if (addProduct instanceof OnCategoryChecked) {
                     ((OnCategoryChecked) addProduct).onChecked(isChecked, categories.get(getAdapterPosition()));
+                }
+                if (addShop instanceof OnCategoryChecked) {
+                    ((OnCategoryChecked) addShop).onChecked(isChecked, categories.get(getAdapterPosition()));
                 }
             });
 

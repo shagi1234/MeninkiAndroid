@@ -1,103 +1,55 @@
 {
-  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "name": "string",
-  "description": "string",
+  "id": "6d7e022d-49a0-4a8d-9d8b-8b5805dbe762",
+  "name": "Gift",
+  "description": "Ffggghh",
   "count": 0,
   "inCartCount": 0,
   "price": 0,
   "discountPrice": 0,
-  "user": {
-    "id": "string",
-    "imagePath": "string",
-    "name": "string",
-    "phoneNumber": "string",
-    "email": "string",
-    "isSubscribed": true,
-    "subscriberCount": 0,
-    "subscriptionCount": 0,
-    "boughtProducts": 0,
-    "favoriteCount": 0,
-    "shopCount": 0
-  },
+  "user": null,
   "shop": {
-    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    "imgPath": "string",
-    "name": "string",
-    "description": "string",
-    "phone": "string",
-    "email": "string",
-    "isSubscribed": true,
+    "id": "74932df7-bdbe-42e2-9b49-6507c96a0011",
+    "imgPath": null,
+    "name": "Bonn ",
+    "description": null,
+    "phone": "Sdhsbxjk",
+    "email": "",
+    "isSubscribed": false,
     "subscriberCount": 0,
     "placeInRating": 0,
     "orderCount": 0,
-    "visiterCount": 0,
-    "totalProduct": 0,
-    "socialMedias": [
-      {
-        "socialMediaType": 0,
-        "url": "string"
-      }
-    ]
+    "visiterCount": 6,
+    "totalProduct": 1,
+    "socialMedias": []
   },
   "rating": {
-    "userRating": {
-      "additionalProp1": true,
-      "additionalProp2": true,
-      "additionalProp3": true
-    },
+    "userRating": {},
     "total": 0
   },
   "categories": [
     {
-      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "nameRu": "string",
-      "nameTm": "string",
-      "nameEn": "string",
-      "categoryImage": "string",
-      "parentId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "subCategories": [
-        "string"
-      ]
+      "id": "1438720a-e46d-4a78-9f03-7c3e2086b065",
+      "nameRu": "Mini Cars",
+      "nameTm": "Mini Cars",
+      "nameEn": "Mini Cars",
+      "categoryImage": null,
+      "parentId": "ab45f412-d713-4bd4-b7d6-568a488a2381",
+      "subCategories": []
     }
   ],
-  "options": [
-    {
-      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "optionType": 0,
-      "optionLevel": 0,
-      "imagePath": "string",
-      "value": "string",
-      "optionsImageId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "productId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-    }
-  ],
-  "personalCharacteristics": [
-    {
-      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "options": [
-        {
-          "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-          "optionType": 0,
-          "optionLevel": 0,
-          "imagePath": "string",
-          "value": "string",
-          "optionsImageId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-          "productId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-        }
-      ],
-      "count": 0,
-      "priceBonus": 0,
-      "price": 0,
-      "discountPrice": 0,
-      "productId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-    }
-  ],
+  "options": null,
+  "personalCharacteristics": [],
   "medias": [
     {
-      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "path": "string",
+      "id": "367d941a-a41a-473f-872d-31b5ba09dd26",
+      "path": "StaticFiles/ProductMediaImage/Compressed/5f7c60cf-926a-42ad-b86b-1732f6fe8847.webp",
+      "orientationType": 0
+    },
+    {
+      "id": "828e544e-ee63-4bf5-bb99-72f11165fc9b",
+      "path": "StaticFiles/ProductMediaImage/Compressed/0dfafe20-4cf2-4902-8eb1-8f302caa0f13.webp",
       "orientationType": 0
     }
   ],
-  "isFavorited": true
+  "isFavorited": false
 }

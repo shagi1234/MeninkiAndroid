@@ -13,8 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -25,6 +28,7 @@ import tm.store.meninki.R;
 import tm.store.meninki.adapter.AdapterMyShops;
 import tm.store.meninki.adapter.AdapterTabLayout;
 import tm.store.meninki.api.data.UserProfile;
+import tm.store.meninki.api.enums.Status;
 import tm.store.meninki.data.TabItemCustom;
 import tm.store.meninki.databinding.FragmentMyShopsBinding;
 import tm.store.meninki.interfaces.OnTabClicked;
@@ -36,6 +40,7 @@ public class FragmentMyShops extends Fragment implements OnTabClicked {
     private AdapterTabLayout adapterTabLayout;
     private ArrayList<TabItemCustom> tabs = new ArrayList<>();
     private AdapterMyShops adapterMyShops;
+    private Account account;
 
     public static FragmentMyShops newInstance() {
         FragmentMyShops fragment = new FragmentMyShops();
@@ -50,6 +55,7 @@ public class FragmentMyShops extends Fragment implements OnTabClicked {
         tabs.add(new TabItemCustom("Работающие", true));
         tabs.add(new TabItemCustom("Ожидают подтверждения", false));
         tabs.add(new TabItemCustom("Скрытые", false));
+        account = Account.newInstance(getContext());
     }
 
     @Override
@@ -60,7 +66,7 @@ public class FragmentMyShops extends Fragment implements OnTabClicked {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         b = FragmentMyShopsBinding.inflate(inflater, container, false);
@@ -74,12 +80,15 @@ public class FragmentMyShops extends Fragment implements OnTabClicked {
     }
 
     private void getMyShops() {
-        Call<ArrayList<UserProfile>> call = StaticMethods.getApiHome().getMyShops(Account.newInstance(getContext()).getPrefUserUUID(), 0, 1, 10);
+        Call<ArrayList<UserProfile>> call = StaticMethods.getApiHome().getMyShops(Account.newInstance(getContext()).getPrefUserUUID(), Status.in_review, 1, 10);
         call.enqueue(new Callback<ArrayList<UserProfile>>() {
             @Override
             public void onResponse(Call<ArrayList<UserProfile>> call, Response<ArrayList<UserProfile>> response) {
                 if (response.code() == 200 && response.body() != null) {
                     adapterMyShops.setStories(response.body());
+
+                    account.setMyShops(new Gson().toJson(response.body()));
+
                 } else {
                     logWrite(response.code());
                 }
