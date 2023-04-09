@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/bg"
     android:clickable="true"
     android:focusable="true">
 
@@ -21,32 +21,33 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/desc_sms_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_bold"
-                android:text="Уже почти все"
-                android:textColor="@color/black"
-                android:textSize="22sp" />
+                android:fontFamily="@font/inter_regular"
+                android:text="Введите код, отправленный на номер"
+                android:textColor="@color/contrast"
+                android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/phone_num"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:fontFamily="@font/roboto_flex"
-                android:text="Введите ниже код, который мы отправили в смс, чтобы завершить регистрацию."
-                android:textColor="@color/dark"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/inter_bold"
+                android:text="+993 64411955"
+                android:textColor="@color/black"
                 android:textSize="14sp" />
 
         </LinearLayout>
 
         <tm.store.meninki.utils.OtpEditText
             android:id="@+id/edt_code"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/top_padding"
-            android:layout_marginStart="70dp"
-            android:layout_marginTop="70dp"
-            android:layout_marginEnd="70dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="40dp"
             android:cursorVisible="false"
             android:digits="1234567890"
             android:inputType="number"
@@ -59,14 +60,26 @@
             android:id="@+id/btn_resend_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/edt_code"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/inter_regular"
+            android:text="Переотправить через: 0:13"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/privacy_policy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
+            android:layout_marginHorizontal="30dp"
             android:layout_marginBottom="20dp"
-            android:drawableEnd="@drawable/ic_chevron__1_"
             android:drawablePadding="6dp"
-            android:drawableTint="@color/dark"
-            android:fontFamily="@font/roboto_flex"
-            android:text="Переотправить через: 0:13"
+            android:fontFamily="@font/inter_regular"
+            android:text="Продолжая, вы принимаете условия конфиденциальности и пользовательское соглашение."
+            android:textAlignment="center"
             android:textSize="14sp" />
 
     </RelativeLayout>

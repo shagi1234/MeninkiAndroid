@@ -109,7 +109,7 @@ public class FragmentProfile extends Fragment {
                     b.icSubscribe.setVisibility(View.GONE);
                     b.countBookmark.setVisibility(View.VISIBLE);
 
-                    setBackgroundDrawable(getContext(), b.layBookmark, R.color.white, R.color.hover, 0, 0, 4, 4, false, 1);
+                    setBackgroundDrawable(getContext(), b.layBookmark, R.color.white, R.color.neutral_dark, 0, 0, 4, 4, false, 1);
 
                     b.allSoldProducts.setText("in card");
 
@@ -159,7 +159,7 @@ public class FragmentProfile extends Fragment {
                     b.editShop.setVisibility(View.VISIBLE);
                     b.allFollows.setText("Products");
                     b.layReply.setVisibility(View.VISIBLE);
-                    setBackgroundDrawable(getContext(), b.layBookmark, R.color.white, R.color.hover, 0, 0, 4, 4, false, 1);
+                    setBackgroundDrawable(getContext(), b.layBookmark, R.color.white, R.color.neutral_dark, 0, 0, 4, 4, false, 1);
                     b.allSoldProducts.setText("total rating");
                 } else {
                     b.layReply.setVisibility(View.GONE);
@@ -372,13 +372,13 @@ public class FragmentProfile extends Fragment {
     private void setBackgrounds() {
         setBackgroundDrawable(getContext(), b.backgroundSearch, R.color.white, 0, 10, false, 0);
         setBackgroundDrawable(getContext(), b.edtSearch, R.color.white, 0, 10, false, 0);
-        setBackgroundDrawable(getContext(), b.layUserData, R.color.white, R.color.hover, 4, 4, 0, 0, false, 1);
-        setBackgroundDrawable(getContext(), b.layShops, R.color.white, R.color.hover, 4, false, 1);
-        setBackgroundDrawable(getContext(), b.layBookmark, R.color.white, R.color.hover, 0, 0, 4, 4, false, 1);
-        setBackgroundDrawable(getContext(), b.layStatistics, R.color.hover, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.layVisitors, R.color.hover, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.layUserData, R.color.white, R.color.neutral_dark, 4, 4, 0, 0, false, 1);
+        setBackgroundDrawable(getContext(), b.layShops, R.color.white, R.color.neutral_dark, 4, false, 1);
+        setBackgroundDrawable(getContext(), b.layBookmark, R.color.white, R.color.neutral_dark, 0, 0, 4, 4, false, 1);
+        setBackgroundDrawable(getContext(), b.layStatistics, R.color.neutral_dark, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.layVisitors, R.color.neutral_dark, 0, 4, false, 0);
         setBackgroundDrawable(getContext(), b.layFollows, R.color.white, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.layOrders, R.color.hover, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.layOrders, R.color.neutral_dark, 0, 4, false, 0);
         setBackgroundDrawable(getContext(), b.laySubscribers, R.color.white, 0, 4, false, 0);
     }
 }

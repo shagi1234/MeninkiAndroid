@@ -1,7 +1,7 @@
 package tm.store.meninki.fragment;
 
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
-import static tm.store.meninki.utils.StaticMethods.setPadding;
+import static tm.store.meninki.utils.StaticMethods.setPaddingWithHandler;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
@@ -61,7 +61,7 @@ public class FragmentUserSubscribers extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        setPadding(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight);
+        StaticMethods.setPaddingWithHandler(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight);
     }
 
 
@@ -106,11 +106,11 @@ public class FragmentUserSubscribers extends Fragment {
         b.tabUser.setOnClickListener(v -> {
             getUserSubscribersUser();
             b.tabUser.setBackgroundResource(R.color.accent);
-            b.tabShop.setBackgroundResource(R.color.caption);
+            b.tabShop.setBackgroundResource(R.color.neutral_dark);
         });
         b.tabShop.setOnClickListener(v -> {
             getUserSubscribersShop();
-            b.tabUser.setBackgroundResource(R.color.caption);
+            b.tabUser.setBackgroundResource(R.color.neutral_dark);
             b.tabShop.setBackgroundResource(R.color.accent);
         });
     }

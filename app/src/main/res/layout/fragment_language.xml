@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/bg"
     android:clickable="true"
     android:focusable="true">
 
@@ -18,7 +18,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_bold"
+            android:fontFamily="@font/inter_bold"
             android:text="На каком языке ты говоришь?"
             android:textColor="@color/black"
             android:textSize="22sp" />
@@ -28,9 +28,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="90dp"
-            android:fontFamily="@font/roboto_flex"
+            android:fontFamily="@font/inter_regular"
             android:text="После регистрации ты сможешь сменить язык на другой."
-            android:textColor="@color/dark"
+            android:textColor="@color/contrast"
             android:textSize="14sp" />
 
 
@@ -48,7 +48,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_medium"
+            android:fontFamily="@font/inter_medium"
             android:text="Выбери язык"
             android:textColor="@color/black"
             android:textSize="14sp" />
@@ -60,14 +60,14 @@
             android:layout_marginTop="6dp"
             android:layout_marginBottom="20dp"
             android:drawableEnd="@drawable/ic_chevron__1_"
-            android:drawableTint="@color/caption"
-            android:fontFamily="@font/roboto_medium"
+            android:drawableTint="@color/neutral_dark"
+            android:fontFamily="@font/inter_medium"
             android:gravity="center_vertical"
             android:paddingVertical="15dp"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
             android:text="Русский"
-            android:textColor="@color/caption" />
+            android:textColor="@color/neutral_dark" />
 
 
         <TextView
@@ -77,7 +77,7 @@
             android:gravity="center"
             android:paddingVertical="15dp"
             android:text="Приступить"
-            android:textColor="@color/background" />
+            android:textColor="@color/bg" />
 
 
     </LinearLayout>

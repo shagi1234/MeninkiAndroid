@@ -2,7 +2,7 @@ package tm.store.meninki.adapter;
 
 
 import static tm.store.meninki.utils.StaticMethods.dpToPx;
-import static tm.store.meninki.utils.StaticMethods.setPadding;
+import static tm.store.meninki.utils.StaticMethods.setPaddingWithHandler;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -57,7 +57,7 @@ public class AdapterCountry extends RecyclerView.Adapter<AdapterCountry.ViewHold
         holder.nameCountry.setText(countries.get(holder.getAdapterPosition()).getName());
         if (type != FragmentCountryCode.TYPE_LANGUAGE) {
             holder.firstLetter.setVisibility(View.VISIBLE);
-            StaticMethods.setPadding(holder.itemView, 0, 0, StaticMethods.dpToPx(20, context), 0);
+            StaticMethods.setPaddingWithHandler(holder.itemView, 0, 0, StaticMethods.dpToPx(20, context), 0);
             holder.countryCode.setText("+" + countries.get(holder.getAdapterPosition()).getCode());
 
             if (array[position] == 0) {
@@ -84,7 +84,7 @@ public class AdapterCountry extends RecyclerView.Adapter<AdapterCountry.ViewHold
             }
         } else {
             holder.firstLetter.setVisibility(View.GONE);
-            StaticMethods.setPadding(holder.itemView, StaticMethods.dpToPx(20, context), 0, StaticMethods.dpToPx(20, context), 0);
+            StaticMethods.setPaddingWithHandler(holder.itemView, StaticMethods.dpToPx(20, context), 0, StaticMethods.dpToPx(20, context), 0);
         }
 
         holder.click.setOnClickListener(v -> activity.runOnUiThread(() -> {

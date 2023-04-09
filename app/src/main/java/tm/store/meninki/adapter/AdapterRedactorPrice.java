@@ -68,11 +68,11 @@ public class AdapterRedactorPrice extends RecyclerView.Adapter<AdapterRedactorPr
             } else {
                 setMargins(b.getRoot(), 0, 0, 0, 0);
             }
-            setBackgroundDrawable(context, b.main, R.color.hover, 0, 4, false, 0);
-            setBackgroundDrawable(context, b.root, R.color.color_transparent, R.color.caption, 4, false, 1);
-            setBackgroundDrawable(context, b.pickText, R.color.color_transparent, R.color.caption, 4, false, 1);
-            setBackgroundDrawable(context, b.oldPrice, R.color.color_transparent, R.color.caption, 4, false, 1);
-            setBackgroundDrawable(context, b.price, R.color.color_transparent, R.color.caption, 4, false, 1);
+            setBackgroundDrawable(context, b.main, R.color.neutral_dark, 0, 4, false, 0);
+            setBackgroundDrawable(context, b.root, R.color.color_transparent, R.color.neutral_dark, 4, false, 1);
+            setBackgroundDrawable(context, b.pickText, R.color.color_transparent, R.color.neutral_dark, 4, false, 1);
+            setBackgroundDrawable(context, b.oldPrice, R.color.color_transparent, R.color.neutral_dark, 4, false, 1);
+            setBackgroundDrawable(context, b.price, R.color.color_transparent, R.color.neutral_dark, 4, false, 1);
 
 
             b.price.setOnClickListener(v -> {

@@ -7,7 +7,7 @@ import static tm.store.meninki.utils.StaticMethods.logWrite;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.setMargins;
-import static tm.store.meninki.utils.StaticMethods.setPadding;
+import static tm.store.meninki.utils.StaticMethods.setPaddingWithHandler;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -68,7 +68,7 @@ public class FragmentHome extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        setPadding(b.containerProfileId, 0, 0, 0, navigationBarHeight);
+        StaticMethods.setPaddingWithHandler(b.containerProfileId, 0, 0, 0, navigationBarHeight);
         setMargins(b.fab, dpToPx(20, getContext()), dpToPx(20, getContext()), dpToPx(20, getContext()), dpToPx(20, getContext()) + navigationBarHeight);
     }
 

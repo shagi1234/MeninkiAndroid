@@ -4,7 +4,7 @@ import static androidx.constraintlayout.widget.ConstraintSet.PARENT_ID;
 import static tm.store.meninki.utils.Const.mainFragmentManager;
 import static tm.store.meninki.utils.StaticMethods.getWindowWidth;
 import static tm.store.meninki.utils.StaticMethods.setMargins;
-import static tm.store.meninki.utils.StaticMethods.setPadding;
+import static tm.store.meninki.utils.StaticMethods.setPaddingWithHandler;
 import static tm.store.meninki.utils.StaticMethods.slidingX;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
@@ -25,6 +25,7 @@ import tm.store.meninki.adapter.AdapterViewPager;
 import tm.store.meninki.data.FragmentPager;
 import tm.store.meninki.databinding.FragmentMainBinding;
 import tm.store.meninki.interfaces.ChangeFlowPage;
+import tm.store.meninki.utils.StaticMethods;
 
 import java.util.ArrayList;
 
@@ -42,7 +43,7 @@ public class FragmentMain extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        setPadding(b.main, 0, statusBarHeight, 0, 0);
+        StaticMethods.setPaddingWithHandler(b.main, 0, statusBarHeight, 0, 0);
     }
 
     @Override

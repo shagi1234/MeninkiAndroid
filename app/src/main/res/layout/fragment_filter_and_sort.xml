@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/bg"
     android:clickable="true"
     android:focusable="true"
     tools:context=".fragment.FragmentFilterAndSort">
@@ -40,7 +40,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="34dp"
-                    android:fontFamily="@font/roboto_flex"
+                    android:fontFamily="@font/inter_regular"
                     android:text="Фильтрация и сортировка"
                     android:textColor="@color/black"
                     android:textSize="14sp"
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
-                android:fontFamily="@font/roboto_flex"
+                android:fontFamily="@font/inter_regular"
                 android:text="Сортировка элементов"
                 android:textColor="@color/black"
                 android:textSize="14sp"
@@ -72,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="30dp"
-                android:fontFamily="@font/roboto_flex"
+                android:fontFamily="@font/inter_regular"
                 android:text="Показывать на ленте:"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
@@ -92,7 +92,7 @@
                     android:layout_marginEnd="10dp"
                     android:paddingHorizontal="12dp"
                     android:text="Товары"
-                    android:textColor="@color/dark"
+                    android:textColor="@color/contrast"
                     android:textSize="14sp" />
 
                 <RadioButton
@@ -102,7 +102,7 @@
                     android:layout_marginEnd="10dp"
                     android:paddingHorizontal="12dp"
                     android:text="Обзоры"
-                    android:textColor="@color/dark"
+                    android:textColor="@color/contrast"
                     android:textSize="14sp" />
 
                 <RadioButton
@@ -111,7 +111,7 @@
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="12dp"
                     android:text="Услуги"
-                    android:textColor="@color/dark"
+                    android:textColor="@color/contrast"
                     android:textSize="14sp" />
 
             </RadioGroup>
@@ -122,7 +122,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
-                android:fontFamily="@font/roboto_flex"
+                android:fontFamily="@font/inter_regular"
                 android:text="Категории"
                 android:textColor="@color/black"
                 android:textSize="14sp"
@@ -140,7 +140,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="30dp"
-                android:fontFamily="@font/roboto_flex"
+                android:fontFamily="@font/inter_regular"
                 android:text="Минимальная стоимость"
                 android:textColor="@color/black"
                 android:textSize="14sp"
@@ -153,7 +153,7 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="6dp"
                 android:background="#003C4567"
-                android:fontFamily="@font/roboto_flex"
+                android:fontFamily="@font/inter_regular"
                 android:hint="00 tmt"
                 android:paddingVertical="15dp"
                 android:paddingStart="20dp"
@@ -164,7 +164,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/roboto_flex"
+                android:fontFamily="@font/inter_regular"
                 android:text="Максимальная стоимость"
                 android:textColor="@color/black"
                 android:textSize="14sp"
@@ -177,7 +177,7 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="6dp"
                 android:background="#003C4567"
-                android:fontFamily="@font/roboto_flex"
+                android:fontFamily="@font/inter_regular"
                 android:hint="00 tmt"
                 android:paddingVertical="15dp"
                 android:paddingStart="20dp"
@@ -201,11 +201,11 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginHorizontal="20dp"
             android:layout_marginBottom="10dp"
-            android:fontFamily="@font/roboto_flex"
+            android:fontFamily="@font/inter_regular"
             android:gravity="center"
             android:paddingVertical="15dp"
             android:text="Сохранить"
-            android:textColor="@color/background"
+            android:textColor="@color/bg"
             android:textSize="14sp" />
 
         <TextView
@@ -215,7 +215,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginHorizontal="20dp"
             android:layout_marginBottom="20dp"
-            android:fontFamily="@font/roboto_flex"
+            android:fontFamily="@font/inter_regular"
             android:gravity="center"
             android:paddingVertical="15dp"
             android:text="Сбросить фильтры"

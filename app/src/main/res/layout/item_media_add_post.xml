@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:scaleType="centerCrop"
-        android:src="@color/holder"
+        android:src="@color/low_contrast"
         android:layout_margin="5dp"
         app:riv_corner_radius="10dp" />
 
@@ -52,7 +52,7 @@
             android:layout_marginTop="8dp"
             android:textAlignment="center"
             android:textColor="@color/accent"
-            android:fontFamily="@font/roboto_medium"
+            android:fontFamily="@font/inter_medium"
             android:layout_gravity="center" />
     </LinearLayout>
 </FrameLayout>

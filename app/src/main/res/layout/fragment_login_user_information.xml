@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/bg"
     android:clickable="true"
     android:focusable="true">
 
@@ -10,43 +10,65 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginHorizontal="40dp"
-        android:layout_marginTop="60dp"
         android:orientation="vertical">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_bold"
-            android:text="Расскажи о себе"
-            android:textColor="@color/black"
-            android:textSize="22sp" />
+            android:background="@color/low_contrast"
+            android:orientation="horizontal"
+            android:paddingTop="10dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:fontFamily="@font/roboto_flex"
-            android:text="Достаточно только имени. Фотографию и подробные данные о себе вы сможете добавить позже."
-            android:textColor="@color/dark"
-            android:textSize="14sp" />
+            <FrameLayout
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginVertical="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="2dp">
+
+                <FrameLayout
+                    android:id="@+id/click_lang"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ripple_corner_20" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_back" />
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="20dp"
+                android:fontFamily="@font/inter_semibold"
+                android:text="Расскажи о себе"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/lay_bottom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical">
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="40dp"
-            android:fontFamily="@font/roboto_medium"
-            android:text="Ваше имя"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/inter_regular"
+            android:text="Достаточно только имени. Фотографию и подробные данные о себе вы сможете добавить позже."
+            android:textColor="@color/contrast"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="50dp"
+            android:fontFamily="@font/inter_medium"
+            android:text="Введи свое имя"
             android:textColor="@color/black"
             android:textSize="14sp" />
 
@@ -56,29 +78,86 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="40dp"
             android:layout_marginTop="6dp"
-            android:layout_marginBottom="20dp"
             android:gravity="center_vertical"
-            android:hint="Введите имя здесь"
             android:paddingVertical="15dp"
             android:paddingStart="20dp"
             android:paddingEnd="20sp"
-            android:textColor="@color/dark"
-            android:textColorHint="@color/caption"
-            android:textSize="14dp" />
+            android:textColor="@color/contrast"
+            android:textColorHint="@color/neutral_dark"
+            android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/btn_login"
+            android:id="@+id/error_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/inter_regular"
+            android:text="error message"
+            android:textColor="@color/alert"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/inter_medium"
+            android:text="Придумай юзернейм"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/edt_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="40dp"
-            android:layout_marginBottom="30dp"
-            android:gravity="center"
+            android:layout_marginTop="6dp"
+            android:gravity="center_vertical"
             android:paddingVertical="15dp"
-            android:text="Завершить"
-            android:textColor="@color/background" />
+            android:paddingStart="20dp"
+            android:paddingEnd="20sp"
+            android:textColor="@color/contrast"
+            android:textColorHint="@color/neutral_dark"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/error_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/inter_regular"
+            android:text="error message"
+            android:textColor="@color/alert"
+            android:textSize="12sp"
+            android:visibility="gone" />
 
 
     </LinearLayout>
 
+    <FrameLayout
+        android:id="@+id/lay_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/bg">
+
+        <TextView
+            android:id="@+id/next_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="30dp"
+            android:background="@color/accent"
+            android:fontFamily="@font/inter_bold"
+            android:gravity="center"
+            android:paddingVertical="15dp"
+            android:text="Завершить"
+            android:textColor="@color/bg" />
+    </FrameLayout>
 
 </RelativeLayout>

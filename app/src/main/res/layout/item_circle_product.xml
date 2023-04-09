@@ -17,7 +17,7 @@
             android:layout_height="80dp"
             android:layout_gravity="center"
             android:scaleType="centerCrop"
-            android:src="@color/holder"
+            android:src="@color/neutral_dark"
             app:riv_oval="true" />
 
         <TextView
@@ -26,10 +26,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:fontFamily="@font/roboto_regular"
+            android:fontFamily="@font/inter_regular"
             android:gravity="center"
             android:text="Store name"
-            android:textColor="@color/dark"
+            android:textColor="@color/contrast"
             android:textSize="12sp" />
 
     </LinearLayout>

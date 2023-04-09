@@ -19,7 +19,7 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:padding="2dp"
-            android:src="@color/dark"
+            android:src="@color/contrast"
             app:riv_oval="true" />
 
         <LinearLayout
@@ -33,7 +33,7 @@
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
+                android:fontFamily="@font/inter_medium"
                 android:text="Вино “У Газиза”"
                 android:textColor="@color/black" />
 
@@ -42,9 +42,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:fontFamily="@font/roboto_medium"
+                android:fontFamily="@font/inter_medium"
                 android:text="Лучшее вино, лук шоб занюхать"
-                android:textColor="@color/caption"
+                android:textColor="@color/neutral_dark"
                 android:textSize="12sp" />
         </LinearLayout>
 

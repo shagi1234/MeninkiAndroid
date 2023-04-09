@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background"
+        android:background="@color/bg"
         android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -44,10 +44,10 @@
                     android:id="@+id/header"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
-                    android:fontFamily="@font/roboto_flex"
+                    android:fontFamily="@font/inter_regular"
                     android:gravity="center"
                     android:text="Назад"
-                    android:textColor="@color/dark"
+                    android:textColor="@color/contrast"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/ic_back"
@@ -82,7 +82,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/dark" />
+                app:tint="@color/contrast" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -90,7 +90,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
-            android:background="@color/background"
+            android:background="@color/bg"
             android:orientation="vertical">
 
             <com.google.android.material.appbar.AppBarLayout
@@ -108,7 +108,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/background"
+                        android:background="@color/bg"
                         android:orientation="vertical">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -124,7 +124,7 @@
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
                                 android:scaleType="centerCrop"
-                                android:src="@color/holder"
+                                android:src="@color/neutral_dark"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
@@ -143,7 +143,7 @@
                                     android:id="@+id/name_user"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/roboto_flex"
+                                    android:fontFamily="@font/inter_regular"
                                     android:textColor="@color/black"
                                     android:textSize="14sp"
                                     android:textStyle="bold"
@@ -154,7 +154,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="6dp"
-                                    android:fontFamily="@font/roboto_flex"
+                                    android:fontFamily="@font/inter_regular"
                                     android:text="+993 61 234567"
                                     android:textColor="@color/black"
                                     android:textSize="14sp"
@@ -171,7 +171,7 @@
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
-                                app:tint="@color/dark" />
+                                app:tint="@color/contrast" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -190,7 +190,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_weight="1"
-                                android:fontFamily="@font/roboto_flex"
+                                android:fontFamily="@font/inter_regular"
                                 android:text="Избранное"
                                 android:textColor="@color/black"
                                 android:textSize="14sp"
@@ -202,7 +202,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_marginEnd="4dp"
-                                android:fontFamily="@font/roboto_flex"
+                                android:fontFamily="@font/inter_regular"
                                 android:text="13"
                                 android:textColor="@color/alert"
                                 android:textSize="14sp"
@@ -224,7 +224,7 @@
                                 android:layout_gravity="center"
                                 android:src="@drawable/ic_edit_settings"
                                 android:visibility="gone"
-                                app:tint="@color/dark" />
+                                app:tint="@color/contrast" />
 
 
                         </LinearLayout>
@@ -245,7 +245,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_weight="1"
-                                android:fontFamily="@font/roboto_flex"
+                                android:fontFamily="@font/inter_regular"
                                 android:text="Мои магазины"
                                 android:textColor="@color/black"
                                 android:textSize="14sp"
@@ -257,7 +257,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_marginEnd="4dp"
-                                android:fontFamily="@font/roboto_flex"
+                                android:fontFamily="@font/inter_regular"
                                 android:text="13"
                                 android:textColor="@color/accent"
                                 android:textSize="14sp"
@@ -297,10 +297,10 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_marginHorizontal="10dp"
-                                    android:fontFamily="@font/roboto_flex"
+                                    android:fontFamily="@font/inter_regular"
                                     android:text="Подписчики"
                                     android:textAlignment="center"
-                                    android:textColor="@color/dark"
+                                    android:textColor="@color/contrast"
                                     android:textSize="14sp"
                                     android:textStyle="normal" />
 
@@ -310,7 +310,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_marginTop="10dp"
-                                    android:fontFamily="@font/roboto_flex"
+                                    android:fontFamily="@font/inter_regular"
                                     android:textColor="@color/accent"
                                     android:textSize="22sp"
                                     android:textStyle="bold"
@@ -332,10 +332,10 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
-                                    android:fontFamily="@font/roboto_flex"
+                                    android:fontFamily="@font/inter_regular"
                                     android:text="Товаров"
                                     android:textAlignment="center"
-                                    android:textColor="@color/dark"
+                                    android:textColor="@color/contrast"
                                     android:textSize="14sp"
                                     android:textStyle="normal" />
 
@@ -345,7 +345,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_marginTop="10dp"
-                                    android:fontFamily="@font/roboto_flex"
+                                    android:fontFamily="@font/inter_regular"
                                     android:textColor="@color/accent"
                                     android:textSize="22sp"
                                     android:textStyle="bold"
@@ -371,7 +371,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_weight="1"
-                                android:fontFamily="@font/roboto_flex"
+                                android:fontFamily="@font/inter_regular"
                                 android:text="Куплено за все время"
                                 android:textColor="@color/black"
                                 android:textSize="14sp"
@@ -383,7 +383,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_marginEnd="4dp"
-                                android:fontFamily="@font/roboto_flex"
+                                android:fontFamily="@font/inter_regular"
                                 android:text="1313"
                                 android:textColor="@color/accent"
                                 android:textSize="22sp"
@@ -416,10 +416,10 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_marginHorizontal="10dp"
-                                    android:fontFamily="@font/roboto_flex"
+                                    android:fontFamily="@font/inter_regular"
                                     android:text="Orders"
                                     android:textAlignment="center"
-                                    android:textColor="@color/dark"
+                                    android:textColor="@color/contrast"
                                     android:textSize="14sp"
                                     android:textStyle="normal" />
 
@@ -429,7 +429,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_marginTop="10dp"
-                                    android:fontFamily="@font/roboto_flex"
+                                    android:fontFamily="@font/inter_regular"
                                     android:textColor="@color/accent"
                                     android:textSize="22sp"
                                     android:textStyle="bold"
@@ -451,10 +451,10 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
-                                    android:fontFamily="@font/roboto_flex"
+                                    android:fontFamily="@font/inter_regular"
                                     android:text="Visitors"
                                     android:textAlignment="center"
-                                    android:textColor="@color/dark"
+                                    android:textColor="@color/contrast"
                                     android:textSize="14sp"
                                     android:textStyle="normal" />
 
@@ -464,7 +464,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_marginTop="10dp"
-                                    android:fontFamily="@font/roboto_flex"
+                                    android:fontFamily="@font/inter_regular"
                                     android:textColor="@color/accent"
                                     android:textSize="22sp"
                                     android:textStyle="bold"
@@ -480,7 +480,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="20dp"
                             android:layout_marginVertical="20dp"
-                            android:fontFamily="@font/roboto_flex"
+                            android:fontFamily="@font/inter_regular"
                             android:maxLines="2"
                             android:text="Lorem ipsum dolor sit amet consectetur. Ut vulputate orci amet massa non venenatis eget mauris augue. Consectetur id a egestas amet. Tempor faucibus sed odio blandit. Varius diam sem auctor duis ac. Quis tempor semper viverra purus."
                             android:textColor="@color/nigga_grey"
@@ -513,7 +513,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:fontFamily="@font/roboto_medium"
+                            android:fontFamily="@font/inter_medium"
                             android:gravity="center_vertical"
                             android:hint="Поиск"
                             android:maxLines="1"
@@ -536,7 +536,7 @@
                             android:layout_marginEnd="14dp"
                             android:padding="5dp"
                             android:src="@drawable/ic_search"
-                            app:tint="@color/dark" />
+                            app:tint="@color/contrast" />
 
                     </LinearLayout>
 
@@ -570,7 +570,7 @@
             android:paddingTop="100dp"
             android:paddingBottom="30dp"
             android:scaleType="fitCenter"
-            android:src="@color/holder" />
+            android:src="@color/neutral_dark" />
 
         <FrameLayout
             android:id="@+id/gray_container"

@@ -1,6 +1,5 @@
 package tm.store.meninki.adapter;
 
-import static tm.store.meninki.utils.StaticMethods.dpToPx;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.setMargins;
 
@@ -15,12 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+
 import tm.store.meninki.R;
 import tm.store.meninki.databinding.ItemCharPickBinding;
 import tm.store.meninki.utils.Dialog;
-
-import java.util.ArrayList;
-
 import tm.store.meninki.utils.StaticMethods;
 
 public class AdapterCharPick extends RecyclerView.Adapter<AdapterCharPick.CharImageHolder> {
@@ -83,22 +81,22 @@ public class AdapterCharPick extends RecyclerView.Adapter<AdapterCharPick.CharIm
                 b.layAdd.setVisibility(View.GONE);
                 b.pickText.setVisibility(View.VISIBLE);
                 b.click.setBackgroundResource(R.drawable.ripple);
-                setBackgroundDrawable(context, b.root, R.color.hover, R.color.accent, 4, false, 3);
+                setBackgroundDrawable(context, b.root, R.color.neutral_dark, R.color.accent, 4, false, 3);
                 b.pickText.setTextColor(context.getResources().getColor(R.color.accent));
                 b.pickText.setText(picks.get(getAdapterPosition()).trim());
                 lastClicked = b.root;
                 lastText = b.pickText;
             } else if (getAdapterPosition() == getItemCount() - 1 && isAddable == ADDABLE) {
                 b.pickText.setVisibility(View.INVISIBLE);
-                setBackgroundDrawable(context, b.layAdd, R.color.grey, 0, 20, false, 0);
+                setBackgroundDrawable(context, b.layAdd, R.color.neutral_dark, 0, 20, false, 0);
                 b.layAdd.setVisibility(View.VISIBLE);
                 b.click.setBackgroundResource(R.drawable.ripple_corner_20);
             } else {
                 b.layAdd.setVisibility(View.GONE);
                 b.pickText.setVisibility(View.VISIBLE);
                 b.click.setBackgroundResource(R.drawable.ripple);
-                setBackgroundDrawable(context, b.root, R.color.color_transparent, R.color.caption, 4, false, 1);
-                b.pickText.setTextColor(context.getResources().getColor(R.color.dark));
+                setBackgroundDrawable(context, b.root, R.color.color_transparent, R.color.neutral_dark, 4, false, 1);
+                b.pickText.setTextColor(context.getResources().getColor(R.color.contrast));
                 b.pickText.setText(picks.get(getAdapterPosition()).trim());
             }
 
@@ -125,8 +123,8 @@ public class AdapterCharPick extends RecyclerView.Adapter<AdapterCharPick.CharIm
                 b.pickText.setTextColor(context.getResources().getColor(R.color.accent));
 
                 if (lastClicked != null && lastText != null) {
-                    lastText.setTextColor(context.getResources().getColor(R.color.dark));
-                    setBackgroundDrawable(context, lastClicked, R.color.color_transparent, R.color.caption, 4, false, 1);
+                    lastText.setTextColor(context.getResources().getColor(R.color.contrast));
+                    setBackgroundDrawable(context, lastClicked, R.color.color_transparent, R.color.neutral_dark, 4, false, 1);
                 }
                 lastText = b.pickText;
                 lastClicked = b.root;

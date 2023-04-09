@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/bg"
     tools:context=".fragment.FragmentHome">
 
     <androidx.core.widget.NestedScrollView
@@ -12,13 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="bottom"
-        android:background="@color/background"
+        android:background="@color/bg"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/background"
+            android:background="@color/bg"
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
@@ -43,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@color/white"
-                    android:fontFamily="@font/roboto_flex"
+                    android:fontFamily="@font/inter_regular"
                     android:gravity="center_vertical"
                     android:hint="Поиск"
                     android:maxLines="1"
@@ -68,7 +68,7 @@
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginBottom="20dp"
                 android:scaleType="centerCrop"
-                android:src="@color/holder"
+                android:src="@color/neutral_dark"
                 android:visibility="gone"
                 app:riv_corner_radius="10dp" />
 
@@ -91,7 +91,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
                     android:scaleType="centerCrop"
-                    android:src="@color/holder"
+                    android:src="@color/neutral_dark"
                     app:riv_corner_radius="10dp" />
 
                 <TextView
@@ -99,18 +99,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/inter_medium"
                     android:text="Description label"
-                    android:textColor="@color/dark" />
+                    android:textColor="@color/contrast" />
 
                 <TextView
                     android:id="@+id/desc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/inter_medium"
                     android:text="Description"
-                    android:textColor="@color/caption" />
+                    android:textColor="@color/neutral_dark" />
             </LinearLayout>
 
             <FrameLayout
@@ -123,7 +123,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
-                    android:fontFamily="@font/roboto_bold"
+                    android:fontFamily="@font/inter_bold"
                     android:text="Магазины"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
@@ -138,16 +138,16 @@
                 android:layout_marginTop="14dp" />
 
             <!--            <TextView-->
-            <!--                android:id="@+id/btn_caption"-->
+            <!--                android:id="@+id/btn_color/neutral_dark"-->
             <!--                android:layout_width="match_parent"-->
             <!--                android:layout_height="wrap_content"-->
             <!--                android:layout_marginHorizontal="10dp"-->
             <!--                android:layout_marginTop="10dp"-->
-            <!--                android:fontFamily="@font/roboto_medium"-->
+            <!--                android:fontFamily="@font/inter_medium"-->
             <!--                android:gravity="center"-->
             <!--                android:paddingVertical="10dp"-->
-            <!--                android:text="Caption"-->
-            <!--                android:textColor="@color/dark" />-->
+            <!--                android:text="color/neutral_dark"-->
+            <!--                android:textColor="@color/contrast" />-->
 
             <FrameLayout
                 android:id="@+id/header_popular"
@@ -160,7 +160,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
-                    android:fontFamily="@font/roboto_bold"
+                    android:fontFamily="@font/inter_bold"
                     android:text="Популярное"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
@@ -171,7 +171,7 @@
                 android:id="@+id/rec_tab"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/background" />
+                android:background="@color/bg" />
 
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/view_pager"
@@ -193,7 +193,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
-                    android:fontFamily="@font/roboto_bold"
+                    android:fontFamily="@font/inter_bold"
                     android:text="Новинки"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
@@ -204,7 +204,7 @@
                 android:id="@+id/rec_tab_new"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/background" />
+                android:background="@color/bg" />
 
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/view_pager_new"

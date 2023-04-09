@@ -10,7 +10,7 @@
         android:id="@+id/frame_layout_country_code"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background"
+        android:background="@color/bg"
         android:clickable="true"
         android:focusable="true"
         android:orientation="vertical">
@@ -19,14 +19,14 @@
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background"
+            android:background="@color/bg"
             android:orientation="horizontal">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/swipe_layout"
                 android:layout_width="800dp"
                 android:layout_height="wrap_content"
-                android:background="@color/background"
+                android:background="@color/bg"
                 android:orientation="horizontal"
                 android:paddingBottom="4dp">
 
@@ -34,7 +34,7 @@
                     android:id="@+id/page_1"
                     android:layout_width="400dp"
                     android:layout_height="wrap_content"
-                    android:background="@color/background"
+                    android:background="@color/bg"
                     android:orientation="horizontal"
                     android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -57,7 +57,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:fontFamily="@font/roboto_flex"
+                        android:fontFamily="@font/inter_regular"
                         android:gravity="start"
                         android:text="Выбор языка "
                         android:textColor="@color/black"
@@ -102,14 +102,14 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:layout_weight="1"
-                        android:background="@color/background"
-                        android:fontFamily="@font/roboto_flex"
+                        android:background="@color/bg"
+                        android:fontFamily="@font/inter_regular"
                         android:hint="Поиск"
                         android:inputType="text"
                         android:maxLines="1"
                         android:singleLine="true"
                         android:textColor="@color/black"
-                        android:textColorHint="@color/caption"
+                        android:textColorHint="@color/neutral_dark"
                         android:textCursorDrawable="@color/white"
                         android:textSize="16sp" />
 
@@ -156,8 +156,8 @@
                         android:id="@+id/sticky"
                         android:layout_width="60dp"
                         android:layout_height="wrap_content"
-                        android:background="@color/background"
-                        android:fontFamily="@font/roboto_flex"
+                        android:background="@color/bg"
+                        android:fontFamily="@font/inter_regular"
                         android:paddingTop="10dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"

@@ -2,7 +2,7 @@ package tm.store.meninki.fragment;
 
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
-import static tm.store.meninki.utils.StaticMethods.setPadding;
+import static tm.store.meninki.utils.StaticMethods.setPaddingWithHandler;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import tm.store.meninki.R;
 import tm.store.meninki.adapter.AdapterRedactorPrice;
 import tm.store.meninki.databinding.FragmentReadactorPriceBinding;
+import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentRedactorPrice extends Fragment {
     private FragmentReadactorPriceBinding b;
@@ -37,7 +38,7 @@ public class FragmentRedactorPrice extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        setPadding(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight);
+        StaticMethods.setPaddingWithHandler(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight);
     }
 
     @Override

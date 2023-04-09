@@ -6,7 +6,7 @@ import static tm.store.meninki.utils.StaticMethods.logWrite;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.setMargins;
-import static tm.store.meninki.utils.StaticMethods.setPadding;
+import static tm.store.meninki.utils.StaticMethods.setPaddingWithHandler;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
@@ -35,6 +35,7 @@ import tm.store.meninki.data.CategoryDto;
 import tm.store.meninki.data.FragmentPager;
 import tm.store.meninki.databinding.FragmentCategoryBinding;
 import tm.store.meninki.shared.Account;
+import tm.store.meninki.utils.StaticMethods;
 
 
 public class FragmentCategory extends Fragment {
@@ -51,7 +52,7 @@ public class FragmentCategory extends Fragment {
     public void onResume() {
         super.onResume();
         setMargins(b.frameCtg, 0, statusBarHeight, 0, 0);
-        setPadding(b.layUserInfo, 0, 0, 0, navigationBarHeight);
+        StaticMethods.setPaddingWithHandler(b.layUserInfo, 0, 0, 0, navigationBarHeight);
     }
 
     @Override
@@ -106,8 +107,8 @@ public class FragmentCategory extends Fragment {
     }
 
     private void setBackgrounds() {
-        setBackgroundDrawable(getContext(), b.icCart, R.color.background, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.userImage, R.color.background, R.color.accent, 0, true, 2);
+        setBackgroundDrawable(getContext(), b.icCart, R.color.bg, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.userImage, R.color.bg, R.color.accent, 0, true, 2);
     }
 
 

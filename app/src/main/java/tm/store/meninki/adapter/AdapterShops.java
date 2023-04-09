@@ -69,8 +69,8 @@ public class AdapterShops extends RecyclerView.Adapter<AdapterShops.StoreHolder>
 
         public void bind() {
 
-            setBackgroundDrawable(context, b.shopImage, R.color.holder, R.color.accent, 0, true, 2);
-            setBackgroundDrawable(context, b.root, R.color.background, 0, 10, false, 0);
+            setBackgroundDrawable(context, b.shopImage, R.color.neutral_dark, R.color.accent, 0, true, 2);
+            setBackgroundDrawable(context, b.root, R.color.bg, 0, 10, false, 0);
 
             b.shopName.setOnClickListener(v -> FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(FragmentProfile.TYPE_SHOP, grids.get(getAdapterPosition()).getShop().getId())));
             b.shopImage.setOnClickListener(v -> FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(FragmentProfile.TYPE_SHOP, grids.get(getAdapterPosition()).getShop().getId())));

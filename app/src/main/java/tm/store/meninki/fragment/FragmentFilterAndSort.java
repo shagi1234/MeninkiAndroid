@@ -4,7 +4,7 @@ import static tm.store.meninki.utils.Const.mainFragmentManager;
 import static tm.store.meninki.utils.FragmentHelper.addFragment;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
-import static tm.store.meninki.utils.StaticMethods.setPadding;
+import static tm.store.meninki.utils.StaticMethods.setPaddingWithHandler;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 
 import tm.store.meninki.R;
 import tm.store.meninki.databinding.FragmentFilterAndSortBinding;
+import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentFilterAndSort extends Fragment {
 
@@ -33,7 +34,7 @@ public class FragmentFilterAndSort extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        setPadding(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight);
+        StaticMethods.setPaddingWithHandler(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight);
     }
 
     @Override
@@ -58,13 +59,13 @@ public class FragmentFilterAndSort extends Fragment {
     }
 
     private void setBackgrounds() {
-        setBackgroundDrawable(getContext(), b.radio1, R.color.hover, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.spinnner, R.color.white, R.color.hover, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.spinnerTwo, R.color.white, R.color.hover, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.radio2, R.color.hover, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.radio3, R.color.hover, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.maxMoney, R.color.hover, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.minMoney, R.color.hover, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.radio1, R.color.neutral_dark, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.spinnner, R.color.white, R.color.neutral_dark, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.spinnerTwo, R.color.white, R.color.neutral_dark, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.radio2, R.color.neutral_dark, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.radio3, R.color.neutral_dark, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.maxMoney, R.color.neutral_dark, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.minMoney, R.color.neutral_dark, 0, 4, false, 0);
         setBackgroundDrawable(getContext(), b.saveButton, R.color.accent, 0, 4, false, 0);
         setBackgroundDrawable(getContext(), b.erase, R.color.white, 0, 4, false, 0);
     }

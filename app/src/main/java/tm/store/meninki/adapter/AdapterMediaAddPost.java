@@ -61,13 +61,13 @@ public class AdapterMediaAddPost extends RecyclerView.Adapter<AdapterMediaAddPos
             if (getAdapterPosition() == getItemCount() - 1) {
                 b.clear.setVisibility(View.GONE);
                 b.layAdd.setVisibility(View.VISIBLE);
-                b.image.setImageResource(R.color.grey);
+                b.image.setImageResource(R.color.neutral_dark);
 
             } else {
                 b.clear.setVisibility(View.VISIBLE);
                 b.layAdd.setVisibility(View.GONE);
 
-                Glide.with(context).load(SelectedMedia.getArrayList().get(getAdapterPosition()).getPath()).placeholder(R.color.holder).into(b.image);
+                Glide.with(context).load(SelectedMedia.getArrayList().get(getAdapterPosition()).getPath()).placeholder(R.color.neutral_dark).into(b.image);
             }
 
             b.click.setOnClickListener(v -> {

@@ -11,6 +11,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,6 +67,7 @@ public class FragmentCountryAndNumber extends Fragment implements CountryClickLi
         gsc = GoogleSignIn.getClient(getContext(), gso);
         acct = GoogleSignIn.getLastSignedInAccount(getContext());
         account = Account.newInstance(getContext());
+
         if (acct != null) {
             //next page
         }
@@ -83,7 +86,7 @@ public class FragmentCountryAndNumber extends Fragment implements CountryClickLi
     @Override
     public void onResume() {
         super.onResume();
-        setMargins(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight);
+        new Handler().postDelayed(() -> setMargins(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight), 50);
     }
 
     private void signInGoogle() {
@@ -154,8 +157,8 @@ public class FragmentCountryAndNumber extends Fragment implements CountryClickLi
         b.btnLogin.setOnClickListener(v -> {
             b.btnLogin.setEnabled(false);
             sendSms();
-            new Handler().postDelayed(() -> b.btnLogin.setEnabled(true), 200);
         });
+
         b.selectCode.setOnClickListener(v -> {
             b.selectCode.setEnabled(false);
             addFragment(mainFragmentManager, R.id.container_login, FragmentCountryCode.newInstance(FragmentCountryCode.TYPE_COUNTRY_CODE));
@@ -163,6 +166,29 @@ public class FragmentCountryAndNumber extends Fragment implements CountryClickLi
         });
 
         b.signInGoogle.setOnClickListener(v -> signInGoogle());
+
+        b.edtNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                setNextBtnEnabled();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        b.clickLang.setOnClickListener(v -> {
+            b.clickLang.setEnabled(false);
+            addFragment(mainFragmentManager, R.id.container_login, FragmentCountryCode.newInstance(FragmentCountryCode.TYPE_LANGUAGE));
+            new Handler().postDelayed(() -> b.clickLang.setEnabled(true), 200);
+        });
 
     }
 
@@ -175,6 +201,7 @@ public class FragmentCountryAndNumber extends Fragment implements CountryClickLi
         call.enqueue(new RetrofitCallback<DataSendSms>() {
             @Override
             public void onResponse(DataSendSms response) {
+                b.btnLogin.setEnabled(true);
 
                 account.saveSendSmsId(response.getId());
                 account.saveUserPhoneNumber(b.selectCode.getText().toString().trim().substring(1) + b.edtNumber.getText().toString().trim());
@@ -185,15 +212,36 @@ public class FragmentCountryAndNumber extends Fragment implements CountryClickLi
 
             @Override
             public void onFailure(Throwable t) {
-
+                b.btnLogin.setEnabled(true);
             }
         });
     }
 
     private void setBackgrounds() {
-        setBackgroundDrawable(getContext(), b.btnLogin, R.color.accent, 0, 10, false, 0);
-        setBackgroundDrawable(getContext(), b.selectCode, R.color.hover, 0, 10, false, 0);
-        setBackgroundDrawable(getContext(), b.edtNumber, R.color.hover, 0, 10, false, 0);
+        setBackgroundDrawable(getContext(), b.selectCode, R.color.low_contrast, 0, 10, false, 0);
+        setBackgroundDrawable(getContext(), b.layEdtPhone, R.color.low_contrast, 0, 10, false, 0);
+        setBackgroundDrawable(getContext(), b.edtNumber, R.color.low_contrast, 0, 10, false, 0);
+        setBackgroundDrawable(getContext(), b.signInGoogle, R.color.low_contrast, 0, 50, false, 0);
+
+        setNextBtnEnabled();
+    }
+
+    private void setNextBtnEnabled() {
+        if (getActivity() == null) return;
+        if (checkEnabled()) {
+            setBackgroundDrawable(getContext(), b.btnLogin, R.color.accent, 0, 50, false, 0);
+            b.btnLogin.setTextColor(getActivity().getResources().getColor(R.color.bg));
+            b.btnLogin.setEnabled(true);
+            return;
+        }
+        b.btnLogin.setEnabled(false);
+        setBackgroundDrawable(getContext(), b.btnLogin, R.color.on_bg_ls, 0, 50, false, 0);
+        b.btnLogin.setTextColor(getActivity().getResources().getColor(R.color.neutral_dark));
+
+    }
+
+    private boolean checkEnabled() {
+        return b.edtNumber.getText().toString().trim().length() == 8;
     }
 
     @Override

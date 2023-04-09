@@ -4,7 +4,7 @@ import static tm.store.meninki.utils.Const.mainFragmentManager;
 import static tm.store.meninki.utils.FragmentHelper.addFragmentWithAnim;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
-import static tm.store.meninki.utils.StaticMethods.setPadding;
+import static tm.store.meninki.utils.StaticMethods.setPaddingWithHandler;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
@@ -51,7 +51,7 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked {
     @Override
     public void onResume() {
         super.onResume();
-        setPadding(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight);
+        StaticMethods.setPaddingWithHandler(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight);
     }
 
     @Override
@@ -120,15 +120,15 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked {
 
 
     private void setBackgrounds() {
-        setBackgroundDrawable(getContext(), b.storeName, R.color.hover, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.storeNameTwo, R.color.hover, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.phoneNumber, R.color.hover, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.phoneNumberTwo, R.color.hover, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.phoneNumberThree, R.color.hover, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.about, R.color.hover, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.extraContact, R.color.hover, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.extraContactTwo, R.color.hover, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.website, R.color.hover, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.storeName, R.color.neutral_dark, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.storeNameTwo, R.color.neutral_dark, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.phoneNumber, R.color.neutral_dark, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.phoneNumberTwo, R.color.neutral_dark, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.phoneNumberThree, R.color.neutral_dark, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.about, R.color.neutral_dark, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.extraContact, R.color.neutral_dark, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.extraContactTwo, R.color.neutral_dark, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.website, R.color.neutral_dark, 0, 4, false, 0);
         setBackgroundDrawable(getContext(), b.saveButton, R.color.accent, 0, 4, false, 0);
 
     }

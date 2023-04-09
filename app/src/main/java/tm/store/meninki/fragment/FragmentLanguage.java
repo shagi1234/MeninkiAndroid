@@ -2,11 +2,9 @@ package tm.store.meninki.fragment;
 
 import static tm.store.meninki.utils.Const.mainFragmentManager;
 import static tm.store.meninki.utils.FragmentHelper.addFragment;
-import static tm.store.meninki.utils.StaticMethods.dpToPx;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
-import static tm.store.meninki.utils.StaticMethods.setMargins;
-import static tm.store.meninki.utils.StaticMethods.setPadding;
+import static tm.store.meninki.utils.StaticMethods.setPaddingWithHandler;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
@@ -15,11 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import tm.store.meninki.R;
 import tm.store.meninki.databinding.FragmentLanguageBinding;
 import tm.store.meninki.interfaces.CountryClickListener;
+import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentLanguage extends Fragment implements CountryClickListener {
     private FragmentLanguageBinding b;
@@ -40,11 +40,11 @@ public class FragmentLanguage extends Fragment implements CountryClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        setPadding(b.getRoot(),0,statusBarHeight,0,navigationBarHeight);
+        setPaddingWithHandler(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         b = FragmentLanguageBinding.inflate(inflater, container, false);
@@ -59,6 +59,7 @@ public class FragmentLanguage extends Fragment implements CountryClickListener {
             addFragment(mainFragmentManager, R.id.container_login, FragmentCountryAndNumber.newInstance());
             new Handler().postDelayed(() -> b.btnNext.setEnabled(true), 200);
         });
+
         b.selectLanguage.setOnClickListener(v -> {
             b.selectLanguage.setEnabled(false);
             addFragment(mainFragmentManager, R.id.container_login, FragmentCountryCode.newInstance(FragmentCountryCode.TYPE_LANGUAGE));
@@ -69,7 +70,7 @@ public class FragmentLanguage extends Fragment implements CountryClickListener {
 
     private void setBackgrounds() {
         setBackgroundDrawable(getContext(), b.btnNext, R.color.accent, 0, 10, false, 0);
-        setBackgroundDrawable(getContext(), b.selectLanguage, R.color.hover, 0, 10, false, 0);
+        setBackgroundDrawable(getContext(), b.selectLanguage, R.color.neutral_dark, 0, 10, false, 0);
     }
 
     @Override

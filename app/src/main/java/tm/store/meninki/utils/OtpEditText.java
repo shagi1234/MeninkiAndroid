@@ -48,7 +48,7 @@ public class OtpEditText extends androidx.appcompat.widget.AppCompatEditText {
         mLineStroke = multi * mLineStroke;
         mLinesPaint = new Paint(getPaint());
         mLinesPaint.setStrokeWidth(mLineStroke);
-        mLinesPaint.setColor(getResources().getColor(R.color.dark));
+        mLinesPaint.setColor(getResources().getColor(R.color.neutral_dark));
         setBackgroundResource(0);
         mSpace = multi * mSpace; //convert to pixels for our density
         mLineSpacing = multi * mLineSpacing; //convert to pixels for our density

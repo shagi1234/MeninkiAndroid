@@ -5,7 +5,7 @@ import static tm.store.meninki.utils.FragmentHelper.addFragment;
 import static tm.store.meninki.utils.FragmentHelper.replaceFragment;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
-import static tm.store.meninki.utils.StaticMethods.setPadding;
+import static tm.store.meninki.utils.StaticMethods.setPaddingWithHandler;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -32,7 +32,6 @@ import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentFeed extends Fragment {
     private FragmentFeedBinding b;
-    private AdapterViewPager adapterFeedPager;
     private AdapterStore adapterStore;
 
     public static FragmentFeed newInstance() {
@@ -50,7 +49,7 @@ public class FragmentFeed extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        setPadding(b.containerProfileId, 0, 0, 0, navigationBarHeight);
+        StaticMethods.setPaddingWithHandler(b.containerProfileId, 0, 0, 0, navigationBarHeight);
     }
 
     @Override

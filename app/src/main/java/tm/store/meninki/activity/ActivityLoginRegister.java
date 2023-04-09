@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import tm.store.meninki.R;
-import tm.store.meninki.fragment.FragmentFirstLaunch;
+import tm.store.meninki.fragment.FragmentCountryAndNumber;
 import tm.store.meninki.interfaces.OnBackPressedFragment;
 
 public class ActivityLoginRegister extends AppCompatActivity {
@@ -26,7 +26,8 @@ public class ActivityLoginRegister extends AppCompatActivity {
         root = findViewById(R.id.root);
         mainFragmentManager = getSupportFragmentManager();
 
-        addFragment(mainFragmentManager, R.id.container_login, FragmentFirstLaunch.newInstance());
+//        addFragment(mainFragmentManager, R.id.container_login, FragmentFirstLaunch.newInstance());
+        addFragment(mainFragmentManager, R.id.container_login, FragmentCountryAndNumber.newInstance());
     }
 
     @Override

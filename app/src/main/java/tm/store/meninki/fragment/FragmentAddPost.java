@@ -2,7 +2,7 @@ package tm.store.meninki.fragment;
 
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
-import static tm.store.meninki.utils.StaticMethods.setPadding;
+import static tm.store.meninki.utils.StaticMethods.setPaddingWithHandler;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
@@ -18,6 +18,7 @@ import tm.store.meninki.adapter.AdapterMediaAddPost;
 import tm.store.meninki.data.SelectedMedia;
 import tm.store.meninki.databinding.FragmentAddPostBinding;
 import tm.store.meninki.interfaces.OnBackPressedFragment;
+import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
     private FragmentAddPostBinding b;
@@ -33,8 +34,8 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
     @Override
     public void onResume() {
         super.onResume();
-        setPadding(b.layHeader, 0, statusBarHeight, 0, 0);
-        setPadding(b.root, 0, 0, 0, navigationBarHeight);
+        StaticMethods.setPaddingWithHandler(b.layHeader, 0, statusBarHeight, 0, 0);
+        StaticMethods.setPaddingWithHandler(b.root, 0, 0, 0, navigationBarHeight);
 
     }
 
@@ -63,10 +64,10 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
     }
 
     private void setBackgrounds() {
-        setBackgroundDrawable(getContext(), b.title, R.color.white, R.color.hover, 4, false, 1);
-        setBackgroundDrawable(getContext(), b.desc, R.color.white, R.color.hover, 4, false, 1);
-        setBackgroundDrawable(getContext(), b.layCountControl, R.color.hover, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.layDataProduct, R.color.white,  R.color.hover, 4, false, 1);
+        setBackgroundDrawable(getContext(), b.title, R.color.white, R.color.neutral_dark, 4, false, 1);
+        setBackgroundDrawable(getContext(), b.desc, R.color.white, R.color.neutral_dark, 4, false, 1);
+        setBackgroundDrawable(getContext(), b.layCountControl, R.color.neutral_dark, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.layDataProduct, R.color.white,  R.color.neutral_dark, 4, false, 1);
     }
 
     private void setRecycler() {

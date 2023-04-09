@@ -7,7 +7,7 @@ import static tm.store.meninki.utils.StaticMethods.getApiHome;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.setMargins;
-import static tm.store.meninki.utils.StaticMethods.setPadding;
+import static tm.store.meninki.utils.StaticMethods.setPaddingWithHandler;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.graphics.BitmapFactory;
@@ -74,7 +74,7 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
     public void onResume() {
         super.onResume();
         setMargins(b.layHeader, 0, statusBarHeight, 0, 0);
-        setPadding(b.getRoot(), 0, 0, 0, navigationBarHeight);
+        StaticMethods.setPaddingWithHandler(b.getRoot(), 0, 0, 0, navigationBarHeight);
     }
 
     @Override
@@ -290,19 +290,19 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
     }
 
     private void setBackgrounds() {
-        setBackgroundDrawable(getContext(), b.title, R.color.white, R.color.hover, 4, false, 1);
-        setBackgroundDrawable(getContext(), b.desc, R.color.white, R.color.hover, 4, false, 1);
-        setBackgroundDrawable(getContext(), b.price, R.color.white, R.color.hover, 4, false, 1);
+        setBackgroundDrawable(getContext(), b.title, R.color.white, R.color.neutral_dark, 4, false, 1);
+        setBackgroundDrawable(getContext(), b.desc, R.color.white, R.color.neutral_dark, 4, false, 1);
+        setBackgroundDrawable(getContext(), b.price, R.color.white, R.color.neutral_dark, 4, false, 1);
         setBackgroundDrawable(getContext(), b.txtGoBasket, R.color.accent, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.oldPrice, R.color.white, R.color.hover, 4, false, 1);
-        setBackgroundDrawable(getContext(), b.chooseCategory, R.color.white, R.color.hover, 4, false, 1);
-        setBackgroundDrawable(getContext(), b.chooseShop, R.color.white, R.color.hover, 4, false, 1);
-        setBackgroundDrawable(getContext(), b.count, R.color.white, R.color.hover, 4, false, 1);
-        setBackgroundDrawable(getContext(), b.desc, R.color.white, R.color.hover, 4, false, 1);
-        setBackgroundDrawable(getContext(), b.wariants, R.color.hover, 0, 10, 10, 0, 0, false, 0);
-        setBackgroundDrawable(getContext(), b.prices, R.color.hover, 0, 10, 10, 0, 0, false, 0);
-        setBackgroundDrawable(getContext(), b.redactorCharacter, R.color.hover, 0, 0, 0, 10, 10, false, 0);
-        setBackgroundDrawable(getContext(), b.redactorPrice, R.color.hover, 0, 0, 0, 10, 10, false, 0);
+        setBackgroundDrawable(getContext(), b.oldPrice, R.color.white, R.color.neutral_dark, 4, false, 1);
+        setBackgroundDrawable(getContext(), b.chooseCategory, R.color.white, R.color.neutral_dark, 4, false, 1);
+        setBackgroundDrawable(getContext(), b.chooseShop, R.color.white, R.color.neutral_dark, 4, false, 1);
+        setBackgroundDrawable(getContext(), b.count, R.color.white, R.color.neutral_dark, 4, false, 1);
+        setBackgroundDrawable(getContext(), b.desc, R.color.white, R.color.neutral_dark, 4, false, 1);
+        setBackgroundDrawable(getContext(), b.wariants, R.color.neutral_dark, 0, 10, 10, 0, 0, false, 0);
+        setBackgroundDrawable(getContext(), b.prices, R.color.neutral_dark, 0, 10, 10, 0, 0, false, 0);
+        setBackgroundDrawable(getContext(), b.redactorCharacter, R.color.neutral_dark, 0, 0, 0, 10, 10, false, 0);
+        setBackgroundDrawable(getContext(), b.redactorPrice, R.color.neutral_dark, 0, 0, 0, 10, 10, false, 0);
     }
 
     private void setRecycler() {

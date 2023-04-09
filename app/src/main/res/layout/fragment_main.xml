@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/bg"
     android:orientation="vertical"
     tools:context=".fragment.FragmentMain">
 
@@ -12,7 +12,7 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background"
+        android:background="@color/bg"
         android:orientation="vertical">
 
         <FrameLayout
@@ -47,7 +47,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="-6dp"
-                        android:fontFamily="@font/roboto_flex"
+                        android:fontFamily="@font/inter_regular"
                         android:maxLines="1"
                         android:text="Лента"
                         android:textColor="@color/black"
@@ -58,10 +58,10 @@
                         android:id="@+id/count_new_feed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_flex"
+                        android:fontFamily="@font/inter_regular"
                         android:maxLines="1"
                         android:text="Новые: 12"
-                        android:textColor="@color/caption"
+                        android:textColor="@color/neutral_dark"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -81,7 +81,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="-6dp"
-                        android:fontFamily="@font/roboto_flex"
+                        android:fontFamily="@font/inter_regular"
                         android:maxLines="1"
                         android:text="Домашняя"
                         android:textColor="@color/black"
@@ -92,10 +92,10 @@
                         android:id="@+id/count_new_home"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_flex"
+                        android:fontFamily="@font/inter_regular"
                         android:maxLines="1"
                         android:text="Новые: 12"
-                        android:textColor="@color/caption"
+                        android:textColor="@color/neutral_dark"
                         android:textSize="12sp" />
                 </LinearLayout>
 

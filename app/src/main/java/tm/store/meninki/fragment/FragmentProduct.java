@@ -7,7 +7,7 @@ import static tm.store.meninki.utils.StaticMethods.getWindowHeight;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.setMargins;
-import static tm.store.meninki.utils.StaticMethods.setPadding;
+import static tm.store.meninki.utils.StaticMethods.setPaddingWithHandler;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
@@ -110,7 +110,7 @@ public class FragmentProduct extends Fragment {
     public void onResume() {
         super.onResume();
         setMargins(b.coordinator, 0, 0, 0, navigationBarHeight);
-        setPadding(b.getRoot(), 0, statusBarHeight, 0, 0);
+        StaticMethods.setPaddingWithHandler(b.getRoot(), 0, statusBarHeight, 0, 0);
     }
 
     @Override
@@ -163,11 +163,11 @@ public class FragmentProduct extends Fragment {
         if (isStore == STORE) {
             b.bottomSheet.checkStore.setVisibility(View.GONE);
             b.bottomSheet.layBasket.setVisibility(View.GONE);
-            b.bottomSheet.btnCaption.setVisibility(View.GONE);
+            b.bottomSheet.btnColor.setVisibility(View.GONE);
         } else {
             b.bottomSheet.checkStore.setVisibility(View.VISIBLE);
             b.bottomSheet.layBasket.setVisibility(View.VISIBLE);
-            b.bottomSheet.btnCaption.setVisibility(View.VISIBLE);
+            b.bottomSheet.btnColor.setVisibility(View.VISIBLE);
 
             setRecyclerCharImage();
             setRecyclerCharPick();
@@ -181,7 +181,7 @@ public class FragmentProduct extends Fragment {
             getActivity().onBackPressed();
         });
 
-        b.bottomSheet.btnCaption.setOnClickListener(v -> {
+        b.bottomSheet.btnColor.setOnClickListener(v -> {
             addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentAddPost.newInstance());
         });
 
@@ -201,8 +201,8 @@ public class FragmentProduct extends Fragment {
     private void setBackgrounds() {
         setBackgroundDrawable(getContext(), b.bottomSheet.txtGoBasket, R.color.accent, 0, 4, false, 0);
 
-        setBackgroundDrawable(getContext(), b.bottomSheet.layCountControl, R.color.grey, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.bottomSheet.txtBtnCaption, R.color.white, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.bottomSheet.layCountControl, R.color.low_contrast, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.bottomSheet.txtBtnColor, R.color.white, 0, 4, false, 0);
     }
 
     private void setImagePager(ArrayList<MediaDto> medias) {

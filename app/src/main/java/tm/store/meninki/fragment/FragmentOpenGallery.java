@@ -5,7 +5,7 @@ import static androidx.core.content.ContextCompat.checkSelfPermission;
 import static tm.store.meninki.utils.StaticMethods.hideSoftKeyboard;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
-import static tm.store.meninki.utils.StaticMethods.setPadding;
+import static tm.store.meninki.utils.StaticMethods.setPaddingWithHandler;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.Manifest;
@@ -35,6 +35,8 @@ import tm.store.meninki.data.SelectedMedia;
 import tm.store.meninki.databinding.FragmentOpenGalleryBinding;
 import tm.store.meninki.interfaces.OnBackPressedFragment;
 import tm.store.meninki.utils.Lists;
+import tm.store.meninki.utils.StaticMethods;
+
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrInterface;
@@ -65,7 +67,7 @@ public class FragmentOpenGallery extends Fragment implements OnBackPressedFragme
         if (slidrInterface == null && getView() != null)
             slidrInterface = Slidr.replace(getView().findViewById(R.id.slider_layout), new SlidrConfig.Builder().position(SlidrPosition.LEFT).build());
 
-        setPadding(b.mainGalleryLay, 0, statusBarHeight, 0, navigationBarHeight);
+        StaticMethods.setPaddingWithHandler(b.mainGalleryLay, 0, statusBarHeight, 0, navigationBarHeight);
     }
 
     @Override

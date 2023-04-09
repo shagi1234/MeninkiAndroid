@@ -5,7 +5,7 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/bg"
     android:clickable="true"
     android:focusable="true"
     tools:context=".fragment.FragmentRedactorPrice">
@@ -24,7 +24,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="32dp"
             android:layout_weight="1"
-            android:fontFamily="@font/roboto_flex"
+            android:fontFamily="@font/inter_regular"
             android:gravity="center_vertical"
             android:text="Ценообразование"
             android:textAllCaps="true"
@@ -56,7 +56,7 @@
         android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/grey"
+        android:background="@color/low_contrast"
         app:layout_constraintTop_toBottomOf="@+id/lay_header" />
 
     <TextView
@@ -65,10 +65,10 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginVertical="14dp"
-        android:fontFamily="@font/roboto_medium"
+        android:fontFamily="@font/inter_medium"
         android:gravity="start"
         android:text="Укажите цену и\или цену до скидки. Тут справка о логике добавления ценников."
-        android:textColor="@color/caption"
+        android:textColor="@color/neutral_dark"
         android:textSize="14sp"
         app:layout_constraintTop_toBottomOf="@+id/line" />
 
@@ -96,7 +96,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:background="@color/accent"
-            android:fontFamily="@font/roboto_flex"
+            android:fontFamily="@font/inter_regular"
             android:gravity="center"
             android:paddingHorizontal="17dp"
             android:paddingVertical="10dp"

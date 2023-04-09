@@ -1,6 +1,5 @@
 package tm.store.meninki.adapter;
 
-import static tm.store.meninki.utils.StaticMethods.dpToPx;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.setMargins;
 
@@ -11,14 +10,14 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import tm.store.meninki.R;
-import tm.store.meninki.databinding.ItemCharColorBinding;
 import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
 
+import tm.store.meninki.R;
+import tm.store.meninki.databinding.ItemCharColorBinding;
 import tm.store.meninki.utils.StaticMethods;
 
 public class AdapterCharColor extends RecyclerView.Adapter<AdapterCharColor.CharImageHolder> {
@@ -95,7 +94,7 @@ public class AdapterCharColor extends RecyclerView.Adapter<AdapterCharColor.Char
                         ColorPickerDialogBuilder
                                 .with(context)
                                 .setTitle("Choose color")
-                                .initialColor(R.color.holder)
+                                .initialColor(R.color.low_contrast)
                                 .wheelType(ColorPickerView.WHEEL_TYPE.CIRCLE)
                                 .density(10)
                                 .setPositiveButton("Ok", (dialog, selectedColor, allColors) -> addColor(Integer.toHexString(selectedColor)))
@@ -121,7 +120,7 @@ public class AdapterCharColor extends RecyclerView.Adapter<AdapterCharColor.Char
     }
 
     private void addColor(String selectedColor) {
-        color.add("#"+selectedColor);
+        color.add("#" + selectedColor);
         notifyItemInserted(color.size() - 1);
     }
 

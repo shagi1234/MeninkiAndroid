@@ -6,7 +6,7 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/bg"
     android:clickable="true"
     android:focusable="true"
     tools:context=".fragment.FragmentAddProduct">
@@ -25,7 +25,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="32dp"
             android:layout_weight="1"
-            android:fontFamily="@font/roboto_flex"
+            android:fontFamily="@font/inter_regular"
             android:gravity="center_vertical"
             android:text="Новый товар"
             android:textAllCaps="true"
@@ -57,7 +57,7 @@
         android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/grey"
+        android:background="@color/bg"
         app:layout_constraintTop_toBottomOf="@+id/lay_header" />
 
     <androidx.core.widget.NestedScrollView
@@ -76,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
-                android:fontFamily="@font/roboto_medium"
+                android:fontFamily="@font/inter_medium"
                 android:text="Название"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
@@ -87,11 +87,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/roboto_medium"
+                android:fontFamily="@font/inter_medium"
                 android:hint="Заголовок (необязательно)"
                 android:padding="14dp"
-                android:textColor="@color/dark"
-                android:textColorHint="@color/caption" />
+                android:textColor="@color/contrast"
+                android:textColorHint="@color/neutral_dark" />
 
             <TextView
                 android:id="@+id/choose_category"
@@ -99,10 +99,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/roboto_medium"
+                android:fontFamily="@font/inter_medium"
                 android:padding="14dp"
                 android:text="Choose category"
-                android:textColor="@color/caption"
+                android:textColor="@color/neutral_dark"
                 android:textSize="16sp" />
 
             <TextView
@@ -111,10 +111,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/roboto_medium"
+                android:fontFamily="@font/inter_medium"
                 android:padding="14dp"
                 android:text="Choose shop"
-                android:textColor="@color/caption"
+                android:textColor="@color/neutral_dark"
                 android:textSize="16sp" />
 
             <TextView
@@ -123,7 +123,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="30dp"
-                android:fontFamily="@font/roboto_medium"
+                android:fontFamily="@font/inter_medium"
                 android:gravity="start"
                 android:maxLines="1"
                 android:text="Описание"
@@ -136,12 +136,12 @@
                 android:layout_height="170dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/roboto_medium"
+                android:fontFamily="@font/inter_medium"
                 android:gravity="start"
                 android:hint="Заголовок (необязательно)"
                 android:padding="14dp"
-                android:textColor="@color/dark"
-                android:textColorHint="@color/caption" />
+                android:textColor="@color/contrast"
+                android:textColorHint="@color/neutral_dark" />
 
             <LinearLayout
                 android:id="@+id/lay_price_if1"
@@ -155,7 +155,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="30dp"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/inter_medium"
                     android:gravity="center"
                     android:maxLines="1"
                     android:text="Ценообразование"
@@ -168,7 +168,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="30dp"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/inter_medium"
                     android:gravity="start"
                     android:maxLines="1"
                     android:text="Цена"
@@ -180,12 +180,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="10dp"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/inter_medium"
                     android:hint="Обязательное поле"
                     android:inputType="numberDecimal"
                     android:padding="14dp"
-                    android:textColor="@color/dark"
-                    android:textColorHint="@color/caption" />
+                    android:textColor="@color/contrast"
+                    android:textColorHint="@color/neutral_dark" />
 
                 <TextView
                     android:id="@+id/sale_price_h"
@@ -193,7 +193,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="30dp"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/inter_medium"
                     android:gravity="start"
                     android:maxLines="1"
                     android:text="Цена до скидки"
@@ -205,13 +205,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="10dp"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/inter_medium"
                     android:gravity="start"
                     android:hint="Необязательно"
                     android:inputType="numberDecimal"
                     android:padding="14dp"
-                    android:textColor="@color/dark"
-                    android:textColorHint="@color/caption" />
+                    android:textColor="@color/contrast"
+                    android:textColorHint="@color/neutral_dark" />
 
                 <TextView
                     android:id="@+id/h_count"
@@ -219,7 +219,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="30dp"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/inter_medium"
                     android:gravity="start"
                     android:maxLines="1"
                     android:text="Count"
@@ -231,13 +231,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="10dp"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/inter_medium"
                     android:gravity="start"
                     android:inputType="number"
                     android:padding="14dp"
                     android:text="1"
-                    android:textColor="@color/dark"
-                    android:textColorHint="@color/caption" />
+                    android:textColor="@color/contrast"
+                    android:textColorHint="@color/neutral_dark" />
             </LinearLayout>
 
 
@@ -247,7 +247,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="50dp"
-                android:fontFamily="@font/roboto_medium"
+                android:fontFamily="@font/inter_medium"
                 android:gravity="center"
                 android:maxLines="1"
                 android:text="Медиа"
@@ -273,7 +273,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="30dp"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/inter_medium"
                     android:gravity="center"
                     android:maxLines="1"
                     android:text="Характеристики товара"
@@ -286,10 +286,10 @@
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginVertical="14dp"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/inter_medium"
                     android:gravity="start"
                     android:text="Здесь вы сможете добавить характеристики к вашему товару и создать вариации к каждой характеристике. Дальше прочая справка."
-                    android:textColor="@color/caption"
+                    android:textColor="@color/neutral_dark"
                     android:textSize="14sp" />
 
                 <TextView
@@ -297,11 +297,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="20dp"
-                    android:fontFamily="@font/roboto_flex"
+                    android:fontFamily="@font/inter_regular"
                     android:gravity="center"
                     android:paddingVertical="14dp"
                     android:text="13 вариантов"
-                    android:textColor="@color/dark"
+                    android:textColor="@color/contrast"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     android:visibility="gone" />
@@ -314,7 +314,7 @@
                     android:layout_marginTop="1dp"
                     android:drawableEnd="@drawable/ic_chevron__1_"
                     android:drawableTint="@color/accent"
-                    android:fontFamily="@font/roboto_flex"
+                    android:fontFamily="@font/inter_regular"
                     android:gravity="start"
                     android:padding="14dp"
                     android:text="Редактировать характеристики"
@@ -335,7 +335,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginHorizontal="20dp"
                         android:layout_marginTop="30dp"
-                        android:fontFamily="@font/roboto_medium"
+                        android:fontFamily="@font/inter_medium"
                         android:gravity="center"
                         android:maxLines="1"
                         android:text="Ценообразование"
@@ -348,11 +348,11 @@
                         android:layout_height="match_parent"
                         android:layout_marginHorizontal="20dp"
                         android:layout_marginTop="14dp"
-                        android:fontFamily="@font/roboto_flex"
+                        android:fontFamily="@font/inter_regular"
                         android:gravity="center"
                         android:paddingVertical="14dp"
                         android:text="1313 - 1313 ТМТ"
-                        android:textColor="@color/dark"
+                        android:textColor="@color/contrast"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
@@ -364,7 +364,7 @@
                         android:layout_marginTop="1dp"
                         android:drawableEnd="@drawable/ic_chevron__1_"
                         android:drawableTint="@color/accent"
-                        android:fontFamily="@font/roboto_flex"
+                        android:fontFamily="@font/inter_regular"
                         android:gravity="start"
                         android:padding="14dp"
                         android:text="Редактировать стоимость"
@@ -401,7 +401,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:background="@color/accent"
-            android:fontFamily="@font/roboto_flex"
+            android:fontFamily="@font/inter_regular"
             android:gravity="center"
             android:paddingHorizontal="17dp"
             android:paddingVertical="10dp"

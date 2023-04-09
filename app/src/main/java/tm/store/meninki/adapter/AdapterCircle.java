@@ -75,8 +75,8 @@ public class AdapterCircle extends RecyclerView.Adapter<AdapterCircle.StoreHolde
 
             Glide.with(context)
                     .load(stories.get(getAdapterPosition()).getCategoryImage())
-                    .placeholder(R.color.color_inactive)
-                    .error(R.color.holder)
+                    .placeholder(R.color.low_contrast)
+                    .error(R.color.neutral_dark)
                     .into(b.image);
 
             b.storeName.setText(stories.get(getAdapterPosition()).getName());

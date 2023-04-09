@@ -23,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@color/holder"
+                android:src="@color/neutral_dark"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +39,7 @@
                 android:layout_marginEnd="10dp"
                 android:padding="2dp"
                 android:scaleType="centerCrop"
-                android:src="@color/caption"
+                android:src="@color/neutral_dark"
                 app:riv_oval="true" />
         </FrameLayout>
 
@@ -49,10 +49,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:fontFamily="@font/roboto_medium"
+            android:fontFamily="@font/inter_medium"
             android:maxLines="1"
             android:text="Pellentesque mauris cras feugiat lectus quam. Tellus eleifend quis mauris cras"
-            android:textColor="@color/dark" />
+            android:textColor="@color/contrast" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -65,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@font/roboto_bold"
+                android:fontFamily="@font/inter_bold"
                 android:gravity="start"
                 android:maxLines="1"
                 android:text="1313 TMT"
@@ -76,11 +76,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:drawableLeft="@drawable/ic_arrow_sort"
-                android:fontFamily="@font/roboto_regular"
+                android:fontFamily="@font/inter_regular"
                 android:gravity="start"
                 android:maxLines="1"
                 android:text="134"
-                android:textColor="@color/caption" />
+                android:textColor="@color/neutral_dark" />
 
         </LinearLayout>
 
@@ -94,7 +94,7 @@
                 android:id="@+id/sale"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_regular"
+                android:fontFamily="@font/inter_regular"
                 android:gravity="start"
                 android:maxLines="1"
                 android:maxLength="5"
@@ -110,11 +110,11 @@
                     android:id="@+id/old_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_regular"
+                    android:fontFamily="@font/inter_regular"
                     android:gravity="start"
                     android:maxLines="1"
                     android:text="1000 TMT"
-                    android:textColor="@color/caption"
+                    android:textColor="@color/neutral_dark"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -125,7 +125,7 @@
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_gravity="center"
-                    android:background="@color/caption"
+                    android:background="@color/neutral_dark"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

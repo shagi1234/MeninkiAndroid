@@ -5,7 +5,7 @@ import static tm.store.meninki.utils.StaticMethods.dpToPx;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.setMargins;
-import static tm.store.meninki.utils.StaticMethods.setPadding;
+import static tm.store.meninki.utils.StaticMethods.setPaddingWithHandler;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN;
 
@@ -25,6 +25,8 @@ import tm.store.meninki.databinding.FragmentCharactericsBinding;
 import tm.store.meninki.interfaces.OnBackPressedFragment;
 import tm.store.meninki.interfaces.OnChangeProductCharactersCount;
 import tm.store.meninki.utils.Lists;
+import tm.store.meninki.utils.StaticMethods;
+
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 public class FragmentCharacterics extends Fragment implements OnBackPressedFragment {
@@ -48,7 +50,7 @@ public class FragmentCharacterics extends Fragment implements OnBackPressedFragm
     @Override
     public void onResume() {
         super.onResume();
-        setPadding(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight);
+        StaticMethods.setPaddingWithHandler(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight);
 //        setMargins(b.layBtn, dpToPx(20, getContext()), 0, dpToPx(20, getContext()), navigationBarHeight);
     }
 

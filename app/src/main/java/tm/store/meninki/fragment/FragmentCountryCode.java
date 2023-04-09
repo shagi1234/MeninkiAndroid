@@ -8,7 +8,6 @@ import static tm.store.meninki.utils.StaticMethods.hideSoftKeyboard;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setMarginWithAnim;
 import static tm.store.meninki.utils.StaticMethods.setNavBarIconsBlack;
-import static tm.store.meninki.utils.StaticMethods.setPadding;
 import static tm.store.meninki.utils.StaticMethods.slidingX;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
@@ -30,20 +29,21 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import tm.store.meninki.R;
-import tm.store.meninki.adapter.AdapterCountry;
-import tm.store.meninki.data.CountryDto;
-import tm.store.meninki.databinding.FragmentCountryCodeBinding;
-import tm.store.meninki.interfaces.OnBackPressedFragment;
-import tm.store.meninki.shared.Account;
-import tm.store.meninki.utils.CountryInfo;
-import tm.store.meninki.utils.KeyboardHeightProvider;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrInterface;
 import com.r0adkll.slidr.model.SlidrPosition;
 
 import java.util.ArrayList;
+
+import tm.store.meninki.R;
+import tm.store.meninki.adapter.AdapterCountry;
+import tm.store.meninki.data.CountryDto;
+import tm.store.meninki.databinding.FragmentCountryCodeBinding;
+import tm.store.meninki.interfaces.OnBackPressedFragment;
+import tm.store.meninki.utils.CountryInfo;
+import tm.store.meninki.utils.KeyboardHeightProvider;
+import tm.store.meninki.utils.StaticMethods;
 
 
 public class FragmentCountryCode extends Fragment implements OnBackPressedFragment, KeyboardHeightProvider.KeyboardHeightListener {
@@ -54,7 +54,6 @@ public class FragmentCountryCode extends Fragment implements OnBackPressedFragme
     private int type;
     public static final int TYPE_LANGUAGE = 0;
     public static final int TYPE_COUNTRY_CODE = 1;
-    private Account accountPreferences;
     private ArrayList<CountryDto> temp = new ArrayList<>();
     private ArrayList<CountryDto> lang = new ArrayList<>();
 
@@ -72,7 +71,7 @@ public class FragmentCountryCode extends Fragment implements OnBackPressedFragme
 
         keyboardHeightProvider.start();
 
-        setPadding(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight);
+        StaticMethods.setPaddingWithHandler(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight);
 
         setNavBarIconsBlack(getActivity(), getContext());
 
@@ -95,10 +94,10 @@ public class FragmentCountryCode extends Fragment implements OnBackPressedFragme
         if (getArguments() != null) {
             type = getArguments().getInt("type");
         }
-        lang.add(new CountryDto("Turkmen", ""));
-        lang.add(new CountryDto("Russian", ""));
-        lang.add(new CountryDto("English", ""));
-        accountPreferences = Account.newInstance(getContext());
+        lang.add(new CountryDto("Turkmen", "+993"));
+        lang.add(new CountryDto("Russian", "+7"));
+        lang.add(new CountryDto("English", "+1"));
+
         keyboardHeightProvider = new KeyboardHeightProvider(getContext(), getActivity().getWindowManager(), getActivity().getWindow().getDecorView(), this);
     }
 

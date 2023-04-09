@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/bg"
     android:orientation="vertical"
     tools:context=".fragment.FragmentFeed">
 
@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="bottom"
-        android:background="@color/background"
+        android:background="@color/bg"
         android:orientation="vertical">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -32,7 +32,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/background"
+                    android:background="@color/bg"
                     android:orientation="vertical">
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -66,7 +66,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@color/white"
-                        android:fontFamily="@font/roboto_medium"
+                        android:fontFamily="@font/inter_medium"
                         android:gravity="center_vertical"
                         android:hint="Поиск"
                         android:maxLines="1"
@@ -90,7 +90,7 @@
                         android:layout_marginEnd="14dp"
                         android:padding="5dp"
                         android:src="@drawable/ic_search"
-                        app:tint="@color/dark" />
+                        app:tint="@color/contrast" />
 
                 </LinearLayout>
 

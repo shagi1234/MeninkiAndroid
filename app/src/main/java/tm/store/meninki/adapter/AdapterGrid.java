@@ -139,7 +139,7 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             }
 
-            setBackgroundDrawable(context, b.posterImage, R.color.holder, R.color.accent, 0, true, 2);
+            setBackgroundDrawable(context, b.posterImage, R.color.neutral_dark, R.color.accent, 0, true, 2);
 
             b.click.setOnClickListener(v -> FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentProduct.newInstance(grids.get(getAdapterPosition()).getId(), FragmentProduct.PRODUCT)));
 
@@ -155,8 +155,8 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                     .build());
 
                     RequestOptions requestOptions = new RequestOptions()
-                            .placeholder(R.color.color_inactive)
-                            .error(R.color.holder);
+                            .placeholder(R.color.low_contrast)
+                            .error(R.color.neutral_dark);
 
                     Glide.with(context)
                             .applyDefaultRequestOptions(requestOptions)
@@ -172,8 +172,8 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             Glide.with(context)
                     .load(BASE_URL + "/" + grids.get(getAdapterPosition()).getAvatar())
                     .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                    .placeholder(R.color.color_inactive)
-                    .error(R.color.holder)
+                    .placeholder(R.color.low_contrast)
+                    .error(R.color.neutral_dark)
                     .into(b.posterImage);
 
             Double price = grids.get(getAdapterPosition()).getPrice();
@@ -202,8 +202,8 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         public void bind() {
-            setBackgroundDrawable(context, b.posterImage, R.color.holder, R.color.accent, 0, true, 2);
-            setBackgroundDrawable(context, b.layPrice, R.color.hover, 0, 4, false, 0);
+            setBackgroundDrawable(context, b.posterImage, R.color.neutral_dark, R.color.accent, 0, true, 2);
+            setBackgroundDrawable(context, b.layPrice, R.color.neutral_dark, 0, 4, false, 0);
 
             setRecycler();
 

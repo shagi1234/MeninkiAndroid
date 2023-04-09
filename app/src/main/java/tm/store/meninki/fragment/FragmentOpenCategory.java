@@ -3,7 +3,7 @@ package tm.store.meninki.fragment;
 import static tm.store.meninki.api.enums.CardType.product;
 import static tm.store.meninki.utils.StaticMethods.dpToPx;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
-import static tm.store.meninki.utils.StaticMethods.setPadding;
+import static tm.store.meninki.utils.StaticMethods.setPaddingWithHandler;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
@@ -25,6 +25,7 @@ import tm.store.meninki.adapter.AdapterViewPager;
 import tm.store.meninki.data.FragmentPager;
 import tm.store.meninki.data.TabItemCustom;
 import tm.store.meninki.databinding.FragmentOpenCategoryBinding;
+import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentOpenCategory extends Fragment {
     private FragmentOpenCategoryBinding b;
@@ -48,8 +49,8 @@ public class FragmentOpenCategory extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        setPadding(b.viewPager, 0, 0, 0, navigationBarHeight);
-        setPadding(b.header, dpToPx(10, getContext()), statusBarHeight, dpToPx(10, getContext()), 0);
+        StaticMethods.setPaddingWithHandler(b.viewPager, 0, 0, 0, navigationBarHeight);
+        StaticMethods.setPaddingWithHandler(b.header, dpToPx(10, getContext()), statusBarHeight, dpToPx(10, getContext()), 0);
     }
 
     @Override

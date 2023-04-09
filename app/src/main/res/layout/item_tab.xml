@@ -8,7 +8,7 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_medium"
+        android:fontFamily="@font/inter_medium"
         android:paddingHorizontal="10dp"
         android:paddingVertical="9dp"
         tools:text="Media" />

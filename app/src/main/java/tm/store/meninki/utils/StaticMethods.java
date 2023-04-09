@@ -22,6 +22,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.provider.DocumentsContract;
@@ -119,6 +120,7 @@ public class StaticMethods {
     public static ServiceHome getApiHome() {
         return (ServiceHome) ApiClient.createRequest(ServiceHome.class);
     }
+
     public static ServiceCategory getApiCategory() {
         return (ServiceCategory) ApiClient.createRequest(ServiceCategory.class);
     }
@@ -397,11 +399,15 @@ public class StaticMethods {
         return px / ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
 
-    public static void setPadding(ViewGroup v, int l, int t, int r, int b) {
+    public static void setPaddingWithHandler(ViewGroup v, int l, int t, int r, int b) {
+
         try {
             if (v.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
-                v.setPadding(l, t, r, b);
-                v.requestLayout();
+
+                new Handler().postDelayed(() -> {
+                    v.setPadding(l, t, r, b);
+                    v.requestLayout();
+                }, 20);
             }
         } catch (Exception e) {
             Log.d("error", "setMargins: " + e.getMessage());
@@ -436,7 +442,7 @@ public class StaticMethods {
 
     }
 
-    public static void setPadding(View v, int l, int t, int r, int b) {
+    public static void setPaddingWithHandler(View v, int l, int t, int r, int b) {
         try {
             if (v.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
                 ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
@@ -722,13 +728,22 @@ public class StaticMethods {
         ViewGroup.MarginLayoutParams gd = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
         ValueAnimator animator = ValueAnimator.ofFloat(fromMargin, toMargin);
         animator.setDuration(150)
-                .addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator animation) {
-                        float value = (float) animation.getAnimatedValue();
-                        gd.setMargins(0, 0, 0, (int) value);
-                        v.requestLayout();
-                    }
+                .addUpdateListener(animation -> {
+                    float value = (float) animation.getAnimatedValue();
+                    gd.setMargins(0, 0, 0, (int) value);
+                    v.requestLayout();
+                });
+        animator.start();
+    }
+
+    public static void setMarginWithAnim(View v, float fromMargin, float toMargin) {
+        ViewGroup.MarginLayoutParams gd = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+        ValueAnimator animator = ValueAnimator.ofFloat(fromMargin, toMargin);
+        animator.setDuration(150)
+                .addUpdateListener(animation -> {
+                    float value = (float) animation.getAnimatedValue();
+                    gd.setMargins(0, 0, 0, (int) value);
+                    v.requestLayout();
                 });
         animator.start();
     }

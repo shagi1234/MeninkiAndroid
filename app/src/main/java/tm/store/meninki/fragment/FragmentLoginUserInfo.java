@@ -6,7 +6,6 @@ import static tm.store.meninki.utils.StaticMethods.hideSoftKeyboard;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.setMarginWithAnim;
-import static tm.store.meninki.utils.StaticMethods.setPadding;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.content.Intent;
@@ -33,7 +32,7 @@ import tm.store.meninki.shared.Account;
 import tm.store.meninki.utils.KeyboardHeightProvider;
 import tm.store.meninki.utils.StaticMethods;
 
-public class FragmentLoginUserInfo extends Fragment implements KeyboardHeightProvider.KeyboardHeightListener {
+public class FragmentLoginUserInfo extends Fragment implements KeyboardHeightProvider.KeyboardHeightListener, TextWatcher {
     private FragmentLoginUserInformationBinding b;
     private KeyboardHeightProvider keyboardHeightProvider;
     private Account account;
@@ -49,7 +48,7 @@ public class FragmentLoginUserInfo extends Fragment implements KeyboardHeightPro
     @Override
     public void onResume() {
         super.onResume();
-        new Handler().postDelayed(() -> setPadding(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight), 50);
+        new Handler().postDelayed(() -> StaticMethods.setPaddingWithHandler(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight), 50);
         keyboardHeightProvider.start();
     }
 
@@ -79,37 +78,16 @@ public class FragmentLoginUserInfo extends Fragment implements KeyboardHeightPro
     }
 
     private void initListeners() {
-        b.btnLogin.setOnClickListener(v -> {
+        b.nextBtn.setOnClickListener(v -> {
             if (getActivity() == null) return;
-            b.btnLogin.setEnabled(false);
+            b.nextBtn.setEnabled(false);
             createUser();
-            new Handler().postDelayed(() -> b.btnLogin.setEnabled(true), 200);
+            new Handler().postDelayed(() -> b.nextBtn.setEnabled(true), 200);
         });
 
-        b.edtName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.toString().trim().length() > 4) {
-                    setBackgroundDrawable(getContext(), b.btnLogin, R.color.accent, 0, 10, false, 0);
-                    b.btnLogin.setTextColor(getResources().getColor(R.color.background));
-                    b.btnLogin.setEnabled(true);
-                } else {
-                    setBackgroundDrawable(getContext(), b.btnLogin, R.color.background, R.color.accent, 10, false, 2);
-                    b.btnLogin.setTextColor(getResources().getColor(R.color.accent));
-                    b.btnLogin.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+        b.edtName.addTextChangedListener(this);
+        b.edtUsername.addTextChangedListener(this);
     }
 
     private void createUser() {
@@ -142,11 +120,26 @@ public class FragmentLoginUserInfo extends Fragment implements KeyboardHeightPro
         getActivity().finish();
     }
 
+    private void setNextBtnEnabled() {
+        if (isEnabled()) {
+            setBackgroundDrawable(getContext(), b.nextBtn, R.color.accent, 0, 10, false, 0);
+            b.nextBtn.setTextColor(getResources().getColor(R.color.bg));
+            b.nextBtn.setEnabled(true);
+        } else {
+            setBackgroundDrawable(getContext(), b.nextBtn, R.color.bg, R.color.accent, 10, false, 2);
+            b.nextBtn.setTextColor(getResources().getColor(R.color.accent));
+            b.nextBtn.setEnabled(false);
+        }
+    }
+
+    private boolean isEnabled() {
+        return b.edtName.toString().trim().length() > 4 && b.edtUsername.getText().toString().trim().length() > 4;
+    }
+
     private void setBackgrounds() {
-        setBackgroundDrawable(getContext(), b.btnLogin, R.color.background, R.color.accent, 10, false, 2);
-        b.btnLogin.setTextColor(getResources().getColor(R.color.accent));
-        b.btnLogin.setEnabled(false);
-        setBackgroundDrawable(getContext(), b.edtName, R.color.hover, 0, 10, false, 0);
+        setBackgroundDrawable(getContext(), b.edtName, R.color.low_contrast, 0, 10, false, 0);
+        setBackgroundDrawable(getContext(), b.edtUsername, R.color.low_contrast, 0, 10, false, 0);
+        setNextBtnEnabled();
     }
 
     @Override
@@ -165,5 +158,20 @@ public class FragmentLoginUserInfo extends Fragment implements KeyboardHeightPro
         } else {
             setMarginWithAnim(b.layBottom, layout.bottomMargin, height);
         }
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        setNextBtnEnabled();
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
     }
 }

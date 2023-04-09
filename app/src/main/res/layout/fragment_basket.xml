@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/bg"
     android:clickable="true"
     android:focusable="true"
     android:orientation="vertical">
@@ -29,10 +29,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:fontFamily="@font/roboto_bold"
+                android:fontFamily="@font/inter_bold"
                 android:gravity="center_vertical"
                 android:text="Корзина"
-                android:textColor="@color/dark"
+                android:textColor="@color/contrast"
                 android:textSize="22sp" />
 
             <TextView
@@ -40,10 +40,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:fontFamily="@font/roboto_flex"
+                android:fontFamily="@font/inter_regular"
                 android:gravity="center_vertical"
                 android:text="Товаров: 48"
-                android:textColor="@color/caption"
+                android:textColor="@color/neutral_dark"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -71,7 +71,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/grey" />
+        android:background="@color/low_contrast" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rec_products"
@@ -94,7 +94,7 @@
                 android:id="@+id/sum_all"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_flex"
+                android:fontFamily="@font/inter_regular"
                 android:text="ИТОГО: 1313 TMT"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
@@ -107,7 +107,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:fontFamily="@font/roboto_flex"
+                android:fontFamily="@font/inter_regular"
                 android:text="ИТОГО: 1313 TMT"
                 android:textAllCaps="true"
                 android:textColor="@color/alert"
@@ -122,12 +122,12 @@
                 android:background="@color/accent"
                 android:drawableEnd="@drawable/ic_payment"
                 android:drawablePadding="10dp"
-                android:fontFamily="@font/roboto_medium"
+                android:fontFamily="@font/inter_medium"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="10dp"
                 android:text="Оформить"
                 android:textAllCaps="true"
-                android:textColor="@color/background"
+                android:textColor="@color/bg"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

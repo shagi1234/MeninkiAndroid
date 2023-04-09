@@ -1,6 +1,5 @@
 package tm.store.meninki.adapter;
 
-import static tm.store.meninki.utils.StaticMethods.dpToPx;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.setMargins;
 
@@ -14,13 +13,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+
+import java.util.ArrayList;
+
 import tm.store.meninki.R;
 import tm.store.meninki.data.ProductImageDto;
 import tm.store.meninki.databinding.ItemCharImageBinding;
 import tm.store.meninki.fragment.FragmentOpenGallery;
-
-import java.util.ArrayList;
-
 import tm.store.meninki.utils.Const;
 import tm.store.meninki.utils.FragmentHelper;
 import tm.store.meninki.utils.StaticMethods;
@@ -80,15 +79,15 @@ public class AdapterCharImage extends RecyclerView.Adapter<AdapterCharImage.Char
                 setMargins(b.getRoot(), StaticMethods.dpToPx(4, context), StaticMethods.dpToPx(0, context), StaticMethods.dpToPx(4, context), 0);
             }
 
-            StaticMethods.setBackgroundDrawable(context, b.txtProductCharacteristic, R.color.hover, 0, 0, 0, 10, 10, false, 0);
+            StaticMethods.setBackgroundDrawable(context, b.txtProductCharacteristic, R.color.neutral_dark, 0, 0, 0, 10, 10, false, 0);
 
             if (getAdapterPosition() == 0 && isAddable == AdapterCharPick.NOT_ADDABLE) {
                 b.click.setBackgroundResource(R.drawable.ripple);
                 b.main.setVisibility(View.VISIBLE);
                 b.layAdd.setVisibility(View.GONE);
                 b.txtProductCharacteristic.setText(imageUrl.get(getAdapterPosition()).getTitle());
-                Glide.with(context).load(imageUrl.get(getAdapterPosition()).getImagePath()).placeholder(R.color.holder).into(b.image);
-                setBackgroundDrawable(context, b.main, R.color.hover, R.color.accent, 4, false, 3);
+                Glide.with(context).load(imageUrl.get(getAdapterPosition()).getImagePath()).placeholder(R.color.neutral_dark).into(b.image);
+                setBackgroundDrawable(context, b.main, R.color.neutral_dark, R.color.accent, 4, false, 3);
                 lastClicked = b.main;
             } else if (getAdapterPosition() == getItemCount() - 1 && isAddable == AdapterCharPick.ADDABLE) {
                 b.main.setVisibility(View.INVISIBLE);
@@ -97,10 +96,10 @@ public class AdapterCharImage extends RecyclerView.Adapter<AdapterCharImage.Char
             } else {
                 b.click.setBackgroundResource(R.drawable.ripple);
                 b.main.setVisibility(View.VISIBLE);
-                Glide.with(context).load(imageUrl.get(getAdapterPosition()).getImagePath()).placeholder(R.color.holder).into(b.image);
+                Glide.with(context).load(imageUrl.get(getAdapterPosition()).getImagePath()).placeholder(R.color.neutral_dark).into(b.image);
                 b.txtProductCharacteristic.setText(imageUrl.get(getAdapterPosition()).getTitle());
                 b.layAdd.setVisibility(View.GONE);
-                setBackgroundDrawable(context, b.main, R.color.hover, 0, 4, false, 0);
+                setBackgroundDrawable(context, b.main, R.color.neutral_dark, 0, 4, false, 0);
             }
 
             b.click.setOnClickListener(v -> {
@@ -114,10 +113,10 @@ public class AdapterCharImage extends RecyclerView.Adapter<AdapterCharImage.Char
 
                 if (lastClicked == b.main) return;
 
-                setBackgroundDrawable(context, b.main, R.color.hover, R.color.accent, 4, false, 3);
+                setBackgroundDrawable(context, b.main, R.color.neutral_dark, R.color.accent, 4, false, 3);
 
                 if (lastClicked != null)
-                    setBackgroundDrawable(context, lastClicked, R.color.hover, 0, 4, false, 0);
+                    setBackgroundDrawable(context, lastClicked, R.color.neutral_dark, 0, 4, false, 0);
 
                 lastClicked = b.main;
             });

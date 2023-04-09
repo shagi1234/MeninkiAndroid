@@ -14,13 +14,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import java.util.ArrayList;
+
 import tm.store.meninki.R;
 import tm.store.meninki.data.TabItemCustom;
 import tm.store.meninki.databinding.ItemTabBinding;
 import tm.store.meninki.fragment.FragmentMyShops;
 import tm.store.meninki.interfaces.OnTabClicked;
-
-import java.util.ArrayList;
 
 public class AdapterTabLayout extends RecyclerView.Adapter<AdapterTabLayout.TabLayoutHolder> {
     private Context context;
@@ -113,11 +113,11 @@ public class AdapterTabLayout extends RecyclerView.Adapter<AdapterTabLayout.TabL
 
         private void setActive(boolean isActive) {
             if (isActive) {
-                setBackgroundDrawable(context, b.title, R.color.custom, 0, 4, false, 0);
-                b.title.setTextColor(context.getResources().getColor(R.color.dark));
+                setBackgroundDrawable(context, b.title, R.color.accent, 0, 4, false, 0);
+                b.title.setTextColor(context.getResources().getColor(R.color.bg));
             } else {
-                setBackgroundDrawable(context, b.title, R.color.hover, 0, 4, false, 0);
-                b.title.setTextColor(context.getResources().getColor(R.color.caption));
+                setBackgroundDrawable(context, b.title, R.color.low_contrast, 0, 4, false, 0);
+                b.title.setTextColor(context.getResources().getColor(R.color.ic_text));
             }
         }
     }

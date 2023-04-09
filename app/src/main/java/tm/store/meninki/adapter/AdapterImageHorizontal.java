@@ -68,7 +68,7 @@ public class AdapterImageHorizontal extends RecyclerView.Adapter<AdapterImageHor
                 return;
             }
 
-            Glide.with(context).load(imageUrl.get(getAdapterPosition())).placeholder(R.color.holder).into(b.image);
+            Glide.with(context).load(imageUrl.get(getAdapterPosition())).placeholder(R.color.neutral_dark).into(b.image);
 
 //            setBackgroundDrawable(context, b.image, R.color.hover, 0, 4, false, 0);
 

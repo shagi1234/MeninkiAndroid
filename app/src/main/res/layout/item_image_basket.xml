@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@color/holder"
+        android:src="@color/neutral_dark"
         app:riv_corner_radius="4dp" />
 
     <FrameLayout

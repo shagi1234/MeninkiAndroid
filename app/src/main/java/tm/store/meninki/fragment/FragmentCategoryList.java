@@ -2,7 +2,7 @@ package tm.store.meninki.fragment;
 
 import static tm.store.meninki.utils.StaticMethods.logWrite;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
-import static tm.store.meninki.utils.StaticMethods.setPadding;
+import static tm.store.meninki.utils.StaticMethods.setPaddingWithHandler;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
@@ -65,7 +65,7 @@ public class FragmentCategoryList extends Fragment {
         super.onResume();
 
         if (isCategory() || isShop()) {
-            setPadding(b.main, 0, statusBarHeight, 0, navigationBarHeight);
+            StaticMethods.setPaddingWithHandler(b.main, 0, statusBarHeight, 0, navigationBarHeight);
 
             if (slidrInterface == null && getView() != null)
                 slidrInterface = Slidr.replace(getView().findViewById(R.id.main), new SlidrConfig.Builder().position(SlidrPosition.TOP).build());

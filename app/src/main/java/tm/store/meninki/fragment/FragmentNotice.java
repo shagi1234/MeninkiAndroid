@@ -2,7 +2,7 @@ package tm.store.meninki.fragment;
 
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
-import static tm.store.meninki.utils.StaticMethods.setPadding;
+import static tm.store.meninki.utils.StaticMethods.setPaddingWithHandler;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,6 +18,7 @@ import tm.store.meninki.R;
 import tm.store.meninki.adapter.AdapterGrid;
 import tm.store.meninki.adapter.AdapterStore;
 import tm.store.meninki.databinding.FragmentNoticeBinding;
+import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentNotice extends Fragment {
     private FragmentNoticeBinding b;
@@ -35,7 +36,7 @@ public class FragmentNotice extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        setPadding(b.containerProfileId, 0, 0, 0, navigationBarHeight);
+        StaticMethods.setPaddingWithHandler(b.containerProfileId, 0, 0, 0, navigationBarHeight);
 
     }
 
@@ -73,7 +74,7 @@ public class FragmentNotice extends Fragment {
     }
 
     private void setBackground() {
-        setBackgroundDrawable(getContext(), b.btnCaption, R.color.grey, 0, 10, false, 0);
+        setBackgroundDrawable(getContext(), b.btnColor, R.color.neutral_dark, 0, 10, false, 0);
     }
 
 }

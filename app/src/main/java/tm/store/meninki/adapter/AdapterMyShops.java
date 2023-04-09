@@ -67,9 +67,9 @@ public class AdapterMyShops extends RecyclerView.Adapter<AdapterMyShops.StoreHol
 
         public void bind() {
 
-            setBackgroundDrawable(context, b.root, R.color.hover, 0, 10, false, 0);
-            setBackgroundDrawable(context, b.layNewMessage, R.color.background, R.color.hover, 4, false, 2);
-            setBackgroundDrawable(context, b.layWaitingOrder, R.color.background, R.color.hover, 4, false, 2);
+            setBackgroundDrawable(context, b.root, R.color.neutral_dark, 0, 10, false, 0);
+            setBackgroundDrawable(context, b.layNewMessage, R.color.bg, R.color.neutral_dark, 4, false, 2);
+            setBackgroundDrawable(context, b.layWaitingOrder, R.color.bg, R.color.neutral_dark, 4, false, 2);
 
             b.shopName.setOnClickListener(v -> {
                 FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(FragmentProfile.TYPE_SHOP, grids.get(getAdapterPosition()).getId()));

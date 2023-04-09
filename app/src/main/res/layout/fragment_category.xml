@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/bg"
     android:orientation="vertical"
     tools:context=".fragment.FragmentCategory">
 
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="-2dp"
-            android:fontFamily="@font/roboto_flex"
+            android:fontFamily="@font/inter_regular"
             android:text="Категории"
             android:textColor="@color/white"
             android:textSize="14sp" />
@@ -50,11 +50,11 @@
         android:layout_marginTop="40dp"
         android:background="@color/color_transparent"
         android:clipToPadding="false"
-        app:tabIndicatorColor="@color/dark"
+        app:tabIndicatorColor="@color/contrast"
         app:tabMode="scrollable"
         app:tabSelectedTextColor="@color/black"
         app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
-        app:tabTextColor="@color/dark" />
+        app:tabTextColor="@color/contrast" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"
@@ -73,7 +73,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:alpha="0.2"
-            android:background="@color/caption"
+            android:background="@color/neutral_dark"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.makeramen.roundedimageview.RoundedImageView
@@ -83,7 +83,7 @@
             android:layout_marginStart="14dp"
             android:padding="2dp"
             android:scaleType="centerCrop"
-            android:src="@color/holder"
+            android:src="@color/neutral_dark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -103,7 +103,7 @@
                 android:id="@+id/username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_flex"
+                android:fontFamily="@font/inter_regular"
                 android:maxLines="1"
                 android:text="Махмуд Махмудов"
                 android:textColor="@color/black"
@@ -113,10 +113,10 @@
                 android:id="@+id/mail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_flex"
+                android:fontFamily="@font/inter_regular"
                 android:maxLines="1"
                 android:text="Махмуд Махмудов"
-                android:textColor="@color/caption"
+                android:textColor="@color/neutral_dark"
                 android:textSize="12sp" />
         </LinearLayout>
 

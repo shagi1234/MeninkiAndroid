@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
-    android:color="@color/text_2nd_40">
+    android:color="@color/low_contrast">
     <item android:id="@android:id/mask">
         <shape android:shape="rectangle">
             <corners android:radius="4dp" />
-            <solid android:color="@color/text_2nd_40" />
+            <solid android:color="@color/on_bg_ls" />
         </shape>
     </item>
 </ripple>
