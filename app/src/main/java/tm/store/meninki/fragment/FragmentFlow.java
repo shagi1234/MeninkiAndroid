@@ -76,9 +76,9 @@ public class FragmentFlow extends Fragment implements ChangeFlowPage, OnBackPres
     }
 
     private void setViewPager() {
-        b.viewPager.setOffscreenPageLimit(2);
+//        b.viewPager.setOffscreenPageLimit(2);
         ArrayList<FragmentPager> mFragment = new ArrayList<>();
-        mFragment.add(new FragmentPager(FragmentCategory.newInstance(), ""));
+//        mFragment.add(new FragmentPager(FragmentCategory.newInstance(), ""));
         mFragment.add(new FragmentPager(FragmentMain.newInstance(), ""));
         adapterFeedPager = new AdapterViewPager(getChildFragmentManager(), mFragment);
         b.viewPager.setAdapter(adapterFeedPager);

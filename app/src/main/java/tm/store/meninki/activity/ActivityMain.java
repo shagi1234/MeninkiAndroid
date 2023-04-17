@@ -20,6 +20,7 @@ import com.google.android.gms.security.ProviderInstaller;
 
 import tm.store.meninki.R;
 import tm.store.meninki.fragment.FragmentFlow;
+import tm.store.meninki.fragment.FragmentMain;
 import tm.store.meninki.interfaces.OnBackPressedFragment;
 
 
@@ -34,7 +35,8 @@ public class ActivityMain extends AppCompatActivity {
         root = findViewById(R.id.main);
         updateAndroidSecurityProvider(this);
         mainFragmentManager = getSupportFragmentManager();
-        addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentFlow.newInstance());
+
+        addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentMain.newInstance());
     }
 
 
