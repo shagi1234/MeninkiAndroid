@@ -2,7 +2,7 @@ package tm.store.meninki.fragment;
 
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
-import static tm.store.meninki.utils.StaticMethods.setPaddingWithHandler;
+import static tm.store.meninki.utils.StaticMethods.setPadding;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -36,7 +36,7 @@ public class FragmentNotice extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        StaticMethods.setPaddingWithHandler(b.containerProfileId, 0, 0, 0, navigationBarHeight);
+        StaticMethods.setPadding(b.containerProfileId, 0, 0, 0, navigationBarHeight);
 
     }
 

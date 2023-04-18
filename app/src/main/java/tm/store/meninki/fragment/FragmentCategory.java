@@ -1,16 +1,10 @@
 package tm.store.meninki.fragment;
 
-import static tm.store.meninki.utils.Const.mainFragmentManager;
-import static tm.store.meninki.utils.FragmentHelper.addFragment;
+import static tm.store.meninki.utils.StaticMethods.dpToPx;
 import static tm.store.meninki.utils.StaticMethods.logWrite;
-import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
-import static tm.store.meninki.utils.StaticMethods.setMargins;
-import static tm.store.meninki.utils.StaticMethods.setPaddingWithHandler;
-import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,8 +28,6 @@ import tm.store.meninki.api.services.ServiceCategory;
 import tm.store.meninki.data.CategoryDto;
 import tm.store.meninki.data.FragmentPager;
 import tm.store.meninki.databinding.FragmentCategoryBinding;
-import tm.store.meninki.shared.Account;
-import tm.store.meninki.utils.StaticMethods;
 
 
 public class FragmentCategory extends Fragment {
@@ -46,13 +38,6 @@ public class FragmentCategory extends Fragment {
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        setMargins(b.frameCtg, 0, statusBarHeight, 0, 0);
-        StaticMethods.setPaddingWithHandler(b.layUserInfo, 0, 0, 0, navigationBarHeight);
     }
 
     @Override
@@ -94,21 +79,12 @@ public class FragmentCategory extends Fragment {
     }
 
     private void initListeners() {
-        b.icCart.setOnClickListener(v -> {
-            b.icCart.setEnabled(false);
-            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentBasket.newInstance());
-            new Handler().postDelayed(() -> b.icCart.setEnabled(true), 200);
-        });
-        b.clickUserData.setOnClickListener(v -> {
-            b.layUserInfo.setEnabled(false);
-            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(FragmentProfile.TYPE_USER, Account.newInstance(getContext()).getPrefUserUUID()));
-            new Handler().postDelayed(() -> b.layUserInfo.setEnabled(true), 200);
-        });
+
     }
 
     private void setBackgrounds() {
-        setBackgroundDrawable(getContext(), b.icCart, R.color.bg, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.userImage, R.color.bg, R.color.accent, 0, true, 2);
+        setBackgroundDrawable(getContext(), b.backgroundSearch, R.color.low_contrast, 0, 10, false, 0);
+        setBackgroundDrawable(getContext(), b.edtSearch, R.color.low_contrast, 0, 10, false, 0);
     }
 
 

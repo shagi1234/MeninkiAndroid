@@ -2,12 +2,8 @@ package tm.store.meninki.fragment;
 
 import static tm.store.meninki.utils.Const.mainFragmentManager;
 import static tm.store.meninki.utils.FragmentHelper.addFragment;
-import static tm.store.meninki.utils.StaticMethods.dpToPx;
 import static tm.store.meninki.utils.StaticMethods.logWrite;
-import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
-import static tm.store.meninki.utils.StaticMethods.setMargins;
-import static tm.store.meninki.utils.StaticMethods.setPaddingWithHandler;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -63,13 +59,6 @@ public class FragmentHome extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        StaticMethods.setPaddingWithHandler(b.containerProfileId, 0, 0, 0, navigationBarHeight);
-        setMargins(b.fab, dpToPx(20, getContext()), dpToPx(20, getContext()), dpToPx(20, getContext()), dpToPx(20, getContext()) + navigationBarHeight);
     }
 
     @Override

@@ -7,7 +7,7 @@ import static tm.store.meninki.utils.StaticMethods.getWindowHeight;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.setMargins;
-import static tm.store.meninki.utils.StaticMethods.setPaddingWithHandler;
+import static tm.store.meninki.utils.StaticMethods.setPadding;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
@@ -110,7 +110,7 @@ public class FragmentProduct extends Fragment {
     public void onResume() {
         super.onResume();
         setMargins(b.coordinator, 0, 0, 0, navigationBarHeight);
-        StaticMethods.setPaddingWithHandler(b.getRoot(), 0, statusBarHeight, 0, 0);
+        StaticMethods.setPadding(b.getRoot(), 0, statusBarHeight, 0, 0);
     }
 
     @Override

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -53,12 +54,23 @@
     </LinearLayout>
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rec_tab"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        style="@style/TabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="10dp" />
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="20dp"
+        android:background="@color/color_transparent"
+        android:clipToPadding="false"
+        app:tabBackground="@drawable/tab_selector"
+        app:tabIndicatorAnimationMode="elastic"
+        app:tabIndicatorFullWidth="true"
+        app:tabIndicatorGravity="stretch"
+        app:tabMode="scrollable"
+        app:tabSelectedTextColor="@color/bg"
+        app:tabTextAppearance="@style/TabWidgetCategory"
+        app:tabTextColor="@color/ic_text" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"

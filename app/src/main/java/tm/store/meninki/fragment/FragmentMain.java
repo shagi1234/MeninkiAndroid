@@ -1,33 +1,21 @@
 package tm.store.meninki.fragment;
 
-import static androidx.constraintlayout.widget.ConstraintSet.PARENT_ID;
-import static tm.store.meninki.utils.Const.mainFragmentManager;
-import static tm.store.meninki.utils.StaticMethods.getWindowWidth;
-import static tm.store.meninki.utils.StaticMethods.setMargins;
-import static tm.store.meninki.utils.StaticMethods.setPaddingWithHandler;
-import static tm.store.meninki.utils.StaticMethods.slidingX;
-import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
+import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
+
+import java.util.ArrayList;
 
 import tm.store.meninki.R;
 import tm.store.meninki.adapter.AdapterViewPager;
 import tm.store.meninki.data.FragmentPager;
 import tm.store.meninki.databinding.FragmentMainBinding;
-import tm.store.meninki.interfaces.ChangeFlowPage;
-import tm.store.meninki.utils.StaticMethods;
-
-import java.util.ArrayList;
 
 public class FragmentMain extends Fragment {
     private FragmentMainBinding b;
@@ -40,11 +28,6 @@ public class FragmentMain extends Fragment {
         return fragment;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        StaticMethods.setPaddingWithHandler(b.main, 0, statusBarHeight, 0, 0);
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,66 +40,33 @@ public class FragmentMain extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         b = FragmentMainBinding.inflate(inflater, container, false);
-        initComponents();
         setViewPager();
+        setBackgrounds();
         initListeners();
 
         return b.getRoot();
     }
 
-    private void initComponents() {
-        b.swipeLayout.setLayoutParams(new FrameLayout.LayoutParams(getWindowWidth(getActivity()) * 2, ViewGroup.LayoutParams.WRAP_CONTENT));
-        ConstraintLayout.LayoutParams c1 = new ConstraintLayout.LayoutParams(getWindowWidth(getActivity()), ViewGroup.LayoutParams.WRAP_CONTENT);
-        c1.startToStart = PARENT_ID;
-        c1.topToTop = PARENT_ID;
-        c1.bottomToBottom = PARENT_ID;
-
-        b.layFeed.setLayoutParams(c1);
-        ConstraintLayout.LayoutParams c2 = new ConstraintLayout.LayoutParams(getWindowWidth(getActivity()), ViewGroup.LayoutParams.WRAP_CONTENT);
-        c2.startToEnd = b.layFeed.getId();
-        c2.topToTop = PARENT_ID;
-        c2.bottomToBottom = PARENT_ID;
-        b.layHome.setLayoutParams(c2);
+    private void setBackgrounds() {
+        setBackgroundDrawable(getContext(), b.tabLayout, R.color.on_bg_ls, 0, 100, false, 0);
+        setBackgroundDrawable(getContext(), b.bgTab, R.color.on_bg_ls, 0, 100, false, 0);
     }
+
 
     private void initListeners() {
-        b.frameMore.setOnClickListener(v -> {
-            Fragment flow = mainFragmentManager.findFragmentById(R.id.fragment_container_main);
-            if (flow instanceof ChangeFlowPage) {
-                ((ChangeFlowPage) flow).change();
-            }
-        });
-
-        b.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                Log.e("TAG_test_scroll", "onPageScrolled: " + "positionOffset" + positionOffset + "\n" + positionOffsetPixels);
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-                if (position != 0) {
-                    slidingX(b.swipeLayout, -getWindowWidth(getActivity()));
-                } else {
-                    slidingX(b.swipeLayout, 0);
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
     }
-
 
     private void setViewPager() {
 
+        b.tabLayout.setupWithViewPager(b.viewPager);
+        b.tabLayout.setTabRippleColor(null);
+
         b.viewPager.setOffscreenPageLimit(2);
         ArrayList<FragmentPager> mFragment = new ArrayList<>();
-        mFragment.add(new FragmentPager(FragmentFeed.newInstance(), "Лента" + "\n" + "Новые 13"));
-        mFragment.add(new FragmentPager(FragmentHome.newInstance(), "Домашняя" + "\n" + "Новые 11"));
+
+        mFragment.add(new FragmentPager(FragmentFeed.newInstance(), "Лента"));
+        mFragment.add(new FragmentPager(FragmentHome.newInstance(), "Главная"));
+        mFragment.add(new FragmentPager(FragmentHome.newInstance(), "Объявления"));
 
         adapterFeedPager = new AdapterViewPager(getChildFragmentManager(), mFragment);
         b.viewPager.setAdapter(adapterFeedPager);

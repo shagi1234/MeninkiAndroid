@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import tm.store.meninki.adapter.AdapterGrid;
 import tm.store.meninki.api.RetrofitCallback;
-import tm.store.meninki.api.enums.CardType;
 import tm.store.meninki.api.request.RequestCard;
 import tm.store.meninki.api.response.ResponseCard;
 import tm.store.meninki.data.StoreDTO;
@@ -41,7 +40,7 @@ public class FragmentListGrid extends Fragment {
     private int limit = 10;
     public int maxSize;
 
-    public static FragmentListGrid newInstance(int orientation, int type, int maxSize, String[] categoryIds,int[] cardType) {
+    public static FragmentListGrid newInstance(int orientation, int type, int maxSize, String[] categoryIds, int[] cardType) {
         FragmentListGrid fragment = new FragmentListGrid();
         Bundle args = new Bundle();
         args.putInt("orientation", orientation);
@@ -105,7 +104,6 @@ public class FragmentListGrid extends Fragment {
             public void onResponse(ArrayList<ResponseCard> response) {
                 adapterGrid.setStories(response);
                 setProgress(false);
-                Log.e("TAG_Error", "onResponse: " + response.size());
 
             }
 

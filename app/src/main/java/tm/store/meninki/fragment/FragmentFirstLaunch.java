@@ -4,7 +4,7 @@ import static tm.store.meninki.utils.Const.mainFragmentManager;
 import static tm.store.meninki.utils.FragmentHelper.addFragment;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
-import static tm.store.meninki.utils.StaticMethods.setPaddingWithHandler;
+import static tm.store.meninki.utils.StaticMethods.setPadding;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
@@ -48,7 +48,7 @@ public class FragmentFirstLaunch extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        new Handler().postDelayed(() -> StaticMethods.setPaddingWithHandler(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight), 100);
+        new Handler().postDelayed(() -> StaticMethods.setPadding(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight), 100);
     }
 
     private void initListeners() {

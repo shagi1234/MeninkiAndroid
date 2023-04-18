@@ -51,10 +51,10 @@ public class FragmentProfile extends Fragment {
     private UserProfile user;
     private String id;
 
-    public static FragmentProfile newInstance(String param, String id) {
+    public static FragmentProfile newInstance(String type, String id) {
         FragmentProfile fragment = new FragmentProfile();
         Bundle args = new Bundle();
-        args.putString("type", param);
+        args.putString("type", type);
         args.putString("id", id);
         fragment.setArguments(args);
         return fragment;

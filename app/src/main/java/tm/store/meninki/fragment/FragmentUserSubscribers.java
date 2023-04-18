@@ -1,7 +1,7 @@
 package tm.store.meninki.fragment;
 
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
-import static tm.store.meninki.utils.StaticMethods.setPaddingWithHandler;
+import static tm.store.meninki.utils.StaticMethods.setPadding;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
@@ -61,7 +61,7 @@ public class FragmentUserSubscribers extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        StaticMethods.setPaddingWithHandler(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight);
+        StaticMethods.setPadding(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight);
     }
 
 

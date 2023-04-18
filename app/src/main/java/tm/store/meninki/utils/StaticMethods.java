@@ -22,7 +22,6 @@ import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.provider.DocumentsContract;
@@ -404,10 +403,8 @@ public class StaticMethods {
         try {
             if (v.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
 
-                new Handler().postDelayed(() -> {
-                    v.setPadding(l, t, r, b);
-                    v.requestLayout();
-                }, 20);
+                v.setPadding(l, t, r, b);
+                v.requestLayout();
             }
         } catch (Exception e) {
             Log.d("error", "setMargins: " + e.getMessage());
@@ -442,7 +439,7 @@ public class StaticMethods {
 
     }
 
-    public static void setPaddingWithHandler(View v, int l, int t, int r, int b) {
+    public static void setPadding(View v, int l, int t, int r, int b) {
         try {
             if (v.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
                 ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) v.getLayoutParams();

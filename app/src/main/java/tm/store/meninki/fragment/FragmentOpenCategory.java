@@ -3,7 +3,6 @@ package tm.store.meninki.fragment;
 import static tm.store.meninki.api.enums.CardType.product;
 import static tm.store.meninki.utils.StaticMethods.dpToPx;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
-import static tm.store.meninki.utils.StaticMethods.setPaddingWithHandler;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
@@ -14,11 +13,14 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.TooltipCompat;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.tabs.TabLayout;
+
 import java.util.ArrayList;
+import java.util.Objects;
 
 import tm.store.meninki.adapter.AdapterTabLayout;
 import tm.store.meninki.adapter.AdapterViewPager;
@@ -33,9 +35,7 @@ public class FragmentOpenCategory extends Fragment {
     private static final String PARAM_ID = "uuid";
     private String uuid;
     private String name;
-    private AdapterTabLayout adapterTabLayout;
     private AdapterViewPager adapterFeedPager;
-    private ArrayList<TabItemCustom> tabs = new ArrayList<>();
 
     public static FragmentOpenCategory newInstance(String name, String id) {
         FragmentOpenCategory fragment = new FragmentOpenCategory();
@@ -49,8 +49,8 @@ public class FragmentOpenCategory extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        StaticMethods.setPaddingWithHandler(b.viewPager, 0, 0, 0, navigationBarHeight);
-        StaticMethods.setPaddingWithHandler(b.header, dpToPx(10, getContext()), statusBarHeight, dpToPx(10, getContext()), 0);
+        StaticMethods.setPadding(b.viewPager, 0, 0, 0, navigationBarHeight);
+        StaticMethods.setPadding(b.header, dpToPx(10, getContext()), statusBarHeight, dpToPx(10, getContext()), 0);
     }
 
     @Override
@@ -60,9 +60,6 @@ public class FragmentOpenCategory extends Fragment {
             uuid = getArguments().getString(PARAM_ID);
             name = getArguments().getString(PARAM_NAME);
         }
-        tabs.add(new TabItemCustom("Товары", true));
-        tabs.add(new TabItemCustom("Обзоры", false));
-        tabs.add(new TabItemCustom("Услуги", false));
     }
 
     @Override
@@ -78,9 +75,7 @@ public class FragmentOpenCategory extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         new Handler().postDelayed(() -> {
             initListeners();
-            setRecyclerTab();
             setViewPager();
-            adapterTabLayout.setTabs(tabs);
         }, 200);
 
 
@@ -92,49 +87,41 @@ public class FragmentOpenCategory extends Fragment {
         b.back.setOnClickListener(v -> {
             getActivity().onBackPressed();
         });
-        b.viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-                if (adapterTabLayout.isClicked) {
-                    adapterTabLayout.lastClicked = position;
-                    adapterTabLayout.isClicked = false;
-                    return;
-                }
-
-                tabs.get(position).setActive(true);
-                tabs.get(adapterTabLayout.lastClicked).setActive(false);
-
-                adapterTabLayout.notifyItemChanged(position);
-                adapterTabLayout.notifyItemChanged(adapterTabLayout.lastClicked);
-
-                adapterTabLayout.lastClicked = position;
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-    }
-
-    private void setRecyclerTab() {
-        adapterTabLayout = new AdapterTabLayout(getContext(), b.viewPager);
-        b.recTab.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        b.recTab.setAdapter(adapterTabLayout);
     }
 
     private void setViewPager() {
+        b.tabLayout.setupWithViewPager(b.viewPager);
+
+        b.tabLayout.setTabRippleColor(null);
+
+        b.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int tabPosition = tab.getPosition(); // syntactic sugar
+                b.viewPager.setCurrentItem(tabPosition, true);
+                // Repeat of the code above -- tooltips reset themselves after any tab relayout, so I
+                // have to constantly keep turning them off again.
+                for (int i = 0; i < b.tabLayout.getTabCount(); i++) {
+                    TooltipCompat.setTooltipText(Objects.requireNonNull(b.tabLayout.getTabAt(i)).view, null);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
         ArrayList<FragmentPager> mFragment = new ArrayList<>();
 
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, FragmentListGrid.CATEGORY, -1, new String[]{uuid}, new int[]{product}), ""));
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, FragmentListGrid.CATEGORY, -1, new String[]{uuid}, new int[]{product}), ""));
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, FragmentListGrid.CATEGORY, -1, new String[]{uuid}, new int[]{product}), ""));
+        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, FragmentListGrid.CATEGORY, -1, new String[]{uuid}, new int[]{product}), "Boots"));
+        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, FragmentListGrid.CATEGORY, -1, new String[]{uuid}, new int[]{product}), "Shorts"));
+        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, FragmentListGrid.CATEGORY, -1, new String[]{uuid}, new int[]{product}), "Socks"));
 
         adapterFeedPager = new AdapterViewPager(getChildFragmentManager(), mFragment);
         b.viewPager.setAdapter(adapterFeedPager);

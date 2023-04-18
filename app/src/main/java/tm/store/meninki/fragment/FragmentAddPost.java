@@ -2,7 +2,7 @@ package tm.store.meninki.fragment;
 
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
-import static tm.store.meninki.utils.StaticMethods.setPaddingWithHandler;
+import static tm.store.meninki.utils.StaticMethods.setPadding;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
@@ -34,8 +34,8 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
     @Override
     public void onResume() {
         super.onResume();
-        StaticMethods.setPaddingWithHandler(b.layHeader, 0, statusBarHeight, 0, 0);
-        StaticMethods.setPaddingWithHandler(b.root, 0, 0, 0, navigationBarHeight);
+        StaticMethods.setPadding(b.layHeader, 0, statusBarHeight, 0, 0);
+        StaticMethods.setPadding(b.root, 0, 0, 0, navigationBarHeight);
 
     }
 

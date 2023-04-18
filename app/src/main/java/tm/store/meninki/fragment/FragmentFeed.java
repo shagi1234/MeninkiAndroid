@@ -1,11 +1,6 @@
 package tm.store.meninki.fragment;
 
-import static tm.store.meninki.utils.Const.mainFragmentManager;
-import static tm.store.meninki.utils.FragmentHelper.addFragment;
-import static tm.store.meninki.utils.FragmentHelper.replaceFragment;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
-import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
-import static tm.store.meninki.utils.StaticMethods.setPaddingWithHandler;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -15,14 +10,12 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import java.util.ArrayList;
 
 import retrofit2.Call;
-import tm.store.meninki.R;
-import tm.store.meninki.adapter.AdapterStore;
-import tm.store.meninki.adapter.AdapterViewPager;
+import tm.store.meninki.adapter.AdapterGrid;
 import tm.store.meninki.api.RetrofitCallback;
 import tm.store.meninki.api.enums.CardType;
 import tm.store.meninki.api.request.RequestCard;
@@ -32,7 +25,9 @@ import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentFeed extends Fragment {
     private FragmentFeedBinding b;
-    private AdapterStore adapterStore;
+    private int page = 1;
+    private int limit = 20;
+    private AdapterGrid adapterGrid;
 
     public static FragmentFeed newInstance() {
         FragmentFeed fragment = new FragmentFeed();
@@ -46,28 +41,43 @@ public class FragmentFeed extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        StaticMethods.setPaddingWithHandler(b.containerProfileId, 0, 0, 0, navigationBarHeight);
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         b = FragmentFeedBinding.inflate(inflater, container, false);
-        setBackground();
+        setProgress(true);
         setRecycler();
-        replaceFragment(mainFragmentManager, R.id.content_view_pager, FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, FragmentListGrid.FEED, -1, null,CardType.getAll()));
-        initListeners();
-
-        getPosts();
+        check();
 
         return b.getRoot();
     }
 
-    private void getPosts() {
+    private void check() {
+        RequestCard requestCard = new RequestCard();
+        requestCard.setCardTypes(CardType.getAll());
+        requestCard.setDescending(true);
+        requestCard.setPageNumber(page);
+        requestCard.setTake(limit);
+
+        Call<ArrayList<ResponseCard>> call = StaticMethods.getApiHome().getCard(requestCard);
+        call.enqueue(new RetrofitCallback<ArrayList<ResponseCard>>() {
+            @Override
+            public void onResponse(ArrayList<ResponseCard> response) {
+                adapterGrid.setStories(response);
+                setProgress(false);
+
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                setProgress(false);
+            }
+        });
+    }
+
+    private void getStories() {
         RequestCard requestCard = new RequestCard();
         requestCard.setCardTypes(new int[]{CardType.post});
         requestCard.setCategoryIds(null);
@@ -79,7 +89,7 @@ public class FragmentFeed extends Fragment {
         call.enqueue(new RetrofitCallback<ArrayList<ResponseCard>>() {
             @Override
             public void onResponse(ArrayList<ResponseCard> response) {
-                adapterStore.setStories(response);
+//                adapterStore.setStories(response);
             }
 
             @Override
@@ -89,19 +99,21 @@ public class FragmentFeed extends Fragment {
         });
     }
 
-    private void initListeners() {
-        b.filter.setOnClickListener(view -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentFilterAndSort.newInstance()));
-    }
-
-    private void setBackground() {
-        setBackgroundDrawable(getContext(), b.backgroundSearch, R.color.white, 0, 10, false, 0);
-        setBackgroundDrawable(getContext(), b.edtSearch, R.color.white, 0, 10, false, 0);
+    private void setProgress(boolean isProgress) {
+        if (isProgress) {
+            b.progressBar.setVisibility(View.VISIBLE);
+            b.recGrid.setVisibility(View.GONE);
+        } else {
+            b.progressBar.setVisibility(View.GONE);
+            b.recGrid.setVisibility(View.VISIBLE);
+        }
     }
 
     private void setRecycler() {
-        adapterStore = new AdapterStore(getContext(), getActivity());
-        b.recStores.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        b.recStores.setAdapter(adapterStore);
+        adapterGrid = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_GRID, 10);
+        b.recGrid.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        b.recGrid.setAdapter(adapterGrid);
     }
+
 
 }

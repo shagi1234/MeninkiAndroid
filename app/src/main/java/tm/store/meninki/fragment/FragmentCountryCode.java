@@ -71,7 +71,7 @@ public class FragmentCountryCode extends Fragment implements OnBackPressedFragme
 
         keyboardHeightProvider.start();
 
-        StaticMethods.setPaddingWithHandler(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight);
+        StaticMethods.setPadding(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight);
 
         setNavBarIconsBlack(getActivity(), getContext());
 

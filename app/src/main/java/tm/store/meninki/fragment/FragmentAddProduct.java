@@ -7,7 +7,7 @@ import static tm.store.meninki.utils.StaticMethods.getApiHome;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.setMargins;
-import static tm.store.meninki.utils.StaticMethods.setPaddingWithHandler;
+import static tm.store.meninki.utils.StaticMethods.setPadding;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.graphics.BitmapFactory;
@@ -74,7 +74,7 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
     public void onResume() {
         super.onResume();
         setMargins(b.layHeader, 0, statusBarHeight, 0, 0);
-        StaticMethods.setPaddingWithHandler(b.getRoot(), 0, 0, 0, navigationBarHeight);
+        StaticMethods.setPadding(b.getRoot(), 0, 0, 0, navigationBarHeight);
     }
 
     @Override

@@ -9,52 +9,56 @@
     android:orientation="vertical"
     tools:context=".fragment.FragmentCategory">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:background="@color/color_transparent" />
-
     <LinearLayout
-        android:id="@+id/frame_ctg"
-        android:layout_width="wrap_content"
+        android:id="@+id/background_search"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="top|right"
-        android:background="@drawable/bg_left_top_and_left_bottom_10"
-        android:orientation="horizontal"
-        android:paddingHorizontal="14dp">
+        android:layout_marginHorizontal="16sp"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/edt_search"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:fontFamily="@font/inter_medium"
+            android:gravity="center_vertical"
+            android:hint="Поиск"
+            android:maxLines="1"
+            android:paddingVertical="10dp"
+            android:paddingStart="14dp"
+            android:singleLine="true" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginVertical="10dp"
-            android:layout_marginEnd="10dp"
-            android:src="@drawable/ic_ffrd"
-            app:tint="@color/white" />
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="14dp"
+            android:padding="5dp"
+            android:src="@drawable/ic_search"
+            app:tint="@color/contrast" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="-2dp"
-            android:fontFamily="@font/inter_regular"
-            android:text="Категории"
-            android:textColor="@color/white"
-            android:textSize="14sp" />
     </LinearLayout>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
+        style="@style/TabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="20dp"
         android:background="@color/color_transparent"
         android:clipToPadding="false"
-        app:tabIndicatorColor="@color/contrast"
-        app:tabMode="scrollable"
-        app:tabSelectedTextColor="@color/black"
-        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
-        app:tabTextColor="@color/contrast" />
+        app:tabBackground="@drawable/tab_selector"
+        app:tabIndicatorAnimationMode="elastic"
+        app:tabIndicatorFullWidth="true"
+        app:tabIndicatorGravity="stretch"
+        app:tabMode="auto"
+        app:tabSelectedTextColor="@color/bg"
+        app:tabTextAppearance="@style/TabWidgetCategory"
+        app:tabTextColor="@color/ic_text" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"
@@ -62,87 +66,4 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/lay_user_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <FrameLayout
-            android:id="@+id/frameLayout"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:alpha="0.2"
-            android:background="@color/neutral_dark"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.makeramen.roundedimageview.RoundedImageView
-            android:id="@+id/user_image"
-            android:layout_width="38dp"
-            android:layout_height="38dp"
-            android:layout_marginStart="14dp"
-            android:padding="2dp"
-            android:scaleType="centerCrop"
-            android:src="@color/neutral_dark"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:riv_oval="true" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="10dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/user_image"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/inter_regular"
-                android:maxLines="1"
-                android:text="Махмуд Махмудов"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/mail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/inter_regular"
-                android:maxLines="1"
-                android:text="Махмуд Махмудов"
-                android:textColor="@color/neutral_dark"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <FrameLayout
-            android:id="@+id/click_user_data"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@drawable/ripple"
-            android:clickable="true"
-            android:focusable="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/ic_cart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginVertical="14dp"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/ripple"
-            android:padding="10dp"
-            android:src="@drawable/ic_cart"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>
