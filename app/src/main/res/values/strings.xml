@@ -5,6 +5,7 @@
     <string name="repeat_after">repeat after </string>
     <string name="send_again">Send again</string>
     <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet consectetur. Pretium sed lorem id consectetur arcu tellus. Dui euismod morbi placerat aliquam facilisis blandit. Odio est duis velit scelerisque tellus cum cursus sit. Pretium euismod tellus risus facilisis at. Pharetra lacus sed elementum consequat. Nunc nec justo tellus quis at et proin. Ac neque risus velit in ante blandit.</string>
 
     <string-array name="array">
         <item>Wariant</item>
