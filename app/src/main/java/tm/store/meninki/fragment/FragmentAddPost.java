@@ -2,7 +2,6 @@ package tm.store.meninki.fragment;
 
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
-import static tm.store.meninki.utils.StaticMethods.setPadding;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
@@ -64,10 +63,11 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
     }
 
     private void setBackgrounds() {
-        setBackgroundDrawable(getContext(), b.title, R.color.white, R.color.neutral_dark, 4, false, 1);
-        setBackgroundDrawable(getContext(), b.desc, R.color.white, R.color.neutral_dark, 4, false, 1);
-        setBackgroundDrawable(getContext(), b.layCountControl, R.color.neutral_dark, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.layDataProduct, R.color.white,  R.color.neutral_dark, 4, false, 1);
+        setBackgroundDrawable(getContext(), b.title, R.color.white, R.color.low_contrast, 10, false, 1);
+//        setBackgroundDrawable(getContext(), b.desc, R.color.white, R.color.neutral_dark, 4, false, 1);
+        setBackgroundDrawable(getContext(), b.bgStore, R.color.bg, 0, 10, false, 0);
+        setBackgroundDrawable(getContext(), b.layDataProduct, R.color.white, R.color.low_contrast, 10, false, 1);
+        setBackgroundDrawable(getContext(), b.layBtnBasket, R.color.accent, 0, 50, false, 0);
     }
 
     private void setRecycler() {

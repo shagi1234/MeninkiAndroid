@@ -7,7 +7,6 @@ import static tm.store.meninki.utils.StaticMethods.getApiHome;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.setMargins;
-import static tm.store.meninki.utils.StaticMethods.setPadding;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.graphics.BitmapFactory;
@@ -21,8 +20,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-
-import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -329,7 +326,6 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
         } else {
             this.shop = null;
         }
-        Log.e("TAG_add_prod", "onShopChecked: " + new Gson().toJson(this.shop));
     }
 
     @Override
@@ -339,6 +335,5 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
         } else {
             categories.remove(categoryDto);
         }
-        Log.e("TAG_add_prod", "onChecked: " + new Gson().toJson(categories));
     }
 }

@@ -9,231 +9,239 @@
     android:focusable="true"
     tools:context=".fragment.FragmentProduct">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/coordinator"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/bg">
+    <!--    <androidx.coordinatorlayout.widget.CoordinatorLayout-->
+    <!--        android:id="@+id/coordinator"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:background="@color/bg">-->
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/app_bar_layout"
+    <!--        <com.google.android.material.appbar.AppBarLayout-->
+    <!--            android:id="@+id/app_bar_layout"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:background="@color/bg">-->
+
+    <!--            <com.google.android.material.appbar.CollapsingToolbarLayout-->
+    <!--                android:id="@+id/collapsing_toolbar"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:background="@color/bg"-->
+    <!--                app:layout_scrollFlags="scroll|exitUntilCollapsed"-->
+    <!--                app:titleEnabled="false">-->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/bg">
+            android:orientation="vertical">
 
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/collapsing_toolbar"
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/image_pager"
+                android:layout_width="match_parent"
+                android:layout_height="460dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="horizontal" />
+
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/bg"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                app:titleEnabled="false">
+                android:background="@color/low_contrast">
+
+                <me.relex.circleindicator.CircleIndicator3
+                    android:id="@+id/indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginVertical="10dp"
+                    android:gravity="center"
+                    app:ci_drawable="@drawable/black_oval"
+                    app:ci_drawable_unselected="@drawable/neutral_dark_oval"
+                    app:ci_gravity="center"
+                    app:ci_height="5dp"
+                    app:ci_margin="5dp"
+                    app:ci_orientation="horizontal" />
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/item_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/inter_bold"
+                android:text="Очки как у Николаса Кейджа размер для толковых"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@color/neutral_dark"
+                    app:riv_oval="true" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
-
-                    <androidx.viewpager2.widget.ViewPager2
-                        android:id="@+id/image_pager"
-                        android:layout_width="match_parent"
-                        android:layout_height="460dp"
-                        android:orientation="horizontal" />
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/low_contrast">
-
-                        <me.relex.circleindicator.CircleIndicator3
-                            android:id="@+id/indicator"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginVertical="10dp"
-                            android:gravity="center"
-                            app:ci_drawable="@drawable/black_oval"
-                            app:ci_drawable_unselected="@drawable/neutral_dark_oval"
-                            app:ci_gravity="center"
-                            app:ci_height="5dp"
-                            app:ci_margin="5dp"
-                            app:ci_orientation="horizontal" />
-
-                    </FrameLayout>
-
                     <TextView
-                        android:id="@+id/item_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="20dp"
-                        android:layout_marginTop="20dp"
-                        android:fontFamily="@font/inter_bold"
-                        android:text="Очки как у Николаса Кейджа размер для толковых"
-                        android:textColor="@color/black"
-                        android:textSize="20sp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="20dp"
-                        android:layout_marginTop="20dp"
-                        android:orientation="horizontal"
-                        android:padding="10dp">
-
-                        <com.makeramen.roundedimageview.RoundedImageView
-                            android:layout_width="38dp"
-                            android:layout_height="38dp"
-                            android:layout_gravity="center_vertical"
-                            android:src="@color/neutral_dark"
-                            app:riv_oval="true" />
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="10dp"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/inter_medium"
-                                android:text="Магазин-название"
-                                android:textColor="@color/contrast" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="2dp"
-                                android:fontFamily="@font/inter_regular"
-                                android:text="Перейти в магазин"
-                                android:textColor="@color/neutral_dark"
-                                android:textSize="12sp" />
-                        </LinearLayout>
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:rotation="180"
-                            android:src="@drawable/ic_back"
-                            app:tint="@color/low_contrast" />
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/hint_desc"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="20dp"
-                        android:layout_marginTop="24dp"
-                        android:fontFamily="@font/inter_bold"
-                        android:gravity="start"
-                        android:text="Описание:"
+                        android:fontFamily="@font/inter_medium"
+                        android:text="Магазин-название"
                         android:textColor="@color/contrast" />
 
                     <TextView
-                        android:id="@+id/desc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="20dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="2dp"
                         android:fontFamily="@font/inter_regular"
-                        android:gravity="start"
-                        android:text="@string/lorem_ipsum"
-                        android:textColor="@color/contrast" />
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/lay_btn_color"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="20dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@color/contrast"
-                        app:layout_constraintTop_toBottomOf="@+id/lay_basket">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/inter_medium"
-                            android:gravity="center"
-                            android:paddingVertical="10dp"
-                            android:text="Создать пост с этим"
-                            android:textColor="@color/bg"
-                            android:visibility="visible"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <FrameLayout
-                            android:id="@+id/btn_color"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:background="@drawable/ripple"
-                            android:clickable="true"
-                            android:focusable="true"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <LinearLayout
-                        android:id="@+id/check_store"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:orientation="vertical"
-                        android:visibility="visible">
-
-                        <TextView
-                            android:id="@+id/char_image"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="20dp"
-                            android:fontFamily="@font/inter_bold"
-                            android:text="Характеристика - картинка"
-                            android:textColor="@color/contrast"
-                            android:textSize="14sp" />
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rec_char_image"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp" />
-
-                        <TextView
-                            android:id="@+id/char_pick"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="20dp"
-                            android:layout_marginTop="20dp"
-                            android:fontFamily="@font/inter_bold"
-                            android:text="Характеристика - текст"
-                            android:textColor="@color/contrast"
-                            android:textSize="14sp" />
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rec_char_pick"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="40dp" />
-
-                    </LinearLayout>
-
+                        android:text="Перейти в магазин"
+                        android:textColor="@color/neutral_dark"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:rotation="180"
+                    android:src="@drawable/ic_back"
+                    app:tint="@color/low_contrast" />
 
-        </com.google.android.material.appbar.AppBarLayout>
+            </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rec_discounts"
-            android:layout_width="match_parent"
-            android:layout_height="340dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            <TextView
+                android:id="@+id/hint_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/inter_bold"
+                android:gravity="start"
+                android:text="Описание:"
+                android:textColor="@color/contrast" />
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            <TextView
+                android:id="@+id/desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/inter_regular"
+                android:gravity="start"
+                android:text="@string/lorem_ipsum"
+                android:textColor="@color/contrast" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/bg_add_post"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/contrast"
+                app:layout_constraintTop_toBottomOf="@+id/lay_basket">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter_medium"
+                    android:gravity="center"
+                    android:paddingVertical="10dp"
+                    android:text="Создать пост с этим"
+                    android:textColor="@color/bg"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <FrameLayout
+                    android:id="@+id/btn_add_post"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@drawable/ripple"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/check_store"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/char_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:fontFamily="@font/inter_bold"
+                    android:text="Характеристика - картинка"
+                    android:textColor="@color/contrast"
+                    android:textSize="14sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rec_char_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp" />
+
+                <TextView
+                    android:id="@+id/char_pick"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/inter_bold"
+                    android:text="Характеристика - текст"
+                    android:textColor="@color/contrast"
+                    android:textSize="14sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rec_char_pick"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="40dp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rec_discounts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+    <!--            </com.google.android.material.appbar.CollapsingToolbarLayout>-->
+
+    <!--        </com.google.android.material.appbar.AppBarLayout>-->
+
+
+    <!--    </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
 
     <RelativeLayout
         android:id="@+id/header"

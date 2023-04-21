@@ -1,5 +1,7 @@
 package tm.store.meninki.adapter;
 
+import static tm.store.meninki.api.Network.BASE_URL;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -53,11 +55,11 @@ public class AdapterVerticalImagePager extends RecyclerView.Adapter<AdapterVerti
 
         public void bind() {
             Glide.with(context)
-                    .load(imageList.get(getAdapterPosition()).getPath())
+                    .load(BASE_URL + imageList.get(getAdapterPosition()).getPath())
                     .into(b.image);
 
             Glide.with(context)
-                    .load(imageList.get(getAdapterPosition()).getPath())
+                    .load(BASE_URL + imageList.get(getAdapterPosition()).getPath())
                     .into(b.imageSmall);
         }
     }

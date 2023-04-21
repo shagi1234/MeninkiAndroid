@@ -1,7 +1,5 @@
 package tm.store.meninki.adapter;
 
-import static tm.store.meninki.utils.StaticMethods.dpToPx;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+
 import tm.store.meninki.R;
 import tm.store.meninki.data.SelectedMedia;
 import tm.store.meninki.databinding.ItemMediaAddPostBinding;
@@ -61,13 +60,16 @@ public class AdapterMediaAddPost extends RecyclerView.Adapter<AdapterMediaAddPos
             if (getAdapterPosition() == getItemCount() - 1) {
                 b.clear.setVisibility(View.GONE);
                 b.layAdd.setVisibility(View.VISIBLE);
-                b.image.setImageResource(R.color.neutral_dark);
+                b.image.setImageResource(R.color.on_bg_ls);
 
             } else {
                 b.clear.setVisibility(View.VISIBLE);
                 b.layAdd.setVisibility(View.GONE);
 
-                Glide.with(context).load(SelectedMedia.getArrayList().get(getAdapterPosition()).getPath()).placeholder(R.color.neutral_dark).into(b.image);
+                Glide.with(context)
+                        .load(SelectedMedia.getArrayList().get(getAdapterPosition()).getPath())
+                        .placeholder(R.color.on_bg_ls)
+                        .into(b.image);
             }
 
             b.click.setOnClickListener(v -> {
@@ -75,6 +77,7 @@ public class AdapterMediaAddPost extends RecyclerView.Adapter<AdapterMediaAddPos
                     FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentOpenGallery.newInstance(0));
                 }
             });
+
             b.clear.setOnClickListener(v -> removeAt(getAdapterPosition()));
         }
     }

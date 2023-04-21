@@ -110,7 +110,7 @@ public class FragmentFeed extends Fragment {
     }
 
     private void setRecycler() {
-        adapterGrid = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_GRID, 10);
+        adapterGrid = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_POST, 10);
         b.recGrid.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         b.recGrid.setAdapter(adapterGrid);
     }

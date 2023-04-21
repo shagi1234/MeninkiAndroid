@@ -2,7 +2,6 @@ package tm.store.meninki.fragment;
 
 import static tm.store.meninki.utils.Const.mainFragmentManager;
 import static tm.store.meninki.utils.FragmentHelper.addFragment;
-import static tm.store.meninki.utils.StaticMethods.getWindowHeight;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.setMargins;
@@ -13,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -24,7 +22,6 @@ import java.util.ArrayList;
 
 import retrofit2.Call;
 import tm.store.meninki.R;
-import tm.store.meninki.adapter.AdapterCharColor;
 import tm.store.meninki.adapter.AdapterCharImage;
 import tm.store.meninki.adapter.AdapterCharPick;
 import tm.store.meninki.adapter.AdapterVerticalImagePager;
@@ -43,11 +40,8 @@ public class FragmentProduct extends Fragment {
     private ArrayList<String> picks = new ArrayList<>();
     private ArrayList<String> colors = new ArrayList<>();
     private String uuid;
-    public final static int STORE = 0;
-    public final static int PRODUCT = 1;
     private AdapterCharImage adapterCharImage;
     private AdapterCharPick adapterCharPick;
-    private AdapterCharColor adapterCharColor;
 
     public static FragmentProduct newInstance(String uuid) {
         FragmentProduct fragment = new FragmentProduct();
@@ -63,6 +57,7 @@ public class FragmentProduct extends Fragment {
         if (getArguments() != null) {
             uuid = getArguments().getString("uuid");
         }
+
         s.add(new ProductImageDto("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg", "salam"));
         s.add(new ProductImageDto("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg", "salam"));
         s.add(new ProductImageDto("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg", "salam"));
@@ -74,7 +69,6 @@ public class FragmentProduct extends Fragment {
         images.add("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg");
         images.add("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg");
         images.add("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg");
-
 
         colors = new ArrayList<>();
 
@@ -96,8 +90,7 @@ public class FragmentProduct extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        setMargins(b.coordinator, 0, 0, 0, navigationBarHeight);
-        StaticMethods.setPadding(b.getRoot(), 0, statusBarHeight, 0, 0);
+        setMargins(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight);
     }
 
     @Override
@@ -144,33 +137,20 @@ public class FragmentProduct extends Fragment {
 
     private void checkUI() {
         b.checkStore.setVisibility(View.VISIBLE);
-        b.btnColor.setVisibility(View.VISIBLE);
+        b.btnAddPost.setVisibility(View.VISIBLE);
 
         setRecyclerCharImage();
         setRecyclerCharPick();
     }
 
     private void initListeners() {
-        b.backBtn.setOnClickListener(v -> {
-            getActivity().onBackPressed();
-        });
+        b.backBtn.setOnClickListener(v -> getActivity().onBackPressed());
 
-        b.btnColor.setOnClickListener(v -> {
-            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentAddPost.newInstance());
-        });
+        b.btnAddPost.setOnClickListener(v -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentAddPost.newInstance()));
 
         b.goCard.setOnClickListener(v -> {
 
         });
-
-//        b.add.setOnClickListener(v -> {
-//            int i = Integer.parseInt(b.countProduct.getText().toString().trim());
-//            b.countProduct.setText(String.valueOf(i + 1));
-//        });
-//        b.subs.setOnClickListener(v -> {
-//            int i = Integer.parseInt(b.countProduct.getText().toString().trim());
-//            b.countProduct.setText(String.valueOf(i - 1));
-//        });
 
     }
 
@@ -178,7 +158,7 @@ public class FragmentProduct extends Fragment {
         setBackgroundDrawable(getContext(), b.bgFav, R.color.bg, 0, 10, false, 0);
         setBackgroundDrawable(getContext(), b.bgGoCard, R.color.contrast, 0, 10, false, 0);
 
-        setBackgroundDrawable(getContext(), b.layBtnColor, R.color.contrast, 0, 50, false, 0);
+        setBackgroundDrawable(getContext(), b.bgAddPost, R.color.contrast, 0, 50, false, 0);
     }
 
     private void setImagePager(ArrayList<MediaDto> medias) {

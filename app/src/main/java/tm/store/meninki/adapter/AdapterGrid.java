@@ -25,7 +25,9 @@ import java.util.ArrayList;
 import tm.store.meninki.R;
 import tm.store.meninki.api.response.ResponseCard;
 import tm.store.meninki.databinding.ItemBasketBinding;
+import tm.store.meninki.databinding.ItemPostBinding;
 import tm.store.meninki.databinding.ItemStaggeredGridBinding;
+import tm.store.meninki.fragment.FragmentPost;
 import tm.store.meninki.fragment.FragmentProduct;
 import tm.store.meninki.utils.Const;
 import tm.store.meninki.utils.FragmentHelper;
@@ -38,6 +40,7 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public final static int TYPE_GRID = 0;
     public final static int TYPE_HORIZONTAL_SMALL = 1;
     public final static int TYPE_HORIZONTAL = 2;
+    public final static int TYPE_POST = 4;
     public final static int TYPE_BASKET = 3;
     private int maxSize;
     private int type;
@@ -54,22 +57,33 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
 
-        if (type == TYPE_BASKET) {
-            ItemBasketBinding popularAudios = ItemBasketBinding.inflate(layoutInflater, parent, false);
-            return new AdapterGrid.BasketHolder(popularAudios);
-        } else {
-            ItemStaggeredGridBinding popularAudios = ItemStaggeredGridBinding.inflate(layoutInflater, parent, false);
-            return new AdapterGrid.StoreHolder(popularAudios);
+        switch (type) {
+            case TYPE_BASKET:
+                ItemBasketBinding b = ItemBasketBinding.inflate(layoutInflater, parent, false);
+                return new AdapterGrid.BasketHolder(b);
+            case TYPE_POST:
+                ItemPostBinding postBinding = ItemPostBinding.inflate(layoutInflater, parent, false);
+                return new AdapterGrid.PostHolder(postBinding);
+            default:
+                ItemStaggeredGridBinding popularAudios = ItemStaggeredGridBinding.inflate(layoutInflater, parent, false);
+                return new AdapterGrid.StoreHolder(popularAudios);
         }
 
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (type == TYPE_BASKET)
-            ((BasketHolder) holder).bind();
-        else
-            ((StoreHolder) holder).bind();
+        switch (type) {
+            case TYPE_BASKET:
+                ((BasketHolder) holder).bind();
+                break;
+            case TYPE_POST:
+                ((PostHolder) holder).bind();
+                break;
+            default:
+                ((StoreHolder) holder).bind();
+                break;
+        }
     }
 
     @Override
@@ -103,11 +117,11 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             switch (type) {
                 case TYPE_GRID:
-                    if (getAdapterPosition() % 2 == 0) {
-                        b.layImage.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, StaticMethods.dpToPx(240, context)));
-                    } else {
-                        b.layImage.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, StaticMethods.dpToPx(110, context)));
-                    }
+//                    if (getAdapterPosition() % 2 == 0) {
+//                        b.layImage.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, StaticMethods.dpToPx(240, context)));
+//                    } else {
+//                        b.layImage.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, StaticMethods.dpToPx(110, context)));
+//                    }
                     break;
                 case TYPE_HORIZONTAL_SMALL:
                     b.root.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -247,6 +261,56 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             adapterImageHorizontal.setImageUrl(null);
 
+        }
+    }
+
+    public class PostHolder extends RecyclerView.ViewHolder {
+        private ItemPostBinding b;
+
+        public PostHolder(ItemPostBinding b) {
+            super(b.getRoot());
+            this.b = b;
+        }
+
+        public void bind() {
+            setBackgroundDrawable(context, b.posterImage, R.color.neutral_dark, R.color.accent, 0, true, 2);
+
+            b.click.setOnClickListener(v -> FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentPost.newInstance()));
+
+            if (grids == null) return;
+
+            if (grids.get(getAdapterPosition()).getImages().length > 0)
+                try {
+                    String USER_AGENT = "Mozilla/5.0 (Linux; Android 11) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.181 Mobile Safari/537.36";
+
+                    GlideUrl glideUrl = new GlideUrl(BASE_URL + "/" + grids.get(getAdapterPosition()).getImages()[0],
+                            new LazyHeaders.Builder()
+                                    .addHeader("User-Agent", USER_AGENT)
+                                    .build());
+
+                    RequestOptions requestOptions = new RequestOptions()
+                            .placeholder(R.color.low_contrast)
+                            .error(R.color.neutral_dark);
+
+                    Glide.with(context)
+                            .applyDefaultRequestOptions(requestOptions)
+                            .load(glideUrl)
+                            .timeout(60000)
+                            .override(320, 480)
+                            .into(b.image);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
+
+            Glide.with(context)
+                    .load(BASE_URL + "/" + grids.get(getAdapterPosition()).getAvatar())
+                    .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                    .placeholder(R.color.low_contrast)
+                    .error(R.color.neutral_dark)
+                    .into(b.posterImage);
+
+            b.title.setText(grids.get(getAdapterPosition()).getName());
         }
     }
 }

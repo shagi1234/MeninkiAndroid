@@ -7,6 +7,8 @@
     <color name="neutral_dark">#AFA8B4</color>
     <color name="accent">#7A4267</color>
     <color name="contrast">#3B353F</color>
+    <color name="old_black">#000213</color>
+    <color name="bg_post">#1E1E1E</color>
     <color name="low_contrast">#F4EFEB</color>
     <color name="nigga_grey">#333333</color>
     <color name="black">#000213</color>
