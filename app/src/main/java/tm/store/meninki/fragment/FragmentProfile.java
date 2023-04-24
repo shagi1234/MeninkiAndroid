@@ -3,7 +3,6 @@ package tm.store.meninki.fragment;
 import static tm.store.meninki.api.Network.BASE_URL;
 import static tm.store.meninki.utils.Const.mainFragmentManager;
 import static tm.store.meninki.utils.FragmentHelper.addFragment;
-import static tm.store.meninki.utils.StaticMethods.dpToPx;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.setMargins;
@@ -17,6 +16,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.bumptech.glide.Glide;
@@ -32,6 +32,7 @@ import java.util.Objects;
 import retrofit2.Call;
 import tm.store.meninki.R;
 import tm.store.meninki.adapter.AdapterGrid;
+import tm.store.meninki.adapter.AdapterProfileShops;
 import tm.store.meninki.api.RetrofitCallback;
 import tm.store.meninki.api.data.UserProfile;
 import tm.store.meninki.api.request.RequestCard;
@@ -43,6 +44,8 @@ import tm.store.meninki.utils.StaticMethods;
 public class FragmentProfile extends Fragment {
     private FragmentProfileBinding b;
     private AdapterGrid adapterGrid;
+
+    AdapterProfileShops adapter;
     private String type;
     public final static String TYPE_USER = "user";
     public final static String TYPE_SHOP = "shop";
@@ -93,39 +96,32 @@ public class FragmentProfile extends Fragment {
 
         switch (type) {
             case TYPE_USER:
-                setMargins(b.layReply, dpToPx(20, getContext()), dpToPx(4, getContext()), dpToPx(20, getContext()), dpToPx(70, getContext()));
-                b.layReply.setVisibility(View.GONE);
-                b.editShop.setVisibility(View.GONE);
 
                 if (isMe()) {
+
+
+                    setRecyclerShops();
+
                     b.editUser.setVisibility(View.VISIBLE);
+                    b.contactsLay.setVisibility(View.GONE);
+
                     b.myShops.setText("Мои магазины");
-                    b.nextBtn.setImageResource(R.drawable.ic_ffrd);
-                    b.settings.setVisibility(View.VISIBLE);
-                    b.icMore.setVisibility(View.GONE);
                     b.countShops.setVisibility(View.VISIBLE);
                     b.myBookmarks.setText("Избранное");
-                    b.myBookmarks.setTextColor(getResources().getColor(R.color.black));
-                    b.icSubscribe.setVisibility(View.GONE);
+
+                    b.addSms.setVisibility(View.GONE);
                     b.countBookmark.setVisibility(View.VISIBLE);
 
-                    setBackgroundDrawable(getContext(), b.layBookmark, R.color.white, R.color.neutral_dark, 0, 0, 4, 4, false, 1);
-
-                    b.allSoldProducts.setText("in card");
-
-                    b.countBookmark.setVisibility(View.VISIBLE);
-                    b.editUser.setVisibility(View.VISIBLE);
                 } else {
                     b.editUser.setVisibility(View.GONE);
-                    b.myBookmarks.setText("Subscribe");
-                    b.myBookmarks.setTextColor(getResources().getColor(R.color.white));
-                    b.icSubscribe.setVisibility(View.VISIBLE);
+
+                    b.myBookmarks.setText("Написать сообщение");
                     b.countBookmark.setVisibility(View.GONE);
-                    setBackgroundDrawable(getContext(), b.layBookmark, R.color.accent, 0, 0, 0, 4, 4, false, 0);
-                    b.nextBtn.setImageResource(R.drawable.ic_person_arrow_right);
-                    b.settings.setVisibility(View.GONE);
-                    b.icMore.setVisibility(View.GONE);
+                    b.addSms.setVisibility(View.VISIBLE);
+
+                    b.myShops.setText("Подписаться");
                     b.countShops.setVisibility(View.GONE);
+                    b.followIc.setVisibility(View.VISIBLE);
                 }
 
                 getUserById();
@@ -133,9 +129,7 @@ public class FragmentProfile extends Fragment {
                 break;
             case TYPE_SHOP:
                 b.countBookmark.setVisibility(View.GONE);
-                b.settings.setVisibility(View.GONE);
                 b.editUser.setVisibility(View.GONE);
-                b.icMore.setVisibility(View.GONE);
 
                 try {
                     JSONArray shop = new JSONArray(Account.newInstance(getContext()).getMyShop());
@@ -150,37 +144,42 @@ public class FragmentProfile extends Fragment {
                 }
 
                 if (isMyShop) {
-                    b.layReply.setVisibility(View.VISIBLE);
-                    b.myShops.setText("Contacts");
-                    b.nextBtn.setImageResource(R.drawable.ic_ffrd);
+                    b.editUser.setVisibility(View.VISIBLE);
+
+                    b.myShops.setText("Мои магазины");
                     b.countShops.setVisibility(View.VISIBLE);
-                    b.myBookmarks.setText("Shop settings");
-                    b.myBookmarks.setTextColor(getResources().getColor(R.color.black));
-                    b.editShop.setVisibility(View.VISIBLE);
-                    b.allFollows.setText("Products");
-                    b.layReply.setVisibility(View.VISIBLE);
-                    setBackgroundDrawable(getContext(), b.layBookmark, R.color.white, R.color.neutral_dark, 0, 0, 4, 4, false, 1);
-                    b.allSoldProducts.setText("total rating");
-                } else {
-                    b.layReply.setVisibility(View.GONE);
+                    b.myBookmarks.setText("Избранное");
+
+                    b.addSms.setVisibility(View.GONE);
                     b.countBookmark.setVisibility(View.VISIBLE);
-                    b.myBookmarks.setText("Subscribe");
-                    b.myShops.setText("Contacts");
-                    b.allSoldProducts.setVisibility(View.GONE);
-                    b.myBookmarks.setTextColor(getResources().getColor(R.color.white));
-                    b.icSubscribe.setVisibility(View.VISIBLE);
+                    b.contactsLay.setVisibility(View.VISIBLE);
+
+                } else {
+                    b.editUser.setVisibility(View.GONE);
+
+                    b.myBookmarks.setText("Написать сообщение");
                     b.countBookmark.setVisibility(View.GONE);
-                    setBackgroundDrawable(getContext(), b.layBookmark, R.color.accent, 0, 0, 0, 4, 4, false, 0);
-                    b.nextBtn.setImageResource(R.drawable.ic_person_arrow_right);
+                    b.addSms.setVisibility(View.VISIBLE);
+
+                    b.myShops.setText("Подписаться");
                     b.countShops.setVisibility(View.GONE);
+                    b.followIc.setVisibility(View.VISIBLE);
+                    b.contactsLay.setVisibility(View.VISIBLE);
+                    b.desc.setVisibility(View.VISIBLE);
+
                 }
 
-//                setMargins(b.layReply, dpToPx(20, getContext()), dpToPx(4, getContext()), dpToPx(20, getContext()), dpToPx(20, getContext()));
 
                 getShopById();
 
                 break;
         }
+    }
+
+    private void setRecyclerShops() {
+        adapter = new AdapterProfileShops(getContext());
+        b.rvShops.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        b.rvShops.setAdapter(adapter);
     }
 
     private void getShopById() {
@@ -246,9 +245,8 @@ public class FragmentProfile extends Fragment {
             b.countProducts.setText(String.valueOf(response.getProductCount()));
 
             if (isMyShop) {
-                b.countVisitors.setText(String.valueOf(response.getVisiterCount()));
-                b.countOrders.setText(String.valueOf(response.getOrderCount()));
-                b.countSold.setText(String.valueOf(response.getPlaceInRating()));
+                b.countSubscribers.setText(String.valueOf(response.getVisiterCount()));
+                b.countProducts.setText(String.valueOf(response.getOrderCount()));
             } else {
                 checkSubscribe(response.isSubscribed());
             }
@@ -261,10 +259,10 @@ public class FragmentProfile extends Fragment {
     private void checkSubscribe(boolean subscribed) {
         if (subscribed) {
             b.myBookmarks.setText("Unsubscribe");
-            b.icSubscribe.setImageResource(R.drawable.ic_subtract_circle__2_);
+            b.followIc.setImageResource(R.drawable.ic_subtract_circle__2_);
         } else {
             b.myBookmarks.setText("Subscribe");
-            b.icSubscribe.setImageResource(R.drawable.ic_add);
+            b.followIc.setImageResource(R.drawable.ic_add);
         }
     }
 
@@ -368,17 +366,11 @@ public class FragmentProfile extends Fragment {
         return Objects.equals(id, Account.newInstance(getContext()).getPrefUserUUID());
     }
 
-
     private void setBackgrounds() {
-        setBackgroundDrawable(getContext(), b.backgroundSearch, R.color.white, 0, 10, false, 0);
-        setBackgroundDrawable(getContext(), b.edtSearch, R.color.white, 0, 10, false, 0);
-        setBackgroundDrawable(getContext(), b.layUserData, R.color.white, R.color.neutral_dark, 4, 4, 0, 0, false, 1);
-        setBackgroundDrawable(getContext(), b.layShops, R.color.white, R.color.neutral_dark, 4, false, 1);
-        setBackgroundDrawable(getContext(), b.layBookmark, R.color.white, R.color.neutral_dark, 0, 0, 4, 4, false, 1);
-        setBackgroundDrawable(getContext(), b.layStatistics, R.color.neutral_dark, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.layVisitors, R.color.neutral_dark, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.layFollows, R.color.white, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.layOrders, R.color.neutral_dark, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.laySubscribers, R.color.white, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.profileBox, R.color.white, 0, 10,  false, 10);
+        setBackgroundDrawable(getContext(), b.backgroundSearch, R.color.low_contrast, 0, 10, false, 0);
+        setBackgroundDrawable(getContext(), b.edtSearch, R.color.low_contrast, 0, 10, false, 0);
+        setBackgroundDrawable(getContext(), b.layFollows, R.color.white, 0, 10, false, 0);
+        setBackgroundDrawable(getContext(), b.laySubscribers, R.color.white, 0, 10, false, 0);
     }
 }

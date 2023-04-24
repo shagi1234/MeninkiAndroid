@@ -55,6 +55,7 @@ public class AdapterSubscriber extends RecyclerView.Adapter<AdapterSubscriber.Su
                     .load(BASE_URL + users.get(getAdapterPosition()).getImgPath())
                     .into(b.friendImg);
             b.name.setText(users.get(getAdapterPosition()).getName());
+            b.userType.setText(users.get(getAdapterPosition()).getEmail());
         }
     }
 
