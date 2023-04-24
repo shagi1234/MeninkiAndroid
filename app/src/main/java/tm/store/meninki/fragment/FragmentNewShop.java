@@ -90,9 +90,9 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked {
         }
         requestCreateShop.setCategories(categoryIds);
         requestCreateShop.setUserId(Account.newInstance(getContext()).getPrefUserUUID());
-        requestCreateShop.setDescriptionTm(b.about.getText().toString());
+//        requestCreateShop.setDescriptionTm(b.about.getText().toString());
         requestCreateShop.setName(b.storeName.getText().toString());
-        requestCreateShop.setPhoneNumber(b.phoneNumber.getText().toString());
+//        requestCreateShop.setPhoneNumber(b.phoneNumber.getText().toString());
         requestCreateShop.setEmail(b.extraContact.getText().toString());
 
         Call<UserProfile> call = StaticMethods.getApiHome().createShop(requestCreateShop);
@@ -122,10 +122,10 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked {
     private void setBackgrounds() {
         setBackgroundDrawable(getContext(), b.storeName, R.color.neutral_dark, 0, 4, false, 0);
         setBackgroundDrawable(getContext(), b.storeNameTwo, R.color.neutral_dark, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.phoneNumber, R.color.neutral_dark, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.phoneNumberTwo, R.color.neutral_dark, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.phoneNumberThree, R.color.neutral_dark, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.about, R.color.neutral_dark, 0, 4, false, 0);
+//        setBackgroundDrawable(getContext(), b.phoneNumber, R.color.neutral_dark, 0, 4, false, 0);
+//        setBackgroundDrawable(getContext(), b.phoneNumberTwo, R.color.neutral_dark, 0, 4, false, 0);
+//        setBackgroundDrawable(getContext(), b.phoneNumberThree, R.color.neutral_dark, 0, 4, false, 0);
+//        setBackgroundDrawable(getContext(), b.about, R.color.neutral_dark, 0, 4, false, 0);
         setBackgroundDrawable(getContext(), b.extraContact, R.color.neutral_dark, 0, 4, false, 0);
         setBackgroundDrawable(getContext(), b.extraContactTwo, R.color.neutral_dark, 0, 4, false, 0);
         setBackgroundDrawable(getContext(), b.website, R.color.neutral_dark, 0, 4, false, 0);
