@@ -15,14 +15,14 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 import tm.store.meninki.R;
-import tm.store.meninki.data.CategoryDto;
+import tm.store.meninki.api.response.ResponseHomeShops;
 import tm.store.meninki.databinding.ItemCircleProductBinding;
 import tm.store.meninki.utils.StaticMethods;
 
 public class AdapterCircle extends RecyclerView.Adapter<AdapterCircle.StoreHolder> {
     private Context context;
     private FragmentActivity activity;
-    private ArrayList<CategoryDto> stories = new ArrayList<>();
+    private ArrayList<ResponseHomeShops> stories = new ArrayList<>();
 
     public AdapterCircle(Context context, FragmentActivity activity) {
         this.context = context;
@@ -50,7 +50,7 @@ public class AdapterCircle extends RecyclerView.Adapter<AdapterCircle.StoreHolde
         return stories.size();
     }
 
-    public void setStories(ArrayList<CategoryDto> stories) {
+    public void setStories(ArrayList<ResponseHomeShops> stories) {
         this.stories = stories;
         notifyDataSetChanged();
     }
@@ -74,12 +74,12 @@ public class AdapterCircle extends RecyclerView.Adapter<AdapterCircle.StoreHolde
             }
 
             Glide.with(context)
-                    .load(stories.get(getAdapterPosition()).getCategoryImage())
+                    .load(stories.get(getAdapterPosition()).getShop().getImgPath())
                     .placeholder(R.color.low_contrast)
                     .error(R.color.neutral_dark)
                     .into(b.image);
 
-            b.storeName.setText(stories.get(getAdapterPosition()).getName());
+            b.storeName.setText(stories.get(getAdapterPosition()).getShop().getName());
         }
     }
 }

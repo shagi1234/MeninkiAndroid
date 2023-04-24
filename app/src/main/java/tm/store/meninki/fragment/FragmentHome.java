@@ -3,7 +3,6 @@ package tm.store.meninki.fragment;
 import static tm.store.meninki.utils.Const.mainFragmentManager;
 import static tm.store.meninki.utils.FragmentHelper.addFragment;
 import static tm.store.meninki.utils.StaticMethods.logWrite;
-import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,8 +13,10 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.viewpager.widget.ViewPager;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -24,29 +25,24 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import tm.store.meninki.R;
 import tm.store.meninki.adapter.AdapterCircle;
-import tm.store.meninki.adapter.AdapterShops;
-import tm.store.meninki.adapter.AdapterStore;
-import tm.store.meninki.adapter.AdapterTabLayout;
-import tm.store.meninki.adapter.AdapterViewPager;
+import tm.store.meninki.adapter.AdapterGrid;
 import tm.store.meninki.api.RetrofitCallback;
 import tm.store.meninki.api.enums.CardType;
 import tm.store.meninki.api.request.RequestCard;
 import tm.store.meninki.api.response.ResponseCard;
 import tm.store.meninki.api.response.ResponseHomeShops;
 import tm.store.meninki.data.CategoryDto;
-import tm.store.meninki.data.FragmentPager;
-import tm.store.meninki.data.TabItemCustom;
+import tm.store.meninki.data.HomeArray;
 import tm.store.meninki.databinding.FragmentHomeBinding;
+import tm.store.meninki.shared.Account;
 import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentHome extends Fragment {
     private FragmentHomeBinding b;
-    private AdapterStore adapterStore;
-    private AdapterTabLayout adapterTabLayout;
-    private ArrayList<TabItemCustom> tabs = new ArrayList<>();
     private AdapterCircle adapterCircle;
-    private AdapterShops adapterShops;
-    private AdapterTabLayout adapterTabLayoutNew;
+    private AdapterGrid adapterGridPopular;
+    //    private AdapterGrid adapterGridPost;
+    private AdapterGrid adapterGridNew;
 
     public static FragmentHome newInstance() {
         FragmentHome fragment = new FragmentHome();
@@ -66,24 +62,107 @@ public class FragmentHome extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         b = FragmentHomeBinding.inflate(inflater, container, false);
-        setBackground();
         setRecycler();
-        setRecyclerShops();
-        setRecyclerCircle();
-        setRecyclerTab();
-        setRecyclerTabNew();
-        setViewPager(b.viewPager, FragmentListGrid.POPULAR);
-        setViewPager(b.viewPagerNew, FragmentListGrid.NEW);
+
+        getHome1();
+        getHome2();
+        getHome3();
+
         initListeners();
 
-        getCategories();
-        getPosts();
-        getShops();
-        adapterShops.setStories(null);
-        adapterTabLayout.setTabs(tabs);
-        adapterTabLayoutNew.setTabs(tabs);
-
         return b.getRoot();
+    }
+
+    private void setRecycler() {
+        adapterGridPopular = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_GRID, 10);
+        b.recPopular.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        b.recPopular.setAdapter(adapterGridPopular);
+
+        adapterGridNew = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_GRID, 10);
+        b.recNewProducts.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        b.recNewProducts.setAdapter(adapterGridNew);
+
+        adapterCircle = new AdapterCircle(getContext(), getActivity());
+        b.recMarkets.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        b.recMarkets.setAdapter(adapterCircle);
+    }
+
+    private void getHome1() {
+        Call<ArrayList<HomeArray>> call = StaticMethods.getApiHome().getHome1(Account.newInstance(getContext()).getAccessToken());
+        call.enqueue(new Callback<ArrayList<HomeArray>>() {
+            @Override
+            public void onResponse(@NonNull Call<ArrayList<HomeArray>> call, @NonNull Response<ArrayList<HomeArray>> response) {
+                if (response.body() == null) return;
+
+                if (response.body().size() > 0 && response.body().get(0).getBanner() != null)
+                    Glide.with(getContext())
+                            .load(response.body().get(0).getBanner().getBannerImage())
+                            .placeholder(R.drawable.placeholder)
+                            .error(R.drawable.placeholder)
+                            .into(b.banner1);
+
+                adapterGridPopular.setStories(response.body().get(1).getPopularProducts());
+
+
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ArrayList<HomeArray>> call, @NonNull Throwable t) {
+
+            }
+        });
+    }
+
+    private void getHome2() {
+        Call<ArrayList<HomeArray>> call = StaticMethods.getApiHome().getHome2(Account.newInstance(getContext()).getAccessToken());
+        call.enqueue(new Callback<ArrayList<HomeArray>>() {
+            @Override
+            public void onResponse(@NonNull Call<ArrayList<HomeArray>> call, @NonNull Response<ArrayList<HomeArray>> response) {
+                if (response.body() == null) return;
+
+                setBanner(response);
+
+//                adapterGridPost.setStories(response.body().get(1).getPopularPosts());
+
+
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ArrayList<HomeArray>> call, @NonNull Throwable t) {
+
+            }
+        });
+    }
+
+    private void setBanner(Response<ArrayList<HomeArray>> response) {
+        if (response.body().size() > 0 && response.body().get(0).getBanner() != null)
+            Glide.with(getContext())
+                    .load(response.body().get(0).getBanner().getBannerImage())
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.placeholder)
+                    .into(b.banner2);
+        b.descLabel.setText(response.body().get(0).getBanner().getTitle());
+        b.desc.setText(response.body().get(0).getBanner().getDescription());
+    }
+
+    private void getHome3() {
+        Call<ArrayList<HomeArray>> call = StaticMethods.getApiHome().getHome3(Account.newInstance(getContext()).getAccessToken());
+        call.enqueue(new Callback<ArrayList<HomeArray>>() {
+            @Override
+            public void onResponse(@NonNull Call<ArrayList<HomeArray>> call, @NonNull Response<ArrayList<HomeArray>> response) {
+                if (response.body() == null) return;
+
+                adapterGridNew.setStories(response.body().get(1).getNewProducts());
+                adapterCircle.setStories(response.body().get(0).getShops());
+
+
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ArrayList<HomeArray>> call, @NonNull Throwable t) {
+
+            }
+        });
     }
 
     private void getShops() {
@@ -101,7 +180,7 @@ public class FragmentHome extends Fragment {
                     //no content
                     return;
                 }
-                adapterShops.setStories(response);
+//                adapterShops.setStories(response);
 
             }
 
@@ -120,7 +199,7 @@ public class FragmentHome extends Fragment {
             public void onResponse(@NonNull Call<ArrayList<CategoryDto>> call, @NonNull Response<ArrayList<CategoryDto>> response) {
 
                 if (response.code() == 200 && response.body() != null) {
-                    adapterCircle.setStories(response.body());
+//                    adapterCircle.setStories(response.body());
                 } else {
                     logWrite(response.code());
                 }
@@ -131,85 +210,6 @@ public class FragmentHome extends Fragment {
                 logWrite(t.getMessage());
 
             }
-        });
-    }
-
-    private void setRecyclerShops() {
-        adapterShops = new AdapterShops(getContext(), getActivity());
-        b.recMarkets.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        b.recMarkets.setAdapter(adapterShops);
-    }
-
-    private void setRecyclerCircle() {
-        adapterCircle = new AdapterCircle(getContext(), getActivity());
-        b.recCircular.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        b.recCircular.setAdapter(adapterCircle);
-    }
-
-    private void initListeners() {
-        b.viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-                if (adapterTabLayout.isClicked) {
-                    adapterTabLayout.lastClicked = position;
-                    adapterTabLayout.isClicked = false;
-                    return;
-                }
-
-                tabs.get(position).setActive(true);
-                tabs.get(adapterTabLayout.lastClicked).setActive(false);
-
-                adapterTabLayout.notifyItemChanged(position);
-                adapterTabLayout.notifyItemChanged(adapterTabLayout.lastClicked);
-
-                adapterTabLayout.lastClicked = position;
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-        b.viewPagerNew.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-                if (adapterTabLayoutNew.isClicked) {
-                    adapterTabLayoutNew.lastClicked = position;
-                    adapterTabLayoutNew.isClicked = false;
-                    return;
-                }
-
-                tabs.get(position).setActive(true);
-                tabs.get(adapterTabLayoutNew.lastClicked).setActive(false);
-
-                adapterTabLayoutNew.notifyItemChanged(position);
-                adapterTabLayoutNew.notifyItemChanged(adapterTabLayoutNew.lastClicked);
-
-                adapterTabLayoutNew.lastClicked = position;
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-
-        b.clickFab.setOnClickListener(v -> {
-            b.clickFab.setEnabled(false);
-            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentAddProduct.newInstance());
-            new Handler().postDelayed(() -> b.clickFab.setEnabled(true), 200);
         });
     }
 
@@ -226,7 +226,7 @@ public class FragmentHome extends Fragment {
         call.enqueue(new RetrofitCallback<ArrayList<ResponseCard>>() {
             @Override
             public void onResponse(ArrayList<ResponseCard> response) {
-                adapterStore.setStories(response);
+//                adapterStore.setStories(response);
 
             }
 
@@ -237,36 +237,11 @@ public class FragmentHome extends Fragment {
         });
     }
 
-    private void setBackground() {
-        setBackgroundDrawable(getContext(), b.backgroundSearch, R.color.white, 0, 10, false, 0);
-        setBackgroundDrawable(getContext(), b.edtSearch, R.color.white, 0, 10, false, 0);
-    }
-
-    private void setRecycler() {
-        adapterStore = new AdapterStore(getContext(), getActivity());
-        b.recStores.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        b.recStores.setAdapter(adapterStore);
-    }
-
-    private void setRecyclerTab() {
-        adapterTabLayout = new AdapterTabLayout(getContext(), b.viewPagerNew);
-        b.recTab.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        b.recTab.setAdapter(adapterTabLayout);
-    }
-
-    private void setRecyclerTabNew() {
-        adapterTabLayoutNew = new AdapterTabLayout(getContext(), b.viewPager);
-        b.recTabNew.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        b.recTabNew.setAdapter(adapterTabLayoutNew);
-    }
-
-    private void setViewPager(ViewPager viewPager, int type) {
-        ArrayList<FragmentPager> mFragment = new ArrayList<>();
-
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, type, 4, null, CardType.getAll()), ""));
-
-        AdapterViewPager adapterFeedPager = new AdapterViewPager(getChildFragmentManager(), mFragment);
-        viewPager.setAdapter(adapterFeedPager);
-        viewPager.setEnabled(false);
+    private void initListeners() {
+        b.clickFab.setOnClickListener(v -> {
+            b.clickFab.setEnabled(false);
+            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentAddProduct.newInstance());
+            new Handler().postDelayed(() -> b.clickFab.setEnabled(true), 200);
+        });
     }
 }

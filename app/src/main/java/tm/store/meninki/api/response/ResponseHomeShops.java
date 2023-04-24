@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import tm.store.meninki.data.ShopDTO;
 
 public class ResponseHomeShops {
+    private String id;
     private ShopDTO shop;
     private ArrayList<ResponseCard> products;
 
@@ -14,5 +15,9 @@ public class ResponseHomeShops {
 
     public ArrayList<ResponseCard> getProducts() {
         return products;
+    }
+
+    public String getId() {
+        return id;
     }
 }

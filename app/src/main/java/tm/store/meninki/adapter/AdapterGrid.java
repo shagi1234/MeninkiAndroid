@@ -186,8 +186,8 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             Glide.with(context)
                     .load(BASE_URL + "/" + grids.get(getAdapterPosition()).getAvatar())
                     .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                    .placeholder(R.color.low_contrast)
-                    .error(R.color.neutral_dark)
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.placeholder)
                     .into(b.posterImage);
 
             Double price = grids.get(getAdapterPosition()).getPrice();
@@ -289,8 +289,8 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                     .build());
 
                     RequestOptions requestOptions = new RequestOptions()
-                            .placeholder(R.color.low_contrast)
-                            .error(R.color.neutral_dark);
+                            .placeholder(R.drawable.placeholder)
+                            .error(R.drawable.placeholder);
 
                     Glide.with(context)
                             .applyDefaultRequestOptions(requestOptions)
@@ -306,8 +306,8 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             Glide.with(context)
                     .load(BASE_URL + "/" + grids.get(getAdapterPosition()).getAvatar())
                     .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                    .placeholder(R.color.low_contrast)
-                    .error(R.color.neutral_dark)
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.placeholder)
                     .into(b.posterImage);
 
             b.title.setText(grids.get(getAdapterPosition()).getName());

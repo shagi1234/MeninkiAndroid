@@ -1,55 +1,779 @@
-{
-  "id": "6d7e022d-49a0-4a8d-9d8b-8b5805dbe762",
-  "name": "Gift",
-  "description": "Ffggghh",
-  "count": 0,
-  "inCartCount": 0,
-  "price": 0,
-  "discountPrice": 0,
-  "user": null,
-  "shop": {
-    "id": "74932df7-bdbe-42e2-9b49-6507c96a0011",
-    "imgPath": null,
-    "name": "Bonn ",
-    "description": null,
-    "phone": "Sdhsbxjk",
-    "email": "",
-    "isSubscribed": false,
-    "subscriberCount": 0,
-    "placeInRating": 0,
-    "orderCount": 0,
-    "visiterCount": 6,
-    "totalProduct": 1,
-    "socialMedias": []
+[
+  {
+    "shops": [
+      {
+        "id": "35d892ea-55cf-48bc-a714-032422f6e61b",
+        "shop": {
+          "id": "35d892ea-55cf-48bc-a714-032422f6e61b",
+          "imgPath": null,
+          "name": "Intermod",
+          "description": null,
+          "phone": "64411955",
+          "email": "",
+          "isSubscribed": false,
+          "subscriberCount": 0,
+          "placeInRating": 0,
+          "orderCount": 0,
+          "visiterCount": 13,
+          "totalProduct": 0,
+          "categories": [
+            {
+              "id": "138f84e9-273d-4595-a99c-7678e4879829",
+              "nameRu": "Super Cars",
+              "nameTm": "Super Cars",
+              "nameEn": "Super Cars",
+              "categoryImage": null,
+              "parentId": "ab45f412-d713-4bd4-b7d6-568a488a2381",
+              "advertisement": null,
+              "subCategories": []
+            }
+          ],
+          "socialMedias": []
+        },
+
+        "products": []
+      },
+      {
+        "id": "c61cb613-49c0-47ed-89ee-e57e9eb11ed1",
+        "shop": {
+          "id": "c61cb613-49c0-47ed-89ee-e57e9eb11ed1",
+          "imgPath": null,
+          "name": "Miu miu love",
+          "description": null,
+          "phone": "64411955",
+          "email": "",
+          "isSubscribed": false,
+          "subscriberCount": 0,
+          "placeInRating": 0,
+          "orderCount": 0,
+          "visiterCount": 34,
+          "totalProduct": 0,
+          "categories": [
+            {
+              "id": "ab45f412-d713-4bd4-b7d6-568a488a2381",
+              "nameRu": "Cars",
+              "nameTm": "Cars",
+              "nameEn": "Cars",
+              "categoryImage": null,
+              "parentId": null,
+              "advertisement": null,
+              "subCategories": [
+                {
+                  "id": "138f84e9-273d-4595-a99c-7678e4879829",
+                  "nameRu": "Super Cars",
+                  "nameTm": "Super Cars",
+                  "nameEn": "Super Cars",
+                  "categoryImage": null,
+                  "parentId": "ab45f412-d713-4bd4-b7d6-568a488a2381",
+                  "advertisement": null,
+                  "subCategories": []
+                }
+              ]
+            }
+          ],
+          "socialMedias": []
+        },
+        "products": []
+      },
+      {
+        "id": "f774300d-c779-41cc-8123-8ecda8d186e1",
+        "shop": {
+          "id": "f774300d-c779-41cc-8123-8ecda8d186e1",
+          "imgPath": "StaticFiles/ShopPhoto/Compressed/2a805193-7ee2-4c7c-8261-ecc2f0dbee4f.webp",
+          "name": "М",
+          "description": null,
+          "phone": "3337373737",
+          "email": "",
+          "isSubscribed": false,
+          "subscriberCount": 0,
+          "placeInRating": 0,
+          "orderCount": 0,
+          "visiterCount": 25,
+          "totalProduct": 1,
+          "categories": [
+            {
+              "id": "ab45f412-d713-4bd4-b7d6-568a488a2381",
+              "nameRu": "Cars",
+              "nameTm": "Cars",
+              "nameEn": "Cars",
+              "categoryImage": null,
+              "parentId": null,
+              "advertisement": null,
+              "subCategories": [
+                {
+                  "id": "138f84e9-273d-4595-a99c-7678e4879829",
+                  "nameRu": "Super Cars",
+                  "nameTm": "Super Cars",
+                  "nameEn": "Super Cars",
+                  "categoryImage": null,
+                  "parentId": "ab45f412-d713-4bd4-b7d6-568a488a2381",
+                  "advertisement": null,
+                  "subCategories": []
+                }
+              ]
+            }
+          ],
+          "socialMedias": []
+        },
+        "products": [
+          {
+            "id": "bb0906fb-707d-4d08-ae5c-30f99177d15b",
+            "name": "Аватар",
+            "price": 3337,
+            "discountPrice": 37373,
+            "count": 0,
+            "rating": null,
+            "images": [
+              "StaticFiles/ProductMediaImage/Compressed/61c17807-02b2-480c-856b-92048d3f7d34.webp"
+            ],
+            "avatar": "StaticFiles/ShopPhoto/Thumbnail/3a15e809-91cc-4ba0-b96f-60ee881d8de8.webp",
+            "avatarId": "f774300d-c779-41cc-8123-8ecda8d186e1",
+            "avatarType": 1,
+            "type": 1
+          }
+        ]
+      },
+      {
+        "id": "74932df7-bdbe-42e2-9b49-6507c96a0011",
+        "shop": {
+          "id": "74932df7-bdbe-42e2-9b49-6507c96a0011",
+          "imgPath": null,
+          "name": "Bonn ",
+          "description": null,
+          "phone": "Sdhsbxjk",
+          "email": "",
+          "isSubscribed": false,
+          "subscriberCount": 0,
+          "placeInRating": 0,
+          "orderCount": 0,
+          "visiterCount": 6,
+          "totalProduct": 4,
+          "categories": [
+            {
+              "id": "ab45f412-d713-4bd4-b7d6-568a488a2381",
+              "nameRu": "Cars",
+              "nameTm": "Cars",
+              "nameEn": "Cars",
+              "categoryImage": null,
+              "parentId": null,
+              "advertisement": null,
+              "subCategories": [
+                {
+                  "id": "138f84e9-273d-4595-a99c-7678e4879829",
+                  "nameRu": "Super Cars",
+                  "nameTm": "Super Cars",
+                  "nameEn": "Super Cars",
+                  "categoryImage": null,
+                  "parentId": "ab45f412-d713-4bd4-b7d6-568a488a2381",
+                  "advertisement": null,
+                  "subCategories": []
+                }
+              ]
+            }
+          ],
+          "socialMedias": []
+        },
+        "products": [
+          {
+            "id": "6d7e022d-49a0-4a8d-9d8b-8b5805dbe762",
+            "name": "Gift",
+            "price": 0,
+            "discountPrice": 0,
+            "count": 0,
+            "rating": null,
+            "images": [
+              "StaticFiles/ProductMediaImage/Compressed/5f7c60cf-926a-42ad-b86b-1732f6fe8847.webp",
+              "StaticFiles/ProductMediaImage/Compressed/0dfafe20-4cf2-4902-8eb1-8f302caa0f13.webp"
+            ],
+            "avatar": null,
+            "avatarId": "74932df7-bdbe-42e2-9b49-6507c96a0011",
+            "avatarType": 0,
+            "type": 1
+          },
+          {
+            "id": "7752354a-42cc-423f-8f26-b3c3e1c767c6",
+            "name": "Послал",
+            "price": 437,
+            "discountPrice": 27,
+            "count": 0,
+            "rating": null,
+            "images": [
+              "StaticFiles/ProductMediaImage/Compressed/642a7d0b-7213-49b5-bc40-d97ea71270f7.webp"
+            ],
+            "avatar": null,
+            "avatarId": "74932df7-bdbe-42e2-9b49-6507c96a0011",
+            "avatarType": 0,
+            "type": 1
+          },
+          {
+            "id": "b86f0adb-f857-4f22-bbff-d742c8e04007",
+            "name": "Гуз",
+            "price": 100,
+            "discountPrice": 10,
+            "count": 0,
+            "rating": null,
+            "images": [
+              "StaticFiles/ProductMediaImage/Compressed/30d7e360-bfee-4894-a7d1-0bf3f9744dfc.webp",
+              "StaticFiles/ProductMediaImage/Compressed/e44ab9d7-846c-4466-a653-514c95d25d10.webp"
+            ],
+            "avatar": null,
+            "avatarId": "74932df7-bdbe-42e2-9b49-6507c96a0011",
+            "avatarType": 0,
+            "type": 1
+          },
+          {
+            "id": "efe3bbcf-ac68-4b6f-9a71-baa8859a97a8",
+            "name": "Good ",
+            "price": 30,
+            "discountPrice": 25,
+            "count": 0,
+            "rating": null,
+            "images": [
+              "StaticFiles/ProductMediaImage/Compressed/a58504fb-6a0a-406e-b36d-f40ee9d1854a.webp",
+              "StaticFiles/ProductMediaImage/Compressed/987c4b15-eed3-4063-9be4-b8e0b15b0615.webp"
+            ],
+            "avatar": null,
+            "avatarId": "74932df7-bdbe-42e2-9b49-6507c96a0011",
+            "avatarType": 0,
+            "type": 1
+          }
+        ]
+      },
+      {
+        "id": "1255f5ab-5687-4c92-beba-3471be61d32b",
+        "shop": {
+          "id": "1255f5ab-5687-4c92-beba-3471be61d32b",
+          "imgPath": null,
+          "name": "All ",
+          "description": null,
+          "phone": "1233456",
+          "email": "",
+          "isSubscribed": false,
+          "subscriberCount": 0,
+          "placeInRating": 0,
+          "orderCount": 0,
+          "visiterCount": 1,
+          "totalProduct": 0,
+          "categories": [
+            {
+              "id": "ab45f412-d713-4bd4-b7d6-568a488a2381",
+              "nameRu": "Cars",
+              "nameTm": "Cars",
+              "nameEn": "Cars",
+              "categoryImage": null,
+              "parentId": null,
+              "advertisement": null,
+              "subCategories": [
+                {
+                  "id": "138f84e9-273d-4595-a99c-7678e4879829",
+                  "nameRu": "Super Cars",
+                  "nameTm": "Super Cars",
+                  "nameEn": "Super Cars",
+                  "categoryImage": null,
+                  "parentId": "ab45f412-d713-4bd4-b7d6-568a488a2381",
+                  "advertisement": null,
+                  "subCategories": []
+                }
+              ]
+            }
+          ],
+          "socialMedias": []
+        },
+        "products": []
+      },
+      {
+        "id": "92922ae0-fc7d-4c81-9a62-d29cad9fd808",
+        "shop": {
+          "id": "92922ae0-fc7d-4c81-9a62-d29cad9fd808",
+          "imgPath": "StaticFiles/ShopPhoto/Compressed/81dd3032-3164-421e-939a-4929799023f4.webp",
+          "name": "Rhee hey",
+          "description": null,
+          "phone": "Xbdbddb",
+          "email": "",
+          "isSubscribed": false,
+          "subscriberCount": 0,
+          "placeInRating": 0,
+          "orderCount": 0,
+          "visiterCount": 4,
+          "totalProduct": 0,
+          "categories": [
+            {
+              "id": "ab45f412-d713-4bd4-b7d6-568a488a2381",
+              "nameRu": "Cars",
+              "nameTm": "Cars",
+              "nameEn": "Cars",
+              "categoryImage": null,
+              "parentId": null,
+              "advertisement": null,
+              "subCategories": [
+                {
+                  "id": "138f84e9-273d-4595-a99c-7678e4879829",
+                  "nameRu": "Super Cars",
+                  "nameTm": "Super Cars",
+                  "nameEn": "Super Cars",
+                  "categoryImage": null,
+                  "parentId": "ab45f412-d713-4bd4-b7d6-568a488a2381",
+                  "advertisement": null,
+                  "subCategories": []
+                }
+              ]
+            }
+          ],
+          "socialMedias": []
+        },
+        "products": []
+      },
+      {
+        "id": "980194db-5b4c-4351-9d34-d7c084c4f436",
+        "shop": {
+          "id": "980194db-5b4c-4351-9d34-d7c084c4f436",
+          "imgPath": null,
+          "name": "Rhee hey",
+          "description": null,
+          "phone": "Xbdbddb",
+          "email": "",
+          "isSubscribed": false,
+          "subscriberCount": 0,
+          "placeInRating": 0,
+          "orderCount": 0,
+          "visiterCount": 0,
+          "totalProduct": 0,
+          "categories": [
+            {
+              "id": "ab45f412-d713-4bd4-b7d6-568a488a2381",
+              "nameRu": "Cars",
+              "nameTm": "Cars",
+              "nameEn": "Cars",
+              "categoryImage": null,
+              "parentId": null,
+              "advertisement": null,
+              "subCategories": [
+                {
+                  "id": "138f84e9-273d-4595-a99c-7678e4879829",
+                  "nameRu": "Super Cars",
+                  "nameTm": "Super Cars",
+                  "nameEn": "Super Cars",
+                  "categoryImage": null,
+                  "parentId": "ab45f412-d713-4bd4-b7d6-568a488a2381",
+                  "advertisement": null,
+                  "subCategories": []
+                }
+              ]
+            }
+          ],
+          "socialMedias": []
+        },
+        "products": []
+      },
+      {
+        "id": "3e46f7a6-c10f-4445-9836-68eaaf1fb50a",
+        "shop": {
+          "id": "3e46f7a6-c10f-4445-9836-68eaaf1fb50a",
+          "imgPath": null,
+          "name": "cgfhbjnk",
+          "description": null,
+          "phone": "344555;",
+          "email": "ghjkl;",
+          "isSubscribed": false,
+          "subscriberCount": 0,
+          "placeInRating": 0,
+          "orderCount": 0,
+          "visiterCount": 7,
+          "totalProduct": 1,
+          "categories": [
+            {
+              "id": "ab45f412-d713-4bd4-b7d6-568a488a2381",
+              "nameRu": "Cars",
+              "nameTm": "Cars",
+              "nameEn": "Cars",
+              "categoryImage": null,
+              "parentId": null,
+              "advertisement": null,
+              "subCategories": [
+                {
+                  "id": "138f84e9-273d-4595-a99c-7678e4879829",
+                  "nameRu": "Super Cars",
+                  "nameTm": "Super Cars",
+                  "nameEn": "Super Cars",
+                  "categoryImage": null,
+                  "parentId": "ab45f412-d713-4bd4-b7d6-568a488a2381",
+                  "advertisement": null,
+                  "subCategories": []
+                }
+              ]
+            }
+          ],
+          "socialMedias": []
+        },
+        "products": [
+          {
+            "id": "d45187a9-2967-4f4f-91c7-e7cc05850440",
+            "name": "yygfjkl",
+            "price": 6963,
+            "discountPrice": 6323,
+            "count": 0,
+            "rating": null,
+            "images": [],
+            "avatar": null,
+            "avatarId": "3e46f7a6-c10f-4445-9836-68eaaf1fb50a",
+            "avatarType": 0,
+            "type": 1
+          }
+        ]
+      },
+      {
+        "id": "57af8770-bdeb-46a7-a51f-260c8031a1b4",
+        "shop": {
+          "id": "57af8770-bdeb-46a7-a51f-260c8031a1b4",
+          "imgPath": null,
+          "name": "cgfhbjnk",
+          "description": null,
+          "phone": "344555;",
+          "email": "ghjkl;",
+          "isSubscribed": false,
+          "subscriberCount": 0,
+          "placeInRating": -1,
+          "orderCount": 0,
+          "visiterCount": 2,
+          "totalProduct": 4,
+          "categories": [
+            {
+              "id": "ab45f412-d713-4bd4-b7d6-568a488a2381",
+              "nameRu": "Cars",
+              "nameTm": "Cars",
+              "nameEn": "Cars",
+              "categoryImage": null,
+              "parentId": null,
+              "advertisement": null,
+              "subCategories": [
+                {
+                  "id": "138f84e9-273d-4595-a99c-7678e4879829",
+                  "nameRu": "Super Cars",
+                  "nameTm": "Super Cars",
+                  "nameEn": "Super Cars",
+                  "categoryImage": null,
+                  "parentId": "ab45f412-d713-4bd4-b7d6-568a488a2381",
+                  "advertisement": null,
+                  "subCategories": []
+                }
+              ]
+            }
+          ],
+          "socialMedias": []
+        },
+        "products": [
+          {
+            "id": "3a5fd3ec-30d5-4eea-9123-77fd6e792bdb",
+            "name": "dhdh",
+            "price": 595,
+            "discountPrice": 599,
+            "count": 0,
+            "rating": null,
+            "images": [],
+            "avatar": null,
+            "avatarId": "57af8770-bdeb-46a7-a51f-260c8031a1b4",
+            "avatarType": 0,
+            "type": 1
+          },
+          {
+            "id": "73d9d6b6-3ab6-49f9-a2b6-449fb732aa73",
+            "name": "dbdbdbdb",
+            "price": 495,
+            "discountPrice": 8989987,
+            "count": 0,
+            "rating": null,
+            "images": [],
+            "avatar": null,
+            "avatarId": "57af8770-bdeb-46a7-a51f-260c8031a1b4",
+            "avatarType": 0,
+            "type": 1
+          },
+          {
+            "id": "c0a4628d-f60c-4744-bc70-b1218e183d0a",
+            "name": "gebdbx",
+            "price": 595,
+            "discountPrice": 89,
+            "count": 0,
+            "rating": null,
+            "images": [],
+            "avatar": null,
+            "avatarId": "57af8770-bdeb-46a7-a51f-260c8031a1b4",
+            "avatarType": 0,
+            "type": 1
+          },
+          {
+            "id": "ed8860f6-4190-4460-a7ac-537ad4567e1e",
+            "name": "fhhv",
+            "price": 58,
+            "discountPrice": 9,
+            "count": 0,
+            "rating": null,
+            "images": [],
+            "avatar": null,
+            "avatarId": "57af8770-bdeb-46a7-a51f-260c8031a1b4",
+            "avatarType": 0,
+            "type": 1
+          }
+        ]
+      },
+      {
+        "id": "fbe1e604-3871-4fb0-b4c1-b92fd6e55c83",
+        "shop": {
+          "id": "fbe1e604-3871-4fb0-b4c1-b92fd6e55c83",
+          "imgPath": "StaticFiles/ShopPhoto/Compressed/62a01f64-4ed3-4d2e-a2d1-ea96f1e0ab9f.webp",
+          "name": "Name of shop",
+          "description": null,
+          "phone": "Contact number goes here",
+          "email": "",
+          "isSubscribed": false,
+          "subscriberCount": 0,
+          "placeInRating": 0,
+          "orderCount": 0,
+          "visiterCount": 10,
+          "totalProduct": 3,
+          "categories": [
+            {
+              "id": "ab45f412-d713-4bd4-b7d6-568a488a2381",
+              "nameRu": "Cars",
+              "nameTm": "Cars",
+              "nameEn": "Cars",
+              "categoryImage": null,
+              "parentId": null,
+              "advertisement": null,
+              "subCategories": [
+                {
+                  "id": "138f84e9-273d-4595-a99c-7678e4879829",
+                  "nameRu": "Super Cars",
+                  "nameTm": "Super Cars",
+                  "nameEn": "Super Cars",
+                  "categoryImage": null,
+                  "parentId": "ab45f412-d713-4bd4-b7d6-568a488a2381",
+                  "advertisement": null,
+                  "subCategories": []
+                }
+              ]
+            }
+          ],
+          "socialMedias": []
+        },
+        "products": [
+          {
+            "id": "215024d7-5199-4759-8c90-e184ad5b2724",
+            "name": "Product name, Product name, Product name, Product name, Product name, Product name ",
+            "price": 1000,
+            "discountPrice": 1000,
+            "count": 0,
+            "rating": null,
+            "images": [
+              "StaticFiles/ProductMediaImage/Compressed/7b56ee89-4b0c-4f40-a09e-68582e2a9ac4.webp"
+            ],
+            "avatar": "StaticFiles/ShopPhoto/Thumbnail/799255cc-85fd-4453-bdfb-f494f156e76f.webp",
+            "avatarId": "fbe1e604-3871-4fb0-b4c1-b92fd6e55c83",
+            "avatarType": 1,
+            "type": 1
+          },
+          {
+            "id": "2aa06421-05e7-4549-b767-c437e0b361e6",
+            "name": "QWERTY",
+            "price": 121212,
+            "discountPrice": 121212,
+            "count": 0,
+            "rating": null,
+            "images": [],
+            "avatar": "StaticFiles/ShopPhoto/Thumbnail/799255cc-85fd-4453-bdfb-f494f156e76f.webp",
+            "avatarId": "fbe1e604-3871-4fb0-b4c1-b92fd6e55c83",
+            "avatarType": 1,
+            "type": 1
+          },
+          {
+            "id": "e7f5c21f-4969-480b-922e-7258c2a22e7a",
+            "name": "Name 12",
+            "price": 100,
+            "discountPrice": 100,
+            "count": 0,
+            "rating": null,
+            "images": [
+              "StaticFiles/ProductMediaImage/Compressed/8cc6f4f1-3c28-4eaa-b6d0-baf623538fc4.webp"
+            ],
+            "avatar": "StaticFiles/ShopPhoto/Thumbnail/799255cc-85fd-4453-bdfb-f494f156e76f.webp",
+            "avatarId": "fbe1e604-3871-4fb0-b4c1-b92fd6e55c83",
+            "avatarType": 1,
+            "type": 1
+          }
+        ]
+      }
+    ]
   },
-  "rating": {
-    "userRating": {},
-    "total": 0
-  },
-  "categories": [
-    {
-      "id": "1438720a-e46d-4a78-9f03-7c3e2086b065",
-      "nameRu": "Mini Cars",
-      "nameTm": "Mini Cars",
-      "nameEn": "Mini Cars",
-      "categoryImage": null,
-      "parentId": "ab45f412-d713-4bd4-b7d6-568a488a2381",
-      "subCategories": []
-    }
-  ],
-  "options": null,
-  "personalCharacteristics": [],
-  "medias": [
-    {
-      "id": "367d941a-a41a-473f-872d-31b5ba09dd26",
-      "path": "StaticFiles/ProductMediaImage/Compressed/5f7c60cf-926a-42ad-b86b-1732f6fe8847.webp",
-      "orientationType": 0
-    },
-    {
-      "id": "828e544e-ee63-4bf5-bb99-72f11165fc9b",
-      "path": "StaticFiles/ProductMediaImage/Compressed/0dfafe20-4cf2-4902-8eb1-8f302caa0f13.webp",
-      "orientationType": 0
-    }
-  ],
-  "isFavorited": false
-}
+  {
+    "newProducts": [
+      {
+        "id": "6d7e022d-49a0-4a8d-9d8b-8b5805dbe762",
+        "name": "Gift",
+        "price": 0,
+        "discountPrice": 0,
+        "count": 0,
+        "rating": {
+          "userRating": {},
+          "total": 0
+        },
+        "images": [
+          "StaticFiles/ProductMediaImage/Compressed/5f7c60cf-926a-42ad-b86b-1732f6fe8847.webp",
+          "StaticFiles/ProductMediaImage/Compressed/0dfafe20-4cf2-4902-8eb1-8f302caa0f13.webp"
+        ],
+        "avatar": null,
+        "avatarId": "74932df7-bdbe-42e2-9b49-6507c96a0011",
+        "avatarType": 0,
+        "type": 1
+      },
+      {
+        "id": "bb0906fb-707d-4d08-ae5c-30f99177d15b",
+        "name": "Аватар",
+        "price": 3337,
+        "discountPrice": 37373,
+        "count": 0,
+        "rating": {
+          "userRating": {},
+          "total": 0
+        },
+        "images": [
+          "StaticFiles/ProductMediaImage/Compressed/61c17807-02b2-480c-856b-92048d3f7d34.webp"
+        ],
+        "avatar": "StaticFiles/ShopPhoto/Thumbnail/3a15e809-91cc-4ba0-b96f-60ee881d8de8.webp",
+        "avatarId": "f774300d-c779-41cc-8123-8ecda8d186e1",
+        "avatarType": 1,
+        "type": 1
+      },
+      {
+        "id": "7752354a-42cc-423f-8f26-b3c3e1c767c6",
+        "name": "Послал",
+        "price": 437,
+        "discountPrice": 27,
+        "count": 0,
+        "rating": {
+          "userRating": {},
+          "total": 0
+        },
+        "images": [
+          "StaticFiles/ProductMediaImage/Compressed/642a7d0b-7213-49b5-bc40-d97ea71270f7.webp"
+        ],
+        "avatar": null,
+        "avatarId": "74932df7-bdbe-42e2-9b49-6507c96a0011",
+        "avatarType": 0,
+        "type": 1
+      },
+      {
+        "id": "b86f0adb-f857-4f22-bbff-d742c8e04007",
+        "name": "Гуз",
+        "price": 100,
+        "discountPrice": 10,
+        "count": 0,
+        "rating": {
+          "userRating": {},
+          "total": 0
+        },
+        "images": [
+          "StaticFiles/ProductMediaImage/Compressed/30d7e360-bfee-4894-a7d1-0bf3f9744dfc.webp",
+          "StaticFiles/ProductMediaImage/Compressed/e44ab9d7-846c-4466-a653-514c95d25d10.webp"
+        ],
+        "avatar": null,
+        "avatarId": "74932df7-bdbe-42e2-9b49-6507c96a0011",
+        "avatarType": 0,
+        "type": 1
+      },
+      {
+        "id": "efe3bbcf-ac68-4b6f-9a71-baa8859a97a8",
+        "name": "Good ",
+        "price": 30,
+        "discountPrice": 25,
+        "count": 0,
+        "rating": {
+          "userRating": {},
+          "total": 0
+        },
+        "images": [
+          "StaticFiles/ProductMediaImage/Compressed/a58504fb-6a0a-406e-b36d-f40ee9d1854a.webp",
+          "StaticFiles/ProductMediaImage/Compressed/987c4b15-eed3-4063-9be4-b8e0b15b0615.webp"
+        ],
+        "avatar": null,
+        "avatarId": "74932df7-bdbe-42e2-9b49-6507c96a0011",
+        "avatarType": 0,
+        "type": 1
+      },
+      {
+        "id": "3a5fd3ec-30d5-4eea-9123-77fd6e792bdb",
+        "name": "dhdh",
+        "price": 595,
+        "discountPrice": 599,
+        "count": 0,
+        "rating": {
+          "userRating": {
+            "54188fe9-e319-4c63-aae6-b6ed0b59b244": false
+          },
+          "total": 4294967295
+        },
+        "images": [],
+        "avatar": null,
+        "avatarId": "57af8770-bdeb-46a7-a51f-260c8031a1b4",
+        "avatarType": 0,
+        "type": 1
+      },
+      {
+        "id": "c0a4628d-f60c-4744-bc70-b1218e183d0a",
+        "name": "gebdbx",
+        "price": 595,
+        "discountPrice": 89,
+        "count": 0,
+        "rating": null,
+        "images": [],
+        "avatar": null,
+        "avatarId": "57af8770-bdeb-46a7-a51f-260c8031a1b4",
+        "avatarType": 0,
+        "type": 1
+      },
+      {
+        "id": "ed8860f6-4190-4460-a7ac-537ad4567e1e",
+        "name": "fhhv",
+        "price": 58,
+        "discountPrice": 9,
+        "count": 0,
+        "rating": null,
+        "images": [],
+        "avatar": null,
+        "avatarId": "57af8770-bdeb-46a7-a51f-260c8031a1b4",
+        "avatarType": 0,
+        "type": 1
+      },
+      {
+        "id": "73d9d6b6-3ab6-49f9-a2b6-449fb732aa73",
+        "name": "dbdbdbdb",
+        "price": 495,
+        "discountPrice": 8989987,
+        "count": 0,
+        "rating": null,
+        "images": [],
+        "avatar": null,
+        "avatarId": "57af8770-bdeb-46a7-a51f-260c8031a1b4",
+        "avatarType": 0,
+        "type": 1
+      },
+      {
+        "id": "d45187a9-2967-4f4f-91c7-e7cc05850440",
+        "name": "yygfjkl",
+        "price": 6963,
+        "discountPrice": 6323,
+        "count": 0,
+        "rating": {
+          "userRating": {
+            "54188fe9-e319-4c63-aae6-b6ed0b59b244": true
+          },
+          "total": 1
+        },
+        "images": [],
+        "avatar": null,
+        "avatarId": "3e46f7a6-c10f-4445-9836-68eaaf1fb50a",
+        "avatarType": 0,
+        "type": 1
+      }
+    ]
+  }
+]

@@ -1,6 +1,5 @@
 package tm.store.meninki.adapter;
 
-import static tm.store.meninki.utils.StaticMethods.dpToPx;
 import static tm.store.meninki.utils.StaticMethods.setMargins;
 
 import android.content.Context;
@@ -11,11 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import tm.store.meninki.R;
-import tm.store.meninki.databinding.ItemImageBasketBinding;
 
 import java.util.ArrayList;
 
+import tm.store.meninki.R;
+import tm.store.meninki.databinding.ItemImageBasketBinding;
 import tm.store.meninki.utils.StaticMethods;
 
 public class AdapterImageHorizontal extends RecyclerView.Adapter<AdapterImageHorizontal.CharImageHolder> {
