@@ -65,8 +65,8 @@
                 android:layout_height="44dp"
                 android:layout_marginStart="14dp"
                 android:background="@color/on_bg_ls"
-                android:padding="12sp"
-                android:src="@drawable/ic_person_arrow_right"
+                android:padding="4dp"
+                android:src="@drawable/neutral_dark_oval"
                 app:riv_oval="true" />
 
         </LinearLayout>

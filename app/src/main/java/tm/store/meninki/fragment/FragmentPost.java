@@ -1,5 +1,6 @@
 package tm.store.meninki.fragment;
 
+import static tm.store.meninki.adapter.AdapterPostPager.lastExoPlayer;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
@@ -18,9 +19,10 @@ import java.util.ArrayList;
 import tm.store.meninki.adapter.AdapterPostPager;
 import tm.store.meninki.data.VideoDto;
 import tm.store.meninki.databinding.FragmentPostBinding;
+import tm.store.meninki.interfaces.OnBackPressedFragment;
 import tm.store.meninki.utils.StaticMethods;
 
-public class FragmentPost extends Fragment {
+public class FragmentPost extends Fragment implements OnBackPressedFragment {
     private FragmentPostBinding b;
     private AdapterPostPager adapterViewPager;
 
@@ -29,6 +31,27 @@ public class FragmentPost extends Fragment {
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (lastExoPlayer != null)
+            lastExoPlayer.pause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (lastExoPlayer != null)
+            lastExoPlayer.pause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (lastExoPlayer != null)
+            lastExoPlayer.pause();
     }
 
     @Override
@@ -49,6 +72,8 @@ public class FragmentPost extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        if (lastExoPlayer != null)
+            lastExoPlayer.play();
         new Handler().post(() -> StaticMethods.setMargins(b.viewPager2, 0, statusBarHeight, 0, navigationBarHeight));
     }
 
@@ -77,6 +102,17 @@ public class FragmentPost extends Fragment {
                 adapterViewPager.releasePlayer();
             }
         });
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        if (lastExoPlayer != null) {
+            lastExoPlayer.pause();
+            lastExoPlayer.release();
+            lastExoPlayer = null;
+        }
+
+        return false;
     }
 
     public class ZoomOutPageTransformer implements ViewPager2.PageTransformer {

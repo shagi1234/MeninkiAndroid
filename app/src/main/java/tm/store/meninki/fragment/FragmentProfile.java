@@ -99,13 +99,12 @@ public class FragmentProfile extends Fragment {
 
                 if (isMe()) {
 
-
                     setRecyclerShops();
 
                     b.editUser.setVisibility(View.VISIBLE);
                     b.contactsLay.setVisibility(View.GONE);
 
-                    b.myShops.setText("Мои магазины");
+                    b.myShops.setText("Сообщения");
                     b.countShops.setVisibility(View.VISIBLE);
                     b.myBookmarks.setText("Избранное");
 
@@ -122,6 +121,8 @@ public class FragmentProfile extends Fragment {
                     b.myShops.setText("Подписаться");
                     b.countShops.setVisibility(View.GONE);
                     b.followIc.setVisibility(View.VISIBLE);
+
+
                 }
 
                 getUserById();
@@ -146,7 +147,7 @@ public class FragmentProfile extends Fragment {
                 if (isMyShop) {
                     b.editUser.setVisibility(View.VISIBLE);
 
-                    b.myShops.setText("Мои магазины");
+                    b.myShops.setText("Новые заказы");
                     b.countShops.setVisibility(View.VISIBLE);
                     b.myBookmarks.setText("Избранное");
 
@@ -258,11 +259,11 @@ public class FragmentProfile extends Fragment {
 
     private void checkSubscribe(boolean subscribed) {
         if (subscribed) {
-            b.myBookmarks.setText("Unsubscribe");
-            b.followIc.setImageResource(R.drawable.ic_subtract_circle__2_);
+            b.myShops.setText("Unsubscribe");
+            b.followIc.setImageResource(R.drawable.dismiss_circle);
         } else {
-            b.myBookmarks.setText("Subscribe");
-            b.followIc.setImageResource(R.drawable.ic_add);
+            b.myShops.setText("Subscribe");
+            b.followIc.setImageResource(R.drawable.ic_follow);
         }
     }
 
@@ -297,23 +298,14 @@ public class FragmentProfile extends Fragment {
     }
 
     private void initListeners() {
-        b.layShops.setOnClickListener(v -> {
-            b.layShops.setEnabled(false);
-            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentMyShops.newInstance());
-            new Handler().postDelayed(() -> b.layShops.setEnabled(true), 200);
-        });
 
-        b.laySubscribers.setOnClickListener(v -> {
-            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentUserSubscribers.newInstance(type, id, true));
-        });
+        b.laySubscribers.setOnClickListener(v -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentUserSubscribers.newInstance(type, id, true)));
 
-        b.layFollows.setOnClickListener(v -> {
-            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentUserSubscribers.newInstance(type, id, false));
-        });
+        b.layFollows.setOnClickListener(v -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentUserSubscribers.newInstance(type, id, false)));
 
         b.layBack.setOnClickListener(v -> getActivity().onBackPressed());
 
-        b.layBookmark.setOnClickListener(v -> {
+        b.layShops.setOnClickListener(v -> {
             if (type.equals(TYPE_SHOP)) {
 
                 if (isMyShop) {
@@ -326,7 +318,9 @@ public class FragmentProfile extends Fragment {
             } else {
 
                 if (isMe()) {
-
+                    b.layShops.setEnabled(false);
+                    addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentMyShops.newInstance());
+                    new Handler().postDelayed(() -> b.layShops.setEnabled(true), 200);
                 } else {
                     userSubscribe(!user.isSubscribed(), false);
                     checkSubscribe(!user.isSubscribed());
@@ -367,10 +361,11 @@ public class FragmentProfile extends Fragment {
     }
 
     private void setBackgrounds() {
-        setBackgroundDrawable(getContext(), b.profileBox, R.color.white, 0, 10,  false, 10);
+        setBackgroundDrawable(getContext(), b.profileBox, R.color.white, 0, 10, false, 0);
         setBackgroundDrawable(getContext(), b.backgroundSearch, R.color.low_contrast, 0, 10, false, 0);
         setBackgroundDrawable(getContext(), b.edtSearch, R.color.low_contrast, 0, 10, false, 0);
         setBackgroundDrawable(getContext(), b.layFollows, R.color.white, 0, 10, false, 0);
         setBackgroundDrawable(getContext(), b.laySubscribers, R.color.white, 0, 10, false, 0);
+        setBackgroundDrawable(getContext(), b.contactsLay, R.color.bg, R.color.accent, 10, false, 2);
     }
 }

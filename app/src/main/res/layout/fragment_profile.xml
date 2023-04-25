@@ -266,8 +266,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:src="@drawable/ic_follow"
-                                    android:visibility="gone"
-                                    app:tint="@color/contrast" />
+                                    android:visibility="gone" />
 
                             </LinearLayout>
 

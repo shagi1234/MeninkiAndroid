@@ -1,6 +1,7 @@
 package tm.store.meninki.fragment;
 
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
+import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
@@ -70,6 +71,8 @@ public class FragmentUserSubscribers extends Fragment {
         // Inflate the layout for this fragment
         b = FragmentUserSubscribresBinding.inflate(inflater, container, false);
         setRecycler();
+        setTab(false);
+
         if (Objects.equals(type, FragmentProfile.TYPE_SHOP)) {
             b.tabUser.setVisibility(View.GONE);
             b.tabShop.setVisibility(View.GONE);
@@ -94,6 +97,22 @@ public class FragmentUserSubscribers extends Fragment {
         return b.getRoot();
     }
 
+    private void setTab(boolean t) {
+        if (t) {
+            setBackgroundDrawable(getContext(), b.tabShop, R.color.accent, 0, 50, false, 0);
+            setBackgroundDrawable(getContext(), b.tabUser, R.color.low_contrast, 0, 50, false, 0);
+
+            b.tabUser.setEnabled(false);
+            b.tabShop.setEnabled(true);
+            return;
+        }
+        setBackgroundDrawable(getContext(), b.tabUser, R.color.accent, 0, 50, false, 0);
+        setBackgroundDrawable(getContext(), b.tabShop, R.color.low_contrast, 0, 50, false, 0);
+
+        b.tabShop.setEnabled(false);
+        b.tabUser.setEnabled(true);
+    }
+
     private void setRecycler() {
         adapter = new AdapterSubscriber(getContext());
         b.rec.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
@@ -104,13 +123,12 @@ public class FragmentUserSubscribers extends Fragment {
     private void initListeners() {
         b.tabUser.setOnClickListener(v -> {
             getUserSubscribersUser();
-            b.tabUser.setBackgroundResource(R.color.accent);
-            b.tabShop.setBackgroundResource(R.color.neutral_dark);
+            setTab(true);
         });
+
         b.tabShop.setOnClickListener(v -> {
             getUserSubscribersShop();
-            b.tabUser.setBackgroundResource(R.color.neutral_dark);
-            b.tabShop.setBackgroundResource(R.color.accent);
+            setTab(false);
         });
     }
 

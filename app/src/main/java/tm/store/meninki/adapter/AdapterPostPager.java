@@ -123,6 +123,9 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
             if (getAdapterPosition() == position) {
                 playFilm(exoPlayer);
             }
+
+            b.backBtn.setOnClickListener(v -> activity.onBackPressed());
+
 //            b.animationView.addAnimatorListener(new Animator.AnimatorListener() {
 //                @Override
 //                public void onAnimationStart(@NonNull Animator animation) {
