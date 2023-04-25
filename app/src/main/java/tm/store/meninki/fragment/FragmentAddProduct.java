@@ -287,16 +287,17 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
     }
 
     private void setBackgrounds() {
-        setBackgroundDrawable(getContext(), b.title, R.color.white, R.color.neutral_dark, 4, false, 1);
+        setBackgroundDrawable(getContext(), b.title, R.color.low_contrast, 0, 10, false, 1);
         setBackgroundDrawable(getContext(), b.desc, R.color.white, R.color.neutral_dark, 4, false, 1);
-        setBackgroundDrawable(getContext(), b.price, R.color.white, R.color.neutral_dark, 4, false, 1);
+        setBackgroundDrawable(getContext(), b.layPrice, R.color.white,0, 10, false, 1);
         setBackgroundDrawable(getContext(), b.txtGoBasket, R.color.accent, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.oldPrice, R.color.white, R.color.neutral_dark, 4, false, 1);
-        setBackgroundDrawable(getContext(), b.chooseCategory, R.color.white, R.color.neutral_dark, 4, false, 1);
-        setBackgroundDrawable(getContext(), b.chooseShop, R.color.white, R.color.neutral_dark, 4, false, 1);
-        setBackgroundDrawable(getContext(), b.count, R.color.white, R.color.neutral_dark, 4, false, 1);
-        setBackgroundDrawable(getContext(), b.desc, R.color.white, R.color.neutral_dark, 4, false, 1);
-        setBackgroundDrawable(getContext(), b.wariants, R.color.neutral_dark, 0, 10, 10, 0, 0, false, 0);
+        setBackgroundDrawable(getContext(), b.oldPrice, R.color.low_contrast, 0, 10, false, 0);
+        setBackgroundDrawable(getContext(), b.chooseCategory, R.color.low_contrast, 0, 10, false, 0);
+        setBackgroundDrawable(getContext(), b.price, R.color.low_contrast, 0, 10, false, 0);
+        setBackgroundDrawable(getContext(), b.chooseShop, R.color.white,0, 10, false, 1);
+        setBackgroundDrawable(getContext(), b.count, R.color.low_contrast, 0, 10, false, 1);
+        setBackgroundDrawable(getContext(), b.desc, R.color.low_contrast, 0, 10, false, 1);
+        setBackgroundDrawable(getContext(), b.layWarriant, R.color.white, 0, 10, 10, 0, 0, false, 0);
         setBackgroundDrawable(getContext(), b.prices, R.color.neutral_dark, 0, 10, 10, 0, 0, false, 0);
         setBackgroundDrawable(getContext(), b.redactorCharacter, R.color.neutral_dark, 0, 0, 0, 10, 10, false, 0);
         setBackgroundDrawable(getContext(), b.redactorPrice, R.color.neutral_dark, 0, 0, 0, 10, 10, false, 0);

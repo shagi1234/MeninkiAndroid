@@ -63,7 +63,7 @@
             <Spinner
                 android:id="@+id/spinner_two"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp" />
 
@@ -131,7 +131,7 @@
             <Spinner
                 android:id="@+id/spinnner"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp" />
 
@@ -149,11 +149,11 @@
             <EditText
                 android:id="@+id/min_money"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="46dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="6dp"
                 android:background="#003C4567"
-                android:fontFamily="@font/inter_regular"
+                android:fontFamily="@font/inter_bold"
                 android:hint="00 tmt"
                 android:paddingVertical="15dp"
                 android:paddingStart="20dp"
@@ -173,11 +173,11 @@
             <EditText
                 android:id="@+id/max_money"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="46dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="6dp"
                 android:background="#003C4567"
-                android:fontFamily="@font/inter_regular"
+                android:fontFamily="@font/inter_bold"
                 android:hint="00 tmt"
                 android:paddingVertical="15dp"
                 android:paddingStart="20dp"
@@ -201,7 +201,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginHorizontal="20dp"
             android:layout_marginBottom="10dp"
-            android:fontFamily="@font/inter_regular"
+            android:fontFamily="@font/inter_bold"
             android:gravity="center"
             android:paddingVertical="15dp"
             android:text="Сохранить"
@@ -215,7 +215,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginHorizontal="20dp"
             android:layout_marginBottom="20dp"
-            android:fontFamily="@font/inter_regular"
+            android:fontFamily="@font/inter_bold"
             android:gravity="center"
             android:paddingVertical="15dp"
             android:text="Сбросить фильтры"
