@@ -11,15 +11,6 @@ public class RequestUploadImage {
     private String filename;
     private File data;
 
-    public RequestUploadImage(String objectId, boolean isAvatar, int imageType, int width, int height, String filename, File data) {
-        this.objectId = objectId;
-        this.isAvatar = isAvatar;
-        this.imageType = imageType;
-        this.width = width;
-        this.height = height;
-        this.filename = filename;
-        this.data = data;
-    }
 
     public String getObjectId() {
         return objectId;

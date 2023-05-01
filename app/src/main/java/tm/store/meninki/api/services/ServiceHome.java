@@ -16,6 +16,7 @@ import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import tm.store.meninki.api.data.ProductDetails;
+import tm.store.meninki.api.data.ResponsePostGetAllItem;
 import tm.store.meninki.api.data.UserProfile;
 import tm.store.meninki.api.enums.Image;
 import tm.store.meninki.api.request.RequestAddPost;
@@ -41,16 +42,26 @@ public interface ServiceHome {
     @POST("api/Card")
     Call<ArrayList<ResponseCard>> getCard(@Body RequestCard requestCard);
 
-    @POST("api/Image/CreateImage")
+    @POST("api/Post/GetAll")
+    Call<ArrayList<ResponsePostGetAllItem>> getAllPosts(@Body RequestCard requestCard);
 
+    @POST("api/Image/CreateImage")
     @Multipart
-    Call<Boolean> uploadImage(
+    Call<Object> uploadImage(
             @Part(Image.keyObjectId) RequestBody objectId,
             @Part(Image.keyIsAvatar) RequestBody isAvatar,
             @Part(Image.keyImageType) RequestBody imageType,
             @Part(Image.keyWidth) RequestBody width,
             @Part(Image.keyHeight) RequestBody height,
             @Part(Image.keyFileName) RequestBody filename,
+            @Part MultipartBody.Part image
+    );
+    @POST("api/Video")
+    @Multipart
+    Call<Object> uploadVideo(
+            @Part("ObjectId") RequestBody objectId,
+            @Part("Vertical") RequestBody isVertical,
+            @Part("VideoType") RequestBody videoType,
             @Part MultipartBody.Part image
     );
 
@@ -70,7 +81,7 @@ public interface ServiceHome {
     Call<Boolean> placeOrder(@Body RequestPlaceOrder requestAddProduct);
 
     @POST("api/Post")
-    Call<Boolean> addPost(@Body RequestAddPost requestAddProduct);
+    Call<String> addPost(@Body RequestAddPost requestAddProduct);
 
     @GET("api/Post/GetById/{id}")
     Call<ResponseGetOnePost> getPostById(@Path("id") String id);

@@ -75,4 +75,9 @@
 
 
     </style>
+
+    <style name="DialogAnim">
+        <item name="android:windowEnterAnimation">@anim/open</item>
+        <item name="android:windowExitAnimation">@anim/close</item>
+    </style>
 </resources>

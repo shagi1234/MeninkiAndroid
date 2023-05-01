@@ -23,6 +23,7 @@ import com.bumptech.glide.request.target.Target;
 import java.util.ArrayList;
 
 import tm.store.meninki.R;
+import tm.store.meninki.api.data.ResponsePostGetAllItem;
 import tm.store.meninki.api.response.ResponseCard;
 import tm.store.meninki.databinding.ItemBasketBinding;
 import tm.store.meninki.databinding.ItemPostBinding;
@@ -37,6 +38,7 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private FragmentActivity activity;
     private ArrayList<ResponseCard> grids = new ArrayList<>();
+    private ArrayList<ResponsePostGetAllItem> posts = new ArrayList<>();
     public final static int TYPE_GRID = 0;
     public final static int TYPE_HORIZONTAL_SMALL = 1;
     public final static int TYPE_HORIZONTAL = 2;
@@ -88,6 +90,9 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
+        if (type == TYPE_POST && posts != null) {
+            return posts.size();
+        }
         if (grids == null) {
             return 0;
         }
@@ -102,6 +107,11 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public void setStories(ArrayList<ResponseCard> stories) {
         this.grids = stories;
+        notifyDataSetChanged();
+    }
+
+    public void setPosts(ArrayList<ResponsePostGetAllItem> posts) {
+        this.posts = posts;
         notifyDataSetChanged();
     }
 
@@ -155,7 +165,7 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             setBackgroundDrawable(context, b.posterImage, R.color.neutral_dark, R.color.accent, 0, true, 2);
 
-            b.click.setOnClickListener(v -> FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentProduct.newInstance(grids.get(getAdapterPosition()).getId())));
+            b.click.setOnClickListener(v -> FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentProduct.newInstance(grids.get(getAdapterPosition()).getId(), grids.get(getAdapterPosition()).getAvatarId())));
 
             if (grids == null) return;
 
@@ -277,13 +287,13 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             b.click.setOnClickListener(v -> FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentPost.newInstance()));
 
-            if (grids == null) return;
+            if (posts == null) return;
 
-            if (grids.get(getAdapterPosition()).getImages().length > 0)
+            if (posts.get(getAdapterPosition()).getMedias().size() > 0)
                 try {
                     String USER_AGENT = "Mozilla/5.0 (Linux; Android 11) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.181 Mobile Safari/537.36";
 
-                    GlideUrl glideUrl = new GlideUrl(BASE_URL + "/" + grids.get(getAdapterPosition()).getImages()[0],
+                    GlideUrl glideUrl = new GlideUrl(BASE_URL + "/" + posts.get(getAdapterPosition()).getMedias().get(0),
                             new LazyHeaders.Builder()
                                     .addHeader("User-Agent", USER_AGENT)
                                     .build());
@@ -303,14 +313,15 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
 
 
-            Glide.with(context)
-                    .load(BASE_URL + "/" + grids.get(getAdapterPosition()).getAvatar())
-                    .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                    .placeholder(R.drawable.placeholder)
-                    .error(R.drawable.placeholder)
-                    .into(b.posterImage);
+            if (posts.get(getAdapterPosition()).getUser() != null)
+                Glide.with(context)
+                        .load(BASE_URL + "/" + posts.get(getAdapterPosition()).getUser().getImgPath())
+                        .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                        .placeholder(R.drawable.placeholder)
+                        .error(R.drawable.placeholder)
+                        .into(b.posterImage);
 
-            b.title.setText(grids.get(getAdapterPosition()).getName());
+            b.title.setText(posts.get(getAdapterPosition()).getName());
         }
     }
 }

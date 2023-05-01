@@ -1,8 +1,11 @@
 package tm.store.meninki.adapter;
 
+import static tm.store.meninki.fragment.FragmentOpenGallery.VIDEO;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.provider.MediaStore;
@@ -15,16 +18,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import tm.store.meninki.R;
-import tm.store.meninki.data.MediaLocal;
+import com.gowtham.library.utils.TrimVideo;
 
 import java.util.ArrayList;
 
+import tm.store.meninki.R;
+import tm.store.meninki.data.MediaLocal;
 import tm.store.meninki.utils.StaticMethods;
 
 public class AdapterMedia extends RecyclerView.Adapter<AdapterMedia.ViewHolder> {
@@ -37,8 +42,20 @@ public class AdapterMedia extends RecyclerView.Adapter<AdapterMedia.ViewHolder> 
     private ArrayList<MediaLocal> medias = new ArrayList<>();
     private TextView countSelection;
     private int chooseCount;
+    private int isVideo;
+    private ActivityResultLauncher<Intent> startForResult;
 
-    public AdapterMedia(Activity activity, Context context, Cursor mediaPath, LinearLayout laySelectionMode, TextView countSelection, ArrayList<MediaLocal> selectedMediaPath, int chooseCount) {
+    public AdapterMedia(
+            Activity activity,
+            Context context,
+            Cursor mediaPath,
+            LinearLayout laySelectionMode,
+            TextView countSelection,
+            ArrayList<MediaLocal> selectedMediaPath,
+            int isVideo,
+            ActivityResultLauncher<Intent> startForResult,
+            int chooseCount) {
+
         this.activity = activity;
         this.context = context;
         this.mediaCursor = mediaPath;
@@ -46,6 +63,8 @@ public class AdapterMedia extends RecyclerView.Adapter<AdapterMedia.ViewHolder> 
         this.countSelection = countSelection;
         this.selectedMediaPath = selectedMediaPath;
         this.chooseCount = chooseCount;
+        this.isVideo = isVideo;
+        this.startForResult = startForResult;
     }
 
     @NonNull
@@ -63,10 +82,6 @@ public class AdapterMedia extends RecyclerView.Adapter<AdapterMedia.ViewHolder> 
             medias.add(media);
         }
 
-//        if (!medias.contains(medias.get(holder.getAdapterPosition()))) {
-//            medias.add(medias.get(holder.getAdapterPosition()));
-//        }
-
         Glide.with(context)
                 .load(medias.get(holder.getAdapterPosition()).getPath())
                 .into(holder.imageView);
@@ -80,9 +95,15 @@ public class AdapterMedia extends RecyclerView.Adapter<AdapterMedia.ViewHolder> 
         holder.click.setOnClickListener(v -> {
             MediaLocal media1 = medias.get(holder.getAdapterPosition());
 
+            if (isVideo == VIDEO && chooseCount == 1) {
+                TrimVideo.activity(media1.getPath())
+                        .start(activity, startForResult);
+                return;
+            }
+
             if (!selectedMediaPath.contains(media1)) {
 
-                if (chooseCount == 1 && selectedMediaPath.size() == 1) {
+                if (selectedMediaPath.size() == chooseCount && chooseCount != 0) {
                     Toast.makeText(context, "You cant select image more 1", Toast.LENGTH_SHORT).show();
                     return;
                 }

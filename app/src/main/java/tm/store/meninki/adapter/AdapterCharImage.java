@@ -15,25 +15,32 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import tm.store.meninki.R;
-import tm.store.meninki.data.ProductImageDto;
+import tm.store.meninki.api.data.OptionDto;
+import tm.store.meninki.data.MediaLocal;
 import tm.store.meninki.databinding.ItemCharImageBinding;
 import tm.store.meninki.fragment.FragmentOpenGallery;
 import tm.store.meninki.utils.Const;
 import tm.store.meninki.utils.FragmentHelper;
+import tm.store.meninki.utils.Option;
 import tm.store.meninki.utils.StaticMethods;
 
 public class AdapterCharImage extends RecyclerView.Adapter<AdapterCharImage.CharImageHolder> {
-    private ArrayList<ProductImageDto> imageUrl = new ArrayList<>();
+    private ArrayList<OptionDto> options = new ArrayList<>();
     private Context context;
     private int isAddable;
     private LinearLayout lastClicked;
     private static AdapterCharImage instance;
+    private String prodId;
+    private int characterPosition;
 
-    public AdapterCharImage(Context context, int isAddable) {
+    public AdapterCharImage(Context context, int isAddable, String prodId, int adapterPosition) {
         this.context = context;
         this.isAddable = isAddable;
+        this.prodId = prodId;
+        this.characterPosition = adapterPosition;
     }
 
     @NonNull
@@ -52,14 +59,14 @@ public class AdapterCharImage extends RecyclerView.Adapter<AdapterCharImage.Char
 
     @Override
     public int getItemCount() {
-        if (imageUrl == null) {
+        if (options == null) {
             return 0;
         }
         if (isAddable == AdapterCharPick.ADDABLE) {
-            return imageUrl.size() + 1;
+            return options.size() + 1;
         }
 
-        return imageUrl.size();
+        return options.size();
     }
 
     public class CharImageHolder extends RecyclerView.ViewHolder {
@@ -79,14 +86,11 @@ public class AdapterCharImage extends RecyclerView.Adapter<AdapterCharImage.Char
                 setMargins(b.getRoot(), StaticMethods.dpToPx(4, context), StaticMethods.dpToPx(0, context), StaticMethods.dpToPx(4, context), 0);
             }
 
-            StaticMethods.setBackgroundDrawable(context, b.txtProductCharacteristic, R.color.neutral_dark, 0, 0, 0, 10, 10, false, 0);
-
             if (getAdapterPosition() == 0 && isAddable == AdapterCharPick.NOT_ADDABLE) {
                 b.click.setBackgroundResource(R.drawable.ripple);
                 b.main.setVisibility(View.VISIBLE);
                 b.layAdd.setVisibility(View.GONE);
-                b.txtProductCharacteristic.setText(imageUrl.get(getAdapterPosition()).getTitle());
-                Glide.with(context).load(imageUrl.get(getAdapterPosition()).getImagePath()).placeholder(R.color.neutral_dark).into(b.image);
+                Glide.with(context).load(options.get(getAdapterPosition()).getImagePath()).placeholder(R.color.neutral_dark).into(b.image);
                 setBackgroundDrawable(context, b.main, R.color.neutral_dark, R.color.accent, 4, false, 3);
                 lastClicked = b.main;
             } else if (getAdapterPosition() == getItemCount() - 1 && isAddable == AdapterCharPick.ADDABLE) {
@@ -96,8 +100,7 @@ public class AdapterCharImage extends RecyclerView.Adapter<AdapterCharImage.Char
             } else {
                 b.click.setBackgroundResource(R.drawable.ripple);
                 b.main.setVisibility(View.VISIBLE);
-                Glide.with(context).load(imageUrl.get(getAdapterPosition()).getImagePath()).placeholder(R.color.neutral_dark).into(b.image);
-                b.txtProductCharacteristic.setText(imageUrl.get(getAdapterPosition()).getTitle());
+                Glide.with(context).load(options.get(getAdapterPosition()).getImagePath()).placeholder(R.color.neutral_dark).into(b.image);
                 b.layAdd.setVisibility(View.GONE);
                 setBackgroundDrawable(context, b.main, R.color.neutral_dark, 0, 4, false, 0);
             }
@@ -106,7 +109,7 @@ public class AdapterCharImage extends RecyclerView.Adapter<AdapterCharImage.Char
 
                 if (isAddable == AdapterCharPick.ADDABLE) {
                     if (getAdapterPosition() == getItemCount() - 1) {
-                        FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentOpenGallery.newInstance(1));
+                        FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentOpenGallery.newInstance(0, FragmentOpenGallery.IMAGE));
                     }
                     return;
                 }
@@ -125,8 +128,22 @@ public class AdapterCharImage extends RecyclerView.Adapter<AdapterCharImage.Char
         }
     }
 
-    public void setImageUrl(ArrayList<ProductImageDto> imageUrl) {
-        this.imageUrl = imageUrl;
+    public void insertOption(ArrayList<MediaLocal> medias) {
+        for (int i = 0; i < medias.size(); i++) {
+            OptionDto option = new OptionDto();
+            option.setOptionType(Option.CHARACTER_IMAGE);
+            option.setOptionLevel(characterPosition);
+            option.setImagePath(medias.get(i).getPath());
+            option.setOptionsImageId(UUID.randomUUID().toString());
+            option.setProductId(prodId);
+
+            options.add(option);
+        }
+        notifyDataSetChanged();
+    }
+
+    public void setOptions(ArrayList<OptionDto> options) {
+        this.options = options;
         notifyDataSetChanged();
     }
 

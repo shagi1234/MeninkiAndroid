@@ -32,13 +32,23 @@
         android:layout_marginEnd="10dp"
         android:src="@drawable/ic_frame_2609171" />
 
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/is_video"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="top"
+        android:padding="10dp"
+        android:src="@drawable/play"
+        android:visibility="gone" />
+
     <LinearLayout
         android:id="@+id/lay_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginHorizontal="10dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="visible">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -58,4 +68,5 @@
             android:textAlignment="center"
             android:textColor="@color/contrast" />
     </LinearLayout>
+
 </FrameLayout>

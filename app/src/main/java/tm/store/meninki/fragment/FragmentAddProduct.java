@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -41,6 +42,7 @@ import tm.store.meninki.api.enums.Image;
 import tm.store.meninki.api.request.RequestAddProduct;
 import tm.store.meninki.api.request.RequestUploadImage;
 import tm.store.meninki.data.CategoryDto;
+import tm.store.meninki.data.MediaLocal;
 import tm.store.meninki.data.SelectedMedia;
 import tm.store.meninki.databinding.FragmentAddProductBinding;
 import tm.store.meninki.interfaces.OnBackPressedFragment;
@@ -58,6 +60,8 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
     private String productId;
     private ArrayList<CategoryDto> categories = new ArrayList<>();
     private UserProfile shop;
+    private int i;
+    private boolean isFirst;
 
     public static FragmentAddProduct newInstance() {
         FragmentAddProduct fragment = new FragmentAddProduct();
@@ -93,91 +97,56 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
     }
 
     private void uploadImage() {
-//        List<MultipartBody.Part> datas = new ArrayList<>();
-//        List<MultipartBody.Part> filenames = new ArrayList<>();
-//        List<MultipartBody.Part> heights = new ArrayList<>();
-//        List<MultipartBody.Part> widths = new ArrayList<>();
-//        List<MultipartBody.Part> objectIds = new ArrayList<>();
-//        List<MultipartBody.Part> imageTypes = new ArrayList<>();
-//        List<MultipartBody.Part> isAvatars = new ArrayList<>();
+        MediaLocal media = SelectedMedia.getArrayList().get(i);
 
+        RequestUploadImage uploadImage = new RequestUploadImage();
+        uploadImage.setAvatar(false);
+        uploadImage.setObjectId(productId);
+        uploadImage.setImageType(Image.option);
+        uploadImage.setWidth(getWidth(media.getPath()));
+        uploadImage.setHeight(getHeight(media.getPath()));
+        uploadImage.setFilename(new File(media.getPath()).getName());
+        uploadImage.setData(new File(media.getPath()));
 
-        for (int i = 0; i < SelectedMedia.getArrayList().size(); i++) {
+        RequestBody requestFile =
+                RequestBody.create(
+                        MediaType.parse(
+                                FileUtil.getMimeType(uploadImage.getData())),
+                        uploadImage.getData());
 
-            RequestUploadImage uploadImage = new RequestUploadImage(
-                    productId,
-                    false,
-                    Image.option,
-                    getWidth(SelectedMedia.getArrayList().get(i).getPath()),
-                    getHeight(SelectedMedia.getArrayList().get(i).getPath()),
-                    new File(SelectedMedia.getArrayList().get(i).getPath()).getName(),
-                    new File(SelectedMedia.getArrayList().get(i).getPath())
-            );
+        try {
+            RequestBody filename = RequestBody.create(MediaType.parse("multipart/form-data"), uploadImage.getFilename());
+            RequestBody objectId = RequestBody.create(MediaType.parse("multipart/form-data"), uploadImage.getObjectId());
+            RequestBody width = RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(uploadImage.getWidth()));
+            RequestBody height = RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(uploadImage.getHeight()));
+            RequestBody imageType = RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(uploadImage.getImageType()));
+            RequestBody isAvatar = RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(uploadImage.isAvatar()));
 
-            RequestBody requestFile =
-                    RequestBody.create(
-                            MediaType.parse(
-                                    FileUtil.getMimeType(uploadImage.getData())),
-                            uploadImage.getData());
+            MultipartBody.Part data = MultipartBody.Part.createFormData("data", URLEncoder.encode(uploadImage.getData().getPath(), "utf-8"), requestFile);
 
-            try {
-                RequestBody filename = RequestBody.create(MediaType.parse("multipart/form-data"), uploadImage.getFilename());
-                RequestBody objectId = RequestBody.create(MediaType.parse("multipart/form-data"), uploadImage.getObjectId());
-                RequestBody width = RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(uploadImage.getWidth()));
-                RequestBody height = RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(uploadImage.getHeight()));
-                RequestBody imageType = RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(uploadImage.getImageType()));
-                RequestBody isAvatar = RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(uploadImage.isAvatar()));
-
-//                MultipartBody.Builder filename = new MultipartBody.Builder();
-//                filename.setType(MultipartBody.FORM);
-//                filename.addFormDataPart(Image.keyFileName + "Images[" + i + "]", uploadImage.getFilename());
-//
-//                MultipartBody.Builder objectId = new MultipartBody.Builder();
-//                objectId.setType(MultipartBody.FORM);
-//                objectId.addFormDataPart(Image.keyObjectId +"Images[" + i + "]" , uploadImage.getObjectId());
-//
-//                MultipartBody.Builder height = new MultipartBody.Builder();
-//                height.setType(MultipartBody.FORM);
-//                height.addFormDataPart(Image.keyHeight +"Images[" + i + "]", String.valueOf(uploadImage.getHeight()));
-//
-//                MultipartBody.Builder width = new MultipartBody.Builder();
-//                width.setType(MultipartBody.FORM);
-//                width.addFormDataPart(Image.keyWidth +"Images[" + i + "]", String.valueOf(uploadImage.getHeight()));
-//
-//                MultipartBody.Builder imageType = new MultipartBody.Builder();
-//                imageType.setType(MultipartBody.FORM);
-//                imageType.addFormDataPart(Image.keyImageType +"Images[" + i + "]", String.valueOf(uploadImage.getImageType()));
-//
-//                MultipartBody.Builder isAvatar = new MultipartBody.Builder();
-//                isAvatar.setType(MultipartBody.FORM);
-//                isAvatar.addFormDataPart(Image.keyIsAvatar +"Images[" + i + "]", String.valueOf(uploadImage.isAvatar()));
-//
-//                MultipartBody.Part data = MultipartBody.Part.createFormData("data"+"Images[" + i + "]", URLEncoder.encode(uploadImage.getData().getPath(), "utf-8"), requestFile);
-                MultipartBody.Part data = MultipartBody.Part.createFormData("data", URLEncoder.encode(uploadImage.getData().getPath(), "utf-8"), requestFile);
-//
-                Call<Boolean> call = getApiHome().uploadImage(objectId, isAvatar, imageType, width, height, filename, data);
-                call.enqueue(new Callback<Boolean>() {
-                    @Override
-                    public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-
+            Call<Object> call = getApiHome().uploadImage(objectId, isAvatar, imageType, width, height, filename, data);
+            call.enqueue(new Callback<Object>() {
+                @Override
+                public void onResponse(@NonNull Call<Object> call, @NonNull Response<Object> response) {
+                    if (response.code() == 200 && response.body() != null) {
+                        Toast.makeText(getContext(), "Success upload image" + i, Toast.LENGTH_SHORT).show();
+                        i++;
+                        if (SelectedMedia.getArrayList().size() > i) {
+                            uploadImage();
+                        } else {
+                            i = 0;
+                        }
                     }
+                }
 
-                    @Override
-                    public void onFailure(Call<Boolean> call, Throwable t) {
+                @Override
+                public void onFailure(@NonNull Call<Object> call, @NonNull Throwable t) {
+                    Log.e("Add_post", "onFailure: " + t);
+                }
+            });
 
-                    }
-                });
-//                datas.add(fileToUpload);
-//                filenames.add(MultipartBody.Part.createFormData(Image.keyFileName +"Images[" + i + "]", uploadImage.getData().getPath(), filename.build()));
-//                objectIds.add(MultipartBody.Part.createFormData(Image.keyObjectId +"Images[" + i + "]", uploadImage.getData().getPath(), objectId.build()));
-//                widths.add(MultipartBody.Part.createFormData(Image.keyWidth +"Images[" + i + "]", uploadImage.getData().getPath(), width.build()));
-//                heights.add(MultipartBody.Part.createFormData(Image.keyHeight +"Images[" + i + "]", uploadImage.getData().getPath(), height.build()));
-//                imageTypes.add(MultipartBody.Part.createFormData(Image.keyImageType +"Images[" + i + "]", uploadImage.getData().getPath(), imageType.build()));
-//                isAvatars.add(MultipartBody.Part.createFormData(Image.keyIsAvatar +"Images[" + i + "]", uploadImage.getData().getPath(), isAvatar.build()));
-
-            } catch (UnsupportedEncodingException e) {
-                Log.e("Add_post", "sendApi: " + e.getMessage());
-            }
+        } catch (UnsupportedEncodingException e) {
+            Log.e("Add_post", "sendApi: " + e.getMessage());
         }
 
     }
@@ -186,7 +155,6 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
 
-//Returns null, sizes are in the options variable
         BitmapFactory.decodeFile(path, options);
         return options.outHeight;
     }
@@ -200,8 +168,13 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
     }
 
     private void createProduct() {
-
         categoryIds = new String[categories.size()];
+
+        if (b.title.getText().toString().trim().isEmpty()
+                || b.desc.getText().toString().trim().isEmpty()) {
+            Toast.makeText(getContext(), "Please give information", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         for (int i = 0; i < categories.size(); i++) {
             categoryIds[i] = categories.get(i).getId();
@@ -213,10 +186,14 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
         requestAddProduct.setName(b.title.getText().toString().trim());
         requestAddProduct.setId(productId);
         requestAddProduct.setDescription(b.price.getText().toString().trim());
-        requestAddProduct.setPrice(Double.parseDouble(b.oldPrice.getText().toString().trim()));
-        requestAddProduct.setDiscountPrice(Double.parseDouble(b.price.getText().toString().trim()));
+
+        if (!b.oldPrice.getText().toString().trim().isEmpty())
+            requestAddProduct.setPrice(Double.parseDouble(b.oldPrice.getText().toString().trim()));
+        if (!b.price.getText().toString().trim().isEmpty())
+            requestAddProduct.setDiscountPrice(Double.parseDouble(b.price.getText().toString().trim()));
         requestAddProduct.setCategoryIds(categoryIds);
-        requestAddProduct.setShopId(shop.getId());
+        if (shop != null)
+            requestAddProduct.setShopId(shop.getId());
 
         Call<Boolean> call = StaticMethods.getApiHome().createProduct(requestAddProduct);
         call.enqueue(new RetrofitCallback<Boolean>() {
@@ -235,10 +212,11 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
     private void check() {
         if (getContext() == null) return;
 
-        if (Lists.getPersonalCharacters().size() > 0) {
+        if (Lists.getPersonalCharacters().getOptionTitles().size() > 0 && !isFirst) {
             b.wariants.setVisibility(View.VISIBLE);
             b.layPriceIfMany.setVisibility(View.VISIBLE);
             b.layPriceIf1.setVisibility(View.GONE);
+            isFirst = true;
         } else {
             b.wariants.setVisibility(View.GONE);
             b.layPriceIfMany.setVisibility(View.GONE);
@@ -252,7 +230,7 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
         b.redactorCharacter.setOnClickListener(v -> {
             b.redactorCharacter.setEnabled(false);
 
-            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentCharacterics.newInstance());
+            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentCharacterics.newInstance(productId));
 
             new Handler().postDelayed(() -> b.redactorCharacter.setEnabled(true), 200);
         });
@@ -289,22 +267,22 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
     private void setBackgrounds() {
         setBackgroundDrawable(getContext(), b.title, R.color.low_contrast, 0, 10, false, 1);
         setBackgroundDrawable(getContext(), b.desc, R.color.white, R.color.neutral_dark, 4, false, 1);
-        setBackgroundDrawable(getContext(), b.layPrice, R.color.white,0, 10, false, 1);
+        setBackgroundDrawable(getContext(), b.layPrice, R.color.white, 0, 10, false, 1);
         setBackgroundDrawable(getContext(), b.txtGoBasket, R.color.accent, 0, 4, false, 0);
         setBackgroundDrawable(getContext(), b.oldPrice, R.color.low_contrast, 0, 10, false, 0);
         setBackgroundDrawable(getContext(), b.chooseCategory, R.color.low_contrast, 0, 10, false, 0);
         setBackgroundDrawable(getContext(), b.price, R.color.low_contrast, 0, 10, false, 0);
-        setBackgroundDrawable(getContext(), b.chooseShop, R.color.white,0, 10, false, 1);
+        setBackgroundDrawable(getContext(), b.chooseShop, R.color.white, 0, 10, false, 1);
         setBackgroundDrawable(getContext(), b.count, R.color.low_contrast, 0, 10, false, 1);
         setBackgroundDrawable(getContext(), b.desc, R.color.low_contrast, 0, 10, false, 1);
         setBackgroundDrawable(getContext(), b.layWarriant, R.color.white, 0, 10, 10, 0, 0, false, 0);
-        setBackgroundDrawable(getContext(), b.prices, R.color.neutral_dark, 0, 10, 10, 0, 0, false, 0);
-        setBackgroundDrawable(getContext(), b.redactorCharacter, R.color.neutral_dark, 0, 0, 0, 10, 10, false, 0);
-        setBackgroundDrawable(getContext(), b.redactorPrice, R.color.neutral_dark, 0, 0, 0, 10, 10, false, 0);
+        setBackgroundDrawable(getContext(), b.prices, R.color.white, 0, 10, 10, 0, 0, false, 0);
+        setBackgroundDrawable(getContext(), b.redactorCharacter, R.color.white, 0, 0, 0, 10, 10, false, 0);
+        setBackgroundDrawable(getContext(), b.redactorPrice, R.color.white, 0, 0, 0, 10, 10, false, 0);
     }
 
     private void setRecycler() {
-        mediaAddPost = new AdapterMediaAddPost(getContext());
+        mediaAddPost = new AdapterMediaAddPost(getContext(), getActivity());
         b.recMedia.setLayoutManager(new GridLayoutManager(getContext(), 2));
         b.recMedia.setAdapter(mediaAddPost);
     }

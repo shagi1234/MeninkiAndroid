@@ -1,7 +1,5 @@
 package tm.store.meninki.fragment;
 
-import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +15,7 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import tm.store.meninki.adapter.AdapterGrid;
 import tm.store.meninki.api.RetrofitCallback;
+import tm.store.meninki.api.data.ResponsePostGetAllItem;
 import tm.store.meninki.api.enums.CardType;
 import tm.store.meninki.api.request.RequestCard;
 import tm.store.meninki.api.response.ResponseCard;
@@ -56,16 +55,16 @@ public class FragmentFeed extends Fragment {
 
     private void check() {
         RequestCard requestCard = new RequestCard();
-        requestCard.setCardTypes(CardType.getAll());
         requestCard.setDescending(true);
         requestCard.setPageNumber(page);
         requestCard.setTake(limit);
 
-        Call<ArrayList<ResponseCard>> call = StaticMethods.getApiHome().getCard(requestCard);
-        call.enqueue(new RetrofitCallback<ArrayList<ResponseCard>>() {
+        Call<ArrayList<ResponsePostGetAllItem>> call = StaticMethods.getApiHome().getAllPosts(requestCard);
+        call.enqueue(new RetrofitCallback<ArrayList<ResponsePostGetAllItem>>() {
             @Override
-            public void onResponse(ArrayList<ResponseCard> response) {
-                adapterGrid.setStories(response);
+            public void onResponse(ArrayList<ResponsePostGetAllItem> response) {
+                if (response == null) return;
+                adapterGrid.setPosts(response);
                 setProgress(false);
 
             }

@@ -1,11 +1,22 @@
 package tm.store.meninki.adapter;
 
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
+import static tm.store.meninki.utils.StaticMethods.setPadding;
+
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -20,9 +31,12 @@ import tm.store.meninki.utils.FragmentHelper;
 public class AdapterMediaAddPost extends RecyclerView.Adapter<AdapterMediaAddPost.CharImageHolder> {
     private Context context;
     private static AdapterMediaAddPost instance;
+    private FragmentActivity activity;
+    private boolean isHasVideo;
 
-    public AdapterMediaAddPost(Context context) {
+    public AdapterMediaAddPost(Context context, FragmentActivity activity) {
         this.context = context;
+        this.activity = activity;
     }
 
     @NonNull
@@ -58,6 +72,10 @@ public class AdapterMediaAddPost extends RecyclerView.Adapter<AdapterMediaAddPos
         public void bind() {
 
             if (getAdapterPosition() == getItemCount() - 1) {
+                if (isHasVideo) {
+                    b.getRoot().setVisibility(View.GONE);
+                    return;
+                }
                 b.clear.setVisibility(View.GONE);
                 b.layAdd.setVisibility(View.VISIBLE);
                 b.image.setImageResource(R.color.on_bg_ls);
@@ -65,6 +83,12 @@ public class AdapterMediaAddPost extends RecyclerView.Adapter<AdapterMediaAddPos
             } else {
                 b.clear.setVisibility(View.VISIBLE);
                 b.layAdd.setVisibility(View.GONE);
+
+                if (SelectedMedia.getArrayList().get(getAdapterPosition()).getType() == 3) {
+                    b.isVideo.setVisibility(View.VISIBLE);
+                    isHasVideo = true;
+                } else b.isVideo.setVisibility(View.GONE);
+
 
                 Glide.with(context)
                         .load(SelectedMedia.getArrayList().get(getAdapterPosition()).getPath())
@@ -74,7 +98,7 @@ public class AdapterMediaAddPost extends RecyclerView.Adapter<AdapterMediaAddPos
 
             b.click.setOnClickListener(v -> {
                 if (getAdapterPosition() == getItemCount() - 1) {
-                    FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentOpenGallery.newInstance(0));
+                    showDialog();
                 }
             });
 
@@ -82,8 +106,36 @@ public class AdapterMediaAddPost extends RecyclerView.Adapter<AdapterMediaAddPos
         }
     }
 
+    private void showDialog() {
+        android.app.Dialog dialog = new android.app.Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.bottomsheet_choose_media);
+        LinearLayout root = dialog.findViewById(R.id.root);
+        setPadding(root, 0, 0, 0, navigationBarHeight);
+
+        dialog.findViewById(R.id.video).setOnClickListener(v -> {
+            dialog.dismiss();
+            FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentOpenGallery.newInstance(1, FragmentOpenGallery.VIDEO));
+        });
+
+        dialog.findViewById(R.id.image).setOnClickListener(v -> {
+            dialog.dismiss();
+            FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentOpenGallery.newInstance(0, FragmentOpenGallery.IMAGE));
+        });
+
+        dialog.getWindow().setLayout(MATCH_PARENT, WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnim;
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+        dialog.show();
+    }
+
     private void removeAt(int position) {
         try {
+            if (SelectedMedia.getArrayList().get(position).getType() == 3) {
+                isHasVideo = false;
+                notifyItemChanged(getItemCount() - 1);
+            }
             SelectedMedia.getArrayList().remove(position);
             notifyItemRemoved(position);
             notifyItemRangeChanged(position, SelectedMedia.getArrayList().size());

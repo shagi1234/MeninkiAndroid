@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -21,6 +22,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import tm.store.meninki.R;
 import tm.store.meninki.adapter.AdapterCharImage;
 import tm.store.meninki.adapter.AdapterCharPick;
@@ -28,6 +31,7 @@ import tm.store.meninki.adapter.AdapterVerticalImagePager;
 import tm.store.meninki.api.RetrofitCallback;
 import tm.store.meninki.api.data.MediaDto;
 import tm.store.meninki.api.data.ProductDetails;
+import tm.store.meninki.api.request.RequestAddToCard;
 import tm.store.meninki.data.ProductImageDto;
 import tm.store.meninki.databinding.FragmentProductBinding;
 import tm.store.meninki.shared.Account;
@@ -40,13 +44,15 @@ public class FragmentProduct extends Fragment {
     private ArrayList<String> picks = new ArrayList<>();
     private ArrayList<String> colors = new ArrayList<>();
     private String uuid;
+    private String avatarId;
     private AdapterCharImage adapterCharImage;
     private AdapterCharPick adapterCharPick;
 
-    public static FragmentProduct newInstance(String uuid) {
+    public static FragmentProduct newInstance(String uuid, String avatarId) {
         FragmentProduct fragment = new FragmentProduct();
         Bundle args = new Bundle();
         args.putString("uuid", uuid);
+        args.putString("shop_id", avatarId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,6 +62,7 @@ public class FragmentProduct extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             uuid = getArguments().getString("uuid");
+            avatarId = getArguments().getString("avatar_id");
         }
 
         s.add(new ProductImageDto("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg", "salam"));
@@ -146,12 +153,36 @@ public class FragmentProduct extends Fragment {
     private void initListeners() {
         b.backBtn.setOnClickListener(v -> getActivity().onBackPressed());
 
-        b.btnAddPost.setOnClickListener(v -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentAddPost.newInstance()));
+        b.btnAddPost.setOnClickListener(v -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentAddPost.newInstance(uuid)));
 
         b.goCard.setOnClickListener(v -> {
-
+            addToCard();
         });
 
+    }
+
+    private void addToCard() {
+        RequestAddToCard requestAddToCard = new RequestAddToCard();
+        requestAddToCard.setProductId(uuid);
+        requestAddToCard.setShopId(avatarId);
+        requestAddToCard.setCount(1);
+        Call<Boolean> call = StaticMethods.getApiHome().addToCard(requestAddToCard);
+
+        call.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if (response.body() != null && response.body()) {
+                    Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Toast.makeText(getContext(), response.message(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void setBackgrounds() {
@@ -174,17 +205,16 @@ public class FragmentProduct extends Fragment {
         adapterVerticalImagePager.setImageList(medias);
         b.indicator.setViewPager(b.imagePager);
 
-
     }
 
     private void setRecyclerCharImage() {
-        adapterCharImage = new AdapterCharImage(getContext(), AdapterCharPick.NOT_ADDABLE);
+        adapterCharImage = new AdapterCharImage(getContext(), AdapterCharPick.NOT_ADDABLE, uuid, 0);
         b.recCharImage.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         b.recCharImage.setAdapter(adapterCharImage);
     }
 
     private void setRecyclerCharPick() {
-        adapterCharPick = new AdapterCharPick(getContext(), AdapterCharPick.NOT_ADDABLE);
+        adapterCharPick = new AdapterCharPick(getContext(), AdapterCharPick.NOT_ADDABLE, uuid, 0);
         b.recCharPick.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         b.recCharPick.setAdapter(adapterCharPick);
     }

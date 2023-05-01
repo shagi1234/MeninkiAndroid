@@ -115,8 +115,10 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
         try {
             ProviderInstaller.installIfNeeded(this);
         } catch (GooglePlayServicesRepairableException e) {
-            // Thrown when Google Play Services is not installed, up-to-date, or enabled
-            // Show dialog to allow users to install, update, or otherwise enable Google Play services.
+
+//             Thrown when Google Play Services is not installed, up-to-date, or enabled
+//             Show dialog to allow users to install, update, or otherwise enable Google Play services.
+
             GooglePlayServicesUtil.getErrorDialog(e.getConnectionStatusCode(), callingActivity, 0);
         } catch (GooglePlayServicesNotAvailableException e) {
             Log.e("SecurityException", "Google Play Services not available.");
@@ -131,9 +133,9 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
                 dpToPx(60, ActivityMain.this),
                 0,
                 dpToPx(60, ActivityMain.this),
-                dpToPx(20, ActivityMain.this) + navigationBarHeight), 20);
+                dpToPx(20, ActivityMain.this) + navigationBarHeight), 30);
 
-        new Handler().postDelayed(() -> setPadding(b.contentWithNav, 0, statusBarHeight, 0, navigationBarHeight), 20);
+        new Handler().postDelayed(() -> setPadding(b.contentWithNav, 0, statusBarHeight, 0, navigationBarHeight), 30);
     }
 
     @Override

@@ -1,13 +1,11 @@
 package tm.store.meninki.fragment;
 
+import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN;
 import static tm.store.meninki.utils.Const.mainFragmentManager;
-import static tm.store.meninki.utils.StaticMethods.dpToPx;
+import static tm.store.meninki.utils.Lists.getPersonalCharacters;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
-import static tm.store.meninki.utils.StaticMethods.setMargins;
-import static tm.store.meninki.utils.StaticMethods.setPadding;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
-import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,26 +16,28 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+
+import java.util.ArrayList;
+
 import tm.store.meninki.R;
 import tm.store.meninki.adapter.AdapterPersonalCharacters;
-import tm.store.meninki.data.CharactersDto;
 import tm.store.meninki.databinding.FragmentCharactericsBinding;
 import tm.store.meninki.interfaces.OnBackPressedFragment;
 import tm.store.meninki.interfaces.OnChangeProductCharactersCount;
-import tm.store.meninki.utils.Lists;
+import tm.store.meninki.utils.Option;
 import tm.store.meninki.utils.StaticMethods;
-
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 public class FragmentCharacterics extends Fragment implements OnBackPressedFragment {
     private FragmentCharactericsBinding b;
     private BottomSheetBehavior<View> bottomSheetBehavior;
     private AdapterPersonalCharacters adapterPersonalCharacters;
-    public static int COUNT_VARIANTS;
+    private String productId;
 
-    public static FragmentCharacterics newInstance() {
+    public static FragmentCharacterics newInstance(String productId) {
         FragmentCharacterics fragment = new FragmentCharacterics();
         Bundle args = new Bundle();
+        args.putString("prod_id", productId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -45,13 +45,15 @@ public class FragmentCharacterics extends Fragment implements OnBackPressedFragm
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            productId = getArguments().getString("prod_id");
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
         StaticMethods.setPadding(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight);
-//        setMargins(b.layBtn, dpToPx(20, getContext()), 0, dpToPx(20, getContext()), navigationBarHeight);
     }
 
     @Override
@@ -67,13 +69,14 @@ public class FragmentCharacterics extends Fragment implements OnBackPressedFragm
     }
 
     private void setRecycler() {
-        adapterPersonalCharacters = new AdapterPersonalCharacters(getContext(), Lists.getPersonalCharacters());
+        adapterPersonalCharacters = new AdapterPersonalCharacters(getContext(), getPersonalCharacters(), productId);
         b.recMedia.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         b.recMedia.setAdapter(adapterPersonalCharacters);
     }
 
     private void initBottomSheet() {
-        setBackgroundDrawable(getContext(), b.txtGoBasket, R.color.accent, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.txtGoBasket, R.color.accent, 0, 50, false, 0);
+        setBackgroundDrawable(getContext(), b.bgRedactorCharacter, R.color.contrast, 0, 50, false, 0);
 
         bottomSheetBehavior = BottomSheetBehavior.from(b.bottom.root);
         bottomSheetBehavior.setHideable(true);
@@ -107,20 +110,18 @@ public class FragmentCharacterics extends Fragment implements OnBackPressedFragm
 
         b.bottom.photo.setOnClickListener(v -> {
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-            Lists.getPersonalCharacters().add(new CharactersDto("ХАРАКТЕРИСТИКА", 0, AdapterPersonalCharacters.CHARACTER_IMAGE));
-            adapterPersonalCharacters.insert(Lists.getPersonalCharacters().size() - 1);
+            getPersonalCharacters().getOptionTitles().add("Characteristic");
+            getPersonalCharacters().getOptions().add(new ArrayList<>());
+            getPersonalCharacters().getOptionTypes().add(Option.CHARACTER_IMAGE);
+            adapterPersonalCharacters.insert(adapterPersonalCharacters.getItemCount() - 1);
         });
 
         b.bottom.txt.setOnClickListener(v -> {
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-            Lists.getPersonalCharacters().add(new CharactersDto("ХАРАКТЕРИСТИКА", 0, AdapterPersonalCharacters.CHARACTER_TEXT));
-            adapterPersonalCharacters.insert(Lists.getPersonalCharacters().size() - 1);
-        });
-
-        b.bottom.txtAndPhoto.setOnClickListener(v -> {
-            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-            Lists.getPersonalCharacters().add(new CharactersDto("ХАРАКТЕРИСТИКА", 0, AdapterPersonalCharacters.CHARACTER_COLOR));
-            adapterPersonalCharacters.insert(Lists.getPersonalCharacters().size() - 1);
+            getPersonalCharacters().getOptionTitles().add("Characteristic");
+            getPersonalCharacters().getOptions().add(new ArrayList<>());
+            getPersonalCharacters().getOptionTypes().add(Option.CHARACTER_TEXT);
+            adapterPersonalCharacters.insert(adapterPersonalCharacters.getItemCount() - 1);
         });
 
         b.goBasket.setOnClickListener(v -> getActivity().onBackPressed());
@@ -130,7 +131,7 @@ public class FragmentCharacterics extends Fragment implements OnBackPressedFragm
     public boolean onBackPressed() {
         Fragment fragment = mainFragmentManager.findFragmentByTag(FragmentAddProduct.class.getName());
         if (fragment instanceof OnChangeProductCharactersCount) {
-            ((OnChangeProductCharactersCount) fragment).onCountChange(Lists.getPersonalCharacters().size());
+            ((OnChangeProductCharactersCount) fragment).onCountChange(getPersonalCharacters().getOptions().size());
         }
 
         if (bottomSheetBehavior.getState() != STATE_HIDDEN) {

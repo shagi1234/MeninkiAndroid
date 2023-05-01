@@ -20,7 +20,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:fontFamily="@font/inter_regular"
-            android:text="ХАРАКТЕРИСТИКА"
+            tools:text="ХАРАКТЕРИСТИКА"
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:textStyle="bold" />

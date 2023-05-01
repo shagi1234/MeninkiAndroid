@@ -6,7 +6,6 @@ import static tm.store.meninki.utils.FragmentHelper.addFragment;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.setMargins;
-import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,10 +29,13 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import tm.store.meninki.R;
 import tm.store.meninki.adapter.AdapterGrid;
 import tm.store.meninki.adapter.AdapterProfileShops;
 import tm.store.meninki.api.RetrofitCallback;
+import tm.store.meninki.api.data.ResponsePostGetAllItem;
 import tm.store.meninki.api.data.UserProfile;
 import tm.store.meninki.api.request.RequestCard;
 import tm.store.meninki.api.response.ResponseCard;
@@ -66,7 +68,6 @@ public class FragmentProfile extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        setMargins(b.layHeader, 0, statusBarHeight, 0, 0);
         setMargins(b.coordinator, 0, 0, 0, navigationBarHeight);
     }
 
@@ -85,7 +86,6 @@ public class FragmentProfile extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         b = FragmentProfileBinding.inflate(inflater, container, false);
-        setRecyclerProducts();
         check();
         initListeners();
         return b.getRoot();
@@ -96,6 +96,7 @@ public class FragmentProfile extends Fragment {
 
         switch (type) {
             case TYPE_USER:
+                setRecycler(AdapterGrid.TYPE_POST);
 
                 if (isMe()) {
 
@@ -112,6 +113,7 @@ public class FragmentProfile extends Fragment {
                     b.countBookmark.setVisibility(View.VISIBLE);
 
                 } else {
+
                     b.editUser.setVisibility(View.GONE);
 
                     b.myBookmarks.setText("Написать сообщение");
@@ -131,6 +133,7 @@ public class FragmentProfile extends Fragment {
             case TYPE_SHOP:
                 b.countBookmark.setVisibility(View.GONE);
                 b.editUser.setVisibility(View.GONE);
+                setRecycler(AdapterGrid.TYPE_GRID);
 
                 try {
                     JSONArray shop = new JSONArray(Account.newInstance(getContext()).getMyShop());
@@ -169,7 +172,6 @@ public class FragmentProfile extends Fragment {
                     b.desc.setVisibility(View.VISIBLE);
 
                 }
-
 
                 getShopById();
 
@@ -241,6 +243,7 @@ public class FragmentProfile extends Fragment {
                 checkSubscribe(response.isSubscribed());
 
             }
+            getPostsUser();
 
         } else {
             b.countProducts.setText(String.valueOf(response.getProductCount()));
@@ -251,10 +254,32 @@ public class FragmentProfile extends Fragment {
             } else {
                 checkSubscribe(response.isSubscribed());
             }
+            getProducts();
         }
+    }
 
+    private void getPostsUser() {
+        RequestCard r = new RequestCard();
+        r.setDescending(true);
+        r.setPageNumber(1);
+        r.setTake(10);
+        r.setUserId(id);
 
-        getProducts();
+        Call<ArrayList<ResponsePostGetAllItem>> call = StaticMethods.getApiHome().getAllPosts(r);
+        call.enqueue(new Callback<ArrayList<ResponsePostGetAllItem>>() {
+            @Override
+            public void onResponse(@NonNull Call<ArrayList<ResponsePostGetAllItem>> call, @NonNull Response<ArrayList<ResponsePostGetAllItem>> response) {
+                if (response.code() == 200 && response.body() != null) {
+                    adapterGrid.setPosts(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ArrayList<ResponsePostGetAllItem>> call, @NonNull Throwable t) {
+
+            }
+        });
+
     }
 
     private void checkSubscribe(boolean subscribed) {
@@ -270,11 +295,11 @@ public class FragmentProfile extends Fragment {
     private void getProducts() {
         RequestCard requestCard = new RequestCard();
         requestCard.setSortType(0);
-        requestCard.setUserId(id);
+        requestCard.setShopId(id);
         requestCard.setTake(10);
         requestCard.setPageNumber(1);
         requestCard.setDescending(true);
-        requestCard.setCategoryIds(null);
+
         Call<ArrayList<ResponseCard>> call = StaticMethods.getApiHome().getCard(requestCard);
         call.enqueue(new RetrofitCallback<ArrayList<ResponseCard>>() {
             @Override
@@ -291,8 +316,8 @@ public class FragmentProfile extends Fragment {
         });
     }
 
-    private void setRecyclerProducts() {
-        adapterGrid = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_GRID, -1);
+    private void setRecycler(int type) {
+        adapterGrid = new AdapterGrid(getContext(), getActivity(), type, -1);
         b.recProducts.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         b.recProducts.setAdapter(adapterGrid);
     }

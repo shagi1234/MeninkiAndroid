@@ -1,5 +1,8 @@
 package tm.store.meninki.adapter;
 
+import static tm.store.meninki.utils.Option.CHARACTER_IMAGE;
+import static tm.store.meninki.utils.Option.CHARACTER_TEXT;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -13,20 +16,16 @@ import tm.store.meninki.data.CharactersDto;
 import tm.store.meninki.data.SelectedMedia;
 import tm.store.meninki.databinding.ItemPersonalCharactersBinding;
 import tm.store.meninki.utils.Dialog;
-import tm.store.meninki.utils.Lists;
-
-import java.util.ArrayList;
 
 public class AdapterPersonalCharacters extends RecyclerView.Adapter<AdapterPersonalCharacters.CharactersHolder> {
-    private ArrayList<CharactersDto> characters;
-    public static final String CHARACTER_TEXT = "character_text";
-    public static final String CHARACTER_IMAGE = "character_image";
-    public static final String CHARACTER_COLOR = "character_color";
+    private CharactersDto character;
     private Context context;
+    private String prodId;
 
-    public AdapterPersonalCharacters(Context context, ArrayList<CharactersDto> characters) {
+    public AdapterPersonalCharacters(Context context, CharactersDto characters, String productId) {
         this.context = context;
-        this.characters = characters;
+        this.character = characters;
+        this.prodId = productId;
     }
 
     @NonNull
@@ -44,15 +43,17 @@ public class AdapterPersonalCharacters extends RecyclerView.Adapter<AdapterPerso
 
     @Override
     public int getItemCount() {
-        if (characters == null) {
+        if (character.getOptionTitles() == null || character.getOptions() == null || character.getOptionTypes() == null) {
             return 0;
         }
-        return characters.size();
+        return character.getOptions().size();
     }
 
     private void removeAt(int position) {
         try {
-            characters.remove(position);
+            character.getOptions().remove(position);
+            character.getOptionTitles().remove(position);
+            character.getOptionTypes().remove(position);
             notifyItemRemoved(position);
             notifyItemRangeChanged(position, SelectedMedia.getArrayList().size());
         } catch (Exception e) {
@@ -74,18 +75,16 @@ public class AdapterPersonalCharacters extends RecyclerView.Adapter<AdapterPerso
 
         public void bind() {
 
-            switch (characters.get(getAdapterPosition()).getType()) {
+            switch (character.getOptionTypes().get(getAdapterPosition())) {
                 case CHARACTER_TEXT:
                     setRecyclerText();
                     break;
                 case CHARACTER_IMAGE:
                     setRecyclerImage();
                     break;
-                case CHARACTER_COLOR:
-                    setRecyclerColor();
-                    break;
 
             }
+            b.nameCharacters.setText(character.getOptionTitles().get(getAdapterPosition()));
 
             b.clearCharacter.setOnClickListener(v -> removeAt(getAdapterPosition()));
 
@@ -105,26 +104,20 @@ public class AdapterPersonalCharacters extends RecyclerView.Adapter<AdapterPerso
 
         }
 
-        private void setRecyclerColor() {
-            AdapterCharColor adapter = new AdapterCharColor(context, AdapterCharPick.ADDABLE);
-            b.recItem.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-            b.recItem.setAdapter(adapter);
-        }
-
         private void setRecyclerImage() {
-            AdapterCharImage adapter = new AdapterCharImage(context, AdapterCharPick.ADDABLE);
+            AdapterCharImage adapter = new AdapterCharImage(context, AdapterCharPick.ADDABLE, prodId, getAdapterPosition());
             b.recItem.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
             b.recItem.setAdapter(adapter);
 
-            adapter.setImageUrl(null);
+            adapter.setOptions(character.getOptions().get(getAdapterPosition()));
         }
 
         private void setRecyclerText() {
-            AdapterCharPick adapter = new AdapterCharPick(context, AdapterCharPick.ADDABLE);
+            AdapterCharPick adapter = new AdapterCharPick(context, AdapterCharPick.ADDABLE, prodId, getAdapterPosition());
             b.recItem.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
             b.recItem.setAdapter(adapter);
 
-            adapter.setPicks(Lists.getPicks());
+            adapter.setTexts(character.getOptions().get(getAdapterPosition()));
         }
     }
 }

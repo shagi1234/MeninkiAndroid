@@ -28,12 +28,12 @@ public class Dialog {
         noBtn.setOnClickListener(v -> dialog.dismiss());
 
 
-        setBackgroundDrawable(context, dialog.findViewById(R.id.background_dialog), R.color.neutral_dark, 0, 4, false, 0);
+        setBackgroundDrawable(context, dialog.findViewById(R.id.background_dialog), R.color.low_contrast, 0, 4, false, 0);
 
         setBackgroundDrawable(context, dialog.findViewById(R.id.question), R.color.white, 0, 4, false, 0);
 
         setBackgroundDrawable(context, yesBtn, R.color.accent, 0, 4, false, 0);
-        setBackgroundDrawable(context, noBtn, R.color.alert, 0, 4, false, 0);
+        setBackgroundDrawable(context, noBtn, R.color.neutral_dark, 0, 4, false, 0);
 
 
         dialog.show();

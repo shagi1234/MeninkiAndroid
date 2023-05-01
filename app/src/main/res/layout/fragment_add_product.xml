@@ -390,16 +390,16 @@
                             android:textColor="@color/accent"
                             android:textSize="14sp"
                             android:textStyle="bold" />
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="170dp" />
                     </LinearLayout>
 
 
                 </LinearLayout>
 
             </LinearLayout>
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="170dp" />
 
         </LinearLayout>
 

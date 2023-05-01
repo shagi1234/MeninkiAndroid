@@ -3,8 +3,8 @@ package tm.store.meninki.api.request;
 public class RequestCard {
     private int take = 10;
     private int pageNumber;
-    private float minPrice;
-    private float maxPrice;
+    private Float minPrice;
+    private Float maxPrice;
     private String[] categoryIds;
     private int[] cardTypes = {0, 1, 2, 3};
     private int sortType;
