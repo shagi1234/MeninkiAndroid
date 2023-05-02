@@ -1,5 +1,6 @@
 package tm.store.meninki.fragment;
 
+import static tm.store.meninki.api.Network.BASE_URL;
 import static tm.store.meninki.utils.Const.mainFragmentManager;
 import static tm.store.meninki.utils.FragmentHelper.addFragment;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
@@ -19,6 +20,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -32,21 +36,17 @@ import tm.store.meninki.api.RetrofitCallback;
 import tm.store.meninki.api.data.MediaDto;
 import tm.store.meninki.api.data.ProductDetails;
 import tm.store.meninki.api.request.RequestAddToCard;
-import tm.store.meninki.data.ProductImageDto;
 import tm.store.meninki.databinding.FragmentProductBinding;
 import tm.store.meninki.shared.Account;
 import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentProduct extends Fragment {
     private FragmentProductBinding b;
-    private ArrayList<ProductImageDto> s = new ArrayList<>();
-    private ArrayList<String> images = new ArrayList<>();
-    private ArrayList<String> picks = new ArrayList<>();
-    private ArrayList<String> colors = new ArrayList<>();
     private String uuid;
     private String avatarId;
     private AdapterCharImage adapterCharImage;
     private AdapterCharPick adapterCharPick;
+    private ProductDetails productDetails;
 
     public static FragmentProduct newInstance(String uuid, String avatarId) {
         FragmentProduct fragment = new FragmentProduct();
@@ -64,34 +64,6 @@ public class FragmentProduct extends Fragment {
             uuid = getArguments().getString("uuid");
             avatarId = getArguments().getString("avatar_id");
         }
-
-        s.add(new ProductImageDto("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg", "salam"));
-        s.add(new ProductImageDto("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg", "salam"));
-        s.add(new ProductImageDto("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg", "salam"));
-        s.add(new ProductImageDto("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg", "salam"));
-        s.add(new ProductImageDto("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg", "salam"));
-
-        images.add("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg");
-        images.add("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg");
-        images.add("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg");
-        images.add("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg");
-        images.add("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg");
-
-        colors = new ArrayList<>();
-
-        colors.add("#000213");
-        colors.add("#005FF0");
-        colors.add("#D90169");
-        colors.add("#005FF0");
-        colors.add("#D90169");
-        colors.add("#000213");
-
-        picks.add("XXL");
-        picks.add("XL");
-        picks.add("L");
-        picks.add("M");
-        picks.add("S");
-        picks.add("XS");
     }
 
     @Override
@@ -136,10 +108,20 @@ public class FragmentProduct extends Fragment {
     }
 
     private void setResources(ProductDetails productDetails) {
+        this.productDetails = productDetails;
         setImagePager(productDetails.getMedias());
         b.itemName.setText(productDetails.getName());
         b.desc.setText(productDetails.getDescription());
-        b.price.setText(String.valueOf(productDetails.getPrice()));
+        b.titleStore.setText(productDetails.getShop().getName());
+
+        Glide.with(getContext())
+                .load(BASE_URL + productDetails.getShop().getImgPath())
+                .into(b.avatarStore);
+
+        b.price.setText(productDetails.getPrice() + " TMT");
+//        adapterCharImage.setOptions(productDetails.getOptions());
+        b.progressBar.setVisibility(View.GONE);
+        b.main.setVisibility(View.VISIBLE);
     }
 
     private void checkUI() {
@@ -147,17 +129,15 @@ public class FragmentProduct extends Fragment {
         b.btnAddPost.setVisibility(View.VISIBLE);
 
         setRecyclerCharImage();
-        setRecyclerCharPick();
+        setRecyclerCharText();
     }
 
     private void initListeners() {
         b.backBtn.setOnClickListener(v -> getActivity().onBackPressed());
 
-        b.btnAddPost.setOnClickListener(v -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentAddPost.newInstance(uuid)));
+        b.btnAddPost.setOnClickListener(v -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentAddPost.newInstance(uuid, productDetails.getName(), new Gson().toJson(productDetails.getShop()))));
 
-        b.goCard.setOnClickListener(v -> {
-            addToCard();
-        });
+        b.goCard.setOnClickListener(v -> addToCard());
 
     }
 
@@ -213,7 +193,7 @@ public class FragmentProduct extends Fragment {
         b.recCharImage.setAdapter(adapterCharImage);
     }
 
-    private void setRecyclerCharPick() {
+    private void setRecyclerCharText() {
         adapterCharPick = new AdapterCharPick(getContext(), AdapterCharPick.NOT_ADDABLE, uuid, 0);
         b.recCharPick.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         b.recCharPick.setAdapter(adapterCharPick);

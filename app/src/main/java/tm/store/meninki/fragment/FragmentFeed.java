@@ -38,6 +38,7 @@ public class FragmentFeed extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e("TAG_fragment", "onCreate: ");
     }
 
 

@@ -13,18 +13,27 @@
     ],
     "user": {
       "id": "54188fe9-e319-4c63-aae6-b6ed0b59b244",
+      "imagePath": "StaticFiles/Users/Compressed/62b3f72c-8ab5-41ee-9d2a-28c18cf38117.webp",
+      "userName": "3d0dcfa9-80e9-4bda-92a7-dcf1b64f2ff9",
       "name": "Ширин Янгибаева ",
+      "phoneNumber": "",
       "email": "shirinayangibayeva@gmail.com",
-      "phone": null,
-      "imagePath": null,
-      "imageType": 0
+      "isSubscribed": false,
+      "subscriberCount": 0,
+      "subscriptionCount": 0,
+      "boughtProducts": 0,
+      "favoriteCount": 0,
+      "shopCount": 0,
+      "shops": []
     },
     "productId": "3a5fd3ec-30d5-4eea-9123-77fd6e792bdb",
     "productTitle": "dhdh",
     "productMedia": null,
     "rating": {
-      "userRating": {},
-      "total": 0
+      "userRating": {
+        "89580d62-20a9-40d5-a860-79fe0b9a9d7a": true
+      },
+      "total": 1
     }
   },
   {
@@ -38,7 +47,7 @@
     "productMedia": "StaticFiles/ProductMediaImage/Compressed/30d7e360-bfee-4894-a7d1-0bf3f9744dfc.webp",
     "rating": {
       "userRating": {},
-      "total": 0
+      "total": 2
     }
   },
   {
@@ -106,6 +115,125 @@
     "productId": "c0a4628d-f60c-4744-bc70-b1218e183d0a",
     "productTitle": "gebdbx",
     "productMedia": null,
+    "rating": {
+      "userRating": {},
+      "total": 0
+    }
+  },
+  {
+    "id": "e9b46d7d-1bae-4012-b4c6-ed560842e109",
+    "name": "shagi",
+    "description": "",
+    "medias": [],
+    "user": null,
+    "productId": "6d7e022d-49a0-4a8d-9d8b-8b5805dbe762",
+    "productTitle": "Gift",
+    "productMedia": "StaticFiles/ProductMediaImage/Compressed/5f7c60cf-926a-42ad-b86b-1732f6fe8847.webp",
+    "rating": {
+      "userRating": {},
+      "total": 0
+    }
+  },
+  {
+    "id": "9f2bc006-58b1-4f42-b4e0-dfbaeb36ace1",
+    "name": "shagi",
+    "description": "",
+    "medias": [],
+    "user": null,
+    "productId": "6d7e022d-49a0-4a8d-9d8b-8b5805dbe762",
+    "productTitle": "Gift",
+    "productMedia": "StaticFiles/ProductMediaImage/Compressed/5f7c60cf-926a-42ad-b86b-1732f6fe8847.webp",
+    "rating": {
+      "userRating": {},
+      "total": 0
+    }
+  },
+  {
+    "id": "5b792b57-3073-4bc9-a17e-18eac68a814b",
+    "name": "shagi",
+    "description": "",
+    "medias": [
+      {
+        "id": "f438a6cb-f81f-44a9-aed2-8fdef3ba34a5",
+        "path": "/stream/1682857623566",
+        "mediaType": 1,
+        "orientationType": 0
+      }
+    ],
+    "user": null,
+    "productId": "6d7e022d-49a0-4a8d-9d8b-8b5805dbe762",
+    "productTitle": "Gift",
+    "productMedia": "StaticFiles/ProductMediaImage/Compressed/5f7c60cf-926a-42ad-b86b-1732f6fe8847.webp",
+    "rating": {
+      "userRating": {},
+      "total": 0
+    }
+  },
+  {
+    "id": "d6d6854b-987c-42db-a876-bdd5c3d0c032",
+    "name": "",
+    "description": "",
+    "medias": [
+      {
+        "id": "2a0899f1-d3b5-4b36-a8b9-8898594ef81a",
+        "path": "/stream/1682858006437",
+        "mediaType": 1,
+        "orientationType": 0
+      }
+    ],
+    "user": null,
+    "productId": "6d7e022d-49a0-4a8d-9d8b-8b5805dbe762",
+    "productTitle": "Gift",
+    "productMedia": "StaticFiles/ProductMediaImage/Compressed/5f7c60cf-926a-42ad-b86b-1732f6fe8847.webp",
+    "rating": {
+      "userRating": {},
+      "total": 0
+    }
+  },
+  {
+    "id": "5207e2ff-a4d2-4bdc-befd-75931b641a88",
+    "name": "txyx",
+    "description": "",
+    "medias": [
+      {
+        "id": "4619eedb-055b-4c91-8a93-8693d0688695",
+        "path": "/stream/1682858011535",
+        "mediaType": 1,
+        "orientationType": 0
+      }
+    ],
+    "user": null,
+    "productId": "6d7e022d-49a0-4a8d-9d8b-8b5805dbe762",
+    "productTitle": "Gift",
+    "productMedia": "StaticFiles/ProductMediaImage/Compressed/5f7c60cf-926a-42ad-b86b-1732f6fe8847.webp",
+    "rating": {
+      "userRating": {},
+      "total": 0
+    }
+  },
+  {
+    "id": "380f425c-37f0-4f01-8481-f20bc32e02ce",
+    "name": "salam",
+    "description": "",
+    "medias": [],
+    "user": {
+      "id": "7afa492a-fc9d-4ae5-81c9-2c9dcda66e9a",
+      "imagePath": null,
+      "userName": "ea79e785-1cf8-4b00-8104-07d617149c6d",
+      "name": "shagi ",
+      "phoneNumber": "99364411955",
+      "email": null,
+      "isSubscribed": false,
+      "subscriberCount": 0,
+      "subscriptionCount": 0,
+      "boughtProducts": 0,
+      "favoriteCount": 0,
+      "shopCount": 0,
+      "shops": []
+    },
+    "productId": "6d7e022d-49a0-4a8d-9d8b-8b5805dbe762",
+    "productTitle": "Gift",
+    "productMedia": "StaticFiles/ProductMediaImage/Compressed/5f7c60cf-926a-42ad-b86b-1732f6fe8847.webp",
     "rating": {
       "userRating": {},
       "total": 0

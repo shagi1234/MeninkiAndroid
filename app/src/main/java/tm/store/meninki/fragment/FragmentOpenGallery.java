@@ -152,7 +152,7 @@ public class FragmentOpenGallery extends Fragment implements OnBackPressedFragme
                         if (AdapterMediaAddPost.getInstance() != null) {
                             SelectedMedia.getArrayList().add(new MediaLocal(-1, uri.getPath(), 3));
                             AdapterMediaAddPost.getInstance().notifyDataSetChanged();
-                            getActivity().onBackPressed();
+//                            getActivity().onBackPressed();
                         }
 
                     } else

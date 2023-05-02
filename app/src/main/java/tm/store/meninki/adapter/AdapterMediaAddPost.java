@@ -76,6 +76,7 @@ public class AdapterMediaAddPost extends RecyclerView.Adapter<AdapterMediaAddPos
                     b.getRoot().setVisibility(View.GONE);
                     return;
                 }
+
                 b.clear.setVisibility(View.GONE);
                 b.layAdd.setVisibility(View.VISIBLE);
                 b.image.setImageResource(R.color.on_bg_ls);
@@ -112,6 +113,10 @@ public class AdapterMediaAddPost extends RecyclerView.Adapter<AdapterMediaAddPos
         dialog.setContentView(R.layout.bottomsheet_choose_media);
         LinearLayout root = dialog.findViewById(R.id.root);
         setPadding(root, 0, 0, 0, navigationBarHeight);
+
+        if (SelectedMedia.getArrayList().size() > 0) {
+            dialog.findViewById(R.id.video).setVisibility(View.GONE);
+        } else dialog.findViewById(R.id.video).setVisibility(View.VISIBLE);
 
         dialog.findViewById(R.id.video).setOnClickListener(v -> {
             dialog.dismiss();

@@ -1,11 +1,8 @@
 package tm.store.meninki.fragment;
 
-import static tm.store.meninki.utils.Const.mainFragmentManager;
-import static tm.store.meninki.utils.FragmentHelper.addFragment;
 import static tm.store.meninki.utils.StaticMethods.logWrite;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +38,6 @@ public class FragmentHome extends Fragment {
     private FragmentHomeBinding b;
     private AdapterCircle adapterCircle;
     private AdapterGrid adapterGridPopular;
-    //    private AdapterGrid adapterGridPost;
     private AdapterGrid adapterGridNew;
 
     public static FragmentHome newInstance() {
@@ -63,6 +59,8 @@ public class FragmentHome extends Fragment {
         // Inflate the layout for this fragment
         b = FragmentHomeBinding.inflate(inflater, container, false);
         setRecycler();
+        b.progressBar.setVisibility(View.VISIBLE);
+        b.main.setVisibility(View.INVISIBLE);
 
         getHome1();
         getHome2();
@@ -102,13 +100,10 @@ public class FragmentHome extends Fragment {
                             .into(b.banner1);
 
                 adapterGridPopular.setStories(response.body().get(1).getPopularProducts());
-
-
             }
 
             @Override
             public void onFailure(@NonNull Call<ArrayList<HomeArray>> call, @NonNull Throwable t) {
-
             }
         });
     }
@@ -121,10 +116,6 @@ public class FragmentHome extends Fragment {
                 if (response.body() == null) return;
 
                 setBanner(response);
-
-//                adapterGridPost.setStories(response.body().get(1).getPopularPosts());
-
-
             }
 
             @Override
@@ -154,13 +145,15 @@ public class FragmentHome extends Fragment {
 
                 adapterGridNew.setStories(response.body().get(1).getNewProducts());
                 adapterCircle.setStories(response.body().get(0).getShops());
+                b.progressBar.setVisibility(View.GONE);
+                b.main.setVisibility(View.VISIBLE);
 
 
             }
 
             @Override
             public void onFailure(@NonNull Call<ArrayList<HomeArray>> call, @NonNull Throwable t) {
-
+                b.progressBar.setVisibility(View.GONE);
             }
         });
     }
@@ -238,10 +231,10 @@ public class FragmentHome extends Fragment {
     }
 
     private void initListeners() {
-        b.clickFab.setOnClickListener(v -> {
-            b.clickFab.setEnabled(false);
-            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentAddProduct.newInstance());
-            new Handler().postDelayed(() -> b.clickFab.setEnabled(true), 200);
-        });
+//        b.clickFab.setOnClickListener(v -> {
+//            b.clickFab.setEnabled(false);
+//            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentAddProduct.newInstance());
+//            new Handler().postDelayed(() -> b.clickFab.setEnabled(true), 200);
+//        });
     }
 }

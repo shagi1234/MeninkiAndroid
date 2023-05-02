@@ -105,7 +105,6 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
         uploadImage.setImageType(Image.option);
         uploadImage.setWidth(getWidth(media.getPath()));
         uploadImage.setHeight(getHeight(media.getPath()));
-        uploadImage.setFilename(new File(media.getPath()).getName());
         uploadImage.setData(new File(media.getPath()));
 
         RequestBody requestFile =
@@ -115,7 +114,6 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
                         uploadImage.getData());
 
         try {
-            RequestBody filename = RequestBody.create(MediaType.parse("multipart/form-data"), uploadImage.getFilename());
             RequestBody objectId = RequestBody.create(MediaType.parse("multipart/form-data"), uploadImage.getObjectId());
             RequestBody width = RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(uploadImage.getWidth()));
             RequestBody height = RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(uploadImage.getHeight()));
@@ -124,7 +122,7 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
 
             MultipartBody.Part data = MultipartBody.Part.createFormData("data", URLEncoder.encode(uploadImage.getData().getPath(), "utf-8"), requestFile);
 
-            Call<Object> call = getApiHome().uploadImage(objectId, isAvatar, imageType, width, height, filename, data);
+            Call<Object> call = getApiHome().uploadImage(objectId, isAvatar, imageType, width, height, data);
             call.enqueue(new Callback<Object>() {
                 @Override
                 public void onResponse(@NonNull Call<Object> call, @NonNull Response<Object> response) {

@@ -8,7 +8,6 @@ public class RequestUploadImage {
     private int imageType;
     private int width;
     private int height;
-    private String filename;
     private File data;
 
 
@@ -50,14 +49,6 @@ public class RequestUploadImage {
 
     public void setHeight(int height) {
         this.height = height;
-    }
-
-    public String getFilename() {
-        return filename;
-    }
-
-    public void setFilename(String filename) {
-        this.filename = filename;
     }
 
     public File getData() {

@@ -49,8 +49,6 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
         mainFragmentManager = getSupportFragmentManager();
         setBackgrounds();
         setNavListeners();
-
-        hideAdd(FragmentMain.newInstance(), FragmentMain.class.getSimpleName(), mainFragmentManager, R.id.content_with_nav);
     }
 
     private void setNavListeners() {

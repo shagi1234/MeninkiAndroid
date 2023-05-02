@@ -3,6 +3,7 @@ package tm.store.meninki.fragment;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ public class FragmentMain extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e("TAG_fragment", "onCreate: main");
 
     }
 

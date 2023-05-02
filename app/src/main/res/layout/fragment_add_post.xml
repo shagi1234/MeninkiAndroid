@@ -90,12 +90,14 @@
                     android:padding="10dp">
 
                     <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/avatar_store"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@color/contrast"
                         app:riv_oval="true" />
 
                     <TextView
+                        android:id="@+id/title_store"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"

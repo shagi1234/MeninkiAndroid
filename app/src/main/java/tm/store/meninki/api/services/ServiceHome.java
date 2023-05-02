@@ -53,16 +53,16 @@ public interface ServiceHome {
             @Part(Image.keyImageType) RequestBody imageType,
             @Part(Image.keyWidth) RequestBody width,
             @Part(Image.keyHeight) RequestBody height,
-            @Part(Image.keyFileName) RequestBody filename,
             @Part MultipartBody.Part image
     );
+
     @POST("api/Video")
     @Multipart
     Call<Object> uploadVideo(
             @Part("ObjectId") RequestBody objectId,
             @Part("Vertical") RequestBody isVertical,
             @Part("VideoType") RequestBody videoType,
-            @Part MultipartBody.Part image
+            @Part MultipartBody.Part video
     );
 
     @POST("api/Product/CreateProduct")
@@ -81,7 +81,7 @@ public interface ServiceHome {
     Call<Boolean> placeOrder(@Body RequestPlaceOrder requestAddProduct);
 
     @POST("api/Post")
-    Call<String> addPost(@Body RequestAddPost requestAddProduct);
+    Call<String> addPost(@Header("authorization") String token, @Body RequestAddPost requestAddProduct);
 
     @GET("api/Post/GetById/{id}")
     Call<ResponseGetOnePost> getPostById(@Path("id") String id);

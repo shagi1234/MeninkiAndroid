@@ -1,5 +1,6 @@
 package tm.store.meninki.fragment;
 
+import static tm.store.meninki.api.Network.BASE_URL;
 import static tm.store.meninki.utils.StaticMethods.getApiHome;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
@@ -16,6 +17,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+
+import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -34,8 +38,10 @@ import tm.store.meninki.api.request.RequestAddPost;
 import tm.store.meninki.api.request.RequestUploadImage;
 import tm.store.meninki.data.MediaLocal;
 import tm.store.meninki.data.SelectedMedia;
+import tm.store.meninki.data.ShopDTO;
 import tm.store.meninki.databinding.FragmentAddPostBinding;
 import tm.store.meninki.interfaces.OnBackPressedFragment;
+import tm.store.meninki.shared.Account;
 import tm.store.meninki.utils.FileUtil;
 import tm.store.meninki.utils.StaticMethods;
 
@@ -45,11 +51,15 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
     private String prodId;
     private String postId;
     private int i = 0;
+    private String shop;
+    private String prodTitle;
 
-    public static FragmentAddPost newInstance(String prodId) {
+    public static FragmentAddPost newInstance(String prodId, String prodTitle, String shop) {
         FragmentAddPost fragment = new FragmentAddPost();
         Bundle args = new Bundle();
         args.putString("prod_id", prodId);
+        args.putString("prod_title", prodTitle);
+        args.putString("shop", shop);
         fragment.setArguments(args);
 
         return fragment;
@@ -68,6 +78,8 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             prodId = getArguments().getString("prod_id");
+            shop = getArguments().getString("shop");
+            prodTitle = getArguments().getString("prod_title");
         }
 
     }
@@ -78,10 +90,26 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
         // Inflate the layout for this fragment
         b = FragmentAddPostBinding.inflate(inflater, container, false);
         setBackgrounds();
+        setStoreDetails();
         setRecycler();
         initListeners();
 
         return b.getRoot();
+    }
+
+    private void setStoreDetails() {
+        try {
+            ShopDTO shopDTO = new Gson().fromJson(shop, ShopDTO.class);
+            b.titleStore.setText(shopDTO.getName());
+            b.titleProduct.setText(prodTitle);
+
+            Glide.with(getContext())
+                    .load(BASE_URL + shopDTO.getImgPath())
+                    .into(b.avatarStore);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void initListeners() {
@@ -94,10 +122,9 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
         RequestUploadImage uploadImage = new RequestUploadImage();
         uploadImage.setAvatar(false);
         uploadImage.setObjectId(postId);
-        uploadImage.setImageType(Image.option);
+        uploadImage.setImageType(Image.media);
         uploadImage.setWidth(getWidth(media.getPath()));
         uploadImage.setHeight(getHeight(media.getPath()));
-        uploadImage.setFilename(new File(media.getPath()).getName());
         uploadImage.setData(new File(media.getPath()));
 
         RequestBody requestFile =
@@ -107,7 +134,6 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
                         uploadImage.getData());
 
         try {
-            RequestBody filename = RequestBody.create(MediaType.parse("multipart/form-data"), uploadImage.getFilename());
             RequestBody objectId = RequestBody.create(MediaType.parse("multipart/form-data"), uploadImage.getObjectId());
             RequestBody width = RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(uploadImage.getWidth()));
             RequestBody height = RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(uploadImage.getHeight()));
@@ -116,7 +142,7 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
 
             MultipartBody.Part data = MultipartBody.Part.createFormData("data", URLEncoder.encode(uploadImage.getData().getPath(), "utf-8"), requestFile);
 
-            Call<Object> call = getApiHome().uploadImage(objectId, isAvatar, imageType, width, height, filename, data);
+            Call<Object> call = getApiHome().uploadImage(objectId, isAvatar, imageType, width, height, data);
             call.enqueue(new Callback<Object>() {
                 @Override
                 public void onResponse(@NonNull Call<Object> call, @NonNull Response<Object> response) {
@@ -147,7 +173,7 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
 
         RequestUploadImage uploadImage = new RequestUploadImage();
         uploadImage.setObjectId(postId);
-        uploadImage.setImageType(0);
+        uploadImage.setImageType(Image.media);
         uploadImage.setData(new File(media.getPath()));
 
         RequestBody requestFile =
@@ -207,13 +233,13 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
         r.setName(b.title.getText().toString().trim());
         r.setProductBaseId(prodId);
 
-
-        Call<String> call = StaticMethods.getApiHome().addPost(r);
+        Call<String> call = StaticMethods.getApiHome().addPost(Account.newInstance(getContext()).getAccessToken(), r);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 if (response.code() == 200 && response.body() != null) {
                     postId = response.body();
+
                     if (SelectedMedia.getArrayList().size() == 0) {
                         Toast.makeText(getContext(), "Files size must be more than 0", Toast.LENGTH_SHORT).show();
                         return;
