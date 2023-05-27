@@ -12,9 +12,11 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import tm.store.meninki.api.data.PersonalCharacterDto;
 import tm.store.meninki.api.data.ProductDetails;
 import tm.store.meninki.api.data.ResponsePostGetAllItem;
 import tm.store.meninki.api.data.UserProfile;
@@ -27,9 +29,11 @@ import tm.store.meninki.api.request.RequestCreateOrder;
 import tm.store.meninki.api.request.RequestCreateShop;
 import tm.store.meninki.api.request.RequestGetAllOrder;
 import tm.store.meninki.api.request.RequestPlaceOrder;
+import tm.store.meninki.api.request.RequestUpdatePCh;
 import tm.store.meninki.api.response.ResponseCard;
 import tm.store.meninki.api.response.ResponseGetOnePost;
 import tm.store.meninki.api.response.ResponseHomeShops;
+import tm.store.meninki.data.CharactersDto;
 import tm.store.meninki.data.HomeArray;
 
 public interface ServiceHome {
@@ -62,7 +66,8 @@ public interface ServiceHome {
             @Part("ObjectId") RequestBody objectId,
             @Part("Vertical") RequestBody isVertical,
             @Part("VideoType") RequestBody videoType,
-            @Part MultipartBody.Part video
+            @Part MultipartBody.Part video,
+            @Part MultipartBody.Part preview
     );
 
     @POST("api/Product/CreateProduct")
@@ -79,6 +84,18 @@ public interface ServiceHome {
 
     @POST("api/Order/PlaceOrder")
     Call<Boolean> placeOrder(@Body RequestPlaceOrder requestAddProduct);
+
+    @POST("api/Product/CreateOption")
+    Call<ArrayList<PersonalCharacterDto>> createOption(@Header("Authorization") String token, @Body CharactersDto character);
+
+    @POST("api/Product/UpdateOption")
+    Call<ArrayList<PersonalCharacterDto>> updateOption(@Header("Authorization") String token, @Body CharactersDto character);
+
+    @GET("api/Product/PersonalCharacteristics")
+    Call<ArrayList<PersonalCharacterDto>> getPCh(@Header("Authorization") String token, @Query("ProductId") String prodId);
+
+    @PUT("api/Product/UpdatePersonalCharacteristics")
+    Call<Boolean> updatePCh(@Header("Authorization") String token, @Body RequestUpdatePCh requestUpdatePCh);
 
     @POST("api/Post")
     Call<String> addPost(@Header("authorization") String token, @Body RequestAddPost requestAddProduct);

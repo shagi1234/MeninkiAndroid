@@ -17,7 +17,7 @@ public class ResponsePostGetAllItem {
     private List<MediaDto> medias;
 
     @SerializedName("productMedia")
-    private Object productMedia;
+    private String productMedia;
 
     @SerializedName("productId")
     private String productId;

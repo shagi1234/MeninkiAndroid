@@ -210,10 +210,11 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
     private void check() {
         if (getContext() == null) return;
 
-        if (Lists.getPersonalCharacters().getOptionTitles().size() > 0 && !isFirst) {
+        if (Lists.getPersonalCharacters().getOptionTitles().size() > 0 || !isFirst) {
             b.wariants.setVisibility(View.VISIBLE);
             b.layPriceIfMany.setVisibility(View.VISIBLE);
             b.layPriceIf1.setVisibility(View.GONE);
+            b.wariants.setText(Lists.getPersonalCharacters().getOptionTitles().size() + "");
             isFirst = true;
         } else {
             b.wariants.setVisibility(View.GONE);
@@ -236,7 +237,7 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
         b.redactorPrice.setOnClickListener(v -> {
             b.redactorPrice.setEnabled(false);
 
-            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentRedactorPrice.newInstance());
+            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentRedactorPrice.newInstance(productId));
 
             new Handler().postDelayed(() -> b.redactorPrice.setEnabled(true), 200);
         });

@@ -1,12 +1,12 @@
 package tm.store.meninki.adapter;
 
+import static tm.store.meninki.api.Network.BASE_URL;
 import static tm.store.meninki.utils.Const.mainFragmentManager;
 import static tm.store.meninki.utils.FragmentHelper.addFragment;
 import static tm.store.meninki.utils.StaticMethods.setMargins;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import tm.store.meninki.R;
 import tm.store.meninki.api.response.ResponseHomeShops;
 import tm.store.meninki.databinding.ItemCircleProductBinding;
-import tm.store.meninki.fragment.FragmentPost;
 import tm.store.meninki.fragment.FragmentProfile;
 import tm.store.meninki.utils.StaticMethods;
 
@@ -79,14 +78,14 @@ public class AdapterCircle extends RecyclerView.Adapter<AdapterCircle.StoreHolde
             }
 
             Glide.with(context)
-                    .load(stories.get(getAdapterPosition()).getShop().getImgPath())
+                    .load(BASE_URL + "/" + stories.get(getAdapterPosition()).getShop().getImgPath())
                     .placeholder(R.color.low_contrast)
                     .error(R.color.neutral_dark)
                     .into(b.image);
 
             b.storeName.setText(stories.get(getAdapterPosition()).getShop().getName());
 
-            b.click.setOnClickListener(v -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(FragmentProfile.TYPE_SHOP,stories.get(getAdapterPosition()).getShop().getId())));
+            b.click.setOnClickListener(v -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(FragmentProfile.TYPE_SHOP, stories.get(getAdapterPosition()).getShop().getId())));
         }
     }
 }

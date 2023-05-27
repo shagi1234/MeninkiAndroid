@@ -38,4 +38,32 @@ public class PersonalCharacterDto {
     public String getProductId() {
         return productId;
     }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setOptions(ArrayList<OptionDto> options) {
+        this.options = options;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public void setPriceBonus(int priceBonus) {
+        this.priceBonus = priceBonus;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public void setDiscountPrice(int discountPrice) {
+        this.discountPrice = discountPrice;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
 }

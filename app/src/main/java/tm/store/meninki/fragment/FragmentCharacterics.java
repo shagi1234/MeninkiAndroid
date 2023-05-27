@@ -8,6 +8,7 @@ import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,11 +21,17 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import tm.store.meninki.R;
 import tm.store.meninki.adapter.AdapterPersonalCharacters;
+import tm.store.meninki.api.data.PersonalCharacterDto;
+import tm.store.meninki.data.CharactersDto;
 import tm.store.meninki.databinding.FragmentCharactericsBinding;
 import tm.store.meninki.interfaces.OnBackPressedFragment;
 import tm.store.meninki.interfaces.OnChangeProductCharactersCount;
+import tm.store.meninki.shared.Account;
 import tm.store.meninki.utils.Option;
 import tm.store.meninki.utils.StaticMethods;
 
@@ -33,6 +40,8 @@ public class FragmentCharacterics extends Fragment implements OnBackPressedFragm
     private BottomSheetBehavior<View> bottomSheetBehavior;
     private AdapterPersonalCharacters adapterPersonalCharacters;
     private String productId;
+    private String TAG = "FragmentCharacteristics";
+    private boolean isEmptyCharacteristics;
 
     public static FragmentCharacterics newInstance(String productId) {
         FragmentCharacterics fragment = new FragmentCharacterics();
@@ -48,6 +57,7 @@ public class FragmentCharacterics extends Fragment implements OnBackPressedFragm
         if (getArguments() != null) {
             productId = getArguments().getString("prod_id");
         }
+        isEmptyCharacteristics = getPersonalCharacters().getOptionTitles().size() == 0;
     }
 
     @Override
@@ -124,7 +134,37 @@ public class FragmentCharacterics extends Fragment implements OnBackPressedFragm
             adapterPersonalCharacters.insert(adapterPersonalCharacters.getItemCount() - 1);
         });
 
-        b.goBasket.setOnClickListener(v -> getActivity().onBackPressed());
+        b.goBasket.setOnClickListener(v -> createOrUpdateOption());
+    }
+
+    private void createOrUpdateOption() {
+        CharactersDto charactersDto = new CharactersDto();
+        charactersDto.setOptions(getPersonalCharacters().getOptions());
+        charactersDto.setOptionTitles(getPersonalCharacters().getOptionTitles());
+        charactersDto.setOptionTypes(null);
+
+        Call<ArrayList<PersonalCharacterDto>> call;
+
+        if (isEmptyCharacteristics)
+            call = StaticMethods.getApiHome().createOption(Account.newInstance(getContext()).getAccessToken(), charactersDto);
+        else
+            call = StaticMethods.getApiHome().updateOption(Account.newInstance(getContext()).getAccessToken(), charactersDto);
+
+        call.enqueue(new Callback<ArrayList<PersonalCharacterDto>>() {
+            @Override
+            public void onResponse(Call<ArrayList<PersonalCharacterDto>> call, Response<ArrayList<PersonalCharacterDto>> response) {
+                if (response.code() == 200 && response.body() != null) {
+                    Log.e(TAG, "onResponse: ");
+                    return;
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<PersonalCharacterDto>> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t);
+            }
+        });
     }
 
     @Override

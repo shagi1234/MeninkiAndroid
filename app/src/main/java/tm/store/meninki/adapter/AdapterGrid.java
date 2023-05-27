@@ -6,6 +6,7 @@ import static tm.store.meninki.utils.StaticMethods.setMargins;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
@@ -285,15 +286,22 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public void bind() {
             setBackgroundDrawable(context, b.posterImage, R.color.neutral_dark, R.color.accent, 0, true, 2);
 
-            b.click.setOnClickListener(v -> FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentPost.newInstance()));
+            b.click.setOnClickListener(v -> {
+                int adapterPosition = getAdapterPosition();
+                FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentPost.newInstance(posts,adapterPosition));
+            });
 
             if (posts == null) return;
+
+            if (posts.get(getAdapterPosition()).getMedias().size() > 0 && posts.get(getAdapterPosition()).getMedias().get(0).getMediaType() == 1) {
+                b.layPlayedCount.setVisibility(View.VISIBLE);
+            } else b.layPlayedCount.setVisibility(View.GONE);
 
             if (posts.get(getAdapterPosition()).getMedias().size() > 0)
                 try {
                     String USER_AGENT = "Mozilla/5.0 (Linux; Android 11) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.181 Mobile Safari/537.36";
 
-                    GlideUrl glideUrl = new GlideUrl(BASE_URL + "/" + posts.get(getAdapterPosition()).getMedias().get(0),
+                    GlideUrl glideUrl = new GlideUrl(BASE_URL + "/" + posts.get(getAdapterPosition()).getMedias().get(0).getPreview(),
                             new LazyHeaders.Builder()
                                     .addHeader("User-Agent", USER_AGENT)
                                     .build());

@@ -179,12 +179,12 @@
                     android:textColor="@color/black" />
 
                 <EditText
-                    android:background="@color/color_transparent"
                     android:id="@+id/price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="10dp"
+                    android:background="@color/color_transparent"
                     android:fontFamily="@font/inter_bold"
                     android:hint="Обязательное поле"
                     android:inputType="numberDecimal"
@@ -205,12 +205,12 @@
                     android:textColor="@color/black" />
 
                 <EditText
-                    android:background="@color/color_transparent"
                     android:id="@+id/old_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="10dp"
+                    android:background="@color/color_transparent"
                     android:fontFamily="@font/inter_bold"
                     android:gravity="start"
                     android:hint="Необязательно"
@@ -232,12 +232,12 @@
                     android:textColor="@color/black" />
 
                 <EditText
-                    android:background="@color/color_transparent"
                     android:id="@+id/count"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="10dp"
+                    android:background="@color/color_transparent"
                     android:fontFamily="@font/inter_bold"
                     android:gravity="start"
                     android:inputType="number"
@@ -313,7 +313,7 @@
                         android:fontFamily="@font/inter_regular"
                         android:gravity="center"
                         android:paddingVertical="14dp"
-                        android:text="13 вариантов"
+                        android:text="0 вариантов"
                         android:textColor="@color/contrast"
                         android:textSize="14sp"
                         android:textStyle="bold"
@@ -371,7 +371,7 @@
                             android:fontFamily="@font/inter_regular"
                             android:gravity="center"
                             android:paddingVertical="14dp"
-                            android:text="1313 - 1313 ТМТ"
+                            android:text="0 TMT"
                             android:textColor="@color/contrast"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -393,7 +393,7 @@
 
                         <FrameLayout
                             android:layout_width="match_parent"
-                            android:layout_height="170dp" />
+                            android:layout_height="200dp" />
                     </LinearLayout>
 
 

@@ -6,7 +6,9 @@ import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaMetadataRetriever;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,6 +36,7 @@ import retrofit2.Response;
 import tm.store.meninki.R;
 import tm.store.meninki.adapter.AdapterMediaAddPost;
 import tm.store.meninki.api.enums.Image;
+import tm.store.meninki.api.enums.Video;
 import tm.store.meninki.api.request.RequestAddPost;
 import tm.store.meninki.api.request.RequestUploadImage;
 import tm.store.meninki.data.MediaLocal;
@@ -170,11 +173,11 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
     }
 
     private void uploadVideo(MediaLocal media) {
-
         RequestUploadImage uploadImage = new RequestUploadImage();
         uploadImage.setObjectId(postId);
-        uploadImage.setImageType(Image.media);
+        uploadImage.setImageType(Video.IMAGE);
         uploadImage.setData(new File(media.getPath()));
+        uploadImage.setThumb(getThumbVideo(media.getPath()));
 
         RequestBody requestFile =
                 RequestBody.create(
@@ -182,19 +185,26 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
                                 FileUtil.getMimeType(uploadImage.getData())),
                         uploadImage.getData());
 
+        RequestBody requestThumb =
+                RequestBody.create(
+                        MediaType.parse(
+                                FileUtil.getMimeType(uploadImage.getThumb())),
+                        uploadImage.getThumb());
+
         try {
             RequestBody objectId = RequestBody.create(MediaType.parse("multipart/form-data"), uploadImage.getObjectId());
             RequestBody videoType = RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(uploadImage.getImageType()));
             RequestBody isVertical = RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(true));
 
             MultipartBody.Part data = MultipartBody.Part.createFormData("Video", URLEncoder.encode(uploadImage.getData().getPath(), "utf-8"), requestFile);
+            MultipartBody.Part dataThumb = MultipartBody.Part.createFormData("Preview", URLEncoder.encode(uploadImage.getThumb().getPath(), "utf-8"), requestThumb);
 
-            Call<Object> call = getApiHome().uploadVideo(objectId, isVertical, videoType, data);
+            Call<Object> call = getApiHome().uploadVideo(objectId, isVertical, videoType, data, dataThumb);
             call.enqueue(new Callback<Object>() {
                 @Override
                 public void onResponse(@NonNull Call<Object> call, @NonNull Response<Object> response) {
                     if (response.code() == 200 && response.body() != null) {
-                        Toast.makeText(getContext(), "Success upload image" + i, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Success upload ", Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -206,6 +216,21 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
 
         } catch (UnsupportedEncodingException e) {
             Log.e("Add_post", "sendApi: " + e.getMessage());
+        }
+
+    }
+
+    private File getThumbVideo(String data) {
+        if (getContext() == null) return null;
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        try {
+            retriever.setDataSource(data);
+            //here 5 means frame at the 5th sec.
+            Bitmap bitmap = retriever.getFrameAtTime(5);
+            return StaticMethods.getImgFileFromBitmap(bitmap, getContext());
+        } catch (Exception ex) {
+            // Assume this is a corrupt video file
+            return null;
         }
 
     }

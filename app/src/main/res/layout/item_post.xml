@@ -44,6 +44,7 @@
                 app:riv_oval="true" />
 
             <LinearLayout
+                android:id="@+id/lay_fav_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
@@ -52,11 +53,13 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/ic_fav"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/heart__2_" />
 
                 <TextView
+                    android:id="@+id/fav_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -68,6 +71,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/lay_played_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
@@ -76,11 +80,13 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/ic_played"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/play" />
 
                 <TextView
+                    android:id="@+id/played_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

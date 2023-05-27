@@ -3,9 +3,12 @@ package tm.store.meninki.fragment;
 import static tm.store.meninki.api.Network.BASE_URL;
 import static tm.store.meninki.utils.Const.mainFragmentManager;
 import static tm.store.meninki.utils.FragmentHelper.addFragment;
+import static tm.store.meninki.utils.StaticMethods.logWrite;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.setMargins;
+import static tm.store.meninki.utils.StaticMethods.setPadding;
+import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
@@ -37,10 +41,12 @@ import tm.store.meninki.adapter.AdapterProfileShops;
 import tm.store.meninki.api.RetrofitCallback;
 import tm.store.meninki.api.data.ResponsePostGetAllItem;
 import tm.store.meninki.api.data.UserProfile;
+import tm.store.meninki.api.enums.Status;
 import tm.store.meninki.api.request.RequestCard;
 import tm.store.meninki.api.response.ResponseCard;
 import tm.store.meninki.databinding.FragmentProfileBinding;
 import tm.store.meninki.shared.Account;
+import tm.store.meninki.utils.FragmentHelper;
 import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentProfile extends Fragment {
@@ -69,6 +75,9 @@ public class FragmentProfile extends Fragment {
     public void onResume() {
         super.onResume();
         setMargins(b.coordinator, 0, 0, 0, navigationBarHeight);
+        if (Objects.equals(type, TYPE_SHOP)) {
+            setPadding(b.getRoot(), 0, statusBarHeight, 0, 0);
+        }
     }
 
     @Override
@@ -102,6 +111,8 @@ public class FragmentProfile extends Fragment {
 
                     setRecyclerShops();
 
+                    getMyShops();
+
                     b.editUser.setVisibility(View.VISIBLE);
                     b.contactsLay.setVisibility(View.GONE);
 
@@ -111,6 +122,7 @@ public class FragmentProfile extends Fragment {
 
                     b.addSms.setVisibility(View.GONE);
                     b.countBookmark.setVisibility(View.VISIBLE);
+
 
                 } else {
 
@@ -186,7 +198,6 @@ public class FragmentProfile extends Fragment {
     }
 
     private void getShopById() {
-
         Call<UserProfile> call = StaticMethods.getApiHome().getShopById(id);
         call.enqueue(new RetrofitCallback<UserProfile>() {
             @Override
@@ -225,11 +236,11 @@ public class FragmentProfile extends Fragment {
         b.countSubscribers.setText(String.valueOf(response.getSubscriberCount()));
 
         Glide.with(getContext())
-                .load(BASE_URL + response.getImgPath())
+                .load(BASE_URL + "/" + response.getImgPath())
                 .into(b.bigImage);
 
         Glide.with(getContext())
-                .load(BASE_URL + response.getImgPath())
+                .load(BASE_URL + "/" + response.getImgPath())
                 .into(b.imageUser);
 
         if (Objects.equals(type, TYPE_USER)) {
@@ -241,7 +252,6 @@ public class FragmentProfile extends Fragment {
 
             } else {
                 checkSubscribe(response.isSubscribed());
-
             }
             getPostsUser();
 
@@ -251,9 +261,11 @@ public class FragmentProfile extends Fragment {
             if (isMyShop) {
                 b.countSubscribers.setText(String.valueOf(response.getVisiterCount()));
                 b.countProducts.setText(String.valueOf(response.getOrderCount()));
+                b.addProduct.setVisibility(View.VISIBLE);
             } else {
                 checkSubscribe(response.isSubscribed());
             }
+
             getProducts();
         }
     }
@@ -353,6 +365,8 @@ public class FragmentProfile extends Fragment {
             }
         });
 
+        b.addProduct.setOnClickListener(v -> FragmentHelper.addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentAddProduct.newInstance()));
+
     }
 
     private void userSubscribe(boolean isSubscribe, boolean isShop) {
@@ -379,6 +393,27 @@ public class FragmentProfile extends Fragment {
             }
         });
 
+    }
+
+    private void getMyShops() {
+        Call<ArrayList<UserProfile>> call = StaticMethods.getApiHome().getMyShops(Account.newInstance(getContext()).getPrefUserUUID(), Status.in_review, 1, 10);
+        call.enqueue(new Callback<ArrayList<UserProfile>>() {
+            @Override
+            public void onResponse(Call<ArrayList<UserProfile>> call, Response<ArrayList<UserProfile>> response) {
+                if (response.code() == 200 && response.body() != null) {
+                    adapter.setShops(response.body());
+                    account.setMyShops(new Gson().toJson(response.body()));
+
+                } else {
+                    logWrite(response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<UserProfile>> call, Throwable t) {
+                logWrite(t.getMessage());
+            }
+        });
     }
 
     private boolean isMe() {

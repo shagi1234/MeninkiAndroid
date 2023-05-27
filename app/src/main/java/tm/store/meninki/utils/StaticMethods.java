@@ -345,6 +345,35 @@ public class StaticMethods {
         return null;
     }
 
+    public static File getImgFileFromBitmap(Bitmap bitmap, Context context) {
+        try {
+            // Initialising the directory of storage
+            String dirpath = context.getExternalFilesDir("Post_images") + "/";
+            File file = new File(dirpath);
+
+            if (!file.exists()) {
+                boolean mkdir = file.mkdir();
+            }
+
+            // File name
+            String path = dirpath + System.currentTimeMillis() + ".jpeg";
+
+            if (bitmap == null) return null;
+
+            File image = new File(path);
+            FileOutputStream outputStream = new FileOutputStream(image);
+
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
+            outputStream.flush();
+            outputStream.close();
+            return image;
+
+        } catch (IOException io) {
+            io.printStackTrace();
+        }
+        return null;
+    }
+
     public static Bitmap getBitmapFromView(View view) {
         //Define a bitmap with the same size as the view
         if (view.getMeasuredWidth() <= 0 || view.getMeasuredHeight() <= 0) return null;

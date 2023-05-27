@@ -9,6 +9,7 @@ public class RequestUploadImage {
     private int width;
     private int height;
     private File data;
+    private File thumb;
 
 
     public String getObjectId() {
@@ -57,5 +58,13 @@ public class RequestUploadImage {
 
     public void setData(File data) {
         this.data = data;
+    }
+
+    public File getThumb() {
+        return thumb;
+    }
+
+    public void setThumb(File thumb) {
+        this.thumb = thumb;
     }
 }

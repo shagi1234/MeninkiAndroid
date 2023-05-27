@@ -99,7 +99,8 @@ public class FragmentHome extends Fragment {
                             .error(R.drawable.placeholder)
                             .into(b.banner1);
 
-                adapterGridPopular.setStories(response.body().get(1).getPopularProducts());
+                if (response.body().size() > 1)
+                    adapterGridPopular.setStories(response.body().get(1).getPopularProducts());
             }
 
             @Override

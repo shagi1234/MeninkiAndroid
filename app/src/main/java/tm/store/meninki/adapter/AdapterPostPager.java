@@ -8,9 +8,11 @@
 
 package tm.store.meninki.adapter;
 
+import static tm.store.meninki.api.Network.BASE_URL;
+
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,15 +28,16 @@ import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
 import tm.store.meninki.R;
-import tm.store.meninki.data.VideoDto;
+import tm.store.meninki.api.data.ResponsePostGetAllItem;
 import tm.store.meninki.databinding.ItemVideoBinding;
 
 public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.VideoHolder> {
-    private ArrayList<VideoDto> videos;
+    private ArrayList<ResponsePostGetAllItem> videos;
     private Context context;
     private ViewPager2 viewPager2;
     private int position;
@@ -42,7 +45,7 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
     private Integer lastPosition = null;
     private FragmentActivity activity;
 
-    public AdapterPostPager(Context context, FragmentActivity activity, ArrayList<VideoDto> videos, ViewPager2 viewPager2) {
+    public AdapterPostPager(Context context, FragmentActivity activity, ArrayList<ResponsePostGetAllItem> videos, ViewPager2 viewPager2) {
         this.videos = videos;
         this.context = context;
         this.activity = activity;
@@ -120,6 +123,7 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
 //                b.icLike.setImageResource(R.drawable.ic_favorite_border);
 //            } else b.icLike.setImageResource(R.drawable.ic_favorite);
 
+            Log.e("TAG_posts", "bind: " + new Gson().toJson(videos.get(getAdapterPosition()).getMedias()));
             if (getAdapterPosition() == position) {
                 playFilm(exoPlayer);
             }
@@ -175,7 +179,7 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
 
             try {
                 b.playerView.setPlayer(this.exoPlayer);
-                exoPlayer.setMediaItem(new MediaItem.Builder().setUri(Uri.parse(videos.get(getAdapterPosition()).getPath())).build());
+                exoPlayer.setMediaItem(new MediaItem.Builder().setUri(BASE_URL + Uri.parse(videos.get(getAdapterPosition()).getMedias().get(0).getPath())).build());
                 exoPlayer.setPlayWhenReady(true);
                 exoPlayer.prepare();
 
