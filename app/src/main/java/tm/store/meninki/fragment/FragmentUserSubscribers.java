@@ -37,6 +37,16 @@ public class FragmentUserSubscribers extends Fragment {
     private Account account;
     private AdapterSubscriber adapter;
 
+    public static FragmentUserSubscribers newInstance(String type, String id, boolean subscribeType) {
+        Bundle args = new Bundle();
+        FragmentUserSubscribers fragment = new FragmentUserSubscribers();
+        args.putString("type", type);
+        args.putString("id", id);
+        args.putBoolean("subscribeType", subscribeType);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,16 +56,6 @@ public class FragmentUserSubscribers extends Fragment {
             subscribeType = getArguments().getBoolean("subscribeType");
         }
         account = Account.newInstance(getContext());
-    }
-
-    public static FragmentUserSubscribers newInstance(String type, String id, boolean subscribeType) {
-        Bundle args = new Bundle();
-        FragmentUserSubscribers fragment = new FragmentUserSubscribers();
-        args.putString("type", type);
-        args.putString("id", id);
-        args.putBoolean("subscribeType", subscribeType);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -71,20 +71,22 @@ public class FragmentUserSubscribers extends Fragment {
         // Inflate the layout for this fragment
         b = FragmentUserSubscribresBinding.inflate(inflater, container, false);
         setRecycler();
-        setTab(false);
+        setTabShop(false);
 
         if (Objects.equals(type, FragmentProfile.TYPE_SHOP)) {
             b.tabUser.setVisibility(View.GONE);
             b.tabShop.setVisibility(View.GONE);
+            b.header.setText("Подписчики");
             getShopSubscribers();
-        } else {
 
-            b.tabUser.setBackgroundResource(R.color.accent);
+        } else {
 
             if (!subscribeType) {
                 b.tabUser.setVisibility(View.VISIBLE);
+                b.header.setText("Подписки");
                 b.tabShop.setVisibility(View.VISIBLE);
             } else {
+                b.header.setText("Подписчики");
                 b.tabUser.setVisibility(View.GONE);
                 b.tabShop.setVisibility(View.GONE);
             }
@@ -97,20 +99,23 @@ public class FragmentUserSubscribers extends Fragment {
         return b.getRoot();
     }
 
-    private void setTab(boolean t) {
+    private void setTabShop(boolean t) {
+        if (getContext() == null) return;
         if (t) {
             setBackgroundDrawable(getContext(), b.tabShop, R.color.accent, 0, 50, false, 0);
             setBackgroundDrawable(getContext(), b.tabUser, R.color.low_contrast, 0, 50, false, 0);
-
-            b.tabUser.setEnabled(false);
-            b.tabShop.setEnabled(true);
+            b.tabUser.setTextColor(getContext().getResources().getColor(R.color.accent));
+            b.tabShop.setTextColor(getContext().getResources().getColor(R.color.white));
+            b.tabUser.setEnabled(true);
+            b.tabShop.setEnabled(false);
             return;
         }
-        setBackgroundDrawable(getContext(), b.tabUser, R.color.accent, 0, 50, false, 0);
         setBackgroundDrawable(getContext(), b.tabShop, R.color.low_contrast, 0, 50, false, 0);
-
-        b.tabShop.setEnabled(false);
-        b.tabUser.setEnabled(true);
+        setBackgroundDrawable(getContext(), b.tabUser, R.color.accent, 0, 50, false, 0);
+        b.tabUser.setTextColor(getContext().getResources().getColor(R.color.white));
+        b.tabShop.setTextColor(getContext().getResources().getColor(R.color.accent));
+        b.tabShop.setEnabled(true);
+        b.tabUser.setEnabled(false);
     }
 
     private void setRecycler() {
@@ -123,26 +128,28 @@ public class FragmentUserSubscribers extends Fragment {
     private void initListeners() {
         b.tabUser.setOnClickListener(v -> {
             getUserSubscribersUser();
-            setTab(true);
+            setTabShop(false);
         });
 
         b.tabShop.setOnClickListener(v -> {
-            getUserSubscribersShop();
-            setTab(false);
+            getUsersShopSubscribes();
+            setTabShop(true);
         });
+
+        b.icBack.setOnClickListener(v -> getActivity().onBackPressed());
     }
 
     private void getUserSubscribersUser() {
+        // only user
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("subscribers", subscribeType);
         jsonObject.addProperty("id", id);
 
-        Call<ArrayList<UserProfile>> call = StaticMethods.getApiHome().getUserUserSubscribers(account.getAccessToken(), jsonObject);
+        Call<ArrayList<UserProfile>> call = StaticMethods.getApiHome().getUserUserSubscribers(jsonObject);
         call.enqueue(new RetrofitCallback<ArrayList<UserProfile>>() {
             @Override
             public void onResponse(ArrayList<UserProfile> response) {
                 Log.e("TAG_", "onResponse: " + new Gson().toJson(response));
-
                 adapter.setUsers(response);
             }
 
@@ -153,18 +160,18 @@ public class FragmentUserSubscribers extends Fragment {
         });
     }
 
-    private void getUserSubscribersShop() {
+    private void getUsersShopSubscribes() {
+        //user's shop follows
 
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("id", id);
 
-        Call<ArrayList<UserProfile>> call = StaticMethods.getApiHome().getUserShopSubscribers(account.getAccessToken(), jsonObject);
+        Call<ArrayList<UserProfile>> call = StaticMethods.getApiHome().getUserShopSubscribers(jsonObject);
         call.enqueue(new RetrofitCallback<ArrayList<UserProfile>>() {
             @Override
             public void onResponse(ArrayList<UserProfile> response) {
                 Log.e("TAG_", "onResponse: " + new Gson().toJson(response));
                 adapter.setUsers(response);
-
             }
 
             @Override
@@ -175,10 +182,11 @@ public class FragmentUserSubscribers extends Fragment {
     }
 
     private void getShopSubscribers() {
+        //only users
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("id", id);
 
-        Call<ArrayList<UserProfile>> call = StaticMethods.getApiHome().getShopSubscribers(account.getAccessToken(), jsonObject);
+        Call<ArrayList<UserProfile>> call = StaticMethods.getApiHome().getShopSubscribers(jsonObject);
         call.enqueue(new RetrofitCallback<ArrayList<UserProfile>>() {
             @Override
             public void onResponse(ArrayList<UserProfile> response) {

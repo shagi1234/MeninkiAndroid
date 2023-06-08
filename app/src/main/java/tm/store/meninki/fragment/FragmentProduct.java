@@ -29,24 +29,23 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import tm.store.meninki.R;
-import tm.store.meninki.adapter.AdapterCharImage;
-import tm.store.meninki.adapter.AdapterCharPick;
+import tm.store.meninki.adapter.AdapterPersonalCharacters;
 import tm.store.meninki.adapter.AdapterVerticalImagePager;
 import tm.store.meninki.api.RetrofitCallback;
 import tm.store.meninki.api.data.MediaDto;
 import tm.store.meninki.api.data.ProductDetails;
 import tm.store.meninki.api.request.RequestAddToCard;
+import tm.store.meninki.data.CharactersDto;
 import tm.store.meninki.databinding.FragmentProductBinding;
-import tm.store.meninki.shared.Account;
 import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentProduct extends Fragment {
     private FragmentProductBinding b;
     private String uuid;
+    private String shopId;
     private String avatarId;
-    private AdapterCharImage adapterCharImage;
-    private AdapterCharPick adapterCharPick;
     private ProductDetails productDetails;
+    private AdapterPersonalCharacters adapterPersonalCharacters;
 
     public static FragmentProduct newInstance(String uuid, String avatarId) {
         FragmentProduct fragment = new FragmentProduct();
@@ -90,7 +89,7 @@ public class FragmentProduct extends Fragment {
     }
 
     private void getData() {
-        Call<ProductDetails> call = StaticMethods.getApiHome().getProductsById(Account.newInstance(getContext()).getAccessToken(), uuid);
+        Call<ProductDetails> call = StaticMethods.getApiHome().getProductsById(uuid);
         call.enqueue(new RetrofitCallback<ProductDetails>() {
             @Override
             public void onResponse(ProductDetails response) {
@@ -119,32 +118,54 @@ public class FragmentProduct extends Fragment {
                 .into(b.avatarStore);
 
         b.price.setText(productDetails.getPrice() + " TMT");
-//        adapterCharImage.setOptions(productDetails.getOptions());
+        setPersonalCharacteristics(productDetails);
         b.progressBar.setVisibility(View.GONE);
         b.main.setVisibility(View.VISIBLE);
+    }
+
+    private void setPersonalCharacteristics(ProductDetails productDetails) {
+        setRecyclerPH();
+    }
+
+    private void setRecyclerPH() {
+        CharactersDto charactersDto = new CharactersDto();
+        charactersDto.setOptionTitles(productDetails.getOptionTitles());
+//        charactersDto.setOptionTitles(productDetails.getOptions());
+        adapterPersonalCharacters = new AdapterPersonalCharacters(getContext(), charactersDto, uuid);
+        b.recPh.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        b.recPh.setAdapter(adapterPersonalCharacters);
     }
 
     private void checkUI() {
         b.checkStore.setVisibility(View.VISIBLE);
         b.btnAddPost.setVisibility(View.VISIBLE);
-
-        setRecyclerCharImage();
-        setRecyclerCharText();
     }
 
     private void initListeners() {
         b.backBtn.setOnClickListener(v -> getActivity().onBackPressed());
-
-        b.btnAddPost.setOnClickListener(v -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentAddPost.newInstance(uuid, productDetails.getName(), new Gson().toJson(productDetails.getShop()))));
-
+        b.btnAddPost.setOnClickListener(v -> addFragment(mainFragmentManager, R.id.fragment_container_main,
+                FragmentAddPost.newInstance(
+                        uuid,
+                        productDetails.getName(),
+                        new Gson().toJson(productDetails.getShop())
+                )
+        ));
         b.goCard.setOnClickListener(v -> addToCard());
+        b.layStore.setOnClickListener(v -> goShop());
 
+    }
+
+    private void goShop() {
+        if (shopId == null) return;
+        addFragment(mainFragmentManager, R.id.fragment_container_main,
+                FragmentProfile.newInstance(FragmentProfile.TYPE_SHOP, shopId));
     }
 
     private void addToCard() {
         RequestAddToCard requestAddToCard = new RequestAddToCard();
         requestAddToCard.setProductId(uuid);
-        requestAddToCard.setShopId(avatarId);
+        requestAddToCard.setShopId(shopId);
+        requestAddToCard.setPersonalCharacteristicsId("");
         requestAddToCard.setCount(1);
         Call<Boolean> call = StaticMethods.getApiHome().addToCard(requestAddToCard);
 
@@ -185,18 +206,6 @@ public class FragmentProduct extends Fragment {
         adapterVerticalImagePager.setImageList(medias);
         b.indicator.setViewPager(b.imagePager);
 
-    }
-
-    private void setRecyclerCharImage() {
-        adapterCharImage = new AdapterCharImage(getContext(), AdapterCharPick.NOT_ADDABLE, uuid, 0);
-        b.recCharImage.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        b.recCharImage.setAdapter(adapterCharImage);
-    }
-
-    private void setRecyclerCharText() {
-        adapterCharPick = new AdapterCharPick(getContext(), AdapterCharPick.NOT_ADDABLE, uuid, 0);
-        b.recCharPick.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        b.recCharPick.setAdapter(adapterCharPick);
     }
 
 }

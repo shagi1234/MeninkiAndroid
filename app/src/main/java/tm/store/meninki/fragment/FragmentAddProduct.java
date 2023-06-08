@@ -165,7 +165,8 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
         return options.outWidth;
     }
 
-    private void createProduct() {
+    private void createProduct()
+    {
         categoryIds = new String[categories.size()];
 
         if (b.title.getText().toString().trim().isEmpty()

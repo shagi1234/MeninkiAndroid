@@ -6,6 +6,7 @@ import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaMetadataRetriever;
@@ -56,6 +57,7 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
     private int i = 0;
     private String shop;
     private String prodTitle;
+    private ProgressDialog dialog;
 
     public static FragmentAddPost newInstance(String prodId, String prodTitle, String shop) {
         FragmentAddPost fragment = new FragmentAddPost();
@@ -156,6 +158,8 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
                             uploadImage(SelectedMedia.getArrayList().get(i));
                         } else {
                             i = 0;
+                            dialog.dismiss();
+                            getActivity().onBackPressed();
                         }
                     }
                 }
@@ -205,6 +209,8 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
                 public void onResponse(@NonNull Call<Object> call, @NonNull Response<Object> response) {
                     if (response.code() == 200 && response.body() != null) {
                         Toast.makeText(getContext(), "Success upload ", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                        getActivity().onBackPressed();
                     }
                 }
 
@@ -253,12 +259,14 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
     }
 
     private void addPost() {
+        dialog = ProgressDialog.show(getContext(), "",
+                "Uploading. Please wait...", true);
         RequestAddPost r = new RequestAddPost();
         r.setDescription(b.desc.getText().toString().trim());
         r.setName(b.title.getText().toString().trim());
         r.setProductBaseId(prodId);
 
-        Call<String> call = StaticMethods.getApiHome().addPost(Account.newInstance(getContext()).getAccessToken(), r);
+        Call<String> call = StaticMethods.getApiHome().addPost( r);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {

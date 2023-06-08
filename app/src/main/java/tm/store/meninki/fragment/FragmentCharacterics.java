@@ -146,9 +146,9 @@ public class FragmentCharacterics extends Fragment implements OnBackPressedFragm
         Call<ArrayList<PersonalCharacterDto>> call;
 
         if (isEmptyCharacteristics)
-            call = StaticMethods.getApiHome().createOption(Account.newInstance(getContext()).getAccessToken(), charactersDto);
+            call = StaticMethods.getApiHome().createOption( charactersDto);
         else
-            call = StaticMethods.getApiHome().updateOption(Account.newInstance(getContext()).getAccessToken(), charactersDto);
+            call = StaticMethods.getApiHome().updateOption( charactersDto);
 
         call.enqueue(new Callback<ArrayList<PersonalCharacterDto>>() {
             @Override

@@ -94,6 +94,9 @@ dependencies {
 
     //video trimmmer
     implementation 'com.github.a914-gowtham:android-video-trimmer:1.7.4'
+    //emoji keyboard
+    implementation "io.github.aghajari:AXEmojiView-SamsungProvider:1.5.2"
+    implementation "io.github.aghajari:AXEmojiView:1.5.2"
 
 
 }

@@ -15,17 +15,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.TooltipCompat;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-import tm.store.meninki.adapter.AdapterTabLayout;
 import tm.store.meninki.adapter.AdapterViewPager;
 import tm.store.meninki.data.FragmentPager;
-import tm.store.meninki.data.TabItemCustom;
 import tm.store.meninki.databinding.FragmentOpenCategoryBinding;
 import tm.store.meninki.utils.StaticMethods;
 
@@ -119,9 +116,9 @@ public class FragmentOpenCategory extends Fragment {
 
         ArrayList<FragmentPager> mFragment = new ArrayList<>();
 
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, FragmentListGrid.CATEGORY, -1, new String[]{uuid}, new int[]{product}), "Boots"));
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, FragmentListGrid.CATEGORY, -1, new String[]{uuid}, new int[]{product}), "Shorts"));
-        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, FragmentListGrid.CATEGORY, -1, new String[]{uuid}, new int[]{product}), "Socks"));
+        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, FragmentListGrid.CATEGORY, -1, new String[]{uuid}, new int[]{product}), ""));
+        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, FragmentListGrid.CATEGORY, -1, new String[]{uuid}, new int[]{product}), ""));
+        mFragment.add(new FragmentPager(FragmentListGrid.newInstance(FragmentListGrid.VERTICAL_GRID, FragmentListGrid.CATEGORY, -1, new String[]{uuid}, new int[]{product}), ""));
 
         adapterFeedPager = new AdapterViewPager(getChildFragmentManager(), mFragment);
         b.viewPager.setAdapter(adapterFeedPager);

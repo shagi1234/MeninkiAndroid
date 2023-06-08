@@ -1,39 +1,45 @@
-notice ayryldy
-banner ayryldy
-podpiska ayryldy
-
-6.12.2022 de bashladym
-komponentler duzedildi.
-
-1.Product page ++
-2.store page ++
-3.open category page++
-4.add post page ui++
-4.basket page ui++
-5.profile dizayny uytgedilenden son etmeli++
-
-openCategory page da tab dizayny bashga eken shony etmeli
-renkleri sazlamy;
-shriftleri gormeli
-in yokardaky tabLayout duzedilmeli++
-
-
-
-1.login registeri duzedip chatmali++
-2.store degishli nm bolsa chatmaly
-3.category degishli zatlar productlar chatylmaly
-4.productyn ici favoururite bn
-5.Store ici
-6.Profile
-7.korzina chatmaly
 
 
 
 
-<Gormeli>
+	++1.	Зашел на продукт и добавить обзор на товар не отправляется(создать пост basanda переходя на товар)
+
+	//product
+	2.	В том же товаре когда нажимаешь на корзину пишет метод not allowed
+	22.product getCharacteristics
+	++6.	Не могу через товар переходить в магазин
+	7.	Там под товорами троеточия (…) кнопка дополнительно наверное(она не нажимается и переходит сразу на товар)
+    ++8.	Там в разделе продуктами под всеми категориями какая то подкатегория где все товары
 
 
-20.12.22 cenli dynmaly
 
 
+	//post
+	++3.	На лайк не могу нажать  ++
+	++4.	Фотки не могу листать, через 10 свайпов свайпается
+	5.	Когда открываешь видос ни какие кнопки не работают
+
+
+	//add new store
+	++9.	Когда создаешь магазины там какие то placeholder и цвет наверное должно при hover меняться
+	10.	Когда создаешь магазин и выбираешь категорию нужно выходить свайпом и каждый раз выбирать категорию заново
+	11.	При создания магазина спрашивает два контактных номера, у меня нету столько номеров
+	++12.	А в дополнительной спрашивает еще 3 номера (такое ощущение что я магазин номеров регаю)
+	13.	Классика, добавить магазин не работает
+	 ++14.	Не могу через карандаш добавить фото в магазин при создании магазина
+
+	//profile subscribers
+	15.	Захожу на товары раздел а там выходит раздел подписчики
+	++16.	И раздел подписчики очень не красивый, border radiusy на кнопки забыл походу
+	++17.	Не работает кнопка назад в этом же разделе «мои подписчики
+	++18.Profile acylyancha loading goymaly
+	19.Subscribe unsubscribe icon goymaly
+
+	20.post page bottomSheet
+	21.post item bottomSheet
+	23.post like comment
+	24.filter
+	25.search
+	26.orders page ui and api
+	27.postda surat gelse acar yaly etmeli
 

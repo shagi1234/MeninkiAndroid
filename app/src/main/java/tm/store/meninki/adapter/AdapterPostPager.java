@@ -8,33 +8,48 @@
 
 package tm.store.meninki.adapter;
 
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static tm.store.meninki.api.Network.BASE_URL;
+import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
+import static tm.store.meninki.utils.StaticMethods.setPadding;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.bumptech.glide.Glide;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import tm.store.meninki.R;
 import tm.store.meninki.api.data.ResponsePostGetAllItem;
 import tm.store.meninki.databinding.ItemVideoBinding;
+import tm.store.meninki.utils.StaticMethods;
 
 public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.VideoHolder> {
     private ArrayList<ResponsePostGetAllItem> videos;
@@ -44,6 +59,7 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
     public static SimpleExoPlayer lastExoPlayer;
     private Integer lastPosition = null;
     private FragmentActivity activity;
+    private ImageView lastThumb;
 
     public AdapterPostPager(Context context, FragmentActivity activity, ArrayList<ResponsePostGetAllItem> videos, ViewPager2 viewPager2) {
         this.videos = videos;
@@ -63,7 +79,13 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
 
     @Override
     public void onBindViewHolder(@NonNull AdapterPostPager.VideoHolder holder, int position) {
-        holder.bind();
+
+        if (videos.get(holder.getAdapterPosition()).getMedias().get(0).getMediaType() == 1) {
+            holder.bindVideo();
+        } else {
+            holder.bindImages();
+        }
+
     }
 
     @Override
@@ -77,14 +99,16 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
     public void setPosition(int position) {
         this.position = position;
         notifyItemChanged(position);
-        if (lastPosition == null) return;
-        notifyItemChanged(lastPosition);
     }
 
     public void releasePlayer() {
+        if (lastThumb != null)
+            lastThumb.setVisibility(View.VISIBLE);
+
         if (lastExoPlayer != null) {
             lastExoPlayer.stop();
             lastExoPlayer.release();
+            lastExoPlayer = null;
         }
     }
 
@@ -110,7 +134,12 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
             this.b = itemView;
         }
 
-        public void bind() {
+        public void bindVideo() {
+            b.playerView.setVisibility(View.VISIBLE);
+            b.image.setVisibility(View.VISIBLE);
+            b.imagePager.setVisibility(View.GONE);
+            b.indicator.setVisibility(View.GONE);
+
             DefaultLoadControl loadControl = new DefaultLoadControl.Builder()
                     .setBufferDurationsMs(DefaultLoadControl.DEFAULT_MIN_BUFFER_MS,
                             100_000,
@@ -123,55 +152,118 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
 //                b.icLike.setImageResource(R.drawable.ic_favorite_border);
 //            } else b.icLike.setImageResource(R.drawable.ic_favorite);
 
-            Log.e("TAG_posts", "bind: " + new Gson().toJson(videos.get(getAdapterPosition()).getMedias()));
-            if (getAdapterPosition() == position) {
-                playFilm(exoPlayer);
-            }
+            Glide.with(context)
+                    .load(BASE_URL + "/" + videos.get(getAdapterPosition()).getMedias().get(0).getPreview())
+                    .placeholder(R.color.bg_post)
+                    .into(b.image);
+
+            if (getAdapterPosition() == position) playFilm(exoPlayer);
+
+            b.username.setText(videos.get(getAdapterPosition()).getUser().getName());
+            b.desc.setText(videos.get(getAdapterPosition()).getDescription());
+            b.desc2.setText(videos.get(getAdapterPosition()).getUser().getDescription());
+
+            Glide.with(context)
+                    .load(BASE_URL + "/" + videos.get(getAdapterPosition()).getUser().getImgPath())
+                    .placeholder(R.color.low_contrast)
+                    .into(b.imgProfile);
 
             b.backBtn.setOnClickListener(v -> activity.onBackPressed());
+            b.like.setOnClickListener(v -> like(getAdapterPosition()));
+            b.comment.setOnClickListener(v -> comment());
+            b.options.setOnClickListener(v -> showDialog());
 
-//            b.animationView.addAnimatorListener(new Animator.AnimatorListener() {
-//                @Override
-//                public void onAnimationStart(@NonNull Animator animation) {
-//                }
-//
-//                @Override
-//                public void onAnimationEnd(@NonNull Animator animation) {
-//                    b.animationView.clearAnimation();
-//                    b.animationView.setVisibility(View.GONE);
-//                }
-//
-//                @Override
-//                public void onAnimationCancel(@NonNull Animator animation) {
-//                }
-//
-//                @Override
-//                public void onAnimationRepeat(@NonNull Animator animation) {
-//
-//                }
-//            });
+        }
 
-//            b.clickLike.setOnClickListener(v -> {
-//                if (videos.get(getAdapterPosition()).isLiked()) {
-//                    b.icLike.setImageResource(R.drawable.ic_favorite_border);
-//                } else {
-//                    b.animationView.setVisibility(View.VISIBLE);
-//                    b.animationView.setAnimation("like.json");
-//                    b.animationView.loop(false);
-//                    b.animationView.playAnimation();
-//                    b.icLike.setImageResource(R.drawable.ic_favorite);
-//                }
-//
-//                videos.get(getAdapterPosition()).setLiked(!videos.get(getAdapterPosition()).isLiked());
-//            });
+        public void bindImages() {
+            b.playerView.setVisibility(View.GONE);
+            b.image.setVisibility(View.GONE);
+            b.imagePager.setVisibility(View.VISIBLE);
+            b.indicator.setVisibility(View.VISIBLE);
 
-//            b.bgAdd.setOnClickListener(v -> {
-//                // add shorts
-//                Intent intent = new Intent();
-//                intent.setType("image/*");
-//                intent.setAction(Intent.ACTION_GET_CONTENT);
-//                activity.startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
-//            });
+//            if (!videos.get(getAdapterPosition()).isLiked()) {
+//                b.icLike.setImageResource(R.drawable.ic_favorite_border);
+//            } else b.icLike.setImageResource(R.drawable.ic_favorite);
+
+            setImagePager();
+
+            b.username.setText(videos.get(getAdapterPosition()).getUser().getName());
+            b.desc.setText(videos.get(getAdapterPosition()).getDescription());
+            b.desc2.setText(videos.get(getAdapterPosition()).getUser().getDescription());
+
+            Glide.with(context)
+                    .load(BASE_URL + "/" + videos.get(getAdapterPosition()).getUser().getImgPath())
+                    .placeholder(R.color.low_contrast)
+                    .into(b.imgProfile);
+
+            b.backBtn.setOnClickListener(v -> activity.onBackPressed());
+            b.like.setOnClickListener(v -> like(getAdapterPosition()));
+            b.comment.setOnClickListener(v -> comment());
+            b.options.setOnClickListener(v -> showDialog());
+
+        }
+
+        private void showDialog() {
+            android.app.Dialog dialog = new android.app.Dialog(context);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.bottom_sheet_story_options);
+            LinearLayout root = dialog.findViewById(R.id.root);
+            setPadding(root, 0, 0, 0, navigationBarHeight);
+
+            dialog.getWindow().setLayout(MATCH_PARENT, WRAP_CONTENT);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnim;
+            dialog.getWindow().setGravity(Gravity.BOTTOM);
+            dialog.show();
+        }
+
+        private void comment() {
+
+        }
+
+        private void like(int adapterPosition) {
+            changeUILike();
+            Call<Boolean> call;
+
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("uuid", videos.get(getAdapterPosition()).getId());
+
+            if (getAdapterPosition() == 0) {
+                call = StaticMethods.getApiHome().like(jsonObject);
+            } else
+                call = StaticMethods.getApiHome().dislike(videos.get(getAdapterPosition()).getId());
+
+            call.enqueue(new Callback<Boolean>() {
+                @Override
+                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                    changeData(adapterPosition);
+                }
+
+                @Override
+                public void onFailure(Call<Boolean> call, Throwable t) {
+                    Toast.makeText(context, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        private void changeData(int adapterPosition) {
+
+        }
+
+        private void changeUILike() {
+
+        }
+
+        private void setImagePager() {
+            AdapterVerticalImagePager adapterVerticalImagePager = new AdapterVerticalImagePager(context);
+            adapterVerticalImagePager.setImageList(new ArrayList<>(videos.get(getAdapterPosition()).getMedias()));
+            b.imagePager.setClipToPadding(false);
+            b.imagePager.setClipChildren(false);
+            b.imagePager.setOffscreenPageLimit(3);
+            b.imagePager.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
+            b.indicator.setVisibility(View.VISIBLE);
+            b.indicator.setViewPager(b.imagePager);
+            b.imagePager.setAdapter(adapterVerticalImagePager);
 
         }
 
@@ -194,7 +286,15 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
                             exoPlayer.seekTo(0);
                             exoPlayer.play();
                         }
+                    }
+                });
 
+                exoPlayer.addListener(new Player.Listener() {
+                    @Override
+                    public void onRenderedFirstFrame() {
+                        Player.Listener.super.onRenderedFirstFrame();
+                        b.image.setVisibility(View.GONE);
+                        b.playerView.setVisibility(View.VISIBLE);
                     }
                 });
 
@@ -202,6 +302,7 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
                 e.printStackTrace();
             }
             lastExoPlayer = exoPlayer;
+            lastThumb = b.image;
         }
 
         private void setProgress(boolean isProgress) {
@@ -215,4 +316,5 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
             }
         }
     }
+
 }

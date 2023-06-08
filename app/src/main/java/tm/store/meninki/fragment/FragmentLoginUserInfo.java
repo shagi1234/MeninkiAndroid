@@ -94,6 +94,7 @@ public class FragmentLoginUserInfo extends Fragment implements KeyboardHeightPro
         JsonObject j = new JsonObject();
         j.addProperty("id", account.getPrefUserUUID());
         j.addProperty("firstName", b.edtName.getText().toString().trim());
+        j.addProperty("UserName", b.edtUsername.getText().toString().trim());
         j.addProperty("phoneNumber", account.getUserPhoneNumber());
 
         Call<Boolean> call = StaticMethods.getApiLogin().updateUser(j);

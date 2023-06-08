@@ -1,644 +1,152 @@
-[
-  {
-    "id": "0e953063-e2c1-4cb6-8e36-e2ef21018f22",
-    "name": "",
-    "description": "Sssd",
-    "medias": [],
-    "user": {
-      "id": "7c8d4067-1ff0-46a2-9960-6c43e14f3084",
-      "imagePath": "StaticFiles/Users/Compressed/074fd553-272e-4542-be7f-6e7ebdde9d3b.webp",
-      "userName": "Shankkk",
-      "name": "Shahan  ",
-      "phoneNumber": "99365615202",
-      "email": "",
-      "isSubscribed": false,
-      "subscriberCount": 0,
-      "subscriptionCount": 0,
-      "boughtProducts": 0,
-      "favoriteCount": 0,
-      "shopCount": 0,
-      "shops": []
-    },
-    "productId": "641115e6-9e5a-42df-b2db-733f1e583ee3",
-    "productTitle": "Продукт ",
-    "productMedia": "StaticFiles/ProductMediaImage/Compressed/1711555e-f60f-4c47-ab9c-7b1bed0caac3.webp",
-    "rating": {
-      "userRating": {},
-      "total": 0
-    }
+{
+  "id": "12fff4c2-a292-49a2-a1d0-df1e92253cf4",
+  "name": "Новый товар",
+  "description": "Рыовльы",
+  "count": 0,
+  "inCartCount": 0,
+  "price": 666,
+  "discountPrice": 250,
+
+  "optionTitles": [
+    "Текст",
+    "Фото для посетителей "
+  ],
+
+  "user": null,
+  "shop": {
+    "id": "471215c4-18bd-4139-9b6d-f4eb3a8c624a",
+    "imgPath": null,
+    "name": "Магазин Магазин",
+    "description": null,
+    "phone": "",
+    "email": "",
+    "isSubscribed": false,
+    "subscriberCount": 0,
+    "placeInRating": 4,
+    "orderCount": 0,
+    "visiterCount": 8,
+    "totalProduct": 1,
+    "categories": [],
+    "socialMedias": []
   },
-  {
-    "id": "bf8b1df2-b5e1-41f6-88f3-c0ef9be1859d",
-    "name": "",
-    "description": "Sea",
-    "medias": [],
-    "user": {
-      "id": "7c8d4067-1ff0-46a2-9960-6c43e14f3084",
-      "imagePath": "StaticFiles/Users/Compressed/074fd553-272e-4542-be7f-6e7ebdde9d3b.webp",
-      "userName": "Shankkk",
-      "name": "Shahan  ",
-      "phoneNumber": "99365615202",
-      "email": "",
-      "isSubscribed": false,
-      "subscriberCount": 0,
-      "subscriptionCount": 0,
-      "boughtProducts": 0,
-      "favoriteCount": 0,
-      "shopCount": 0,
-      "shops": []
+
+  "rating": {
+    "userRating": {
+      "8c2dbe00-ca7d-4904-815a-59bb3e8eeb07": true
     },
-    "productId": "cf6c7d2d-510e-4f4a-8bfb-97721c5b684c",
-    "productTitle": "Олдо",
-    "productMedia": "StaticFiles/ProductMediaImage/Compressed/eb912fc3-a976-474c-b420-7cd04aef2d2b_test.png",
-    "rating": {
-      "userRating": {},
-      "total": 0
-    }
+    "total": 1
   },
-  {
-    "id": "9316a8af-2d1d-4e16-b828-8339b0bd8e33",
-    "name": "",
-    "description": "Fffffddghhjkkkkkk",
-    "medias": [],
-    "user": {
-      "id": "7c8d4067-1ff0-46a2-9960-6c43e14f3084",
-      "imagePath": "StaticFiles/Users/Compressed/074fd553-272e-4542-be7f-6e7ebdde9d3b.webp",
-      "userName": "Shankkk",
-      "name": "Shahan  ",
-      "phoneNumber": "99365615202",
-      "email": "",
-      "isSubscribed": false,
-      "subscriberCount": 0,
-      "subscriptionCount": 0,
-      "boughtProducts": 0,
-      "favoriteCount": 0,
-      "shopCount": 0,
-      "shops": []
-    },
-    "productId": "cf6c7d2d-510e-4f4a-8bfb-97721c5b684c",
-    "productTitle": "Олдо",
-    "productMedia": "StaticFiles/ProductMediaImage/Compressed/eb912fc3-a976-474c-b420-7cd04aef2d2b_test.png",
-    "rating": {
-      "userRating": {},
-      "total": 0
+  "categories": [
+    {
+      "id": "70ca6d5a-4c3a-4ea2-bee8-73fe8ebebbfa",
+      "nameRu": "Normal cars",
+      "nameTm": "Normal cars",
+      "nameEn": "Normal cars",
+      "categoryImage": null,
+      "parentId": null,
+      "advertisement": null,
+      "subCategories": []
     }
-  },
-  {
-    "id": "5f5c0414-d1ca-4dba-9428-d9d12c3a430c",
-    "name": "",
-    "description": "Fkffk",
-    "medias": [
-      {
-        "id": "c6853f7f-ce47-4b6a-9f8c-01489890872d",
-        "preview": "StaticFiles/Preview/Thumbnail/3a1f5839-4229-43a0-9530-d1660b05e809_test.png",
-        "path": "/1685123853328/1685123853328.m3u8",
-        "mediaType": 1,
-        "orientationType": 0
-      }
-    ],
-    "user": {
-      "id": "7c8d4067-1ff0-46a2-9960-6c43e14f3084",
-      "imagePath": "StaticFiles/Users/Compressed/074fd553-272e-4542-be7f-6e7ebdde9d3b.webp",
-      "userName": "Shankkk",
-      "name": "Shahan  ",
-      "phoneNumber": "99365615202",
-      "email": "",
-      "isSubscribed": false,
-      "subscriberCount": 0,
-      "subscriptionCount": 0,
-      "boughtProducts": 0,
-      "favoriteCount": 0,
-      "shopCount": 0,
-      "shops": []
+  ],
+
+  "options": [
+    {
+      "id": "aa6e809a-3af2-4dd0-878f-e1ce723beccc",
+      "optionType": 2,
+      "optionLevel": 1,
+      "imagePath": null,
+      "value": null,
+      "optionsImageId": null,
+      "productId": "12fff4c2-a292-49a2-a1d0-df1e92253cf4"
     },
-    "productId": "cf6c7d2d-510e-4f4a-8bfb-97721c5b684c",
-    "productTitle": "Олдо",
-    "productMedia": "StaticFiles/ProductMediaImage/Compressed/eb912fc3-a976-474c-b420-7cd04aef2d2b_test.png",
-    "rating": {
-      "userRating": {},
-      "total": 0
+    {
+      "id": "d42b8973-1c4f-4473-ae26-7c6fab25b2d3",
+      "optionType": 1,
+      "optionLevel": 0,
+      "imagePath": null,
+      "value": "Какой то текст для фото",
+      "optionsImageId": null,
+      "productId": "12fff4c2-a292-49a2-a1d0-df1e92253cf4"
     }
-  },
-  {
-    "id": "1d2c5909-ee15-4075-b5e9-3d1db850cf5b",
-    "name": "",
-    "description": "Zbddb",
-    "medias": [
-      {
-        "id": "b142b264-26ec-44dc-bb49-5095ffc43d6b",
-        "preview": "StaticFiles/Preview/Thumbnail/cac2f04f-0d10-4038-aa20-52a1a5922011_test.png",
-        "path": "/1685123750277/1685123750277.m3u8",
-        "mediaType": 1,
-        "orientationType": 0
-      }
-    ],
-    "user": {
-      "id": "7c8d4067-1ff0-46a2-9960-6c43e14f3084",
-      "imagePath": "StaticFiles/Users/Compressed/074fd553-272e-4542-be7f-6e7ebdde9d3b.webp",
-      "userName": "Shankkk",
-      "name": "Shahan  ",
-      "phoneNumber": "99365615202",
-      "email": "",
-      "isSubscribed": false,
-      "subscriberCount": 0,
-      "subscriptionCount": 0,
-      "boughtProducts": 0,
-      "favoriteCount": 0,
-      "shopCount": 0,
-      "shops": []
-    },
-    "productId": "cf6c7d2d-510e-4f4a-8bfb-97721c5b684c",
-    "productTitle": "Олдо",
-    "productMedia": "StaticFiles/ProductMediaImage/Compressed/eb912fc3-a976-474c-b420-7cd04aef2d2b_test.png",
-    "rating": {
-      "userRating": {},
-      "total": 0
+  ],
+  "personalCharacteristics": [
+    {
+      "id": "c212f026-95fb-4ebe-b8ed-637120f6307d",
+      "options": [
+        {
+          "id": "aa6e809a-3af2-4dd0-878f-e1ce723beccc",
+          "optionType": 2,
+          "optionLevel": 1,
+          "imagePath": null,
+          "value": null,
+          "optionsImageId": null,
+          "productId": "12fff4c2-a292-49a2-a1d0-df1e92253cf4"
+        },
+        {
+          "id": "d42b8973-1c4f-4473-ae26-7c6fab25b2d3",
+          "optionType": 1,
+          "optionLevel": 0,
+          "imagePath": null,
+          "value": "Какой то текст для фото",
+          "optionsImageId": null,
+          "productId": "12fff4c2-a292-49a2-a1d0-df1e92253cf4"
+        }
+      ],
+      "count": 0,
+      "priceBonus": null,
+      "price": null,
+      "discountPrice": null,
+      "productId": "12fff4c2-a292-49a2-a1d0-df1e92253cf4"
     }
-  },
-  {
-    "id": "7ba932ea-d875-413b-a2a4-9dde4df0cc53",
-    "name": "",
-    "description": "Insta360",
-    "medias": [
-      {
-        "id": "e76cf7b6-56f7-41dd-a22f-83aab9433bb6",
-        "preview": "StaticFiles/Preview/Thumbnail/7cb15ff1-dcd6-407b-a7ba-5140ecda3e09_test.png",
-        "path": "/1685123669651/1685123669651.m3u8",
-        "mediaType": 1,
-        "orientationType": 0
-      }
-    ],
-    "user": {
-      "id": "7c8d4067-1ff0-46a2-9960-6c43e14f3084",
-      "imagePath": "StaticFiles/Users/Compressed/074fd553-272e-4542-be7f-6e7ebdde9d3b.webp",
-      "userName": "Shankkk",
-      "name": "Shahan  ",
-      "phoneNumber": "99365615202",
-      "email": "",
-      "isSubscribed": false,
-      "subscriberCount": 0,
-      "subscriptionCount": 0,
-      "boughtProducts": 0,
-      "favoriteCount": 0,
-      "shopCount": 0,
-      "shops": []
-    },
-    "productId": "cf6c7d2d-510e-4f4a-8bfb-97721c5b684c",
-    "productTitle": "Олдо",
-    "productMedia": "StaticFiles/ProductMediaImage/Compressed/eb912fc3-a976-474c-b420-7cd04aef2d2b_test.png",
-    "rating": {
-      "userRating": {},
-      "total": 0
+  ],
+  "medias": [
+    {
+      "id": "5b7068b7-e19f-43ce-9f39-091735e36f8d",
+      "preview": null,
+      "path": "StaticFiles/ProductMediaImage/Compressed/050c0b28-aa00-490f-b03e-7c78b055b7de_test.png",
+      "mediaType": 0,
+      "orientationType": 0
     }
-  },
-  {
-    "id": "7096d1b8-93b7-464c-8077-40c9b4891907",
-    "name": "",
-    "description": "Dkdkdkd",
-    "medias": [
-      {
-        "id": "e37f5d05-afda-40d9-89bb-cbeabe8922a0",
-        "preview": "StaticFiles/Preview/Thumbnail/97a41cfd-5e7b-4eeb-8aa3-a6e5434adffb_test.png",
-        "path": "/1685123645722/1685123645722.m3u8",
-        "mediaType": 1,
-        "orientationType": 0
-      }
-    ],
-    "user": {
-      "id": "7c8d4067-1ff0-46a2-9960-6c43e14f3084",
-      "imagePath": "StaticFiles/Users/Compressed/074fd553-272e-4542-be7f-6e7ebdde9d3b.webp",
-      "userName": "Shankkk",
-      "name": "Shahan  ",
-      "phoneNumber": "99365615202",
-      "email": "",
-      "isSubscribed": false,
-      "subscriberCount": 0,
-      "subscriptionCount": 0,
-      "boughtProducts": 0,
-      "favoriteCount": 0,
-      "shopCount": 0,
-      "shops": []
-    },
-    "productId": "cf6c7d2d-510e-4f4a-8bfb-97721c5b684c",
-    "productTitle": "Олдо",
-    "productMedia": "StaticFiles/ProductMediaImage/Compressed/eb912fc3-a976-474c-b420-7cd04aef2d2b_test.png",
-    "rating": {
-      "userRating": {},
-      "total": 0
-    }
-  },
-  {
-    "id": "63139437-dbd3-4499-9c98-95fa6980944c",
-    "name": "",
-    "description": "Çggg",
-    "medias": [
-      {
-        "id": "1f3ef15a-a286-43aa-8695-4f0e2e022954",
-        "preview": "StaticFiles/Preview/Thumbnail/ffafa462-c054-4313-9e90-81027d42bc3c_test.png",
-        "path": "/1685118543376/1685118543376.m3u8",
-        "mediaType": 1,
-        "orientationType": 0
-      }
-    ],
-    "user": {
-      "id": "7c8d4067-1ff0-46a2-9960-6c43e14f3084",
-      "imagePath": "StaticFiles/Users/Compressed/074fd553-272e-4542-be7f-6e7ebdde9d3b.webp",
-      "userName": "Shankkk",
-      "name": "Shahan  ",
-      "phoneNumber": "99365615202",
-      "email": "",
-      "isSubscribed": false,
-      "subscriberCount": 0,
-      "subscriptionCount": 0,
-      "boughtProducts": 0,
-      "favoriteCount": 0,
-      "shopCount": 0,
-      "shops": []
-    },
-    "productId": "cf6c7d2d-510e-4f4a-8bfb-97721c5b684c",
-    "productTitle": "Олдо",
-    "productMedia": "StaticFiles/ProductMediaImage/Compressed/eb912fc3-a976-474c-b420-7cd04aef2d2b_test.png",
-    "rating": {
-      "userRating": {},
-      "total": 0
-    }
-  },
-  {
-    "id": "ca01e8ae-bbf5-4ef0-9123-37f6a543c618",
-    "name": "",
-    "description": "Znzbzbzbzb",
-    "medias": [
-      {
-        "id": "f4f79b58-eaeb-4877-84ba-652f74962d6f",
-        "preview": "StaticFiles/Preview/Thumbnail/032cf644-82df-45a5-8dc9-a430df573512_test.png",
-        "path": "/1685118483730/1685118483730.m3u8",
-        "mediaType": 1,
-        "orientationType": 0
-      }
-    ],
-    "user": {
-      "id": "7c8d4067-1ff0-46a2-9960-6c43e14f3084",
-      "imagePath": "StaticFiles/Users/Compressed/074fd553-272e-4542-be7f-6e7ebdde9d3b.webp",
-      "userName": "Shankkk",
-      "name": "Shahan  ",
-      "phoneNumber": "99365615202",
-      "email": "",
-      "isSubscribed": false,
-      "subscriberCount": 0,
-      "subscriptionCount": 0,
-      "boughtProducts": 0,
-      "favoriteCount": 0,
-      "shopCount": 0,
-      "shops": []
-    },
-    "productId": "cf6c7d2d-510e-4f4a-8bfb-97721c5b684c",
-    "productTitle": "Олдо",
-    "productMedia": "StaticFiles/ProductMediaImage/Compressed/eb912fc3-a976-474c-b420-7cd04aef2d2b_test.png",
-    "rating": {
-      "userRating": {},
-      "total": 0
-    }
-  },
-  {
-    "id": "d8d0a45b-70fb-4696-b46e-53c983360dfe",
-    "name": "",
-    "description": "Ddkddk",
-    "medias": [
-      {
-        "id": "3954a8ff-7004-4fd3-b34d-61a835b63169",
-        "preview": "StaticFiles/Preview/Thumbnail/adc3789a-fa0f-4be3-ade7-39730aeaec0e_test.png",
-        "path": "/1685118344528/1685118344528.m3u8",
-        "mediaType": 1,
-        "orientationType": 0
-      }
-    ],
-    "user": {
-      "id": "7c8d4067-1ff0-46a2-9960-6c43e14f3084",
-      "imagePath": "StaticFiles/Users/Compressed/074fd553-272e-4542-be7f-6e7ebdde9d3b.webp",
-      "userName": "Shankkk",
-      "name": "Shahan  ",
-      "phoneNumber": "99365615202",
-      "email": "",
-      "isSubscribed": false,
-      "subscriberCount": 0,
-      "subscriptionCount": 0,
-      "boughtProducts": 0,
-      "favoriteCount": 0,
-      "shopCount": 0,
-      "shops": []
-    },
-    "productId": "cf6c7d2d-510e-4f4a-8bfb-97721c5b684c",
-    "productTitle": "Олдо",
-    "productMedia": "StaticFiles/ProductMediaImage/Compressed/eb912fc3-a976-474c-b420-7cd04aef2d2b_test.png",
-    "rating": {
-      "userRating": {},
-      "total": 0
-    }
-  },
-  {
-    "id": "424a8d2a-5d77-4813-bed9-b1726ae0bbdb",
-    "name": "",
-    "description": "Воврвтвовтв",
-    "medias": [],
-    "user": {
-      "id": "7c8d4067-1ff0-46a2-9960-6c43e14f3084",
-      "imagePath": "StaticFiles/Users/Compressed/074fd553-272e-4542-be7f-6e7ebdde9d3b.webp",
-      "userName": "Shankkk",
-      "name": "Shahan  ",
-      "phoneNumber": "99365615202",
-      "email": "",
-      "isSubscribed": false,
-      "subscriberCount": 0,
-      "subscriptionCount": 0,
-      "boughtProducts": 0,
-      "favoriteCount": 0,
-      "shopCount": 0,
-      "shops": []
-    },
-    "productId": "cf6c7d2d-510e-4f4a-8bfb-97721c5b684c",
-    "productTitle": "Олдо",
-    "productMedia": "StaticFiles/ProductMediaImage/Compressed/eb912fc3-a976-474c-b420-7cd04aef2d2b_test.png",
-    "rating": {
-      "userRating": {},
-      "total": 0
-    }
-  },
-  {
-    "id": "3c1d853f-b7f7-49ce-b20f-d01ead65de4e",
-    "name": "",
-    "description": "Видео с экрана запись не загружается или не открываются ",
-    "medias": [
-      {
-        "id": "d7ac8518-be56-4a97-b2cd-e1e257598b5a",
-        "preview": "StaticFiles/Preview/Thumbnail/c136dcab-1e7d-4dba-ae9d-435e3974172b_test.png",
-        "path": "/1685115283370/1685115283370.m3u8",
-        "mediaType": 1,
-        "orientationType": 0
-      }
-    ],
-    "user": {
-      "id": "7c8d4067-1ff0-46a2-9960-6c43e14f3084",
-      "imagePath": "StaticFiles/Users/Compressed/074fd553-272e-4542-be7f-6e7ebdde9d3b.webp",
-      "userName": "Shankkk",
-      "name": "Shahan  ",
-      "phoneNumber": "99365615202",
-      "email": "",
-      "isSubscribed": false,
-      "subscriberCount": 0,
-      "subscriptionCount": 0,
-      "boughtProducts": 0,
-      "favoriteCount": 0,
-      "shopCount": 0,
-      "shops": []
-    },
-    "productId": "cf6c7d2d-510e-4f4a-8bfb-97721c5b684c",
-    "productTitle": "Олдо",
-    "productMedia": "StaticFiles/ProductMediaImage/Compressed/eb912fc3-a976-474c-b420-7cd04aef2d2b_test.png",
-    "rating": {
-      "userRating": {},
-      "total": 0
-    }
-  },
-  {
-    "id": "d736c013-deb2-49e8-9f45-91de650c2355",
-    "name": "",
-    "description": " Привет сосед ",
-    "medias": [
-      {
-        "id": "48b51e66-aeee-4d5e-9b3d-e7d1c4869395",
-        "preview": "StaticFiles/Preview/Thumbnail/a6fd23e9-7b7b-4dcd-86fb-274cbc6661ee_test.png",
-        "path": "/1685115053306/1685115053306.m3u8",
-        "mediaType": 1,
-        "orientationType": 0
-      }
-    ],
-    "user": {
-      "id": "7c8d4067-1ff0-46a2-9960-6c43e14f3084",
-      "imagePath": "StaticFiles/Users/Compressed/074fd553-272e-4542-be7f-6e7ebdde9d3b.webp",
-      "userName": "Shankkk",
-      "name": "Shahan  ",
-      "phoneNumber": "99365615202",
-      "email": "",
-      "isSubscribed": false,
-      "subscriberCount": 0,
-      "subscriptionCount": 0,
-      "boughtProducts": 0,
-      "favoriteCount": 0,
-      "shopCount": 0,
-      "shops": []
-    },
-    "productId": "cf6c7d2d-510e-4f4a-8bfb-97721c5b684c",
-    "productTitle": "Олдо",
-    "productMedia": "StaticFiles/ProductMediaImage/Compressed/eb912fc3-a976-474c-b420-7cd04aef2d2b_test.png",
-    "rating": {
-      "userRating": {},
-      "total": 0
-    }
-  },
-  {
-    "id": "b9553da0-92a3-4116-8396-b075f6b75127",
-    "name": "",
-    "description": "Reading\n1\nOrder the letters and write the words.\n1 Bart sometimes plays tricks on his sister.\n2 The football match is at the\n3 A very big, tall person.\n(n\n4 If you are naughty and you have problems.\n5 To take something without asking.\n6 The start of a football match.\n7 In this film there is a\n(dg u\n8 Round, sweet food.",
-    "medias": [],
-    "user": {
-      "id": "7c8d4067-1ff0-46a2-9960-6c43e14f3084",
-      "imagePath": "StaticFiles/Users/Compressed/074fd553-272e-4542-be7f-6e7ebdde9d3b.webp",
-      "userName": "Shankkk",
-      "name": "Shahan  ",
-      "phoneNumber": "99365615202",
-      "email": "",
-      "isSubscribed": false,
-      "subscriberCount": 0,
-      "subscriptionCount": 0,
-      "boughtProducts": 0,
-      "favoriteCount": 0,
-      "shopCount": 0,
-      "shops": []
-    },
-    "productId": "cf6c7d2d-510e-4f4a-8bfb-97721c5b684c",
-    "productTitle": "Олдо",
-    "productMedia": "StaticFiles/ProductMediaImage/Compressed/eb912fc3-a976-474c-b420-7cd04aef2d2b_test.png",
-    "rating": {
-      "userRating": {},
-      "total": 0
-    }
-  },
-  {
-    "id": "64442303-e05c-4064-82db-ba4214e056ef",
-    "name": "",
-    "description": "Write the date.\nWrite a greeting.\nAnswer Alisa's questions.\nWrite about your holiday or trip.\nWhere did you go?\nWhen did you go?\nHow did you travel there?\nWhat did you do / eat?",
-    "medias": [],
-    "user": {
-      "id": "7c8d4067-1ff0-46a2-9960-6c43e14f3084",
-      "imagePath": "StaticFiles/Users/Compressed/074fd553-272e-4542-be7f-6e7ebdde9d3b.webp",
-      "userName": "Shankkk",
-      "name": "Shahan  ",
-      "phoneNumber": "99365615202",
-      "email": "",
-      "isSubscribed": false,
-      "subscriberCount": 0,
-      "subscriptionCount": 0,
-      "boughtProducts": 0,
-      "favoriteCount": 0,
-      "shopCount": 0,
-      "shops": []
-    },
-    "productId": "cf6c7d2d-510e-4f4a-tTitle",
-    "productTitle": "Олдо",
-    "productMedia": "StaticFiles/ProductMediaImage/Compressed/eb912fc3-a976-474c-b420-7cd04aef2d2b_test.png",
-    "rating": {
-      "userRating": {},
-      "total": 0
-    }
-  },
-  {
-    "id": "ec694f27-1368-49b0-a861-ddcf319527ef",
-    "name": "",
-    "description": "1 When you switch on the TV, you can see lots of different ...\n2 A programme for children with moving pictures.\n3 This tells you about things you can buy.\n4 To know what is happening in the world right now, you need to watch the ...\n5 This TV programme gives you information.\n6 You listen to music and news on this.\n7 You can use your ... phone when you are out.\ncon\n8 You can use this camera to make films.\n9 To change the channel on the TV, you can use a rer\n10 There are lots of these on your TV. You choose one t",
-    "medias": [],
-    "user": {
-      "id": "7c8d4067-1ff0-46a2-9960-6c43e14f3084",
-      "imagePath": "StaticFiles/Users/Compressed/074fd553-272e-4542-be7f-6e7ebdde9d3b.webp",
-      "userName": "Shankkk",
-      "name": "Shahan  ",
-      "phoneNumber": "99365615202",
-      "email": "",
-      "isSubscribed": false,
-      "subscriberCount": 0,
-      "subscriptionCount": 0,
-      "boughtProducts": 0,
-      "favoriteCount": 0,
-      "shopCount": 0,
-      "shops": []
-    },
-    "productId": "cf6c7d2d-510e-4f4a-8bfb-97721c5b684c",
-    "productTitle": "Олдо",
-    "productMedia": "StaticFiles/ProductMediaImage/Compressed/eb912fc3-a976-474c-b420-7cd04aef2d2b_test.png",
-    "rating": {
-      "userRating": {},
-      "total": 0
-    }
-  },
-  {
-    "id": "f1c9de84-d720-4e69-8027-3201c6e017fd",
-    "name": "",
-    "description": "Write the teams in order, best first.\nGreenfield school has six football teams. The blue team is good. The red team is better than the blue team.\nThe green team is the best of all.",
-    "medias": [
-      {
-        "id": "19c0a68d-0b94-4e46-ba69-9b098c147fff",
-        "preview": "StaticFiles/Preview/Thumbnail/225dd3bd-125f-4100-ba11-37a26245027f_test.png",
-        "path": "/1685114587635/1685114587635.m3u8",
-        "mediaType": 1,
-        "orientationType": 0
-      }
-    ],
-    "user": {
-      "id": "7c8d4067-1ff0-46a2-9960-6c43e14f3084",
-      "imagePath": "StaticFiles/Users/Compressed/074fd553-272e-4542-be7f-6e7ebdde9d3b.webp",
-      "userName": "Shankkk",
-      "name": "Shahan  ",
-      "phoneNumber": "99365615202",
-      "email": "",
-      "isSubscribed": false,
-      "subscriberCount": 0,
-      "subscriptionCount": 0,
-      "boughtProducts": 0,
-      "favoriteCount": 0,
-      "shopCount": 0,
-      "shops": []
-    },
-    "productId": "cf6c7d2d-510e-4f4a-8bfb-97721c5b684c",
-    "productTitle": "Олдо",
-    "productMedia": "StaticFiles/ProductMediaImage/Compressed/eb912fc3-a976-474c-b420-7cd04aef2d2b_test.png",
-    "rating": {
-      "userRating": {},
-      "total": 0
-    }
-  },
-  {
-    "id": "8bf49418-f93e-4bfe-b21c-72f4dcf61f9e",
-    "name": "",
-    "description": "aaaaaa",
-    "medias": [],
-    "user": {
-      "id": "7c8d4067-1ff0-46a2-9960-6c43e14f3084",
-      "imagePath": "StaticFiles/Users/Compressed/074fd553-272e-4542-be7f-6e7ebdde9d3b.webp",
-      "userName": "Shankkk",
-      "name": "Shahan  ",
-      "phoneNumber": "99365615202",
-      "email": "",
-      "isSubscribed": false,
-      "subscriberCount": 0,
-      "subscriptionCount": 0,
-      "boughtProducts": 0,
-      "favoriteCount": 0,
-      "shopCount": 0,
-      "shops": []
-    },
-    "productId": "b6a785d2-f74f-4e9f-8a5c-768a32d44e96",
-    "productTitle": "Galogen",
-    "productMedia": "StaticFiles/ProductMediaImage/Compressed/b271d4bc-bac9-485c-88a4-786a4c2be313.webp",
-    "rating": {
-      "userRating": {},
-      "total": 0
-    }
-  },
-  {
-    "id": "33200e8c-96c4-4d00-b211-b5dba93c4097",
-    "name": "",
-    "description": "Gfffff",
-    "medias": [],
-    "user": {
-      "id": "7c8d4067-1ff0-46a2-9960-6c43e14f3084",
-      "imagePath": "StaticFiles/Users/Compressed/074fd553-272e-4542-be7f-6e7ebdde9d3b.webp",
-      "userName": "Shankkk",
-      "name": "Shahan  ",
-      "phoneNumber": "99365615202",
-      "email": "",
-      "isSubscribed": false,
-      "subscriberCount": 0,
-      "subscriptionCount": 0,
-      "boughtProducts": 0,
-      "favoriteCount": 0,
-      "shopCount": 0,
-      "shops": []
-    },
-    "productId": "12fff4c2-a292-49a2-a1d0-df1e92253cf4",
-    "productTitle": "Новый товар",
-    "productMedia": "StaticFiles/ProductMediaImage/Compressed/050c0b28-aa00-490f-b03e-7c78b055b7de_test.png",
-    "rating": {
-      "userRating": {},
-      "total": 4294967249
-    }
-  },
-  {
-    "id": "a3fc12eb-d0f4-419b-81e8-bd08bc70095c",
-    "name": "",
-    "description": "Nohurdal ",
-    "medias": [],
-    "user": {
-      "id": "7c8d4067-1ff0-46a2-9960-6c43e14f3084",
-      "imagePath": "StaticFiles/Users/Compressed/074fd553-272e-4542-be7f-6e7ebdde9d3b.webp",
-      "userName": "Shankkk",
-      "name": "Shahan  ",
-      "phoneNumber": "99365615202",
-      "email": "",
-      "isSubscribed": false,
-      "subscriberCount": 0,
-      "subscriptionCount": 0,
-      "boughtProducts": 0,
-      "favoriteCount": 0,
-      "shopCount": 0,
-      "shops": []
-    },
-    "productId": "072b7d58-19c0-470c-9e79-31c353732f0f",
-    "productTitle": "The question ",
-    "productMedia": "StaticFiles/ProductMediaImage/Compressed/9e275137-fcff-4f3e-8e4d-09b3cc89b5f0.webp",
-    "rating": {
-      "userRating": {
-        "c0d9dd67-2f56-44e1-9e42-c2693c0861a1": true
+  ],
+  "posts": [
+    {
+      "id": "33200e8c-96c4-4d00-b211-b5dba93c4097",
+      "name": "",
+      "description": "Gfffff",
+      "medias": [
+        {
+          "id": "bc4b5b24-a8c3-4a54-b06d-ffcef06c51f6",
+          "preview": null,
+          "path": "StaticFiles/ProductMediaImage/Compressed/bc282258-83ee-4626-b943-11d39df981e9_test.png",
+          "mediaType": 0,
+          "orientationType": 0
+        }
+      ],
+
+      "user": {
+        "id": "7c8d4067-1ff0-46a2-9960-6c43e14f3084",
+        "imagePath": null,
+        "userName": "Shankkk",
+        "name": "Shahan  ",
+        "phoneNumber": "99365615202",
+        "email": "",
+        "isSubscribed": null,
+        "subscriberCount": 0,
+        "subscriptionCount": 0,
+        "boughtProducts": 0,
+        "favoriteCount": 0,
+        "shopCount": 0,
+        "shops": []
       },
-      "total": 1
+      "productId": "12fff4c2-a292-49a2-a1d0-df1e92253cf4",
+      "productTitle": "Новый товар",
+      "productMedia": "StaticFiles/ProductMediaImage/Compressed/050c0b28-aa00-490f-b03e-7c78b055b7de_test.png",
+      "rating": {
+        "userRating": {},
+        "total": 0
+      }
+
     }
-  }
-]
+  ],
+  "isFavorited": false
+}

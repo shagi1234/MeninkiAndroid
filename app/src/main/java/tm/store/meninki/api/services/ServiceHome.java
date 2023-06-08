@@ -8,6 +8,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
@@ -38,7 +39,7 @@ import tm.store.meninki.data.HomeArray;
 
 public interface ServiceHome {
     @GET("api/Product/GetById/{id}")
-    Call<ProductDetails> getProductsById(@Header("Authorization") String token, @Path("id") String id);
+    Call<ProductDetails> getProductsById(@Path("id") String id);
 
     @POST("api/Shop/GetAll")
     Call<ArrayList<ResponseHomeShops>> getAllShop(@Body RequestCard requestCard);
@@ -86,19 +87,19 @@ public interface ServiceHome {
     Call<Boolean> placeOrder(@Body RequestPlaceOrder requestAddProduct);
 
     @POST("api/Product/CreateOption")
-    Call<ArrayList<PersonalCharacterDto>> createOption(@Header("Authorization") String token, @Body CharactersDto character);
+    Call<ArrayList<PersonalCharacterDto>> createOption(@Body CharactersDto character);
 
     @POST("api/Product/UpdateOption")
-    Call<ArrayList<PersonalCharacterDto>> updateOption(@Header("Authorization") String token, @Body CharactersDto character);
+    Call<ArrayList<PersonalCharacterDto>> updateOption(@Body CharactersDto character);
 
     @GET("api/Product/PersonalCharacteristics")
-    Call<ArrayList<PersonalCharacterDto>> getPCh(@Header("Authorization") String token, @Query("ProductId") String prodId);
+    Call<ArrayList<PersonalCharacterDto>> getPCh(@Query("ProductId") String prodId);
 
     @PUT("api/Product/UpdatePersonalCharacteristics")
-    Call<Boolean> updatePCh(@Header("Authorization") String token, @Body RequestUpdatePCh requestUpdatePCh);
+    Call<Boolean> updatePCh(@Body RequestUpdatePCh requestUpdatePCh);
 
     @POST("api/Post")
-    Call<String> addPost(@Header("authorization") String token, @Body RequestAddPost requestAddProduct);
+    Call<String> addPost(@Body RequestAddPost requestAddProduct);
 
     @GET("api/Post/GetById/{id}")
     Call<ResponseGetOnePost> getPostById(@Path("id") String id);
@@ -118,6 +119,7 @@ public interface ServiceHome {
     @POST("api/Shop")
     Call<UserProfile> createShop(@Body RequestCreateShop requestAddProduct);
 
+
     @GET("api/Shop/GetById/{id}")
     Call<UserProfile> getShopById(@Path("id") String id);
 
@@ -125,19 +127,23 @@ public interface ServiceHome {
     Call<UserProfile> getUserById(@Path("id") String id);
 
     @POST("api/User/GetSubscriber")
-    Call<ArrayList<UserProfile>> getUserUserSubscribers(@Header("Authorization") String token, @Body JsonObject jsonObject);
+    Call<ArrayList<UserProfile>> getUserUserSubscribers(@Body JsonObject jsonObject);
 
     @POST("api/User/GetShopSubscriber")
-    Call<ArrayList<UserProfile>> getUserShopSubscribers(@Header("Authorization") String token, @Body JsonObject jsonObject);
+    Call<ArrayList<UserProfile>> getUserShopSubscribers(@Body JsonObject jsonObject);
 
     @POST("api/Shop/GetUserSubscriber")
-    Call<ArrayList<UserProfile>> getShopSubscribers(@Header("Authorization") String token, @Body JsonObject jsonObject);
+    Call<ArrayList<UserProfile>> getShopSubscribers(@Body JsonObject jsonObject);
 
     @POST("api/User/Subscribe")
-    Call<Boolean> userSubscribe(@Header("Authorization") String token, @Body JsonObject jsonObject);
+    Call<Boolean> userSubscribe(@Body JsonObject jsonObject);
 
     @POST("api/Shop/Subscribe")
-    Call<Boolean> shopSubscribe(@Header("Authorization") String token, @Body JsonObject jsonObject);
+    Call<Boolean> shopSubscribe(@Body JsonObject jsonObject);
 
+    @POST("api/Favorite")
+    Call<Boolean> like(@Body JsonObject uuid);
 
+    @DELETE("api/Favorite/{id}")
+    Call<Boolean> dislike(@Path("id") String uuid);
 }

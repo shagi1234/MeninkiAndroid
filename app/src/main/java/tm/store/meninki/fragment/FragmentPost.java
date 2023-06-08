@@ -100,8 +100,10 @@ public class FragmentPost extends Fragment implements OnBackPressedFragment {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                adapterViewPager.setPosition(position);
-                adapterViewPager.releasePlayer();
+                new Handler().postDelayed(() -> {
+                    adapterViewPager.setPosition(position);
+                    adapterViewPager.releasePlayer();
+                }, 300);
             }
         });
 

@@ -1,39 +1,59 @@
 package tm.store.meninki.fragment;
 
+import static android.app.Activity.RESULT_OK;
 import static tm.store.meninki.utils.Const.mainFragmentManager;
 import static tm.store.meninki.utils.FragmentHelper.addFragmentWithAnim;
+import static tm.store.meninki.utils.StaticMethods.getApiHome;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
-import static tm.store.meninki.utils.StaticMethods.setPadding;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
+import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import tm.store.meninki.R;
 import tm.store.meninki.api.data.UserProfile;
+import tm.store.meninki.api.enums.Image;
 import tm.store.meninki.api.request.RequestCreateShop;
+import tm.store.meninki.api.request.RequestUploadImage;
 import tm.store.meninki.data.CategoryDto;
 import tm.store.meninki.databinding.FragmentNewShopBinding;
 import tm.store.meninki.interfaces.OnCategoryChecked;
 import tm.store.meninki.shared.Account;
+import tm.store.meninki.utils.FileUtil;
 import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentNewShop extends Fragment implements OnCategoryChecked {
     private FragmentNewShopBinding b;
     private ArrayList<CategoryDto> categories = new ArrayList<>();
+    private final int PICK_IMAGE_REQUEST = 1;
+    private String filePath;
 
     public static FragmentNewShop newInstance() {
         FragmentNewShop fragment = new FragmentNewShop();
@@ -80,6 +100,88 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked {
             addFragmentWithAnim(mainFragmentManager, R.id.fragment_container_main, FragmentCategoryList.newInstance(null, FragmentCategoryList.TYPE_CATEGORY));
             new Handler().postDelayed(() -> b.chooseCategory.setEnabled(true), 200);
         });
+
+        b.layAddPhoto.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(intent, PICK_IMAGE_REQUEST);
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
+            if (getContext() == null) return;
+
+            Uri selectedImageUri = data.getData();
+            filePath = FileUtil.getPath(getContext(), selectedImageUri);
+            // Use the selectedImageUri to access the image
+            // ...
+            Glide.with(getContext())
+                    .load(filePath)
+                    .into(b.imageShop);
+        }
+    }
+
+    private void uploadImage(String productId) {
+        RequestUploadImage uploadImage = new RequestUploadImage();
+        uploadImage.setAvatar(true);
+        uploadImage.setObjectId(productId);
+        uploadImage.setImageType(Image.shop);
+        uploadImage.setWidth(getWidth(filePath));
+        uploadImage.setHeight(getHeight(filePath));
+        uploadImage.setData(new File(filePath));
+
+        RequestBody requestFile =
+                RequestBody.create(
+                        MediaType.parse(
+                                FileUtil.getMimeType(uploadImage.getData())),
+                        uploadImage.getData());
+
+        try {
+            RequestBody objectId = RequestBody.create(MediaType.parse("multipart/form-data"), uploadImage.getObjectId());
+            RequestBody width = RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(uploadImage.getWidth()));
+            RequestBody height = RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(uploadImage.getHeight()));
+            RequestBody imageType = RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(uploadImage.getImageType()));
+            RequestBody isAvatar = RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(uploadImage.isAvatar()));
+
+            MultipartBody.Part data = MultipartBody.Part.createFormData("data", URLEncoder.encode(uploadImage.getData().getPath(), "utf-8"), requestFile);
+
+            Call<Object> call = getApiHome().uploadImage(objectId, isAvatar, imageType, width, height, data);
+            call.enqueue(new Callback<Object>() {
+                @Override
+                public void onResponse(@NonNull Call<Object> call, @NonNull Response<Object> response) {
+                    if (response.code() == 200 && response.body() != null) {
+                        Toast.makeText(getContext(), "Success upload image", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<Object> call, @NonNull Throwable t) {
+                    Log.e("Add_post", "onFailure: " + t);
+                }
+            });
+
+        } catch (UnsupportedEncodingException e) {
+            Log.e("Add_post", "sendApi: " + e.getMessage());
+        }
+
+    }
+
+    private int getHeight(String path) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+
+        BitmapFactory.decodeFile(path, options);
+        return options.outHeight;
+    }
+
+    private int getWidth(String path) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+
+        BitmapFactory.decodeFile(path, options);
+        return options.outWidth;
     }
 
     private void createShop() {
@@ -92,7 +194,8 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked {
         requestCreateShop.setUserId(Account.newInstance(getContext()).getPrefUserUUID());
 //        requestCreateShop.setDescriptionTm(b.about.getText().toString());
         requestCreateShop.setName(b.storeName.getText().toString());
-//        requestCreateShop.setPhoneNumber(b.phoneNumber.getText().toString());
+//        requestCreateShop.setP
+//        honeNumber(b.phoneNumber.getText().toString());
         requestCreateShop.setEmail(b.extraContact.getText().toString());
 
         Call<UserProfile> call = StaticMethods.getApiHome().createShop(requestCreateShop);
@@ -100,15 +203,9 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked {
         call.enqueue(new Callback<UserProfile>() {
             @Override
             public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
-
                 if (response.code() == 200 && response.body() != null) {
-                    // onResponse
-                    Log.e("TAG", "initListeners: " + response.code());
-
-                } else {
-                    // onError
+                    uploadImage(response.body().getId());
                 }
-
             }
 
             @Override
@@ -117,7 +214,6 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked {
             }
         });
     }
-
 
     private void setBackgrounds() {
         setBackgroundDrawable(getContext(), b.storeName, R.color.neutral_dark, 0, 4, false, 0);
@@ -132,7 +228,6 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked {
         setBackgroundDrawable(getContext(), b.saveButton, R.color.accent, 0, 4, false, 0);
 
     }
-
 
     @Override
     public void onChecked(boolean isChecked, CategoryDto categoryDto) {

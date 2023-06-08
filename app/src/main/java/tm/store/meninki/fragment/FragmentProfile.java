@@ -52,7 +52,6 @@ import tm.store.meninki.utils.StaticMethods;
 public class FragmentProfile extends Fragment {
     private FragmentProfileBinding b;
     private AdapterGrid adapterGrid;
-
     AdapterProfileShops adapter;
     private String type;
     public final static String TYPE_USER = "user";
@@ -107,6 +106,8 @@ public class FragmentProfile extends Fragment {
             case TYPE_USER:
                 setRecycler(AdapterGrid.TYPE_POST);
 
+                b.allFollows.setText("Подписки");
+
                 if (isMe()) {
 
                     setRecyclerShops();
@@ -115,6 +116,8 @@ public class FragmentProfile extends Fragment {
 
                     b.editUser.setVisibility(View.VISIBLE);
                     b.contactsLay.setVisibility(View.GONE);
+                    //vagtlayynca
+                    b.layShops.setVisibility(View.GONE);
 
                     b.myShops.setText("Сообщения");
                     b.countShops.setVisibility(View.VISIBLE);
@@ -123,10 +126,11 @@ public class FragmentProfile extends Fragment {
                     b.addSms.setVisibility(View.GONE);
                     b.countBookmark.setVisibility(View.VISIBLE);
 
-
                 } else {
 
                     b.editUser.setVisibility(View.GONE);
+
+                    b.layShops.setVisibility(View.VISIBLE);
 
                     b.myBookmarks.setText("Написать сообщение");
                     b.countBookmark.setVisibility(View.GONE);
@@ -136,7 +140,6 @@ public class FragmentProfile extends Fragment {
                     b.countShops.setVisibility(View.GONE);
                     b.followIc.setVisibility(View.VISIBLE);
 
-
                 }
 
                 getUserById();
@@ -144,6 +147,7 @@ public class FragmentProfile extends Fragment {
                 break;
             case TYPE_SHOP:
                 b.countBookmark.setVisibility(View.GONE);
+                b.allFollows.setText("Товаров");
                 b.editUser.setVisibility(View.GONE);
                 setRecycler(AdapterGrid.TYPE_GRID);
 
@@ -165,6 +169,9 @@ public class FragmentProfile extends Fragment {
                     b.myShops.setText("Новые заказы");
                     b.countShops.setVisibility(View.VISIBLE);
                     b.myBookmarks.setText("Избранное");
+
+                    b.layVisitors.setVisibility(View.VISIBLE);
+                    b.layPlaceRating.setVisibility(View.VISIBLE);
 
                     b.addSms.setVisibility(View.GONE);
                     b.countBookmark.setVisibility(View.VISIBLE);
@@ -259,8 +266,9 @@ public class FragmentProfile extends Fragment {
             b.countProducts.setText(String.valueOf(response.getProductCount()));
 
             if (isMyShop) {
-                b.countSubscribers.setText(String.valueOf(response.getVisiterCount()));
-                b.countProducts.setText(String.valueOf(response.getOrderCount()));
+                b.countVisitors.setText(String.valueOf(response.getVisiterCount()));
+                b.countShops.setText(String.valueOf(response.getOrderCount()));
+
                 b.addProduct.setVisibility(View.VISIBLE);
             } else {
                 checkSubscribe(response.isSubscribed());
@@ -268,6 +276,13 @@ public class FragmentProfile extends Fragment {
 
             getProducts();
         }
+
+        hideProgress();
+    }
+
+    private void hideProgress() {
+        b.coordinator.setVisibility(View.VISIBLE);
+        b.progressBar.setVisibility(View.GONE);
     }
 
     private void getPostsUser() {
@@ -375,9 +390,9 @@ public class FragmentProfile extends Fragment {
         j.addProperty("isSubscribe", isSubscribe);
         Call<Boolean> call = null;
         if (isShop) {
-            call = StaticMethods.getApiHome().shopSubscribe(account.getAccessToken(), j);
+            call = StaticMethods.getApiHome().shopSubscribe(j);
         } else {
-            call = StaticMethods.getApiHome().userSubscribe(account.getAccessToken(), j);
+            call = StaticMethods.getApiHome().userSubscribe(j);
         }
         call.enqueue(new RetrofitCallback<Boolean>() {
             @Override

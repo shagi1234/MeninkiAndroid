@@ -13,7 +13,7 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -65,6 +65,7 @@
                     android:textSize="20sp" />
 
                 <LinearLayout
+                    android:id="@+id/lay_store"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
@@ -178,39 +179,11 @@
                     android:orientation="vertical"
                     android:visibility="visible">
 
-                    <TextView
-                        android:id="@+id/char_image"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="20dp"
-                        android:fontFamily="@font/inter_bold"
-                        android:text="Характеристика - картинка"
-                        android:textColor="@color/contrast"
-                        android:textSize="14sp" />
-
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rec_char_image"
+                        android:id="@+id/rec_ph"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp" />
-
-                    <TextView
-                        android:id="@+id/char_pick"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="20dp"
-                        android:layout_marginTop="20dp"
-                        android:fontFamily="@font/inter_bold"
-                        android:text="Характеристика - текст"
-                        android:textColor="@color/contrast"
-                        android:textSize="14sp" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rec_char_pick"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="40dp" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rec_discounts"
@@ -395,7 +368,6 @@
 
     </FrameLayout>
 
-
     <ProgressBar
         android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
@@ -403,6 +375,5 @@
         android:layout_gravity="center"
         android:indeterminateTint="@color/contrast"
         android:visibility="visible" />
-
 
 </FrameLayout>

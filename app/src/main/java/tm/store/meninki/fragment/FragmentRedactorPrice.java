@@ -72,7 +72,7 @@ public class FragmentRedactorPrice extends Fragment {
     private void updatePH() {
         RequestUpdatePCh r = new RequestUpdatePCh();
         r.setPersonalCharacteristics(personalCharacteristics);
-        Call<Boolean> call = StaticMethods.getApiHome().updatePCh(Account.newInstance(getContext()).getAccessToken(), r);
+        Call<Boolean> call = StaticMethods.getApiHome().updatePCh( r);
         call.enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(@NonNull Call<Boolean> call, @NonNull Response<Boolean> response) {
@@ -91,7 +91,7 @@ public class FragmentRedactorPrice extends Fragment {
 
 
     private void getOptions() {
-        Call<ArrayList<PersonalCharacterDto>> call = StaticMethods.getApiHome().getPCh(Account.newInstance(getContext()).getAccessToken(), prodId);
+        Call<ArrayList<PersonalCharacterDto>> call = StaticMethods.getApiHome().getPCh( prodId);
         call.enqueue(new Callback<ArrayList<PersonalCharacterDto>>() {
             @Override
             public void onResponse(Call<ArrayList<PersonalCharacterDto>> call, Response<ArrayList<PersonalCharacterDto>> response) {

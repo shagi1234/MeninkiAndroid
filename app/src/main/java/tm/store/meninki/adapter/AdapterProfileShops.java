@@ -1,6 +1,9 @@
 package tm.store.meninki.adapter;
 
+import static tm.store.meninki.api.Network.BASE_URL;
+
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,8 +69,10 @@ public class AdapterProfileShops extends RecyclerView.Adapter<AdapterProfileShop
             if (checkLast()) return;
 
             Glide.with(context)
-                    .load(shops.get(getAdapterPosition()).getImgPath())
+                    .load(BASE_URL + "/" + shops.get(getAdapterPosition()).getImgPath())
                     .into(b.shopImg);
+
+            Log.e("TAG_shops", "bind: " + BASE_URL + "/" + shops.get(getAdapterPosition()).getImgPath());
 
             b.shopName.setText(shops.get(getAdapterPosition()).getName());
         }
