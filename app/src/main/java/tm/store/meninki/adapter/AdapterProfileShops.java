@@ -70,6 +70,8 @@ public class AdapterProfileShops extends RecyclerView.Adapter<AdapterProfileShop
 
             Glide.with(context)
                     .load(BASE_URL + "/" + shops.get(getAdapterPosition()).getImgPath())
+                    .placeholder(R.color.low_contrast)
+                    .error(R.color.low_contrast)
                     .into(b.shopImg);
 
             Log.e("TAG_shops", "bind: " + BASE_URL + "/" + shops.get(getAdapterPosition()).getImgPath());

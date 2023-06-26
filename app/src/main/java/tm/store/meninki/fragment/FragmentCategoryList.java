@@ -6,6 +6,7 @@ import static tm.store.meninki.utils.StaticMethods.setPadding;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.gson.Gson;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrInterface;
@@ -89,14 +91,20 @@ public class FragmentCategoryList extends Fragment {
 
         if (isShop()) {
             getShops();
+            return;
         }
 
         if (subCategories == null && isCategory()) {
             getCategories();
             return;
         }
-
+        hideProgress();
         adapterText.setCategories(subCategories);
+    }
+
+    private void hideProgress() {
+        b.progressBar.setVisibility(View.GONE);
+        b.recCategory.setVisibility(View.VISIBLE);
     }
 
     private void getShops() {
@@ -105,6 +113,7 @@ public class FragmentCategoryList extends Fragment {
             @Override
             public void onResponse(@NonNull Call<ArrayList<UserProfile>> call, @NonNull Response<ArrayList<UserProfile>> response) {
                 if (response.code() == 200 && response.body() != null) {
+                    hideProgress();
                     adapterText.setShops(response.body());
                 } else {
                     logWrite(response.code());
@@ -122,7 +131,6 @@ public class FragmentCategoryList extends Fragment {
     private void initListeners() {
 //        if (isCategory()) b.bgHeader.setVisibility(View.VISIBLE);
 //        else b.bgHeader.setVisibility(View.GONE);
-
         b.clickBack.setOnClickListener(v -> getActivity().onBackPressed());
     }
 
@@ -133,6 +141,7 @@ public class FragmentCategoryList extends Fragment {
             public void onResponse(@NonNull Call<ArrayList<CategoryDto>> call, @NonNull Response<ArrayList<CategoryDto>> response) {
 
                 if (response.code() == 200 && response.body() != null) {
+                    hideProgress();
                     adapterText.setCategories(response.body());
                 } else {
                     logWrite(response.code());

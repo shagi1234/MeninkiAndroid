@@ -6,6 +6,21 @@
     <string name="send_again">Send again</string>
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet consectetur. Pretium sed lorem id consectetur arcu tellus. Dui euismod morbi placerat aliquam facilisis blandit. Odio est duis velit scelerisque tellus cum cursus sit. Pretium euismod tellus risus facilisis at. Pharetra lacus sed elementum consequat. Nunc nec justo tellus quis at et proin. Ac neque risus velit in ante blandit.</string>
+    <string name="settings">Настройки</string>
+    <string name="bookmark">Избранное</string>
+    <string name="subscribes">Подписки</string>
+    <string name="products">Товаров</string>
+    <string name="new_products">Новые заказы</string>
+    <string name="new_messages">Написать сообщение</string>
+    <string name="subscribe">Подписаться</string>
+    <string name="unsubscribe">Отписаться</string>
+    <string name="edit_profile">Редактировать профиль</string>
+    <string name="logout">Выйти</string>
+    <string name="delete_account">Удалить аккаунт</string>
+    <string name="change_language">Язык</string>
+    <string name="choose_category">Выберите категорию</string>
+    <string name="share_via">Share via</string>
+    <string name="subscribers">Подписчики</string>
 
     <string-array name="array">
         <item>Wariant</item>

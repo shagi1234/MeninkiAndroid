@@ -80,7 +80,7 @@ public class AdapterCircle extends RecyclerView.Adapter<AdapterCircle.StoreHolde
             Glide.with(context)
                     .load(BASE_URL + "/" + stories.get(getAdapterPosition()).getShop().getImgPath())
                     .placeholder(R.color.low_contrast)
-                    .error(R.color.neutral_dark)
+                    .error(R.color.on_bg_ls)
                     .into(b.image);
 
             b.storeName.setText(stories.get(getAdapterPosition()).getShop().getName());

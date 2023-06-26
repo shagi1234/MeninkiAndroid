@@ -47,7 +47,7 @@ public class AdapterMyShops extends RecyclerView.Adapter<AdapterMyShops.StoreHol
     @Override
     public int getItemCount() {
         if (grids == null) {
-            return 5;
+            return 0;
         }
         return grids.size();
     }

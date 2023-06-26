@@ -2,6 +2,7 @@ package tm.store.meninki.api.data;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import tm.store.meninki.api.data.MediaDto;
@@ -9,7 +10,6 @@ import tm.store.meninki.api.data.Rating;
 import tm.store.meninki.api.data.UserProfile;
 
 public class ResponsePostGetAllItem {
-
     @SerializedName("productTitle")
     private String productTitle;
 
@@ -37,6 +37,8 @@ public class ResponsePostGetAllItem {
     @SerializedName("user")
     private UserProfile user;
 
+    private DataComment comment;
+
     public String getProductTitle() {
         return productTitle;
     }
@@ -45,7 +47,7 @@ public class ResponsePostGetAllItem {
         return medias;
     }
 
-    public Object getProductMedia() {
+    public String getProductMedia() {
         return productMedia;
     }
 
@@ -67,6 +69,10 @@ public class ResponsePostGetAllItem {
 
     public String getId() {
         return id;
+    }
+
+    public DataComment getComments() {
+        return comment;
     }
 
     public UserProfile getUser() {

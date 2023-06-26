@@ -17,16 +17,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.gson.JsonObject;
 
 import retrofit2.Call;
 import tm.store.meninki.R;
 import tm.store.meninki.activity.ActivityMain;
 import tm.store.meninki.api.RetrofitCallback;
+import tm.store.meninki.api.response.DataCheckSms;
 import tm.store.meninki.databinding.FragmentLoginUserInformationBinding;
 import tm.store.meninki.shared.Account;
 import tm.store.meninki.utils.KeyboardHeightProvider;
@@ -36,11 +40,12 @@ public class FragmentLoginUserInfo extends Fragment implements KeyboardHeightPro
     private FragmentLoginUserInformationBinding b;
     private KeyboardHeightProvider keyboardHeightProvider;
     private Account account;
+    private boolean signedInGoogle;
 
-    public static FragmentLoginUserInfo newInstance() {
+    public static FragmentLoginUserInfo newInstance(boolean isSignedInGoogle) {
         FragmentLoginUserInfo fragment = new FragmentLoginUserInfo();
         Bundle args = new Bundle();
-
+        args.putBoolean("isSignedInGoogle", isSignedInGoogle);
         fragment.setArguments(args);
         return fragment;
     }
@@ -59,6 +64,9 @@ public class FragmentLoginUserInfo extends Fragment implements KeyboardHeightPro
         account = Account.newInstance(getContext());
         keyboardHeightProvider = new KeyboardHeightProvider(getContext(), getActivity().getWindowManager(), getActivity().getWindow().getDecorView(), this);
         hideSoftKeyboard(getActivity());
+        if (getArguments() != null) {
+            signedInGoogle = getArguments().getBoolean("isSignedInGoogle");
+        }
     }
 
     @Override
@@ -81,14 +89,61 @@ public class FragmentLoginUserInfo extends Fragment implements KeyboardHeightPro
         b.nextBtn.setOnClickListener(v -> {
             if (getActivity() == null) return;
             b.nextBtn.setEnabled(false);
-            createUser();
             new Handler().postDelayed(() -> b.nextBtn.setEnabled(true), 200);
+            if (signedInGoogle) {
+                sendDataGoogle();
+                return;
+            }
+            createUser();
         });
 
 
         b.edtName.addTextChangedListener(this);
         b.edtUsername.addTextChangedListener(this);
     }
+
+    private void sendDataGoogle() {
+        if (getContext() == null || getActivity() == null) return;
+        if (b.edtUsername.getText().toString().trim().equals("")) {
+            Toast.makeText(getContext(), "Please write username", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getContext());
+        if (acct == null) return;
+
+        JsonObject j = new JsonObject();
+        j.addProperty("userId", acct.getId());
+        j.addProperty("fullName", acct.getDisplayName());
+        j.addProperty("userName", b.edtUsername.getText().toString().trim());
+        j.addProperty("email", acct.getEmail());
+        Call<DataCheckSms> call = StaticMethods.getApiLogin().signInGoogle(j);
+        call.enqueue(new RetrofitCallback<DataCheckSms>() {
+            @Override
+            public void onResponse(DataCheckSms response) {
+                if (getContext() == null || getActivity() == null) return;
+
+                account.saveAccessToken(response.getAccessToken());
+                account.saveRefreshToken(response.getRefreshToken());
+                account.saveValidToToken(response.getValidTo());
+                account.saveUserUUID(response.getUserId());
+
+                //go next activity
+                account.saveUserIsLoggedIn();
+
+                startActivity(new Intent(getContext(), ActivityMain.class));
+                getActivity().finish();
+
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+//                showNoConnection();
+            }
+        });
+
+    }
+
 
     private void createUser() {
         JsonObject j = new JsonObject();
@@ -141,6 +196,13 @@ public class FragmentLoginUserInfo extends Fragment implements KeyboardHeightPro
         setBackgroundDrawable(getContext(), b.edtName, R.color.low_contrast, 0, 10, false, 0);
         setBackgroundDrawable(getContext(), b.edtUsername, R.color.low_contrast, 0, 10, false, 0);
         setNextBtnEnabled();
+        if (signedInGoogle) {
+            b.edtName.setVisibility(View.GONE);
+            b.hintName.setVisibility(View.GONE);
+        } else {
+            b.edtName.setVisibility(View.VISIBLE);
+            b.hintName.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

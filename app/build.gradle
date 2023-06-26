@@ -3,16 +3,25 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 34
 
     defaultConfig {
         applicationId "tm.store.meninki"
         minSdk 21
-        targetSdk 32
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file(MYAPP_UPLOAD_STORE_FILE)
+            storePassword 'meninkiAndroid'
+            keyAlias 'keyMeninki'
+            keyPassword 'meninkiAndroid'
+        }
     }
 
     buildTypes {

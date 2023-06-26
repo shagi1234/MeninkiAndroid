@@ -8,6 +8,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
+import android.media.MediaCodec;
+import android.media.MediaExtractor;
+import android.media.MediaFormat;
+import android.media.MediaMetadataRetriever;
+import android.media.MediaMuxer;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +32,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.gowtham.library.utils.TrimVideo;
 
+import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
 import tm.store.meninki.R;
@@ -164,6 +172,82 @@ public class AdapterMedia extends RecyclerView.Adapter<AdapterMedia.ViewHolder> 
             layCheckbox = itemView.findViewById(R.id.lay_checkbox);
 
             constraintLayout.setLayoutParams(new ViewGroup.LayoutParams(StaticMethods.getWindowWidth(activity) / 3, StaticMethods.getWindowWidth(activity) / 3));
+        }
+    }
+
+    @SuppressLint("WrongConstant")
+    public void trimVideo(String videoPath, long startMs, long endMs) {
+        try {
+            // Create a media retriever instance
+            MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+            retriever.setDataSource(videoPath);
+
+            // Extract video information
+            String videoMimeType = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_MIMETYPE);
+            int videoWidth = Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH));
+            int videoHeight = Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT));
+            int rotation = Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_ROTATION));
+
+            // Create a media extractor instance
+            MediaExtractor extractor = new MediaExtractor();
+            extractor.setDataSource(videoPath);
+
+            // Find the video track index
+            int videoTrackIndex = -1;
+            for (int i = 0; i < extractor.getTrackCount(); i++) {
+                MediaFormat format = extractor.getTrackFormat(i);
+                String mimeType = format.getString(MediaFormat.KEY_MIME);
+                if (mimeType != null && mimeType.startsWith("video/")) {
+                    videoTrackIndex = i;
+                    break;
+                }
+            }
+
+            // Set the track index and configure the muxer
+            extractor.selectTrack(videoTrackIndex);
+            MediaFormat trackFormat = extractor.getTrackFormat(videoTrackIndex);
+            MediaMuxer muxer = new MediaMuxer(Environment.getExternalStorageDirectory() + "/trimmed_video.mp4", MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4);
+            int outputVideoTrackIndex = muxer.addTrack(trackFormat);
+            muxer.start();
+
+            // Set the start and end timestamps for trimming
+            long durationUs = endMs * 1000 - startMs * 1000;
+            extractor.seekTo(startMs * 1000, MediaExtractor.SEEK_TO_CLOSEST_SYNC);
+
+            // Read and write video data
+            ByteBuffer buffer = ByteBuffer.allocate(1024 * 1024);
+            MediaCodec.BufferInfo info = new MediaCodec.BufferInfo();
+            while (true) {
+                int sampleSize = extractor.readSampleData(buffer, 0);
+                if (sampleSize < 0) {
+                    break;
+                }
+
+                long presentationTimeUs = extractor.getSampleTime();
+                if (presentationTimeUs > endMs * 1000) {
+                    break;
+                }
+
+                info.offset = 0;
+                info.size = sampleSize;
+                info.presentationTimeUs = presentationTimeUs - startMs * 1000;
+                info.flags = extractor.getSampleFlags();
+
+                muxer.writeSampleData(outputVideoTrackIndex, buffer, info);
+
+                extractor.advance();
+            }
+
+            // Release resources
+            muxer.stop();
+            muxer.release();
+            extractor.release();
+            retriever.release();
+
+            // Video trimming is complete
+            // The trimmed video can be found at Environment.getExternalStorageDirectory() + "/trimmed_video.mp4"
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

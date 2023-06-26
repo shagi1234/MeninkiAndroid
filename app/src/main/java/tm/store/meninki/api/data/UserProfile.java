@@ -8,6 +8,8 @@ public class UserProfile {
     private String name;
     private String phoneNumber;
     private String email;
+
+    private String userName;
     private boolean isSubscribed;
     private int subscriberCount;
     private int subscriptionCount;
@@ -18,7 +20,6 @@ public class UserProfile {
     private int boughtProducts; // dine oz profilymda bar
     private int favoriteCount; // dine oz profilymda bar
     private int shopCount;  //dine oz profilymda bar
-
     private int orderCount; // dine oz shopymda bar
     private int visiterCount; // dine oz shopymda bar
 
@@ -144,6 +145,14 @@ public class UserProfile {
 
     public int getVisiterCount() {
         return visiterCount;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public void setVisiterCount(int visiterCount) {

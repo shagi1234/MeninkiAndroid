@@ -1,22 +1,25 @@
-
 package tm.store.meninki.fragment;
 
 import static androidx.core.content.ContextCompat.checkSelfPermission;
+import static androidx.core.content.PermissionChecker.PERMISSION_DENIED;
 import static tm.store.meninki.utils.StaticMethods.hideSoftKeyboard;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +28,7 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
@@ -59,7 +63,6 @@ public class FragmentOpenGallery extends Fragment implements OnBackPressedFragme
     private SlidrInterface slidrInterface;
     public static final int VIDEO = 1;
     public static final int IMAGE = 2;
-    public static final int BOTH = 0;
     private int isVideo;
     private int PERMISSION_FILE = 1;
     private ActivityResultLauncher<Intent> startForResult;
@@ -93,15 +96,20 @@ public class FragmentOpenGallery extends Fragment implements OnBackPressedFragme
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         b = FragmentOpenGalleryBinding.inflate(inflater, container, false);
 
         checkUI();
 
-        if (checkPermissionWriteExternalStorage()) {
-            AsyncTask.execute(this::getMediaFromGallery);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (checkPermissionWriteExternalStorageApi33()) {
+                AsyncTask.execute(this::getMediaFromGallery);
+            }
+        } else {
+            if (checkPermissionWriteExternalStorage()) {
+                AsyncTask.execute(this::getMediaFromGallery);
+            }
         }
 
         initListener();
@@ -118,9 +126,18 @@ public class FragmentOpenGallery extends Fragment implements OnBackPressedFragme
 
 
     boolean checkPermissionWriteExternalStorage() {
-        if (checkSelfPermission(requireActivity().getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_DENIED) {
-            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_FILE);
+        if (checkSelfPermission(requireActivity().getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED /*||
+                checkSelfPermission(requireActivity().getApplicationContext(), Manifest.permission.READ_MEDIA_VIDEO) == PackageManager.PERMISSION_DENIED*/) {
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE/*, Manifest.permission.READ_MEDIA_VIDEO*/}, PERMISSION_FILE);
+            return false;
+        }
+        return true;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
+    boolean checkPermissionWriteExternalStorageApi33() {
+        if (checkSelfPermission(requireActivity().getApplicationContext(), Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_DENIED || checkSelfPermission(requireActivity().getApplicationContext(), Manifest.permission.READ_MEDIA_VIDEO) == PackageManager.PERMISSION_DENIED) {
+            requestPermissions(new String[]{Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO}, PERMISSION_FILE);
             return false;
         }
         return true;
@@ -136,29 +153,25 @@ public class FragmentOpenGallery extends Fragment implements OnBackPressedFragme
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void initListener() {
         b.toolbar.setVisibility(View.VISIBLE);
         b.btnBack.setOnClickListener(view -> getActivity().onBackPressed());
         setBackgroundDrawable(getContext(), b.edtTitle, R.color.white, 0, 10, false, 0);
 
-        startForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (getActivity() == null) return;
+        startForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (getActivity() == null) return;
 
-                    if (result.getResultCode() == Activity.RESULT_OK &&
-                            result.getData() != null) {
-                        Uri uri = Uri.parse(TrimVideo.getTrimmedVideoPath(result.getData()));
+            if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                Uri uri = Uri.parse(TrimVideo.getTrimmedVideoPath(result.getData()));
 
-                        if (AdapterMediaAddPost.getInstance() != null) {
-                            SelectedMedia.getArrayList().add(new MediaLocal(-1, uri.getPath(), 3));
-                            AdapterMediaAddPost.getInstance().notifyDataSetChanged();
-//                            getActivity().onBackPressed();
-                        }
-
-                    } else
-                        LogMessage.v("videoTrimResultLauncher data is null");
+                if (AdapterMediaAddPost.getInstance() != null) {
+                    SelectedMedia.getArrayList().add(new MediaLocal(-1, uri.getPath(), 3));
+                    AdapterMediaAddPost.getInstance().notifyDataSetChanged();
                 }
-        );
+
+            } else LogMessage.v("videoTrimResultLauncher data is null");
+        });
         b.btnNext.setOnClickListener(v -> {
             b.btnNext.setEnabled(false);
 
@@ -196,32 +209,19 @@ public class FragmentOpenGallery extends Fragment implements OnBackPressedFragme
     }
 
     private void getMediaFromGallery() {
-        String[] columns = {
-                MediaStore.Files.FileColumns._ID,
-                MediaStore.Files.FileColumns.DATA,
-                MediaStore.Files.FileColumns.DATE_ADDED,
-                MediaStore.Files.FileColumns.MEDIA_TYPE,
-                MediaStore.Files.FileColumns.MIME_TYPE,
-                MediaStore.Files.FileColumns.TITLE,
-        };
+        String[] columns = {MediaStore.Files.FileColumns._ID, MediaStore.Files.FileColumns.DATA, MediaStore.Files.FileColumns.DATE_ADDED, MediaStore.Files.FileColumns.MEDIA_TYPE, MediaStore.Files.FileColumns.MIME_TYPE, MediaStore.Files.FileColumns.TITLE,};
 
         String selection;
 
         switch (isVideo) {
             case VIDEO:
-                selection = MediaStore.Files.FileColumns.MEDIA_TYPE + "="
-                        + MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
+                selection = MediaStore.Files.FileColumns.MEDIA_TYPE + "=" + MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
                 break;
             case IMAGE:
-                selection = MediaStore.Files.FileColumns.MEDIA_TYPE + "="
-                        + MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
+                selection = MediaStore.Files.FileColumns.MEDIA_TYPE + "=" + MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
                 break;
             default:
-                selection = MediaStore.Files.FileColumns.MEDIA_TYPE + "="
-                        + MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE
-                        + " OR "
-                        + MediaStore.Files.FileColumns.MEDIA_TYPE + "="
-                        + MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
+                selection = MediaStore.Files.FileColumns.MEDIA_TYPE + "=" + MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE + " OR " + MediaStore.Files.FileColumns.MEDIA_TYPE + "=" + MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
                 break;
         }
 
@@ -229,10 +229,7 @@ public class FragmentOpenGallery extends Fragment implements OnBackPressedFragme
         Uri queryUri = MediaStore.Files.getContentUri("external");
 
         @SuppressWarnings("deprecation")
-        Cursor imagecursor = getActivity().managedQuery(queryUri,
-                columns,
-                selection,
-                null, // Selection args (none).
+        Cursor imagecursor = getActivity().managedQuery(queryUri, columns, selection, null, // Selection args (none).
                 MediaStore.Files.FileColumns.DATE_ADDED + " DESC" // Sort order.
         );
         getActivity().runOnUiThread(() -> setRecycler(imagecursor));

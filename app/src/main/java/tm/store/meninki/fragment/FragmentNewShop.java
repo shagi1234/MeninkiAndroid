@@ -14,10 +14,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -44,12 +47,13 @@ import tm.store.meninki.api.request.RequestCreateShop;
 import tm.store.meninki.api.request.RequestUploadImage;
 import tm.store.meninki.data.CategoryDto;
 import tm.store.meninki.databinding.FragmentNewShopBinding;
+import tm.store.meninki.interfaces.OnBackPressedFragment;
 import tm.store.meninki.interfaces.OnCategoryChecked;
 import tm.store.meninki.shared.Account;
 import tm.store.meninki.utils.FileUtil;
 import tm.store.meninki.utils.StaticMethods;
 
-public class FragmentNewShop extends Fragment implements OnCategoryChecked {
+public class FragmentNewShop extends Fragment implements OnCategoryChecked, OnBackPressedFragment {
     private FragmentNewShopBinding b;
     private ArrayList<CategoryDto> categories = new ArrayList<>();
     private final int PICK_IMAGE_REQUEST = 1;
@@ -65,6 +69,7 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Change the soft input mode
 
     }
 
@@ -75,11 +80,11 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         b = FragmentNewShopBinding.inflate(inflater, container, false);
         new Handler().postDelayed(this::setBackgrounds, 100);
+        requireActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         initListeners();
         return b.getRoot();
@@ -88,10 +93,15 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked {
     private void initListeners() {
         b.goBasket.setOnClickListener(v -> {
             b.goBasket.setEnabled(false);
+            new Handler().postDelayed(() -> b.goBasket.setEnabled(true), 200);
+
+            if (isContentsEmpty()) {
+                Toast.makeText(getContext(), "Please write information completely ", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
             createShop();
 
-            new Handler().postDelayed(() -> b.goBasket.setEnabled(true), 200);
         });
         b.chooseCategory.setOnClickListener(v -> {
             b.chooseCategory.setEnabled(false);
@@ -107,6 +117,10 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked {
         });
     }
 
+    private boolean isContentsEmpty() {
+        return !(b.storeName.getText().toString().trim().length() > 0 && categories.size() > 0 && b.contactPhone1.getText().toString().trim().length() > 0);
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -117,9 +131,7 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked {
             filePath = FileUtil.getPath(getContext(), selectedImageUri);
             // Use the selectedImageUri to access the image
             // ...
-            Glide.with(getContext())
-                    .load(filePath)
-                    .into(b.imageShop);
+            Glide.with(getContext()).load(filePath).into(b.imageShop);
         }
     }
 
@@ -132,11 +144,7 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked {
         uploadImage.setHeight(getHeight(filePath));
         uploadImage.setData(new File(filePath));
 
-        RequestBody requestFile =
-                RequestBody.create(
-                        MediaType.parse(
-                                FileUtil.getMimeType(uploadImage.getData())),
-                        uploadImage.getData());
+        RequestBody requestFile = RequestBody.create(MediaType.parse(FileUtil.getMimeType(uploadImage.getData())), uploadImage.getData());
 
         try {
             RequestBody objectId = RequestBody.create(MediaType.parse("multipart/form-data"), uploadImage.getObjectId());
@@ -192,11 +200,8 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked {
         }
         requestCreateShop.setCategories(categoryIds);
         requestCreateShop.setUserId(Account.newInstance(getContext()).getPrefUserUUID());
-//        requestCreateShop.setDescriptionTm(b.about.getText().toString());
         requestCreateShop.setName(b.storeName.getText().toString());
-//        requestCreateShop.setP
-//        honeNumber(b.phoneNumber.getText().toString());
-        requestCreateShop.setEmail(b.extraContact.getText().toString());
+        requestCreateShop.setEmail(b.edtEmail.getText().toString());
 
         Call<UserProfile> call = StaticMethods.getApiHome().createShop(requestCreateShop);
 
@@ -216,15 +221,8 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked {
     }
 
     private void setBackgrounds() {
-        setBackgroundDrawable(getContext(), b.storeName, R.color.neutral_dark, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.storeNameTwo, R.color.neutral_dark, 0, 4, false, 0);
-//        setBackgroundDrawable(getContext(), b.phoneNumber, R.color.neutral_dark, 0, 4, false, 0);
-//        setBackgroundDrawable(getContext(), b.phoneNumberTwo, R.color.neutral_dark, 0, 4, false, 0);
-//        setBackgroundDrawable(getContext(), b.phoneNumberThree, R.color.neutral_dark, 0, 4, false, 0);
-//        setBackgroundDrawable(getContext(), b.about, R.color.neutral_dark, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.extraContact, R.color.neutral_dark, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.extraContactTwo, R.color.neutral_dark, 0, 4, false, 0);
-        setBackgroundDrawable(getContext(), b.website, R.color.neutral_dark, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.storeName, R.color.white, 0, 4, false, 0);
+        setBackgroundDrawable(getContext(), b.website, R.color.white, 0, 4, false, 0);
         setBackgroundDrawable(getContext(), b.saveButton, R.color.accent, 0, 4, false, 0);
 
     }
@@ -239,8 +237,16 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked {
         StringBuilder s = new StringBuilder();
         for (int i = 0; i < categories.size(); i++) {
             s.append(categories.get(i).getName());
+
+            if (i != categories.size() - 1) s.append(" , ");
         }
 
         b.chooseCategory.setText(s.toString());
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+        return false;
     }
 }

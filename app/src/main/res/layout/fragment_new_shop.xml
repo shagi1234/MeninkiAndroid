@@ -85,7 +85,8 @@
                         android:text="Магазины"
                         android:textAllCaps="true"
                         android:textColor="@color/black"
-                        android:textSize="20sp" />
+                        android:textSize="20sp"
+                        android:visibility="gone" />
 
                     <RelativeLayout
                         android:id="@+id/lay_add_photo"
@@ -95,11 +96,11 @@
                         android:layout_marginTop="20dp">
 
                         <com.makeramen.roundedimageview.RoundedImageView
-                            android:layout_width="120dp"
                             android:id="@+id/image_shop"
+                            android:layout_width="120dp"
                             android:layout_height="120dp"
                             android:scaleType="centerCrop"
-                            android:src="@color/alert"
+                            android:src="@color/on_bg_ls"
                             app:riv_oval="true" />
 
                         <ImageView
@@ -160,31 +161,7 @@
                         android:paddingVertical="15dp"
                         android:paddingStart="20dp"
                         android:paddingEnd="10dp"
-                        android:text="Choose Category" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="30dp"
-                        android:fontFamily="@font/inter_regular"
-                        android:text="Название магазина"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"
-                        android:textStyle="normal" />
-
-                    <EditText
-                        android:id="@+id/store_name_two"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="20dp"
-                        android:layout_marginTop="6dp"
-                        android:background="@color/white"
-                        android:fontFamily="@font/inter_bold"
-                        android:hint="Placeholder"
-                        android:paddingVertical="15dp"
-                        android:paddingStart="20dp"
-                        android:textSize="14sp" />
+                        android:text="@string/choose_category" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -211,33 +188,6 @@
                         android:paddingVertical="15dp"
                         android:paddingStart="20dp"
                         android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="30dp"
-                        android:fontFamily="@font/inter_regular"
-                        android:text="Контактный номер"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"
-                        android:textStyle="normal" />
-
-                    <EditText
-                        android:id="@+id/contact_phone_2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="20dp"
-                        android:layout_marginTop="6dp"
-                        android:background="@color/white"
-                        android:fontFamily="@font/inter_bold"
-                        android:hint="+993"
-                        android:inputType="phone"
-                        android:maxLength="8"
-                        android:paddingVertical="15dp"
-                        android:paddingStart="20dp"
-                        android:textSize="14sp" />
-
 
                 </LinearLayout>
 
@@ -267,129 +217,26 @@
                         android:textColor="@color/neutral_dark"
                         android:textSize="14sp" />
 
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="30dp"
                         android:fontFamily="@font/inter_regular"
-                        android:text="Номер "
+                        android:text="Email"
                         android:textColor="@color/black"
                         android:textSize="14sp"
                         android:textStyle="normal" />
 
                     <EditText
-                        android:id="@+id/extra_phone_1"
+                        android:id="@+id/edt_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="20dp"
                         android:layout_marginTop="6dp"
                         android:background="@color/white"
                         android:fontFamily="@font/inter_bold"
-                        android:hint="+993"
-                        android:inputType="phone"
-                        android:maxLength="8"
-                        android:paddingVertical="15dp"
-                        android:paddingStart="20dp"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="30dp"
-                        android:fontFamily="@font/inter_regular"
-                        android:text="Номер 2"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"
-                        android:textStyle="normal" />
-
-                    <EditText
-                        android:id="@+id/extra_phone_2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="20dp"
-                        android:layout_marginTop="6dp"
-                        android:background="@color/white"
-                        android:fontFamily="@font/inter_bold"
-                        android:hint="+993"
-                        android:inputType="phone"
-                        android:maxLength="8"
-                        android:paddingVertical="15dp"
-                        android:paddingStart="20dp"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="30dp"
-                        android:fontFamily="@font/inter_regular"
-                        android:text="Номер 3"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"
-                        android:textStyle="normal" />
-
-                    <EditText
-                        android:id="@+id/extra_phone_3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="20dp"
-                        android:layout_marginTop="6dp"
-                        android:background="@color/white"
-                        android:fontFamily="@font/inter_bold"
-                        android:hint="+993"
-                        android:inputType="phone"
-                        android:maxLength="8"
-                        android:paddingVertical="15dp"
-                        android:paddingStart="20dp"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="30dp"
-                        android:fontFamily="@font/inter_regular"
-                        android:text="Дополнительный контакт"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"
-                        android:textStyle="normal" />
-
-                    <EditText
-                        android:id="@+id/extra_contact"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="20dp"
-                        android:layout_marginTop="6dp"
-                        android:background="@color/white"
-                        android:fontFamily="@font/inter_bold"
-                        android:hint="контакт"
-                        android:paddingVertical="15dp"
-                        android:paddingStart="20dp"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="30dp"
-                        android:fontFamily="@font/inter_regular"
-                        android:text="Дополнительный контакт"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"
-                        android:textStyle="normal" />
-
-                    <EditText
-                        android:id="@+id/extra_contact_two"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="20dp"
-                        android:layout_marginTop="6dp"
-                        android:background="@color/white"
-                        android:fontFamily="@font/inter_bold"
-                        android:hint="контакт"
+                        android:inputType="textEmailAddress"
                         android:paddingVertical="15dp"
                         android:paddingStart="20dp"
                         android:textSize="14sp" />
@@ -425,14 +272,14 @@
                     android:id="@+id/save_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="30dp">
+                    android:layout_marginHorizontal="30dp"
+                    android:background="@color/accent">
 
                     <TextView
                         android:id="@+id/txt_go_basket"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
-                        android:background="@color/accent"
                         android:fontFamily="@font/inter_regular"
                         android:gravity="center"
                         android:paddingHorizontal="17dp"

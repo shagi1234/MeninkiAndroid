@@ -17,11 +17,13 @@ import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import tm.store.meninki.api.data.DtoComment;
 import tm.store.meninki.api.data.PersonalCharacterDto;
 import tm.store.meninki.api.data.ProductDetails;
 import tm.store.meninki.api.data.ResponsePostGetAllItem;
 import tm.store.meninki.api.data.UserProfile;
 import tm.store.meninki.api.enums.Image;
+import tm.store.meninki.api.request.RequestAddComment;
 import tm.store.meninki.api.request.RequestAddPost;
 import tm.store.meninki.api.request.RequestAddProduct;
 import tm.store.meninki.api.request.RequestAddToCard;
@@ -105,13 +107,13 @@ public interface ServiceHome {
     Call<ResponseGetOnePost> getPostById(@Path("id") String id);
 
     @GET("api/MainScreen/Part-One")
-    Call<ArrayList<HomeArray>> getHome1(@Header("authorization") String token);
+    Call<ArrayList<HomeArray>> getHome1(/*@Header("authorization") String token*/);
 
     @GET("api/MainScreen/Part-Three")
-    Call<ArrayList<HomeArray>> getHome3(@Header("authorization") String token);
+    Call<ArrayList<HomeArray>> getHome3(/*@Header("authorization") String token*/);
 
     @GET("api/MainScreen/Part-Two")
-    Call<ArrayList<HomeArray>> getHome2(@Header("authorization") String token);
+    Call<ArrayList<HomeArray>> getHome2(/*@Header("authorization") String token*/);
 
     @GET("api/Shop/GetMyShop")
     Call<ArrayList<UserProfile>> getMyShops(@Query("userId") String userId, @Query("status") int status, @Query("pageNumber") int page, @Query("take") int take);
@@ -141,9 +143,15 @@ public interface ServiceHome {
     @POST("api/Shop/Subscribe")
     Call<Boolean> shopSubscribe(@Body JsonObject jsonObject);
 
-    @POST("api/Favorite")
-    Call<Boolean> like(@Body JsonObject uuid);
+    @POST("api/Favorite/{uuid}")
+    Call<Boolean> like(@Path("uuid") String uuid);
 
-    @DELETE("api/Favorite/{id}")
-    Call<Boolean> dislike(@Path("id") String uuid);
+    @POST("api/Comment")
+    Call<DtoComment> addComment(@Body RequestAddComment comment);
+
+    @DELETE("api/Favorite/{uuid}")
+    Call<Boolean> dislike(@Path("uuid") String uuid);
+
+    @PUT("api/User")
+    Call<Boolean> updateUser(@Body UserProfile u);
 }

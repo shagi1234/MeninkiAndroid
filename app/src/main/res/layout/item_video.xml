@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_post">
@@ -45,6 +46,15 @@
                 android:layout_height="match_parent"
                 android:background="@color/bg_post"
                 android:visibility="gone" />
+
+            <FrameLayout
+                android:id="@+id/bottom_gradient"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="1dp"
+                android:background="@drawable/gradient_black_to_transparent"
+                android:rotation="180" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -107,7 +117,7 @@
                     <ImageView
                         android:id="@+id/share"
                         android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_height="45dp"
                         android:layout_marginHorizontal="14dp"
                         android:layout_marginTop="18dp"
                         android:background="@drawable/ripple"
@@ -125,7 +135,8 @@
                         android:fontFamily="@font/inter_regular"
                         android:text="12K"
                         android:textColor="@color/white"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        android:visibility="gone" />
 
                 </LinearLayout>
 
@@ -211,6 +222,12 @@
             </LinearLayout>
 
             <FrameLayout
+                android:id="@+id/top_gradient"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@drawable/gradient_black_to_transparent" />
+
+            <FrameLayout
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="top|start"
@@ -241,29 +258,38 @@
             android:orientation="horizontal"
             android:paddingHorizontal="4dp">
 
-            <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/img_profile"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginVertical="14sp"
-                android:layout_marginStart="10dp"
-                android:padding="5dp"
-                android:src="@color/neutral_dark"
-                app:riv_corner_radius="4dp" />
-
-            <TextView
-                android:id="@+id/desc_2"
+            <LinearLayout
+                android:id="@+id/click_store"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="10dp"
                 android:layout_weight="1"
-                android:fontFamily="@font/inter_regular"
-                android:gravity="center_vertical"
-                android:maxLines="1"
-                android:text="Очки как у Николаса Кейджа размер для толковых"
-                android:textColor="@color/white"
-                android:textSize="12dp" />
+                android:orientation="horizontal">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/img_prod"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginVertical="14sp"
+                    android:layout_marginStart="10dp"
+                    android:padding="5dp"
+                    android:scaleType="centerCrop"
+                    android:src="@color/neutral_dark"
+                    app:riv_corner_radius="4dp" />
+
+                <TextView
+                    android:id="@+id/title_prod"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/inter_regular"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:textColor="@color/white"
+                    android:textSize="12dp"
+                    tools:text="Очки как у Николаса Кейджа размер для толковых" />
+            </LinearLayout>
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/options"

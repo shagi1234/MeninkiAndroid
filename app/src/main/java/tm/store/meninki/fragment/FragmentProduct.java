@@ -6,6 +6,7 @@ import static tm.store.meninki.utils.FragmentHelper.addFragment;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.setMargins;
+import static tm.store.meninki.utils.StaticMethods.setPadding;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
@@ -42,16 +43,13 @@ import tm.store.meninki.utils.StaticMethods;
 public class FragmentProduct extends Fragment {
     private FragmentProductBinding b;
     private String uuid;
-    private String shopId;
-    private String avatarId;
     private ProductDetails productDetails;
     private AdapterPersonalCharacters adapterPersonalCharacters;
 
-    public static FragmentProduct newInstance(String uuid, String avatarId) {
+    public static FragmentProduct newInstance(String uuid) {
         FragmentProduct fragment = new FragmentProduct();
         Bundle args = new Bundle();
         args.putString("uuid", uuid);
-        args.putString("shop_id", avatarId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -61,19 +59,17 @@ public class FragmentProduct extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             uuid = getArguments().getString("uuid");
-            avatarId = getArguments().getString("avatar_id");
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        setMargins(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight);
+        setPadding(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight);
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         b = FragmentProductBinding.inflate(inflater, container, false);
 
@@ -112,10 +108,8 @@ public class FragmentProduct extends Fragment {
         b.itemName.setText(productDetails.getName());
         b.desc.setText(productDetails.getDescription());
         b.titleStore.setText(productDetails.getShop().getName());
-
-        Glide.with(getContext())
-                .load(BASE_URL + productDetails.getShop().getImgPath())
-                .into(b.avatarStore);
+        if (getContext() == null) return;
+        Glide.with(getContext()).load(BASE_URL + productDetails.getShop().getImgPath()).into(b.avatarStore);
 
         b.price.setText(productDetails.getPrice() + " TMT");
         setPersonalCharacteristics(productDetails);
@@ -143,28 +137,20 @@ public class FragmentProduct extends Fragment {
 
     private void initListeners() {
         b.backBtn.setOnClickListener(v -> getActivity().onBackPressed());
-        b.btnAddPost.setOnClickListener(v -> addFragment(mainFragmentManager, R.id.fragment_container_main,
-                FragmentAddPost.newInstance(
-                        uuid,
-                        productDetails.getName(),
-                        new Gson().toJson(productDetails.getShop())
-                )
-        ));
+        b.btnAddPost.setOnClickListener(v -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentAddPost.newInstance(uuid, productDetails.getName(), new Gson().toJson(productDetails.getShop()))));
         b.goCard.setOnClickListener(v -> addToCard());
         b.layStore.setOnClickListener(v -> goShop());
 
     }
 
     private void goShop() {
-        if (shopId == null) return;
-        addFragment(mainFragmentManager, R.id.fragment_container_main,
-                FragmentProfile.newInstance(FragmentProfile.TYPE_SHOP, shopId));
+        addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(FragmentProfile.TYPE_SHOP, productDetails.getShop().getId()));
     }
 
     private void addToCard() {
         RequestAddToCard requestAddToCard = new RequestAddToCard();
         requestAddToCard.setProductId(uuid);
-        requestAddToCard.setShopId(shopId);
+        requestAddToCard.setShopId(productDetails.getShop().getId());
         requestAddToCard.setPersonalCharacteristicsId("");
         requestAddToCard.setCount(1);
         Call<Boolean> call = StaticMethods.getApiHome().addToCard(requestAddToCard);

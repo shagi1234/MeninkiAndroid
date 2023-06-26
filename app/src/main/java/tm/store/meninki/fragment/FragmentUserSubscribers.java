@@ -76,17 +76,17 @@ public class FragmentUserSubscribers extends Fragment {
         if (Objects.equals(type, FragmentProfile.TYPE_SHOP)) {
             b.tabUser.setVisibility(View.GONE);
             b.tabShop.setVisibility(View.GONE);
-            b.header.setText("Подписчики");
+            b.header.setText(R.string.subscribers);
             getShopSubscribers();
 
         } else {
 
             if (!subscribeType) {
                 b.tabUser.setVisibility(View.VISIBLE);
-                b.header.setText("Подписки");
+                b.header.setText(R.string.subscribes);
                 b.tabShop.setVisibility(View.VISIBLE);
             } else {
-                b.header.setText("Подписчики");
+                b.header.setText(R.string.subscribers);
                 b.tabUser.setVisibility(View.GONE);
                 b.tabShop.setVisibility(View.GONE);
             }
@@ -150,7 +150,7 @@ public class FragmentUserSubscribers extends Fragment {
             @Override
             public void onResponse(ArrayList<UserProfile> response) {
                 Log.e("TAG_", "onResponse: " + new Gson().toJson(response));
-                adapter.setUsers(response);
+                setUsers(response);
             }
 
             @Override
@@ -158,6 +158,11 @@ public class FragmentUserSubscribers extends Fragment {
 
             }
         });
+    }
+
+    private void showNoContent() {
+        b.noContent.setVisibility(View.VISIBLE);
+        b.rec.setVisibility(View.INVISIBLE);
     }
 
     private void getUsersShopSubscribes() {
@@ -171,7 +176,7 @@ public class FragmentUserSubscribers extends Fragment {
             @Override
             public void onResponse(ArrayList<UserProfile> response) {
                 Log.e("TAG_", "onResponse: " + new Gson().toJson(response));
-                adapter.setUsers(response);
+                setUsers(response);
             }
 
             @Override
@@ -179,6 +184,21 @@ public class FragmentUserSubscribers extends Fragment {
 
             }
         });
+    }
+
+    private void setUsers(ArrayList<UserProfile> arrayList) {
+        if (arrayList == null || arrayList.size() == 0) {
+            showNoContent();
+            return;
+        }
+
+        hideNoContent();
+        adapter.setUsers(arrayList);
+    }
+
+    private void hideNoContent() {
+        b.noContent.setVisibility(View.GONE);
+        b.rec.setVisibility(View.VISIBLE);
     }
 
     private void getShopSubscribers() {
@@ -191,7 +211,7 @@ public class FragmentUserSubscribers extends Fragment {
             @Override
             public void onResponse(ArrayList<UserProfile> response) {
                 Log.e("TAG_", "onResponse: " + new Gson().toJson(response));
-                adapter.setUsers(response);
+                setUsers(response);
             }
 
             @Override

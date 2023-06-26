@@ -6,6 +6,7 @@ import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,22 +45,19 @@ public class FragmentPost extends Fragment implements OnBackPressedFragment {
     @Override
     public void onPause() {
         super.onPause();
-        if (lastExoPlayer != null)
-            lastExoPlayer.pause();
+        if (lastExoPlayer != null) lastExoPlayer.pause();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        if (lastExoPlayer != null)
-            lastExoPlayer.pause();
+        if (lastExoPlayer != null) lastExoPlayer.pause();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (lastExoPlayer != null)
-            lastExoPlayer.pause();
+        if (lastExoPlayer != null) lastExoPlayer.pause();
     }
 
     @Override
@@ -70,12 +68,13 @@ public class FragmentPost extends Fragment implements OnBackPressedFragment {
             }.getType();
             posts = new Gson().fromJson(getArguments().getString("posts_json"), type);
             adapterPosition = getArguments().getInt("position");
+
+            Log.e("TAG_video", "onCreate: " + new Gson().toJson(posts.get(adapterPosition)));
         }
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         b = FragmentPostBinding.inflate(inflater, container, false);
         setViewPager(posts);
@@ -85,8 +84,7 @@ public class FragmentPost extends Fragment implements OnBackPressedFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (lastExoPlayer != null)
-            lastExoPlayer.play();
+        if (lastExoPlayer != null) lastExoPlayer.play();
         new Handler().post(() -> StaticMethods.setMargins(b.viewPager2, 0, statusBarHeight, 0, navigationBarHeight));
     }
 
@@ -150,9 +148,7 @@ public class FragmentPost extends Fragment implements OnBackPressedFragment {
                 view.setScaleY(scaleFactor);
 
                 // Fade the page relative to its size.
-                view.setAlpha(MIN_ALPHA +
-                        (scaleFactor - MIN_SCALE) /
-                                (1 - MIN_SCALE) * (1 - MIN_ALPHA));
+                view.setAlpha(MIN_ALPHA + (scaleFactor - MIN_SCALE) / (1 - MIN_SCALE) * (1 - MIN_ALPHA));
 
             } else { // (1,+Infinity]
                 // This page is way off-screen to the right.

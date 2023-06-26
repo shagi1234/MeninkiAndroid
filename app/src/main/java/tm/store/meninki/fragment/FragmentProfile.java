@@ -90,8 +90,7 @@ public class FragmentProfile extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         b = FragmentProfileBinding.inflate(inflater, container, false);
         check();
@@ -106,7 +105,7 @@ public class FragmentProfile extends Fragment {
             case TYPE_USER:
                 setRecycler(AdapterGrid.TYPE_POST);
 
-                b.allFollows.setText("Подписки");
+                b.allFollows.setText(R.string.subscribes);
 
                 if (isMe()) {
 
@@ -114,21 +113,20 @@ public class FragmentProfile extends Fragment {
 
                     getMyShops();
 
-                    b.editUser.setVisibility(View.VISIBLE);
+                    b.settings.setVisibility(View.VISIBLE);
                     b.contactsLay.setVisibility(View.GONE);
                     //vagtlayynca
                     b.layShops.setVisibility(View.GONE);
+                    b.layHeader.setVisibility(View.GONE);
 
-                    b.myShops.setText("Сообщения");
-                    b.countShops.setVisibility(View.VISIBLE);
-                    b.myBookmarks.setText("Избранное");
+                    b.myBookmarks.setText(R.string.bookmark);
 
                     b.addSms.setVisibility(View.GONE);
                     b.countBookmark.setVisibility(View.VISIBLE);
 
                 } else {
 
-                    b.editUser.setVisibility(View.GONE);
+                    b.settings.setVisibility(View.GONE);
 
                     b.layShops.setVisibility(View.VISIBLE);
 
@@ -147,8 +145,8 @@ public class FragmentProfile extends Fragment {
                 break;
             case TYPE_SHOP:
                 b.countBookmark.setVisibility(View.GONE);
-                b.allFollows.setText("Товаров");
-                b.editUser.setVisibility(View.GONE);
+                b.allFollows.setText(R.string.products);
+                b.settings.setVisibility(View.GONE);
                 setRecycler(AdapterGrid.TYPE_GRID);
 
                 try {
@@ -164,11 +162,11 @@ public class FragmentProfile extends Fragment {
                 }
 
                 if (isMyShop) {
-                    b.editUser.setVisibility(View.VISIBLE);
+                    b.settings.setVisibility(View.VISIBLE);
 
-                    b.myShops.setText("Новые заказы");
+                    b.myShops.setText(R.string.new_products);
                     b.countShops.setVisibility(View.VISIBLE);
-                    b.myBookmarks.setText("Избранное");
+                    b.myBookmarks.setText(getResources().getString(R.string.bookmark));
 
                     b.layVisitors.setVisibility(View.VISIBLE);
                     b.layPlaceRating.setVisibility(View.VISIBLE);
@@ -178,13 +176,13 @@ public class FragmentProfile extends Fragment {
                     b.contactsLay.setVisibility(View.VISIBLE);
 
                 } else {
-                    b.editUser.setVisibility(View.GONE);
+                    b.settings.setVisibility(View.GONE);
 
-                    b.myBookmarks.setText("Написать сообщение");
+                    b.myBookmarks.setText(R.string.new_messages);
                     b.countBookmark.setVisibility(View.GONE);
                     b.addSms.setVisibility(View.VISIBLE);
 
-                    b.myShops.setText("Подписаться");
+                    b.myShops.setText(R.string.subscribe);
                     b.countShops.setVisibility(View.GONE);
                     b.followIc.setVisibility(View.VISIBLE);
                     b.contactsLay.setVisibility(View.VISIBLE);
@@ -242,13 +240,9 @@ public class FragmentProfile extends Fragment {
         b.phoneNum.setText(response.getPhoneNumber());
         b.countSubscribers.setText(String.valueOf(response.getSubscriberCount()));
 
-        Glide.with(getContext())
-                .load(BASE_URL + "/" + response.getImgPath())
-                .into(b.bigImage);
+        Glide.with(getContext()).load(BASE_URL + "/" + response.getImgPath()).into(b.bigImage);
 
-        Glide.with(getContext())
-                .load(BASE_URL + "/" + response.getImgPath())
-                .into(b.imageUser);
+        Glide.with(getContext()).load(BASE_URL + "/" + response.getImgPath()).into(b.imageUser);
 
         if (Objects.equals(type, TYPE_USER)) {
             b.countProducts.setText(String.valueOf(response.getSubscriptionCount()));
@@ -311,10 +305,10 @@ public class FragmentProfile extends Fragment {
 
     private void checkSubscribe(boolean subscribed) {
         if (subscribed) {
-            b.myShops.setText("Unsubscribe");
+            b.myShops.setText(R.string.unsubscribe);
             b.followIc.setImageResource(R.drawable.dismiss_circle);
         } else {
-            b.myShops.setText("Subscribe");
+            b.myShops.setText(getResources().getString(R.string.subscribe));
             b.followIc.setImageResource(R.drawable.ic_follow);
         }
     }
@@ -370,9 +364,7 @@ public class FragmentProfile extends Fragment {
             } else {
 
                 if (isMe()) {
-                    b.layShops.setEnabled(false);
-                    addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentMyShops.newInstance());
-                    new Handler().postDelayed(() -> b.layShops.setEnabled(true), 200);
+
                 } else {
                     userSubscribe(!user.isSubscribed(), false);
                     checkSubscribe(!user.isSubscribed());
@@ -380,8 +372,19 @@ public class FragmentProfile extends Fragment {
             }
         });
 
+        b.settings.setOnClickListener(view -> {
+            wait(view);
+
+            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentSettings.newInstance());
+        });
+
         b.addProduct.setOnClickListener(v -> FragmentHelper.addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentAddProduct.newInstance()));
 
+    }
+
+    private void wait(View view) {
+        view.setEnabled(false);
+        new Handler().postDelayed(() -> view.setEnabled(true), 200);
     }
 
     private void userSubscribe(boolean isSubscribe, boolean isShop) {

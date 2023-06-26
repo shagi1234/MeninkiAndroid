@@ -7,20 +7,17 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public abstract class RetrofitCallback<T> implements Callback<T> {
-
     public abstract void onResponse(T response);
 
     public abstract void onFailure(Throwable t);
 
     @Override
     public void onResponse(@NonNull Call<T> call, Response<T> response) {
-
         if (response.code() == 200 && response.body() != null) {
             onResponse(response.body());
         } else {
             onFailure(new Throwable(response.message()));
         }
-
     }
 
     @Override

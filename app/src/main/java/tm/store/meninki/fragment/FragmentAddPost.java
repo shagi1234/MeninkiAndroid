@@ -261,6 +261,7 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
     private void addPost() {
         dialog = ProgressDialog.show(getContext(), "",
                 "Uploading. Please wait...", true);
+
         RequestAddPost r = new RequestAddPost();
         r.setDescription(b.desc.getText().toString().trim());
         r.setName(b.title.getText().toString().trim());

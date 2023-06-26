@@ -16,6 +16,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -50,6 +52,7 @@ import tm.store.meninki.interfaces.OnCategoryChecked;
 import tm.store.meninki.interfaces.OnChangeProductCharactersCount;
 import tm.store.meninki.interfaces.OnShopChecked;
 import tm.store.meninki.utils.FileUtil;
+import tm.store.meninki.utils.KeyboardHeightProvider;
 import tm.store.meninki.utils.Lists;
 import tm.store.meninki.utils.StaticMethods;
 
@@ -82,11 +85,15 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         productId = UUID.randomUUID().toString();
+        // Get the hosting activity's window
+        Window window = requireActivity().getWindow();
+
+        // Set the desired softInputMode
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         b = FragmentAddProductBinding.inflate(inflater, container, false);
         check();
@@ -107,11 +114,7 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
         uploadImage.setHeight(getHeight(media.getPath()));
         uploadImage.setData(new File(media.getPath()));
 
-        RequestBody requestFile =
-                RequestBody.create(
-                        MediaType.parse(
-                                FileUtil.getMimeType(uploadImage.getData())),
-                        uploadImage.getData());
+        RequestBody requestFile = RequestBody.create(MediaType.parse(FileUtil.getMimeType(uploadImage.getData())), uploadImage.getData());
 
         try {
             RequestBody objectId = RequestBody.create(MediaType.parse("multipart/form-data"), uploadImage.getObjectId());
@@ -165,12 +168,10 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
         return options.outWidth;
     }
 
-    private void createProduct()
-    {
+    private void createProduct() {
         categoryIds = new String[categories.size()];
 
-        if (b.title.getText().toString().trim().isEmpty()
-                || b.desc.getText().toString().trim().isEmpty()) {
+        if (b.title.getText().toString().trim().isEmpty() || b.desc.getText().toString().trim().isEmpty()) {
             Toast.makeText(getContext(), "Please give information", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -191,8 +192,7 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
         if (!b.price.getText().toString().trim().isEmpty())
             requestAddProduct.setDiscountPrice(Double.parseDouble(b.price.getText().toString().trim()));
         requestAddProduct.setCategoryIds(categoryIds);
-        if (shop != null)
-            requestAddProduct.setShopId(shop.getId());
+        if (shop != null) requestAddProduct.setShopId(shop.getId());
 
         Call<Boolean> call = StaticMethods.getApiHome().createProduct(requestAddProduct);
         call.enqueue(new RetrofitCallback<Boolean>() {
@@ -290,6 +290,9 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
     @Override
     public boolean onBackPressed() {
         SelectedMedia.getArrayList().clear();
+        Window window = requireActivity().getWindow();
+        // Set the desired softInputMode
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
         return false;
     }
 
@@ -314,5 +317,13 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
         } else {
             categories.remove(categoryDto);
         }
+
+        StringBuilder s = new StringBuilder();
+        for (int i = 0; i < categories.size(); i++) {
+            s.append(categories.get(i).getName());
+            if (i != categories.size() - 1) s.append(" , ");
+        }
+
+        b.chooseCategory.setText(s.toString());
     }
 }

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -86,7 +87,7 @@ public class FragmentHome extends Fragment {
     }
 
     private void getHome1() {
-        Call<ArrayList<HomeArray>> call = StaticMethods.getApiHome().getHome1(Account.newInstance(getContext()).getAccessToken());
+        Call<ArrayList<HomeArray>> call = StaticMethods.getApiHome().getHome1(/*Account.newInstance(getContext()).getAccessToken()*/);
         call.enqueue(new Callback<ArrayList<HomeArray>>() {
             @Override
             public void onResponse(@NonNull Call<ArrayList<HomeArray>> call, @NonNull Response<ArrayList<HomeArray>> response) {
@@ -110,7 +111,7 @@ public class FragmentHome extends Fragment {
     }
 
     private void getHome2() {
-        Call<ArrayList<HomeArray>> call = StaticMethods.getApiHome().getHome2(Account.newInstance(getContext()).getAccessToken());
+        Call<ArrayList<HomeArray>> call = StaticMethods.getApiHome().getHome2(/*Account.newInstance(getContext()).getAccessToken()*/);
         call.enqueue(new Callback<ArrayList<HomeArray>>() {
             @Override
             public void onResponse(@NonNull Call<ArrayList<HomeArray>> call, @NonNull Response<ArrayList<HomeArray>> response) {
@@ -138,13 +139,14 @@ public class FragmentHome extends Fragment {
     }
 
     private void getHome3() {
-        Call<ArrayList<HomeArray>> call = StaticMethods.getApiHome().getHome3(Account.newInstance(getContext()).getAccessToken());
+        Call<ArrayList<HomeArray>> call = StaticMethods.getApiHome().getHome3(/*Account.newInstance(getContext()).getAccessToken()*/);
         call.enqueue(new Callback<ArrayList<HomeArray>>() {
             @Override
             public void onResponse(@NonNull Call<ArrayList<HomeArray>> call, @NonNull Response<ArrayList<HomeArray>> response) {
                 if (response.body() == null) return;
 
                 adapterGridNew.setStories(response.body().get(1).getNewProducts());
+                Log.e("TAG_shops", "onResponse: " + new Gson().toJson(response.body().get(0).getShops()));
                 adapterCircle.setStories(response.body().get(0).getShops());
                 b.progressBar.setVisibility(View.GONE);
                 b.main.setVisibility(View.VISIBLE);

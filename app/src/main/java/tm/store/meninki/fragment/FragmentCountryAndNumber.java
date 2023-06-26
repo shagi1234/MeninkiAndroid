@@ -90,60 +90,28 @@ public class FragmentCountryAndNumber extends Fragment implements CountryClickLi
     }
 
     private void signInGoogle() {
+        // Start the sign-in flow
         Intent signInIntent = gsc.getSignInIntent();
-        startActivityForResult(signInIntent, 1000);
+        startActivityForResult(signInIntent, 123);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1000) {
+        if (requestCode == 123) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-
             try {
+                // Get the signed-in account
                 task.getResult(ApiException.class);
+                addFragment(mainFragmentManager, R.id.container_login, FragmentLoginUserInfo.newInstance(true));
                 // send data
-                sendDataGoogle();
+
             } catch (ApiException e) {
                 Log.e("TAG", "onActivityResult: " + e);
             }
         }
     }
 
-    private void sendDataGoogle() {
-        if (getContext() == null || getActivity() == null) return;
-        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getContext());
-        if (acct == null) return;
-        JsonObject j = new JsonObject();
-        j.addProperty("userId", acct.getId());
-        j.addProperty("fullName", acct.getDisplayName());
-        j.addProperty("email", acct.getEmail());
-        Call<DataCheckSms> call = StaticMethods.getApiLogin().signInGoogle(j);
-        call.enqueue(new RetrofitCallback<DataCheckSms>() {
-            @Override
-            public void onResponse(DataCheckSms response) {
-                if (getContext() == null || getActivity() == null) return;
-
-                account.saveAccessToken(response.getAccessToken());
-                account.saveRefreshToken(response.getRefreshToken());
-                account.saveValidToToken(response.getValidTo());
-                account.saveUserUUID(response.getUserId());
-
-                //go next activity
-                account.saveUserIsLoggedIn();
-
-                startActivity(new Intent(getContext(), ActivityMain.class));
-                getActivity().finish();
-
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-//                showNoConnection();
-            }
-        });
-
-    }
 
     private void showKeyboard() {
         b.edtNumber.requestFocus();

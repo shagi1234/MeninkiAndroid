@@ -1,7 +1,6 @@
 package tm.store.meninki.api.data;
 
 public class OptionDto {
-
     private String id;
     private String imagePath;
     private String value;

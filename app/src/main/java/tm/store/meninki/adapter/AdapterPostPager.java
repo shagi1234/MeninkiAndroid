@@ -11,13 +11,17 @@ package tm.store.meninki.adapter;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static tm.store.meninki.api.Network.BASE_URL;
+import static tm.store.meninki.utils.Const.mainFragmentManager;
+import static tm.store.meninki.utils.FragmentHelper.addFragment;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setPadding;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Handler;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +53,10 @@ import retrofit2.Response;
 import tm.store.meninki.R;
 import tm.store.meninki.api.data.ResponsePostGetAllItem;
 import tm.store.meninki.databinding.ItemVideoBinding;
+import tm.store.meninki.fragment.FragmentComments;
+import tm.store.meninki.fragment.FragmentProduct;
+import tm.store.meninki.fragment.FragmentProfile;
+import tm.store.meninki.shared.Account;
 import tm.store.meninki.utils.StaticMethods;
 
 public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.VideoHolder> {
@@ -102,8 +110,7 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
     }
 
     public void releasePlayer() {
-        if (lastThumb != null)
-            lastThumb.setVisibility(View.VISIBLE);
+        if (lastThumb != null) lastThumb.setVisibility(View.VISIBLE);
 
         if (lastExoPlayer != null) {
             lastExoPlayer.stop();
@@ -140,38 +147,40 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
             b.imagePager.setVisibility(View.GONE);
             b.indicator.setVisibility(View.GONE);
 
-            DefaultLoadControl loadControl = new DefaultLoadControl.Builder()
-                    .setBufferDurationsMs(DefaultLoadControl.DEFAULT_MIN_BUFFER_MS,
-                            100_000,
-                            DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_MS,
-                            DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_AFTER_REBUFFER_MS)
-                    .build();
+            DefaultLoadControl loadControl = new DefaultLoadControl.Builder().setBufferDurationsMs(DefaultLoadControl.DEFAULT_MIN_BUFFER_MS, 100_000, DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_MS, DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_AFTER_REBUFFER_MS).build();
             exoPlayer = new SimpleExoPlayer.Builder(context).setLoadControl(loadControl).build();
 
-//            if (!videos.get(getAdapterPosition()).isLiked()) {
-//                b.icLike.setImageResource(R.drawable.ic_favorite_border);
-//            } else b.icLike.setImageResource(R.drawable.ic_favorite);
+            if (videos.get(getAdapterPosition()).getRating().getTotal() != 0 && checkIsLike(getAdapterPosition())) {
+                b.like.setImageResource(R.drawable.ic_like_enabled);
+            } else {
+                b.like.setImageResource(R.drawable.ic_like);
+            }
 
-            Glide.with(context)
-                    .load(BASE_URL + "/" + videos.get(getAdapterPosition()).getMedias().get(0).getPreview())
-                    .placeholder(R.color.bg_post)
-                    .into(b.image);
+            b.likeCount.setText(videos.get(getAdapterPosition()).getRating().getTotal() + "");
+
+            if (videos.get(getAdapterPosition()).getComments() != null)
+                b.commentCount.setText(videos.get(getAdapterPosition()).getComments().getTotal() + "");
+
+            Glide.with(context).load(BASE_URL + "/" + videos.get(getAdapterPosition()).getMedias().get(0).getPreview()).placeholder(R.color.bg_post).into(b.image);
 
             if (getAdapterPosition() == position) playFilm(exoPlayer);
 
             b.username.setText(videos.get(getAdapterPosition()).getUser().getName());
             b.desc.setText(videos.get(getAdapterPosition()).getDescription());
-            b.desc2.setText(videos.get(getAdapterPosition()).getUser().getDescription());
+            b.titleProd.setText(videos.get(getAdapterPosition()).getProductTitle());
 
-            Glide.with(context)
-                    .load(BASE_URL + "/" + videos.get(getAdapterPosition()).getUser().getImgPath())
-                    .placeholder(R.color.low_contrast)
-                    .into(b.imgProfile);
+            Glide.with(context).load(BASE_URL + "/" + videos.get(getAdapterPosition()).getProductMedia()).placeholder(R.color.low_contrast).into(b.imgProd);
 
             b.backBtn.setOnClickListener(v -> activity.onBackPressed());
             b.like.setOnClickListener(v -> like(getAdapterPosition()));
             b.comment.setOnClickListener(v -> comment());
             b.options.setOnClickListener(v -> showDialog());
+            b.share.setOnClickListener(view -> shareLink(BASE_URL + videos.get(getAdapterPosition()).getMedias().get(0).getPath()));
+            b.clickStore.setOnClickListener(view -> {
+                b.clickStore.setEnabled(false);
+                new Handler().postDelayed(() -> b.clickStore.setEnabled(true), 200);
+                addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProduct.newInstance(videos.get(getAdapterPosition()).getProductId()));
+            });
 
         }
 
@@ -181,20 +190,24 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
             b.imagePager.setVisibility(View.VISIBLE);
             b.indicator.setVisibility(View.VISIBLE);
 
-//            if (!videos.get(getAdapterPosition()).isLiked()) {
-//                b.icLike.setImageResource(R.drawable.ic_favorite_border);
-//            } else b.icLike.setImageResource(R.drawable.ic_favorite);
+            if (videos.get(getAdapterPosition()).getRating().getTotal() != 0 && checkIsLike(getAdapterPosition())) {
+                b.like.setImageResource(R.drawable.ic_like_enabled);
+            } else {
+                b.like.setImageResource(R.drawable.ic_like);
+            }
+
+            b.likeCount.setText(videos.get(getAdapterPosition()).getRating().getTotal() + "");
+            if (videos.get(getAdapterPosition()).getComments() != null)
+                b.commentCount.setText(videos.get(getAdapterPosition()).getComments().getTotal() + "");
 
             setImagePager();
 
             b.username.setText(videos.get(getAdapterPosition()).getUser().getName());
             b.desc.setText(videos.get(getAdapterPosition()).getDescription());
-            b.desc2.setText(videos.get(getAdapterPosition()).getUser().getDescription());
 
-            Glide.with(context)
-                    .load(BASE_URL + "/" + videos.get(getAdapterPosition()).getUser().getImgPath())
-                    .placeholder(R.color.low_contrast)
-                    .into(b.imgProfile);
+            b.titleProd.setText(videos.get(getAdapterPosition()).getProductTitle());
+
+            Glide.with(context).load(BASE_URL + "/" + videos.get(getAdapterPosition()).getProductMedia()).placeholder(R.color.low_contrast).into(b.imgProd);
 
             b.backBtn.setOnClickListener(v -> activity.onBackPressed());
             b.like.setOnClickListener(v -> like(getAdapterPosition()));
@@ -215,21 +228,22 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
             dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnim;
             dialog.getWindow().setGravity(Gravity.BOTTOM);
             dialog.show();
+
         }
 
         private void comment() {
+            b.comment.setEnabled(false);
+            new Handler().postDelayed(() -> b.comment.setEnabled(true), 200);
 
+            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentComments.newInstance(videos.get(getAdapterPosition()).getComments().getComments(), videos.get(getAdapterPosition()).getId()));
         }
 
         private void like(int adapterPosition) {
-            changeUILike();
+            changeUILike(adapterPosition);
             Call<Boolean> call;
 
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("uuid", videos.get(getAdapterPosition()).getId());
-
-            if (getAdapterPosition() == 0) {
-                call = StaticMethods.getApiHome().like(jsonObject);
+            if (!checkIsLike(adapterPosition)) {
+                call = StaticMethods.getApiHome().like(videos.get(getAdapterPosition()).getId());
             } else
                 call = StaticMethods.getApiHome().dislike(videos.get(getAdapterPosition()).getId());
 
@@ -247,11 +261,23 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
         }
 
         private void changeData(int adapterPosition) {
-
+            if (checkIsLike(adapterPosition)) {
+                videos.get(adapterPosition).getRating().setTotal(videos.get(adapterPosition).getRating().getTotal() - 1);
+                videos.get(adapterPosition).getRating().getUserRating().put(Account.newInstance(context).getPrefUserUUID(), false);
+            } else {
+                videos.get(adapterPosition).getRating().setTotal(videos.get(adapterPosition).getRating().getTotal() + 1);
+                videos.get(adapterPosition).getRating().getUserRating().put(Account.newInstance(context).getPrefUserUUID(), true);
+            }
         }
 
-        private void changeUILike() {
-
+        private void changeUILike(int adapterPosition) {
+            if (checkIsLike(adapterPosition)) {
+                b.like.setImageResource(R.drawable.ic_like);
+                b.likeCount.setText(videos.get(adapterPosition).getRating().getTotal() - 1 + "");
+            } else {
+                b.like.setImageResource(R.drawable.ic_like_enabled);
+                b.likeCount.setText(videos.get(adapterPosition).getRating().getTotal() + 1 + "");
+            }
         }
 
         private void setImagePager() {
@@ -265,6 +291,13 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
             b.indicator.setViewPager(b.imagePager);
             b.imagePager.setAdapter(adapterVerticalImagePager);
 
+        }
+
+        private void shareLink(String url) {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_TEXT, url);
+            activity.startActivity(Intent.createChooser(intent, context.getString(R.string.share_via)));
         }
 
         private void playFilm(SimpleExoPlayer exoPlayer) {
@@ -315,6 +348,10 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
                 b.playerView.findViewById(R.id.exo_progress).setVisibility(View.VISIBLE);
             }
         }
+    }
+
+    private boolean checkIsLike(int adapterPosition) {
+        return videos.get(adapterPosition).getRating().getUserRating().get(Account.newInstance(context).getPrefUserUUID()) != null && Boolean.TRUE.equals(videos.get(adapterPosition).getRating().getUserRating().get(Account.newInstance(context).getPrefUserUUID()));
     }
 
 }

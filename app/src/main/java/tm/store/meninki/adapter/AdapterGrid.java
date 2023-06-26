@@ -1,6 +1,8 @@
 package tm.store.meninki.adapter;
 
+import static com.google.common.net.HttpHeaders.USER_AGENT;
 import static tm.store.meninki.api.Network.BASE_URL;
+import static tm.store.meninki.utils.StaticMethods.dpToPx;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.setMargins;
 
@@ -166,7 +168,7 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             setBackgroundDrawable(context, b.posterImage, R.color.neutral_dark, R.color.accent, 0, true, 2);
 
-            b.click.setOnClickListener(v -> FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentProduct.newInstance(grids.get(getAdapterPosition()).getId(), grids.get(getAdapterPosition()).getAvatarId())));
+            b.click.setOnClickListener(v -> FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentProduct.newInstance(grids.get(getAdapterPosition()).getId())));
 
             if (grids == null) return;
 
@@ -286,9 +288,13 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public void bind() {
             setBackgroundDrawable(context, b.posterImage, R.color.neutral_dark, R.color.accent, 0, true, 2);
 
+            if (getAdapterPosition() == getItemCount() - 1) {
+                setMargins(b.getRoot(), 0, 0, 0, dpToPx(80, context));
+            }
+
             b.click.setOnClickListener(v -> {
                 int adapterPosition = getAdapterPosition();
-                FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentPost.newInstance(posts,adapterPosition));
+                FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentPost.newInstance(posts, adapterPosition));
             });
 
             if (posts == null) return;
@@ -297,14 +303,20 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 b.layPlayedCount.setVisibility(View.VISIBLE);
             } else b.layPlayedCount.setVisibility(View.GONE);
 
+
+            b.favCount.setText(posts.get(getAdapterPosition()).getRating().getTotal() + "");
+
             if (posts.get(getAdapterPosition()).getMedias().size() > 0)
                 try {
-                    String USER_AGENT = "Mozilla/5.0 (Linux; Android 11) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.181 Mobile Safari/537.36";
+                    GlideUrl glideUrl;
 
-                    GlideUrl glideUrl = new GlideUrl(BASE_URL + "/" + posts.get(getAdapterPosition()).getMedias().get(0).getPreview(),
-                            new LazyHeaders.Builder()
-                                    .addHeader("User-Agent", USER_AGENT)
-                                    .build());
+                    if (posts.get(getAdapterPosition()).getMedias().get(0).getMediaType() == 0) {
+                        glideUrl = new GlideUrl(BASE_URL + "/" + posts.get(getAdapterPosition()).getMedias().get(0).getPath(),
+                                new LazyHeaders.Builder().build());
+                    } else
+                        glideUrl = new GlideUrl(BASE_URL + "/" + posts.get(getAdapterPosition()).getMedias().get(0).getPreview(),
+                                new LazyHeaders.Builder().build());
+
 
                     RequestOptions requestOptions = new RequestOptions()
                             .placeholder(R.drawable.placeholder)

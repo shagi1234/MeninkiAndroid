@@ -8,7 +8,10 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
 
@@ -20,6 +23,7 @@ import tm.store.meninki.api.enums.CardType;
 import tm.store.meninki.api.request.RequestCard;
 import tm.store.meninki.api.response.ResponseCard;
 import tm.store.meninki.databinding.FragmentFeedBinding;
+import tm.store.meninki.shared.Account;
 import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentFeed extends Fragment {
@@ -27,6 +31,7 @@ public class FragmentFeed extends Fragment {
     private int page = 1;
     private int limit = 20;
     private AdapterGrid adapterGrid;
+    private boolean isLastPage;
 
     public static FragmentFeed newInstance() {
         FragmentFeed fragment = new FragmentFeed();
@@ -49,12 +54,21 @@ public class FragmentFeed extends Fragment {
         b = FragmentFeedBinding.inflate(inflater, container, false);
         setProgress(true);
         setRecycler();
+        initListeners();
         check();
 
         return b.getRoot();
     }
 
+    private void initListeners() {
+        b.swipeLayout.setOnRefreshListener(() -> {
+            check();
+            b.swipeLayout.setRefreshing(false);
+        });
+    }
+
     private void check() {
+        Log.e("TAG_token", "check: " + Account.newInstance(getContext()).getAccessToken());
         RequestCard requestCard = new RequestCard();
         requestCard.setDescending(true);
         requestCard.setPageNumber(page);
@@ -64,7 +78,17 @@ public class FragmentFeed extends Fragment {
         call.enqueue(new RetrofitCallback<ArrayList<ResponsePostGetAllItem>>() {
             @Override
             public void onResponse(ArrayList<ResponsePostGetAllItem> response) {
-                if (response == null) return;
+                if (response == null || response.size() == 0) {
+                    isLastPage = true;
+                    if (page == 1) {
+                        //showNoContent
+                        b.recGrid.setVisibility(View.GONE);
+                        b.noContent.setVisibility(View.VISIBLE);
+                    }
+                    return;
+                }
+                b.recGrid.setVisibility(View.VISIBLE);
+                b.noContent.setVisibility(View.GONE);
                 adapterGrid.setPosts(response);
                 setProgress(false);
 
@@ -73,6 +97,10 @@ public class FragmentFeed extends Fragment {
             @Override
             public void onFailure(Throwable t) {
                 setProgress(false);
+                //showNoConnection
+                b.recGrid.setVisibility(View.GONE);
+                b.noContent.setVisibility(View.VISIBLE);
+                b.noContent.setText("No connection");
             }
         });
     }
@@ -113,6 +141,24 @@ public class FragmentFeed extends Fragment {
         adapterGrid = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_POST, 10);
         b.recGrid.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         b.recGrid.setAdapter(adapterGrid);
+
+        b.recGrid.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                StaggeredGridLayoutManager lm = (StaggeredGridLayoutManager) b.recGrid.getLayoutManager();
+                if (lm == null) return;
+
+                int visibleItemCount = lm.getChildCount();
+                int totalItemCount = lm.getItemCount();
+//                int pastVisibleItems = lm.findFirstVisibleItemPositions();
+//
+//                if ((visibleItemCount + pastVisibleItems) >= totalItemCount && !isLastPage) {
+//                    page++;
+//                    check();
+//                }
+            }
+        });
     }
 
 

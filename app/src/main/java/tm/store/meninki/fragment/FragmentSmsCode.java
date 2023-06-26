@@ -109,7 +109,7 @@ public class FragmentSmsCode extends Fragment {
                 account.saveValidToToken(response.getValidTo());
                 account.saveUserUUID(response.getUserId());
 
-                addFragment(mainFragmentManager, R.id.container_login, FragmentLoginUserInfo.newInstance());
+                addFragment(mainFragmentManager, R.id.container_login, FragmentLoginUserInfo.newInstance(false));
                 b.edtCode.setText("");
             }
 

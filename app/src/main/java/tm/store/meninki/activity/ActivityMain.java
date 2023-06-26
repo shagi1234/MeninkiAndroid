@@ -1,5 +1,6 @@
 package tm.store.meninki.activity;
 
+import static tm.store.meninki.adapter.AdapterPostPager.lastExoPlayer;
 import static tm.store.meninki.utils.Const.mainFragmentManager;
 import static tm.store.meninki.utils.FragmentHelper.hideAdd;
 import static tm.store.meninki.utils.StaticMethods.dpToPx;
@@ -20,6 +21,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -31,9 +33,11 @@ import tm.store.meninki.databinding.ActivityMainBinding;
 import tm.store.meninki.fragment.FragmentBasket;
 import tm.store.meninki.fragment.FragmentCategory;
 import tm.store.meninki.fragment.FragmentMain;
+import tm.store.meninki.fragment.FragmentPost;
 import tm.store.meninki.fragment.FragmentProfile;
 import tm.store.meninki.interfaces.OnBackPressedFragment;
 import tm.store.meninki.shared.Account;
+import tm.store.meninki.utils.StaticMethods;
 
 
 public class ActivityMain extends AppCompatActivity implements View.OnClickListener {
@@ -56,6 +60,30 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
         b.navCategory.setOnClickListener(this);
         b.navCard.setOnClickListener(this);
         b.navProfile.setOnClickListener(this);
+
+        mainFragmentManager.addOnBackStackChangedListener(() -> {
+
+            Log.e("TAG", "setNavListeners: " + getCurrentFragmentTag().equals(FragmentPost.class.getName()) + "  " + getCurrentFragmentTag() + "\n" + FragmentPost.class.getName());
+            if (getCurrentFragmentTag().equals(FragmentPost.class.getName())) {
+                if (lastExoPlayer != null) lastExoPlayer.play();
+
+                StaticMethods.setNavBarIconsWhite(this);
+                StaticMethods.setClearLightStatusBar(this);
+            } else {
+                if (lastExoPlayer != null) lastExoPlayer.pause();
+                StaticMethods.setNavBarIconsBlack(this);
+                StaticMethods.setLightStatusBar(this);
+            }
+        });
+    }
+
+    public String getCurrentFragmentTag() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        int backStackEntryCount = fragmentManager.getBackStackEntryCount();
+        if (backStackEntryCount == 0) {
+            return "";
+        }
+        return fragmentManager.getBackStackEntryAt(backStackEntryCount - 1).getName();
     }
 
     private void setBackgrounds() {

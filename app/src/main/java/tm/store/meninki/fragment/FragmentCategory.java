@@ -73,7 +73,6 @@ public class FragmentCategory extends Fragment {
             @Override
             public void onFailure(@NonNull Call<ArrayList<CategoryDto>> call, @NonNull Throwable t) {
                 logWrite(t.getMessage());
-
             }
         });
     }
@@ -118,7 +117,7 @@ public class FragmentCategory extends Fragment {
         });
 
         b.viewPager.setOffscreenPageLimit(2);
-//todo shu yeri zynya bosh wagt duzetmeli constructory ayyrmaly
+        //todo shu yeri zynya bosh wagt duzetmeli constructory ayyrmaly
         ArrayList<FragmentPager> mFragment = new ArrayList<>();
         for (int i = 0; i < data.size(); i++) {
             mFragment.add(new FragmentPager(FragmentCategoryList.newInstance(data.get(i).getSubCategories(), FragmentCategoryList.TYPE_SUBCATEGORY), data.get(i).getName().toUpperCase()));

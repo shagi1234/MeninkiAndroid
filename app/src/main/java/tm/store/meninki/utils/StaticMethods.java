@@ -2,6 +2,8 @@ package tm.store.meninki.utils;
 
 import static android.content.Context.VIBRATOR_SERVICE;
 
+import static tm.store.meninki.api.Network.BASE_URL;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -42,12 +44,15 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -442,7 +447,6 @@ public class StaticMethods {
 
     public static void setMargins(ViewGroup v, int l, int t, int r, int b) {
         try {
-            Log.e("SetMargins", "setMargins: true ");
             if (v.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
                 ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
                 p.setMargins(l, t, r, b);
@@ -454,6 +458,142 @@ public class StaticMethods {
             Log.d("SetMargins", "setMargins: " + e.getMessage());
         }
     }
+
+    public static void setImageOrText(Context context, String username, String avatar, ImageView imageView, TextView tv, boolean clickable, Activity activity) {
+
+        if (context == null || activity == null) return;
+
+        if (avatar == null || avatar.equals("")) {
+            imageView.setVisibility(View.GONE);
+            tv.setVisibility(View.VISIBLE);
+            tv.setBackground(createGradientDrawable(context));
+
+            try {
+                tv.setText(getShortUserName(username));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+
+        Glide.with(context)
+                .load(BASE_URL + avatar)
+                .error(createGradientDrawable(context))
+                .placeholder(createGradientDrawable(context))
+//                .addListener(new RequestListener<>() {
+//                    @Override
+//                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+//                        imageView.setVisibility(View.INVISIBLE);
+//                        return false;
+//                    }
+//
+//                    @Override
+//                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+//                        imageView.setVisibility(View.VISIBLE);
+//                        tv.setVisibility(View.GONE);
+//                        return false;
+//                    }
+//                })
+                .into(imageView);
+
+        imageView.setVisibility(View.VISIBLE);
+        tv.setVisibility(View.INVISIBLE);
+
+//        if (clickable) {
+          /*  if (clickLay != null) {
+                clickLay.setOnClickListener(v -> {
+                    isOpenSearch = false;
+
+                    if (PLayers.lastReelsPlayer != null) {
+                        PLayers.lastReelsPlayer.pause();
+                    }
+
+                    if (isKeyboardOpen) {
+                        hideSoftKeyboard(activity);
+                        isKeyboardOpen = false;
+
+                    } else {
+
+                        clickLay.setEnabled(false);
+
+                        handler.postDelayed(() -> clickLay.setEnabled(true), 200);
+
+                        if (posterDTO.getType() == 1) {
+                            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(posterDTO.getUUID(), TYPE_COMMUNITY_PROFILE));
+                        } else {
+                            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(posterDTO.getUUID(), TYPE_FRIEND_PROFILE));
+                        }
+
+                        if (ConstBottomSheets.bottomSheetProfile != null && ConstBottomSheets.bottomSheetProfile.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+                            ConstBottomSheets.bottomSheetProfile.setState(STATE_HIDDEN);
+                        }
+                    }
+                });
+            }*/
+
+          /*  imageView.setOnClickListener(v -> {
+                isOpenSearch = false;
+
+                if (PLayers.lastReelsPlayer != null) {
+                    PLayers.lastReelsPlayer.pause();
+                }
+
+                if (isKeyboardOpen) {
+                    hideSoftKeyboard(activity);
+                    isKeyboardOpen = false;
+                } else {
+                    imageView.setEnabled(false);
+                    handler.postDelayed(() -> imageView.setEnabled(true), 200);
+
+                    if (posterDTO.getType() == 1) {
+                        addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(posterDTO.getUUID(), TYPE_COMMUNITY_PROFILE));
+                    } else {
+                        addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(posterDTO.getUUID(), TYPE_FRIEND_PROFILE));
+
+                    }
+                    if (ConstBottomSheets.bottomSheetProfile != null && ConstBottomSheets.bottomSheetProfile.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+                        ConstBottomSheets.bottomSheetProfile.setState(STATE_HIDDEN);
+                    }
+                }
+
+            });*/
+
+//            tv.setOnClickListener(v -> {
+//                isOpenSearch = false;
+//
+//                if (PLayers.lastReelsPlayer != null) {
+//                    PLayers.lastReelsPlayer.pause();
+//                }
+
+//                if (isKeyboardOpen) {
+//                    hideSoftKeyboard(activity);
+//                    isKeyboardOpen = false;
+//                } else {
+//                    tv.setEnabled(false);
+//                    handler.postDelayed(() -> tv.setEnabled(true), 200);
+//
+//                    if (posterDTO.getType() == 1) {
+//                        addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(posterDTO.getUUID(), TYPE_COMMUNITY_PROFILE));
+//                    } else {
+//                        addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(posterDTO.getUUID(), TYPE_FRIEND_PROFILE));
+//                    }
+//                    if (ConstBottomSheets.bottomSheetProfile != null && ConstBottomSheets.bottomSheetProfile.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+//                        ConstBottomSheets.bottomSheetProfile.setState(STATE_HIDDEN);
+//                    }
+//                }
+
+//            });
+//        }
+    }
+
+    private static Drawable createGradientDrawable(Context context) {
+        GradientDrawable shape = new GradientDrawable();
+        shape.setShape(GradientDrawable.RECTANGLE);
+        shape.setCornerRadius(4f);
+        shape.setColor(context.getResources().getColor(R.color.neutral_dark));
+        return shape;
+    }
+
 
     public static void setMargins(View v, int l, int t, int r, int b) {
         try {
@@ -669,26 +809,26 @@ public class StaticMethods {
         });
     }
 
-    public static void setNavBarIconsBlack(Activity activity, Context context) {
-        if (activity == null || context == null) return;
+    public static void setNavBarIconsBlack(Activity activity) {
+        if (activity == null ) return;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             final int lFlags = activity.getWindow().getDecorView().getSystemUiVisibility();
             activity.getWindow().getDecorView().setSystemUiVisibility(lFlags | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
         } else {
-            activity.getWindow().setNavigationBarColor(ContextCompat.getColor(context, R.color.black));
+            activity.getWindow().setNavigationBarColor(ContextCompat.getColor(activity, R.color.black));
         }
     }
 
-    public static void setNavBarIconsWhite(Activity activity, Context context) {
-        if (activity == null || context == null) return;
+    public static void setNavBarIconsWhite(Activity activity) {
+        if (activity == null) return;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Window window = activity.getWindow();
             final int lFlags = activity.getWindow().getDecorView().getSystemUiVisibility();
             window.getDecorView().setSystemUiVisibility(lFlags & ~View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
         } else {
-            activity.getWindow().setNavigationBarColor(ContextCompat.getColor(context, R.color.color_transparent));
+            activity.getWindow().setNavigationBarColor(ContextCompat.getColor(activity, R.color.color_transparent));
         }
 
     }
