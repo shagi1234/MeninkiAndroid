@@ -468,6 +468,7 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
 
     @Override
     public void onChange() {
-        check();
+        getUserById();
+        Log.e("TAG_user_data", "onChange: ");
     }
 }

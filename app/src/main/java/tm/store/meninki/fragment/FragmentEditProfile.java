@@ -145,6 +145,9 @@ public class FragmentEditProfile extends Fragment implements OnBackPressedFragme
                     if (response.code() == 200 && response.body() != null) {
                         Toast.makeText(getContext(), "Success upload image", Toast.LENGTH_SHORT).show();
                     }
+                    if (fragmentProfile != null) {
+                        ((OnUserDataChanged) fragmentProfile).onChange();
+                    }
                     dialog.dismiss();
                 }
 
@@ -152,6 +155,9 @@ public class FragmentEditProfile extends Fragment implements OnBackPressedFragme
                 public void onFailure(@NonNull Call<Object> call, @NonNull Throwable t) {
                     Log.e("Add_post", "onFailure: " + t);
                     dialog.dismiss();
+                    if (fragmentProfile != null) {
+                        ((OnUserDataChanged) fragmentProfile).onChange();
+                    }
                 }
             });
 
@@ -179,11 +185,11 @@ public class FragmentEditProfile extends Fragment implements OnBackPressedFragme
             public void onResponse(Boolean response) {
                 if (response) {
                     Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
-                    if (fragmentProfile != null) {
-                        ((OnUserDataChanged) fragmentProfile).onChange();
-                    }
 
                     if (filePath == null) {
+                        if (fragmentProfile != null) {
+                            ((OnUserDataChanged) fragmentProfile).onChange();
+                        }
                         dialog.dismiss();
                         return;
                     }
