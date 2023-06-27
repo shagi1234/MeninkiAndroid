@@ -2,7 +2,11 @@ package tm.store.meninki.adapter;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+import static tm.store.meninki.utils.StaticMethods.dpToPx;
+import static tm.store.meninki.utils.StaticMethods.getWindowWidth;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
+import static tm.store.meninki.utils.StaticMethods.pxToDp;
+import static tm.store.meninki.utils.StaticMethods.setMargins;
 import static tm.store.meninki.utils.StaticMethods.setPadding;
 
 import android.content.Context;
@@ -13,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
@@ -70,7 +75,8 @@ public class AdapterMediaAddPost extends RecyclerView.Adapter<AdapterMediaAddPos
         }
 
         public void bind() {
-
+            b.image.setLayoutParams(new FrameLayout.LayoutParams(MATCH_PARENT, getWindowWidth(activity) * 3 / 7));
+            setMargins(b.image, dpToPx(5, context), dpToPx(5, context), dpToPx(5, context), dpToPx(5, context));
             if (getAdapterPosition() == getItemCount() - 1) {
                 if (isHasVideo) {
                     b.getRoot().setVisibility(View.GONE);

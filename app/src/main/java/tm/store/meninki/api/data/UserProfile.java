@@ -4,11 +4,11 @@ import com.google.gson.annotations.SerializedName;
 
 public class UserProfile {
     private String id;
+    @SerializedName("imagePath")
     private String imgPath;
     private String name;
     private String phoneNumber;
     private String email;
-
     private String userName;
     private boolean isSubscribed;
     private int subscriberCount;

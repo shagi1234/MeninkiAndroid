@@ -3,10 +3,12 @@ package tm.store.meninki.adapter;
 import static com.google.common.net.HttpHeaders.USER_AGENT;
 import static tm.store.meninki.api.Network.BASE_URL;
 import static tm.store.meninki.utils.StaticMethods.dpToPx;
+import static tm.store.meninki.utils.StaticMethods.getWindowWidth;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.setMargins;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -286,7 +288,12 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         public void bind() {
+            setIsRecyclable(false);
+
             setBackgroundDrawable(context, b.posterImage, R.color.neutral_dark, R.color.accent, 0, true, 2);
+
+            b.layImage.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (getWindowWidth(activity) * 1.43 / 2)));
+            ;
 
             if (getAdapterPosition() == getItemCount() - 1) {
                 setMargins(b.getRoot(), 0, 0, 0, dpToPx(80, context));
@@ -342,6 +349,7 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         .into(b.posterImage);
 
             b.title.setText(posts.get(getAdapterPosition()).getName());
+            Log.e("TAG_title_post", "bind: " + posts.get(getAdapterPosition()).getName());
         }
     }
 }

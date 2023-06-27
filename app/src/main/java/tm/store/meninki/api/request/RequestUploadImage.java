@@ -9,6 +9,8 @@ public class RequestUploadImage {
     private int width;
     private int height;
     private File data;
+
+    private File Image;
     private File thumb;
 
 
@@ -66,5 +68,13 @@ public class RequestUploadImage {
 
     public void setThumb(File thumb) {
         this.thumb = thumb;
+    }
+
+    public void setImage(File image) {
+        Image = image;
+    }
+
+    public File getImage() {
+        return Image;
     }
 }

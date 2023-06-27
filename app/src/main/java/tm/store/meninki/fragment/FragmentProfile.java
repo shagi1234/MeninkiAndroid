@@ -10,18 +10,25 @@ import static tm.store.meninki.utils.StaticMethods.setMargins;
 import static tm.store.meninki.utils.StaticMethods.setPadding;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -49,7 +56,7 @@ import tm.store.meninki.shared.Account;
 import tm.store.meninki.utils.FragmentHelper;
 import tm.store.meninki.utils.StaticMethods;
 
-public class FragmentProfile extends Fragment {
+public class FragmentProfile extends Fragment implements OnUserDataChanged {
     private FragmentProfileBinding b;
     private AdapterGrid adapterGrid;
     AdapterProfileShops adapter;
@@ -235,14 +242,22 @@ public class FragmentProfile extends Fragment {
     private void setResources(UserProfile response) {
         user = response;
         if (getContext() == null) return;
-        b.nameUser.setText(response.getName());
+        b.nameUser.setText(response.getUserName());
         b.desc.setText(response.getDescription());
         b.phoneNum.setText(response.getPhoneNumber());
         b.countSubscribers.setText(String.valueOf(response.getSubscriberCount()));
 
-        Glide.with(getContext()).load(BASE_URL + "/" + response.getImgPath()).into(b.bigImage);
+        Glide.with(getContext())
+                .load(BASE_URL + "/" + response.getImgPath())
+                .placeholder(R.color.on_bg_ls)
+                .error(R.color.on_bg_ls)
+                .into(b.bigImage);
 
-        Glide.with(getContext()).load(BASE_URL + "/" + response.getImgPath()).into(b.imageUser);
+        Glide.with(getContext())
+                .load(BASE_URL + "/" + response.getImgPath())
+                .placeholder(R.color.on_bg_ls)
+                .error(R.color.on_bg_ls)
+                .into(b.imageUser);
 
         if (Objects.equals(type, TYPE_USER)) {
             b.countProducts.setText(String.valueOf(response.getSubscriptionCount()));
@@ -445,5 +460,14 @@ public class FragmentProfile extends Fragment {
         setBackgroundDrawable(getContext(), b.layFollows, R.color.white, 0, 10, false, 0);
         setBackgroundDrawable(getContext(), b.laySubscribers, R.color.white, 0, 10, false, 0);
         setBackgroundDrawable(getContext(), b.contactsLay, R.color.bg, R.color.accent, 10, false, 2);
+    }
+
+    public UserProfile getUser() {
+        return user;
+    }
+
+    @Override
+    public void onChange() {
+        check();
     }
 }

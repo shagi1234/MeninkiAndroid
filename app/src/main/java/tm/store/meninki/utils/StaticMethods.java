@@ -414,6 +414,12 @@ public class StaticMethods {
         float density = context.getResources().getDisplayMetrics().density;
         return Math.round((float) dp * density);
     }
+    public static int dpToPx(double dp, Context context) {
+        if (context == null) return 0;
+
+        float density = context.getResources().getDisplayMetrics().density;
+        return Math.round((float) dp * density);
+    }
 
 
     public static int pxToDp(int px, final Context context) {
