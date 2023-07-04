@@ -5,11 +5,9 @@
 	++1.	Зашел на продукт и добавить обзор на товар не отправляется(создать пост basanda переходя на товар)
 
 	//product
-	2.	В том же товаре когда нажимаешь на корзину пишет метод not allowed
 	22.product getCharacteristics
 
 	++6.	Не могу через товар переходить в магазин
-	7.	Там под товорами троеточия (…) кнопка дополнительно наверное(она не нажимается и переходит сразу на товар)
     ++8.	Там в разделе продуктами под всеми категориями какая то подкатегория где все товары
 
 
@@ -22,8 +20,6 @@
 	//add new store
 	++9.	Когда создаешь магазины там какие то placeholder и цвет наверное должно при hover меняться
 
-	10.	Когда создаешь магазин и выбираешь категорию нужно выходить свайпом и каждый раз выбирать категорию заново
-
 	++11.	При создания магазина спрашивает два контактных номера, у меня нету столько номеров
 	++12.	А в дополнительной спрашивает еще 3 номера (такое ощущение что я магазин номеров регаю)
 	++13.	Классика, добавить магазин не работает
@@ -35,27 +31,30 @@
 	++17.	Не работает кнопка назад в этом же разделе «мои подписчики
 	++18.Profile acylyancha loading goymaly
 
-	19.Subscribe unsubscribe icon goymaly
-
-	20.post page bottomSheet
-	21.post item bottomSheet
-
 	++23.post like comment
-
-	24.filter
-	25.search
-	26.orders page ui and api
-
 	++27.postda surat gelse acar yaly etmeli
 
 
     ++1.grid size 1x1 post
-    2.shriftler
-    3.grid post
+    ++3.grid post
     ++8.grid texts
+    ++9.edit profile runtime and upload image
+
+    2.shriftler
+    2.В том же товаре когда нажимаешь на корзину пишет метод not allowed
+    24.filter
+    25.search
+    19.Subscribe unsubscribe icon goymaly
+    20.post page bottomSheet
+    21.post item bottomSheet
+    26.orders page ui and api
     4.products icon can be clicked and open profile
     5.postdan profile swipe open profile
     6.post bottomsheet add to date created at
     7.android 13 permission media fix (gallery)
+    10.Когда создаешь магазин и выбираешь категорию нужно выходить свайпом и каждый раз выбирать категорию заново
+    7.Там под товорами троеточия (…) кнопка дополнительно наверное(она не нажимается и переходит сразу на товар)
+
+
 
 

@@ -151,8 +151,9 @@ public class FragmentProduct extends Fragment {
         RequestAddToCard requestAddToCard = new RequestAddToCard();
         requestAddToCard.setProductId(uuid);
         requestAddToCard.setShopId(productDetails.getShop().getId());
-        requestAddToCard.setPersonalCharacteristicsId("");
+        requestAddToCard.setPersonalCharacteristicsId(productDetails.getPersonalCharacteristics().get(0).getId());
         requestAddToCard.setCount(1);
+
         Call<Boolean> call = StaticMethods.getApiHome().addToCard(requestAddToCard);
 
         call.enqueue(new Callback<Boolean>() {
