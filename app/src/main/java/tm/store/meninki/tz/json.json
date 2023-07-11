@@ -6,12 +6,10 @@
   "inCartCount": 0,
   "price": 666,
   "discountPrice": 250,
-
   "optionTitles": [
     "Текст",
     "Фото для посетителей "
   ],
-
   "user": null,
   "shop": {
     "id": "471215c4-18bd-4139-9b6d-f4eb3a8c624a",
@@ -29,7 +27,6 @@
     "categories": [],
     "socialMedias": []
   },
-
   "rating": {
     "userRating": {
       "8c2dbe00-ca7d-4904-815a-59bb3e8eeb07": true
@@ -48,7 +45,6 @@
       "subCategories": []
     }
   ],
-
   "options": [
     {
       "id": "aa6e809a-3af2-4dd0-878f-e1ce723beccc",
@@ -122,7 +118,6 @@
           "orientationType": 0
         }
       ],
-
       "user": {
         "id": "7c8d4067-1ff0-46a2-9960-6c43e14f3084",
         "imagePath": null,
@@ -145,7 +140,6 @@
         "userRating": {},
         "total": 0
       }
-
     }
   ],
   "isFavorited": false

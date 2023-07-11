@@ -10,7 +10,6 @@ import static tm.store.meninki.utils.StaticMethods.setMargins;
 import static tm.store.meninki.utils.StaticMethods.setPadding;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -19,16 +18,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -52,6 +46,7 @@ import tm.store.meninki.api.enums.Status;
 import tm.store.meninki.api.request.RequestCard;
 import tm.store.meninki.api.response.ResponseCard;
 import tm.store.meninki.databinding.FragmentProfileBinding;
+import tm.store.meninki.interfaces.OnUserDataChanged;
 import tm.store.meninki.shared.Account;
 import tm.store.meninki.utils.FragmentHelper;
 import tm.store.meninki.utils.StaticMethods;

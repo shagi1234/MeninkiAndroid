@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/lay_image"
+            android:layout_width="match_parent"
+            android:layout_height="120dp">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@color/low_contrast"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:riv_corner_radius="8dp" />
+
+            <TextView
+                android:id="@+id/played_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|bottom"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/bg_start_top_and_end_bottom_corner_6"
+                android:fontFamily="@font/inter_regular"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="6dp"
+                android:text="1313 TMT"
+                android:textColor="@color/bg"
+                android:textSize="12sp" />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/inter_medium"
+            android:maxLines="2"
+            android:text="Pellentesque mauris cras feugiat lectus quam. Tellus eleifend quis mauris cras"
+            android:textColor="@color/contrast" />
+
+        <TextView
+            android:id="@+id/created_at"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/inter_regular"
+            android:maxLines="2"
+            android:text="12 часов назад"
+            android:textColor="@color/neutral_dark"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/click"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/ripple"
+        android:clickable="true"
+        android:focusable="true" />
+
+</FrameLayout>

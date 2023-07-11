@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import tm.store.meninki.R;
 import tm.store.meninki.api.data.ResponsePostGetAllItem;
 import tm.store.meninki.api.response.ResponseCard;
+import tm.store.meninki.databinding.ItemAdvertisementBinding;
 import tm.store.meninki.databinding.ItemBasketBinding;
 import tm.store.meninki.databinding.ItemPostBinding;
 import tm.store.meninki.databinding.ItemStaggeredGridBinding;
@@ -48,6 +49,7 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public final static int TYPE_HORIZONTAL_SMALL = 1;
     public final static int TYPE_HORIZONTAL = 2;
     public final static int TYPE_POST = 4;
+    public final static int TYPE_ADVERTISEMENT = 5;
     public final static int TYPE_BASKET = 3;
     private int maxSize;
     private int type;
@@ -71,6 +73,9 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case TYPE_POST:
                 ItemPostBinding postBinding = ItemPostBinding.inflate(layoutInflater, parent, false);
                 return new AdapterGrid.PostHolder(postBinding);
+            case TYPE_ADVERTISEMENT:
+                ItemAdvertisementBinding ad = ItemAdvertisementBinding.inflate(layoutInflater, parent, false);
+                return new AdapterGrid.AdvertisementHolder(ad);
             default:
                 ItemStaggeredGridBinding popularAudios = ItemStaggeredGridBinding.inflate(layoutInflater, parent, false);
                 return new AdapterGrid.StoreHolder(popularAudios);
@@ -86,6 +91,9 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 break;
             case TYPE_POST:
                 ((PostHolder) holder).bind();
+                break;
+            case TYPE_ADVERTISEMENT:
+                ((AdvertisementHolder) holder).bind();
                 break;
             default:
                 ((StoreHolder) holder).bind();
@@ -350,6 +358,57 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             b.title.setText(posts.get(getAdapterPosition()).getName());
             Log.e("TAG_title_post", "bind: " + posts.get(getAdapterPosition()).getName());
+        }
+    }
+
+    public class AdvertisementHolder extends RecyclerView.ViewHolder {
+        private ItemAdvertisementBinding b;
+
+        public AdvertisementHolder(ItemAdvertisementBinding b) {
+            super(b.getRoot());
+            this.b = b;
+        }
+
+        public void bind() {
+
+            if (getAdapterPosition() == getItemCount() - 1) {
+                setMargins(b.getRoot(), 0, 0, 0, dpToPx(80, context));
+            }
+
+            b.click.setOnClickListener(v -> {
+                int adapterPosition = getAdapterPosition();
+                FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentPost.newInstance(posts, adapterPosition));
+            });
+
+            if (posts == null) return;
+
+            if (posts.get(getAdapterPosition()).getMedias().size() > 0)
+                try {
+                    GlideUrl glideUrl;
+
+                    if (posts.get(getAdapterPosition()).getMedias().get(0).getMediaType() == 0) {
+                        glideUrl = new GlideUrl(BASE_URL + "/" + posts.get(getAdapterPosition()).getMedias().get(0).getPath(),
+                                new LazyHeaders.Builder().build());
+                    } else
+                        glideUrl = new GlideUrl(BASE_URL + "/" + posts.get(getAdapterPosition()).getMedias().get(0).getPreview(),
+                                new LazyHeaders.Builder().build());
+
+
+                    RequestOptions requestOptions = new RequestOptions()
+                            .placeholder(R.drawable.placeholder)
+                            .error(R.drawable.placeholder);
+
+                    Glide.with(context)
+                            .applyDefaultRequestOptions(requestOptions)
+                            .load(glideUrl)
+                            .timeout(60000)
+                            .override(320, 480)
+                            .into(b.image);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
+            b.title.setText(posts.get(getAdapterPosition()).getName());
         }
     }
 }

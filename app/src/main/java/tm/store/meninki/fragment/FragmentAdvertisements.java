@@ -33,7 +33,11 @@ public class FragmentAdvertisements extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         b = FragmentAdvertisementsBinding.inflate(inflater, container, false);
-
+        gatAllAdvertisements();
         return b.getRoot();
+    }
+
+    private void gatAllAdvertisements() {
+
     }
 }
