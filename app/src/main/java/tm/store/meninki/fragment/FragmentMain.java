@@ -68,6 +68,7 @@ public class FragmentMain extends Fragment {
 
         mFragment.add(new FragmentPager(FragmentFeed.newInstance(), "Лента"));
         mFragment.add(new FragmentPager(FragmentHome.newInstance(), "Главная"));
+        mFragment.add(new FragmentPager(FragmentAdvertisements.newInstance(), "Объявления"));
 
         adapterFeedPager = new AdapterViewPager(getChildFragmentManager(), mFragment);
         b.viewPager.setAdapter(adapterFeedPager);

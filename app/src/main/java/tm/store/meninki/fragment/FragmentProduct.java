@@ -25,6 +25,7 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -140,7 +141,6 @@ public class FragmentProduct extends Fragment {
         b.btnAddPost.setOnClickListener(v -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentAddPost.newInstance(uuid, productDetails.getName(), new Gson().toJson(productDetails.getShop()))));
         b.goCard.setOnClickListener(v -> addToCard());
         b.layStore.setOnClickListener(v -> goShop());
-
     }
 
     private void goShop() {

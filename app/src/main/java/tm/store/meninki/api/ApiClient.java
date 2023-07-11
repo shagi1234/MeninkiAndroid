@@ -25,7 +25,6 @@ public class ApiClient {
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
-                .addInterceptor(interceptor)
                 .addInterceptor(chain -> {
                     Request request = chain.request().newBuilder()
                             .addHeader("Accept", "application/json")

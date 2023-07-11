@@ -92,6 +92,7 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         b = FragmentAddPostBinding.inflate(inflater, container, false);
         setBackgrounds();
@@ -267,7 +268,7 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
         r.setName(b.title.getText().toString().trim());
         r.setProductBaseId(prodId);
 
-        Call<String> call = StaticMethods.getApiHome().addPost( r);
+        Call<String> call = StaticMethods.getApiHome().addPost(r);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {

@@ -3,16 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/bg"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/bg">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16sp"
+        android:layout_marginVertical="14sp"
         android:clickable="true"
         android:focusable="true"
-        android:layout_marginVertical="14sp"
         android:orientation="vertical">
 
         <TextView
@@ -27,50 +27,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:layout_marginBottom="20dp"
             android:fontFamily="@font/inter_medium"
             android:text="Чтобы закрыть это меню, смахните шторку вниз."
             android:textColor="@color/black"
             android:textSize="14sp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:orientation="horizontal">
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/inter_medium"
+            android:text="July 7 2023  12:00"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="16sp"
-                android:layout_marginStart="20dp"
-                android:layout_weight="1"
-                android:fontFamily="@font/inter_medium"
-                android:text="Like"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="16sp"
-                android:layout_marginStart="20dp"
-                android:fontFamily="@font/inter_medium"
-                android:text="13"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="20dp"
-                android:src="@drawable/ic_like"
-                android:tint="@color/black"
-                tools:ignore="UseAppTint" />
-
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -142,6 +113,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:orientation="horizontal">
 
             <TextView
@@ -208,6 +180,7 @@
                 android:layout_marginVertical="16sp"
                 android:layout_marginStart="20dp"
                 android:layout_weight="1"
+                android:layout_marginEnd="6dp"
                 android:fontFamily="@font/inter_medium"
                 android:text="Обзоры автора \ перейти в магаз"
                 android:textColor="@color/black"
@@ -218,10 +191,9 @@
                 android:layout_width="34dp"
                 android:layout_height="34dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="20dp"
                 android:src="@color/alert"
                 app:riv_oval="true"
+                android:layout_marginEnd="13dp"
                 tools:ignore="UseAppTint" />
 
         </LinearLayout>

@@ -181,6 +181,12 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
                 new Handler().postDelayed(() -> b.clickStore.setEnabled(true), 200);
                 addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProduct.newInstance(videos.get(getAdapterPosition()).getProductId()));
             });
+            b.clickUser.setOnClickListener(view -> {
+                b.clickUser.setEnabled(false);
+                new Handler().postDelayed(() -> b.clickUser.setEnabled(true), 200);
+
+                addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(FragmentProfile.TYPE_USER, videos.get(getAdapterPosition()).getUser().getId()));
+            });
 
         }
 
@@ -213,6 +219,17 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
             b.like.setOnClickListener(v -> like(getAdapterPosition()));
             b.comment.setOnClickListener(v -> comment());
             b.options.setOnClickListener(v -> showDialog());
+            b.clickUser.setOnClickListener(view -> {
+                b.clickUser.setEnabled(false);
+                new Handler().postDelayed(() -> b.clickUser.setEnabled(true), 200);
+
+                addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(FragmentProfile.TYPE_USER, videos.get(getAdapterPosition()).getUser().getId()));
+            });
+            b.clickStore.setOnClickListener(view -> {
+                b.clickStore.setEnabled(false);
+                new Handler().postDelayed(() -> b.clickStore.setEnabled(true), 200);
+                addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProduct.newInstance(videos.get(getAdapterPosition()).getProductId()));
+            });
 
         }
 
