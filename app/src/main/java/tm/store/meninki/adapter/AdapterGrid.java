@@ -36,6 +36,7 @@ import tm.store.meninki.databinding.ItemPostBinding;
 import tm.store.meninki.databinding.ItemStaggeredGridBinding;
 import tm.store.meninki.fragment.FragmentPost;
 import tm.store.meninki.fragment.FragmentProduct;
+import tm.store.meninki.fragment.FragmentProfileViewPager;
 import tm.store.meninki.utils.Const;
 import tm.store.meninki.utils.FragmentHelper;
 import tm.store.meninki.utils.StaticMethods;
@@ -296,7 +297,7 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         public void bind() {
-            setIsRecyclable(false);
+//            setIsRecyclable(false);
 
             setBackgroundDrawable(context, b.posterImage, R.color.neutral_dark, R.color.accent, 0, true, 2);
 
@@ -309,7 +310,8 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             b.click.setOnClickListener(v -> {
                 int adapterPosition = getAdapterPosition();
-                FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentPost.newInstance(posts, adapterPosition));
+//                FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentPost.newInstance(posts, adapterPosition));
+                FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentProfileViewPager.newInstance(posts, adapterPosition, posts.get(getAdapterPosition()).getUser().getId() ));
             });
 
             if (posts == null) return;

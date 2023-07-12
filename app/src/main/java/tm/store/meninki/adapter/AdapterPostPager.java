@@ -14,8 +14,11 @@ import static tm.store.meninki.api.Network.BASE_URL;
 import static tm.store.meninki.utils.Const.mainFragmentManager;
 import static tm.store.meninki.utils.FragmentHelper.addFragment;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
+import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
+import static tm.store.meninki.utils.StaticMethods.setMargins;
 import static tm.store.meninki.utils.StaticMethods.setPadding;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -27,12 +30,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -43,9 +49,13 @@ import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.JsonObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -68,6 +78,7 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
     private Integer lastPosition = null;
     private FragmentActivity activity;
     private ImageView lastThumb;
+    private Dialog dialog;
 
     public AdapterPostPager(Context context, FragmentActivity activity, ArrayList<ResponsePostGetAllItem> videos, ViewPager2 viewPager2) {
         this.videos = videos;
@@ -234,17 +245,51 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
         }
 
         private void showDialog() {
-            android.app.Dialog dialog = new android.app.Dialog(context);
+            dialog = new BottomSheetDialog(context, R.style.SheetDialog);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setContentView(R.layout.bottom_sheet_story_options);
-            LinearLayout root = dialog.findViewById(R.id.root);
-            setPadding(root, 0, 0, 0, navigationBarHeight);
-
-            dialog.getWindow().setLayout(MATCH_PARENT, WRAP_CONTENT);
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnim;
             dialog.getWindow().setGravity(Gravity.BOTTOM);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+            setDialogComponents();
+//            SimpleDateFormat inputDf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'");
+//            SimpleDateFormat outputDf = new SimpleDateFormat("dd MMMM yyyy, HH:mm");
+//
+//            try {
+//                Date date = inputDf.parse(videos.get(getAdapterPosition()).);
+//                if (date != null) {
+//                    b.reviewDate.setText(outputDf.format(date));
+//                }
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+
             dialog.show();
+
+
+        }
+
+        private void setDialogComponents() {
+            FrameLayout root = dialog.findViewById(R.id.bottom_root);
+            TextView likeCount = dialog.findViewById(R.id.like_count);
+            LinearLayout favLay = dialog.findViewById(R.id.fav_lay);
+            LinearLayout downloadsLay = dialog.findViewById(R.id.downloads_lay);
+            LinearLayout openProductsLay = dialog.findViewById(R.id.open_product_lay);
+            LinearLayout shareLay = dialog.findViewById(R.id.share_lay);
+            LinearLayout openShopLa = dialog.findViewById(R.id.open_shop_lay);
+            LinearLayout complainLay = dialog.findViewById(R.id.complain_lay);
+
+            setPadding(root, 0, 0, 0, navigationBarHeight);
+            setBackgroundDrawable(context, favLay, R.color.on_bg_ls, 0, 14, false, 0);
+            setBackgroundDrawable(context, downloadsLay, R.color.on_bg_ls, 0, 14, false, 0);
+            setBackgroundDrawable(context, openProductsLay, R.color.on_bg_ls, 0, 14, false, 0);
+            setBackgroundDrawable(context, shareLay, R.color.on_bg_ls, 0, 14, false, 0);
+            setBackgroundDrawable(context, openShopLa, R.color.on_bg_ls, 0, 14, false, 0);
+            setBackgroundDrawable(context, complainLay, R.color.on_bg_ls, 0, 14, false, 0);
+
+
+            likeCount.setText(String.valueOf(videos.get(getAdapterPosition()).getRating().getTotal()));
 
         }
 
