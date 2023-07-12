@@ -69,7 +69,7 @@ public class FragmentPost extends Fragment implements OnBackPressedFragment {
             posts = new Gson().fromJson(getArguments().getString("posts_json"), type);
             adapterPosition = getArguments().getInt("position");
 
-            Log.e("TAG_video", "onCreate: " + new Gson().toJson(posts.get(adapterPosition)));
+//            Log.e("TAG_video", "onCreate: " + new Gson().toJson(posts.get(adapterPosition)));
         }
     }
 
@@ -85,7 +85,7 @@ public class FragmentPost extends Fragment implements OnBackPressedFragment {
     public void onResume() {
         super.onResume();
         if (lastExoPlayer != null) lastExoPlayer.play();
-        new Handler().post(() -> StaticMethods.setMargins(b.viewPager2, 0, statusBarHeight, 0, navigationBarHeight));
+
     }
 
     private void setViewPager(ArrayList<ResponsePostGetAllItem> videos) {
