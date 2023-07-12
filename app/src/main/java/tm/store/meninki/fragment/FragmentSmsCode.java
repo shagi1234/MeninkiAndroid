@@ -41,11 +41,12 @@ public class FragmentSmsCode extends Fragment {
     private FragmentSmsCodeBinding b;
     private CountDownTimer countDownTimer;
     private Account account;
+    String number;
 
-    public static FragmentSmsCode newInstance() {
+    public static FragmentSmsCode newInstance(String number) {
         FragmentSmsCode fragment = new FragmentSmsCode();
         Bundle args = new Bundle();
-
+        args.putString("_number", number);
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,6 +54,9 @@ public class FragmentSmsCode extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            number = getArguments().getString("_number");
+        }
         account = Account.newInstance(getContext());
     }
 
@@ -61,6 +65,7 @@ public class FragmentSmsCode extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         b = FragmentSmsCodeBinding.inflate(inflater, container, false);
+        b.phoneNum.setText(String.format("+993 %s", number));
         initListeners();
         countDownTime(120, b.btnResendCode);
         return b.getRoot();

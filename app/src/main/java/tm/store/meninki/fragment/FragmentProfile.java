@@ -107,7 +107,9 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
             case TYPE_USER:
                 setRecycler(AdapterGrid.TYPE_POST);
 
+
                 b.allFollows.setText(R.string.subscribes);
+                b.header.setText(b.nameUser.getText().toString());
 
                 if (isMe()) {
 
@@ -148,6 +150,8 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
             case TYPE_SHOP:
                 b.countBookmark.setVisibility(View.GONE);
                 b.allFollows.setText(R.string.products);
+                b.header.setText("Shops");
+
                 b.settings.setVisibility(View.GONE);
                 setRecycler(AdapterGrid.TYPE_GRID);
 
@@ -210,6 +214,7 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
             @Override
             public void onResponse(UserProfile response) {
                 setResources(response);
+                Log.e("TAG", "onResponse: "+ true );
             }
 
             @Override
@@ -237,9 +242,9 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
     private void setResources(UserProfile response) {
         user = response;
         if (getContext() == null) return;
-        b.nameUser.setText(response.getUserName());
+        b.nameUser.setText(response.getName());
         b.desc.setText(response.getDescription());
-        b.phoneNum.setText(response.getPhoneNumber());
+        b.phoneNum.setText(response.getPhone());
         b.countSubscribers.setText(String.valueOf(response.getSubscriberCount()));
 
         Glide.with(getContext()).load(BASE_URL + "/" + response.getImgPath()).placeholder(R.color.on_bg_ls).error(R.color.on_bg_ls).into(b.bigImage);
@@ -286,7 +291,7 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
         r.setDescending(true);
         r.setPageNumber(1);
         r.setTake(10);
-        r.setUserId(id);
+//        r.setUserId(id);
 
         Call<ArrayList<ResponsePostGetAllItem>> call = StaticMethods.getApiHome().getAllPosts(r);
         call.enqueue(new Callback<ArrayList<ResponsePostGetAllItem>>() {
@@ -318,7 +323,7 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
     private void getProducts() {
         RequestCard requestCard = new RequestCard();
         requestCard.setSortType(0);
-        requestCard.setShopId(id);
+//        requestCard.setShopId(id);
         requestCard.setTake(10);
         requestCard.setPageNumber(1);
         requestCard.setDescending(true);

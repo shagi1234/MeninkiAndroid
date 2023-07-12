@@ -78,6 +78,7 @@ public class FragmentFeed extends Fragment {
         call.enqueue(new RetrofitCallback<ArrayList<ResponsePostGetAllItem>>() {
             @Override
             public void onResponse(ArrayList<ResponsePostGetAllItem> response) {
+                b.progressBar.setVisibility(View.GONE);
                 if (response == null || response.size() == 0) {
                     isLastPage = true;
                     if (page == 1) {

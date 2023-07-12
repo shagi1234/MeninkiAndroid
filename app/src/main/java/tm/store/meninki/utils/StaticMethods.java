@@ -121,7 +121,7 @@ public class StaticMethods {
         return (ServiceLogin) ApiClient.createRequest(ServiceLogin.class);
     }
 
-    public static ServiceHome getApiHome() {
+    public static ServiceHome  getApiHome() {
         return (ServiceHome) ApiClient.createRequest(ServiceHome.class);
     }
 

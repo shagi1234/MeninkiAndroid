@@ -46,11 +46,11 @@
     25.search
     19.Subscribe unsubscribe icon goymaly
     20.post page bottomSheet
-    21.post item bottomSheet
+   +- 21.post item bottomSheet
     26.orders page ui and api
     4.products icon can be clicked and open profile
-    5.postdan profile swipe open profile
-    6.post bottomsheet add to date created at
+   +- 5.postdan profile swipe open profile
+   +- 6.post bottomsheet add to date created at
     7.android 13 permission media fix (gallery)
     10.Когда создаешь магазин и выбираешь категорию нужно выходить свайпом и каждый раз выбирать категорию заново
     7.Там под товорами троеточия (…) кнопка дополнительно наверное(она не нажимается и переходит сразу на товар)

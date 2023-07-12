@@ -25,6 +25,8 @@ import tm.store.meninki.adapter.AdapterPostPager;
 import tm.store.meninki.api.data.ResponsePostGetAllItem;
 import tm.store.meninki.databinding.FragmentPostBinding;
 import tm.store.meninki.interfaces.OnBackPressedFragment;
+import tm.store.meninki.interfaces.OnPostSlided;
+import tm.store.meninki.utils.Const;
 import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentPost extends Fragment implements OnBackPressedFragment {
@@ -69,7 +71,7 @@ public class FragmentPost extends Fragment implements OnBackPressedFragment {
             posts = new Gson().fromJson(getArguments().getString("posts_json"), type);
             adapterPosition = getArguments().getInt("position");
 
-//            Log.e("TAG_video", "onCreate: " + new Gson().toJson(posts.get(adapterPosition)));
+            Log.e("TAG_video", "onCreate: " + new Gson().toJson(posts.get(adapterPosition)));
         }
     }
 
@@ -102,6 +104,10 @@ public class FragmentPost extends Fragment implements OnBackPressedFragment {
                     adapterViewPager.setPosition(position);
                     adapterViewPager.releasePlayer();
                 }, 300);
+                Fragment fragment = Const.mainFragmentManager.findFragmentByTag(FragmentProfileViewPager.class.getSimpleName());
+                if (fragment instanceof OnPostSlided){
+                    ((OnPostSlided) fragment).onPostSlided(position, videos.get(position).getUser().getId());
+                }
             }
         });
 

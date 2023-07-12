@@ -174,7 +174,7 @@ public class FragmentCountryAndNumber extends Fragment implements CountryClickLi
                 account.saveSendSmsId(response.getId());
                 account.saveUserPhoneNumber(b.selectCode.getText().toString().trim().substring(1) + b.edtNumber.getText().toString().trim());
 
-                addFragment(mainFragmentManager, R.id.container_login, FragmentSmsCode.newInstance());
+                addFragment(mainFragmentManager, R.id.container_login, FragmentSmsCode.newInstance(b.edtNumber.getText().toString()));
 
             }
 

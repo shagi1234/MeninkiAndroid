@@ -202,6 +202,10 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked, OnBa
         requestCreateShop.setUserId(Account.newInstance(getContext()).getPrefUserUUID());
         requestCreateShop.setName(b.storeName.getText().toString());
         requestCreateShop.setEmail(b.edtEmail.getText().toString());
+        requestCreateShop.setPhoneNumber("+993 "+b.contactPhone1.getText().toString());
+        requestCreateShop.setUserName("shop1");
+        Log.e("TAG", "createShop: "+Account.newInstance(getContext()).getPrefRegisterName() );
+
 
         Call<UserProfile> call = StaticMethods.getApiHome().createShop(requestCreateShop);
 
@@ -209,8 +213,11 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked, OnBa
             @Override
             public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
                 if (response.code() == 200 && response.body() != null) {
-                    uploadImage(response.body().getId());
+//                    uploadImage(response.body().getId());
+                    Log.e("SUCCESS", "onResponse: +Success" );
                 }
+                else                     Log.e("CODE", "onResponse: "+response.code()  );
+
             }
 
             @Override
@@ -230,7 +237,7 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked, OnBa
     @Override
     public void onChecked(boolean isChecked, CategoryDto categoryDto) {
         if (isChecked) {
-            categories.add(categoryDto);
+                categories.add(categoryDto);
         } else {
             categories.remove(categoryDto);
         }

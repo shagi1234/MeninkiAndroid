@@ -157,7 +157,7 @@ public class FragmentCategoryList extends Fragment {
     }
 
     private void setRecycler() {
-        adapterText = new AdapterCategory(getContext(), type);
+        adapterText = new AdapterCategory(getContext(), type, getActivity());
         b.recCategory.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         b.recCategory.setAdapter(adapterText);
     }

@@ -2,11 +2,23 @@ package tm.store.meninki.api.data;
 
 import com.google.gson.annotations.SerializedName;
 
+import tm.store.meninki.data.CategoryDto;
+
 public class UserProfile {
     private String id;
     @SerializedName("imagePath")
     private String imgPath;
     private String name;
+    private String phone;
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     private String phoneNumber;
     private String email;
     private String userName;
@@ -22,6 +34,41 @@ public class UserProfile {
     private int shopCount;  //dine oz profilymda bar
     private int orderCount; // dine oz shopymda bar
     private int visiterCount; // dine oz shopymda bar
+    private int totalProduct; // dine oz shopymda bar
+    private CategoryDto categories;
+    private SocialMediaDto socialMedias;
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public int getTotalProduct() {
+        return totalProduct;
+    }
+
+    public void setTotalProduct(int totalProduct) {
+        this.totalProduct = totalProduct;
+    }
+
+    public CategoryDto getCategories() {
+        return categories;
+    }
+
+    public void setCategories(CategoryDto categories) {
+        this.categories = categories;
+    }
+
+    public SocialMediaDto getSocialMedias() {
+        return socialMedias;
+    }
+
+    public void setSocialMedias(SocialMediaDto socialMedias) {
+        this.socialMedias = socialMedias;
+    }
 
     public String getId() {
         return id;
@@ -45,14 +92,6 @@ public class UserProfile {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 
     public String getEmail() {

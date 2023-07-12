@@ -105,7 +105,7 @@ public class FragmentEditProfile extends Fragment implements OnBackPressedFragme
         UserProfile user = fragmentProfile.getUser();
         b.edtUsername.setText(user.getUserName());
         b.edtFirstName.setText(user.getName());
-        b.edtPhoneNum.setText(user.getPhoneNumber());
+        b.edtPhoneNum.setText(user.getPhone());
 
         Glide.with(requireContext()).load(BASE_URL + "/" + user.getImgPath()).placeholder(R.color.on_bg_ls).error(R.color.on_bg_ls).into(b.image);
     }
@@ -176,7 +176,7 @@ public class FragmentEditProfile extends Fragment implements OnBackPressedFragme
         u.setName(b.edtFirstName.getText().toString().trim());
         u.setId(Account.newInstance(getContext()).getPrefUserUUID());
         u.setUserName(b.edtUsername.getText().toString().trim());
-        u.setPhoneNumber(b.edtPhoneNum.getText().toString().trim());
+        u.setPhone(b.edtPhoneNum.getText().toString().trim());
 
         Call<Boolean> call = StaticMethods.getApiHome().updateUser(u);
         call.enqueue(new RetrofitCallback<Boolean>() {

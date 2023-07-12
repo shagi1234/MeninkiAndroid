@@ -91,9 +91,11 @@ public class FragmentHome extends Fragment {
         call.enqueue(new Callback<ArrayList<HomeArray>>() {
             @Override
             public void onResponse(@NonNull Call<ArrayList<HomeArray>> call, @NonNull Response<ArrayList<HomeArray>> response) {
-                if (response.body() == null) return;
+                b.progressBar.setVisibility(View.GONE);
+                b.main.setVisibility(View.VISIBLE);
+                if (response.body() == null || response.body().size()==0) return;
 
-                if (response.body().size() > 0 && response.body().get(0).getBanner() != null)
+                if (response.body().get(0).getBanner() != null)
                     Glide.with(getContext())
                             .load(response.body().get(0).getBanner().getBannerImage())
                             .placeholder(R.drawable.placeholder)
@@ -106,6 +108,8 @@ public class FragmentHome extends Fragment {
 
             @Override
             public void onFailure(@NonNull Call<ArrayList<HomeArray>> call, @NonNull Throwable t) {
+                b.progressBar.setVisibility(View.VISIBLE);
+                b.main.setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -115,7 +119,7 @@ public class FragmentHome extends Fragment {
         call.enqueue(new Callback<ArrayList<HomeArray>>() {
             @Override
             public void onResponse(@NonNull Call<ArrayList<HomeArray>> call, @NonNull Response<ArrayList<HomeArray>> response) {
-                if (response.body() == null) return;
+                if (response.body() == null || response.body().size()==0) return;
 
                 setBanner(response);
             }
@@ -128,6 +132,8 @@ public class FragmentHome extends Fragment {
     }
 
     private void setBanner(Response<ArrayList<HomeArray>> response) {
+        assert response.body() != null;
+        if (response.body().get(0).getBanner()==null ) return;
         if (response.body().size() > 0 && response.body().get(0).getBanner() != null)
             Glide.with(getContext())
                     .load(response.body().get(0).getBanner().getBannerImage())
@@ -143,15 +149,12 @@ public class FragmentHome extends Fragment {
         call.enqueue(new Callback<ArrayList<HomeArray>>() {
             @Override
             public void onResponse(@NonNull Call<ArrayList<HomeArray>> call, @NonNull Response<ArrayList<HomeArray>> response) {
-                if (response.body() == null) return;
-
-                adapterGridNew.setStories(response.body().get(1).getNewProducts());
-                Log.e("TAG_shops", "onResponse: " + new Gson().toJson(response.body().get(0).getShops()));
-                adapterCircle.setStories(response.body().get(0).getShops());
                 b.progressBar.setVisibility(View.GONE);
                 b.main.setVisibility(View.VISIBLE);
-
-
+                if (response.body() == null || response.body().size()==0) return;
+//                adapterGridNew.setStories(response.body().get(1).getNewProducts());
+//                Log.e("TAG_shops", "onResponse: " + new Gson().toJson(response.body().get(0).getShops()));
+                adapterCircle.setStories(response.body().get(0).getShops());
             }
 
             @Override
@@ -212,7 +215,7 @@ public class FragmentHome extends Fragment {
     private void getPosts() {
 
         RequestCard requestCard = new RequestCard();
-        requestCard.setCardTypes(new int[]{CardType.post});
+//        requestCard.setCardTypes(new int[]{CardType.post});
         requestCard.setCategoryIds(null);
         requestCard.setDescending(true);
         requestCard.setPageNumber(1);

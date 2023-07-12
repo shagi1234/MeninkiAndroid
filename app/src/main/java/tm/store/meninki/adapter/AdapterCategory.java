@@ -3,6 +3,7 @@ package tm.store.meninki.adapter;
 import static tm.store.meninki.utils.Const.mainFragmentManager;
 import static tm.store.meninki.utils.FragmentHelper.addFragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -35,10 +36,12 @@ public class AdapterCategory extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private ArrayList<UserProfile> shops = new ArrayList<>();
     private int type;
     private MaterialCheckBox lastChecked;
+    Activity activity;
 
-    public AdapterCategory(Context context, int type) {
+    public AdapterCategory(Context context, int type, Activity activity) {
         this.type = type;
         this.context = context;
+        this.activity = activity;
     }
 
     //test
@@ -166,9 +169,11 @@ public class AdapterCategory extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 Fragment addProduct = mainFragmentManager.findFragmentByTag(FragmentAddProduct.class.getName());
                 if (addProduct instanceof OnShopChecked) {
                     ((OnShopChecked) addProduct).onShopChecked(isChecked, shops.get(getAdapterPosition()));
+//                    activity.onBackPressed();
                 }
 
                 lastChecked = b.title;
+
             });
         }
     }

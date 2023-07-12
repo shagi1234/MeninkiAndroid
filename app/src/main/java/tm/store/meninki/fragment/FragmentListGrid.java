@@ -92,7 +92,7 @@ public class FragmentListGrid extends Fragment {
 
     private void check() {
         RequestCard requestCard = new RequestCard();
-        requestCard.setCardTypes(cardTypes);
+//        requestCard.setCardTypes(cardTypes);
         requestCard.setCategoryIds(categoryIds);
         requestCard.setDescending(true);
         requestCard.setPageNumber(page);
