@@ -242,17 +242,9 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
         b.phoneNum.setText(response.getPhoneNumber());
         b.countSubscribers.setText(String.valueOf(response.getSubscriberCount()));
 
-        Glide.with(getContext())
-                .load(BASE_URL + "/" + response.getImgPath())
-                .placeholder(R.color.on_bg_ls)
-                .error(R.color.on_bg_ls)
-                .into(b.bigImage);
+        Glide.with(getContext()).load(BASE_URL + "/" + response.getImgPath()).placeholder(R.color.on_bg_ls).error(R.color.on_bg_ls).into(b.bigImage);
 
-        Glide.with(getContext())
-                .load(BASE_URL + "/" + response.getImgPath())
-                .placeholder(R.color.on_bg_ls)
-                .error(R.color.on_bg_ls)
-                .into(b.imageUser);
+        Glide.with(getContext()).load(BASE_URL + "/" + response.getImgPath()).placeholder(R.color.on_bg_ls).error(R.color.on_bg_ls).into(b.imageUser);
 
         if (Objects.equals(type, TYPE_USER)) {
             b.countProducts.setText(String.valueOf(response.getSubscriptionCount()));
@@ -464,6 +456,5 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
     @Override
     public void onChange() {
         getUserById();
-        Log.e("TAG_user_data", "onChange: ");
     }
 }
