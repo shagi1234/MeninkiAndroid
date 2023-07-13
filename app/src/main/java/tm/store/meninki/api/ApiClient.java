@@ -39,22 +39,9 @@ public class ApiClient {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(client)
-                .addConverterFactory(new ApiClient.NullOnEmptyConverterFactory())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         return retrofit.create(className);
     }
-
-    public static class NullOnEmptyConverterFactory extends Converter.Factory {
-        @Override
-        public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
-            final Converter<ResponseBody, ?> delegate = retrofit.nextResponseBodyConverter(this, type, annotations);
-            return (Converter<ResponseBody, Object>) body -> {
-                if (body.contentLength() == 0) return null;
-                return delegate.convert(body);
-            };
-        }
-    }
-
 }

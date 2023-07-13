@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -25,14 +24,12 @@ import tm.store.meninki.R;
 import tm.store.meninki.adapter.AdapterCircle;
 import tm.store.meninki.adapter.AdapterGrid;
 import tm.store.meninki.api.RetrofitCallback;
-import tm.store.meninki.api.enums.CardType;
 import tm.store.meninki.api.request.RequestCard;
 import tm.store.meninki.api.response.ResponseCard;
 import tm.store.meninki.api.response.ResponseHomeShops;
 import tm.store.meninki.data.CategoryDto;
 import tm.store.meninki.data.HomeArray;
 import tm.store.meninki.databinding.FragmentHomeBinding;
-import tm.store.meninki.shared.Account;
 import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentHome extends Fragment {
@@ -93,7 +90,10 @@ public class FragmentHome extends Fragment {
             public void onResponse(@NonNull Call<ArrayList<HomeArray>> call, @NonNull Response<ArrayList<HomeArray>> response) {
                 b.progressBar.setVisibility(View.GONE);
                 b.main.setVisibility(View.VISIBLE);
-                if (response.body() == null || response.body().size()==0) return;
+                if (response.body() == null || response.body().size() == 0) {
+                    b.popularsLay.setVisibility(View.GONE);
+                    return;
+                }
 
                 if (response.body().get(0).getBanner() != null)
                     Glide.with(getContext())
@@ -101,15 +101,13 @@ public class FragmentHome extends Fragment {
                             .placeholder(R.drawable.placeholder)
                             .error(R.drawable.placeholder)
                             .into(b.banner1);
-
+                else b.banner1.setVisibility(View.GONE);
                 if (response.body().size() > 1)
                     adapterGridPopular.setStories(response.body().get(1).getPopularProducts());
             }
 
             @Override
             public void onFailure(@NonNull Call<ArrayList<HomeArray>> call, @NonNull Throwable t) {
-                b.progressBar.setVisibility(View.VISIBLE);
-                b.main.setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -119,8 +117,11 @@ public class FragmentHome extends Fragment {
         call.enqueue(new Callback<ArrayList<HomeArray>>() {
             @Override
             public void onResponse(@NonNull Call<ArrayList<HomeArray>> call, @NonNull Response<ArrayList<HomeArray>> response) {
-                if (response.body() == null || response.body().size()==0) return;
-
+                b.main.setVisibility(View.VISIBLE);
+                if (response.body() == null || response.body().size() == 0) {
+                    b.banner1.setVisibility(View.GONE);
+                    return;
+                }
                 setBanner(response);
             }
 
@@ -132,14 +133,16 @@ public class FragmentHome extends Fragment {
     }
 
     private void setBanner(Response<ArrayList<HomeArray>> response) {
-        assert response.body() != null;
-        if (response.body().get(0).getBanner()==null ) return;
+        if (response.body().get(0).getBanner() == null) {
+            return;
+        }
         if (response.body().size() > 0 && response.body().get(0).getBanner() != null)
-            Glide.with(getContext())
-                    .load(response.body().get(0).getBanner().getBannerImage())
-                    .placeholder(R.drawable.placeholder)
-                    .error(R.drawable.placeholder)
-                    .into(b.banner2);
+            b.banner1.setVisibility(View.VISIBLE);
+        Glide.with(getContext())
+                .load(response.body().get(0).getBanner().getBannerImage())
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.placeholder)
+                .into(b.banner2);
         b.descLabel.setText(response.body().get(0).getBanner().getTitle());
         b.desc.setText(response.body().get(0).getBanner().getDescription());
     }
@@ -151,10 +154,15 @@ public class FragmentHome extends Fragment {
             public void onResponse(@NonNull Call<ArrayList<HomeArray>> call, @NonNull Response<ArrayList<HomeArray>> response) {
                 b.progressBar.setVisibility(View.GONE);
                 b.main.setVisibility(View.VISIBLE);
-                if (response.body() == null || response.body().size()==0) return;
+                if (response.body() == null || response.body().size() == 0)
+                    return;
+                if (response.body().get(0).getBanner()==null) b.banner2.setVisibility(View.GONE);
+                if (response.body().get(0).get()==null) b.newsLay.setVisibility(View.GONE);
+                if (response.body().get(0).getShops()==null) b.shopsLay.setVisibility(View.GONE);
 //                adapterGridNew.setStories(response.body().get(1).getNewProducts());
 //                Log.e("TAG_shops", "onResponse: " + new Gson().toJson(response.body().get(0).getShops()));
                 adapterCircle.setStories(response.body().get(0).getShops());
+
             }
 
             @Override

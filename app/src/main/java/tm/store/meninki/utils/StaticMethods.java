@@ -129,7 +129,7 @@ public class StaticMethods {
         return (ServiceCategory) ApiClient.createRequest(ServiceCategory.class);
     }
 
-    public static String getTimeOrDayOrDate(Date date) {
+    public static String getTimeOrDayOrDate (Date date) {
         String defaultTimezone = TimeZone.getDefault().getID();
         DateTimeZone timeZone = DateTimeZone.forID(defaultTimezone);
         DateTime dateTimeUtc = DateTime.now().withZone(DateTimeZone.UTC);

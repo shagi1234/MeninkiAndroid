@@ -162,6 +162,8 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked, OnBa
                     if (response.code() == 200 && response.body() != null) {
                         Toast.makeText(getContext(), "Success upload image", Toast.LENGTH_SHORT).show();
                     }
+                    Log.e("Add_post", "onResponse: " + response.message());
+
                 }
 
                 @Override
@@ -203,7 +205,7 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked, OnBa
         requestCreateShop.setName(b.storeName.getText().toString());
         requestCreateShop.setEmail(b.edtEmail.getText().toString());
         requestCreateShop.setPhoneNumber("+993 "+b.contactPhone1.getText().toString());
-        requestCreateShop.setUserName("shop1");
+        requestCreateShop.setUserName("shop5");
         Log.e("TAG", "createShop: "+Account.newInstance(getContext()).getPrefRegisterName() );
 
 
@@ -213,10 +215,10 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked, OnBa
             @Override
             public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
                 if (response.code() == 200 && response.body() != null) {
-//                    uploadImage(response.body().getId());
+                    uploadImage(response.body().getId());
                     Log.e("SUCCESS", "onResponse: +Success" );
                 }
-                else                     Log.e("CODE", "onResponse: "+response.code()  );
+                else  Log.e("CODE", "onResponse: "+response.code()  );
 
             }
 
