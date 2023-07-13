@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,8 +53,7 @@ public class FragmentHome extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         b = FragmentHomeBinding.inflate(inflater, container, false);
         setRecycler();
@@ -90,20 +90,33 @@ public class FragmentHome extends Fragment {
             public void onResponse(@NonNull Call<ArrayList<HomeArray>> call, @NonNull Response<ArrayList<HomeArray>> response) {
                 b.progressBar.setVisibility(View.GONE);
                 b.main.setVisibility(View.VISIBLE);
-                if (response.body() == null || response.body().size() == 0) {
+                ArrayList<HomeArray> responseBody = response.body();
+
+                if (responseBody == null || responseBody.isEmpty()) {
                     b.popularsLay.setVisibility(View.GONE);
+                    b.banner1.setVisibility(View.GONE);
                     return;
                 }
 
-                if (response.body().get(0).getBanner() != null)
+                if (responseBody.get(0).getBanner() != null) {
+                    b.banner1.setVisibility(View.VISIBLE);
+
                     Glide.with(getContext())
-                            .load(response.body().get(0).getBanner().getBannerImage())
+                            .load(responseBody.get(0).getBanner().getBannerImage())
                             .placeholder(R.drawable.placeholder)
                             .error(R.drawable.placeholder)
                             .into(b.banner1);
-                else b.banner1.setVisibility(View.GONE);
-                if (response.body().size() > 1)
-                    adapterGridPopular.setStories(response.body().get(1).getPopularProducts());
+                } else {
+                    b.banner1.setVisibility(View.GONE);
+                }
+
+                if (responseBody.size() > 1) {
+                    b.popularsLay.setVisibility(View.VISIBLE);
+                    adapterGridPopular.setStories(responseBody.get(1).getPopularProducts());
+                } else {
+                    b.popularsLay.setVisibility(View.GONE);
+                }
+
             }
 
             @Override
@@ -122,6 +135,8 @@ public class FragmentHome extends Fragment {
                     b.banner1.setVisibility(View.GONE);
                     return;
                 }
+
+                b.banner1.setVisibility(View.VISIBLE);
                 setBanner(response);
             }
 
@@ -138,11 +153,7 @@ public class FragmentHome extends Fragment {
         }
         if (response.body().size() > 0 && response.body().get(0).getBanner() != null)
             b.banner1.setVisibility(View.VISIBLE);
-        Glide.with(getContext())
-                .load(response.body().get(0).getBanner().getBannerImage())
-                .placeholder(R.drawable.placeholder)
-                .error(R.drawable.placeholder)
-                .into(b.banner2);
+        Glide.with(getContext()).load(response.body().get(0).getBanner().getBannerImage()).placeholder(R.drawable.placeholder).error(R.drawable.placeholder).into(b.banner2);
         b.descLabel.setText(response.body().get(0).getBanner().getTitle());
         b.desc.setText(response.body().get(0).getBanner().getDescription());
     }
@@ -154,13 +165,20 @@ public class FragmentHome extends Fragment {
             public void onResponse(@NonNull Call<ArrayList<HomeArray>> call, @NonNull Response<ArrayList<HomeArray>> response) {
                 b.progressBar.setVisibility(View.GONE);
                 b.main.setVisibility(View.VISIBLE);
-                if (response.body() == null || response.body().size() == 0)
-                    return;
-                if (response.body().get(0).getBanner()==null) b.banner2.setVisibility(View.GONE);
-                if (response.body().get(0).get()==null) b.newsLay.setVisibility(View.GONE);
-                if (response.body().get(0).getShops()==null) b.shopsLay.setVisibility(View.GONE);
-//                adapterGridNew.setStories(response.body().get(1).getNewProducts());
-//                Log.e("TAG_shops", "onResponse: " + new Gson().toJson(response.body().get(0).getShops()));
+
+                if (response.body() == null || response.body().size() == 0) return;
+
+                if (response.body().get(0).getBanner() == null) b.banner2.setVisibility(View.GONE);
+                else b.banner2.setVisibility(View.VISIBLE);
+
+                if (response.body().get(0).getNewProducts() == null || response.body().get(0).getNewProducts().size() == 0)
+                    b.newsLay.setVisibility(View.GONE);
+                else {
+                    b.newsLay.setVisibility(View.VISIBLE);
+                    adapterGridNew.setStories(response.body().get(1).getNewProducts());
+                }
+
+                if (response.body().get(0).getShops() == null) b.shopsLay.setVisibility(View.GONE);
                 adapterCircle.setStories(response.body().get(0).getShops());
 
             }
@@ -245,10 +263,6 @@ public class FragmentHome extends Fragment {
     }
 
     private void initListeners() {
-//        b.clickFab.setOnClickListener(v -> {
-//            b.clickFab.setEnabled(false);
-//            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentAddProduct.newInstance());
-//            new Handler().postDelayed(() -> b.clickFab.setEnabled(true), 200);
-//        });
+
     }
 }
