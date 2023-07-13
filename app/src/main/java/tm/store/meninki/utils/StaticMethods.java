@@ -121,7 +121,7 @@ public class StaticMethods {
         return (ServiceLogin) ApiClient.createRequest(ServiceLogin.class);
     }
 
-    public static ServiceHome  getApiHome() {
+    public static ServiceHome getApiHome() {
         return (ServiceHome) ApiClient.createRequest(ServiceHome.class);
     }
 
@@ -414,6 +414,7 @@ public class StaticMethods {
         float density = context.getResources().getDisplayMetrics().density;
         return Math.round((float) dp * density);
     }
+
     public static int dpToPx(double dp, Context context) {
         if (context == null) return 0;
 
@@ -816,7 +817,7 @@ public class StaticMethods {
     }
 
     public static void setNavBarIconsBlack(Activity activity) {
-        if (activity == null ) return;
+        if (activity == null) return;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             final int lFlags = activity.getWindow().getDecorView().getSystemUiVisibility();

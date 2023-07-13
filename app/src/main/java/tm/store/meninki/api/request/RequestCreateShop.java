@@ -6,7 +6,6 @@ public class RequestCreateShop {
     private String userName;
     private String name;
     private String description;
-
     private String url;
     private int multiplier;
     private String email;
