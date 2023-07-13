@@ -83,7 +83,7 @@
             android:layout_gravity="bottom"
             android:background="@color/bg"
             android:orientation="vertical"
-            android:visibility="invisible">
+            android:visibility="visible">
 
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/app_bar_layout"

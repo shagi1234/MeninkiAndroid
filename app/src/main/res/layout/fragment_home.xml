@@ -21,7 +21,7 @@
             android:layout_height="match_parent"
             android:background="@color/bg"
             android:orientation="vertical"
-            android:visibility="">
+            android:visibility="invisible">
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/banner_1"

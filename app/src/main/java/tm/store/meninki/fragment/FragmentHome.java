@@ -157,7 +157,6 @@ public class FragmentHome extends Fragment {
                 if (response.body() == null || response.body().size() == 0)
                     return;
                 if (response.body().get(0).getBanner()==null) b.banner2.setVisibility(View.GONE);
-                if (response.body().get(0).get()==null) b.newsLay.setVisibility(View.GONE);
                 if (response.body().get(0).getShops()==null) b.shopsLay.setVisibility(View.GONE);
 //                adapterGridNew.setStories(response.body().get(1).getNewProducts());
 //                Log.e("TAG_shops", "onResponse: " + new Gson().toJson(response.body().get(0).getShops()));
