@@ -130,7 +130,31 @@
                         android:layout_marginTop="6dp"
                         android:background="@color/white"
                         android:fontFamily="@font/inter_bold"
-                        android:hint="Placeholder"
+                        android:hint="Title shop"
+                        android:paddingVertical="15dp"
+                        android:paddingStart="20dp"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="30dp"
+                        android:fontFamily="@font/inter_regular"
+                        android:text="Username"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        android:textStyle="normal" />
+
+                    <EditText
+                        android:id="@+id/user_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginTop="6dp"
+                        android:background="@color/white"
+                        android:fontFamily="@font/inter_bold"
+                        android:hint="Unique name for store"
                         android:paddingVertical="15dp"
                         android:paddingStart="20dp"
                         android:textSize="14sp" />

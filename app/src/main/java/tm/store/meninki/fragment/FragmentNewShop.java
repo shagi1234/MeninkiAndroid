@@ -197,17 +197,17 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked, OnBa
     private void createShop() {
         RequestCreateShop requestCreateShop = new RequestCreateShop();
         String[] categoryIds = new String[categories.size()];
+
         for (int i = 0; i < categories.size(); i++) {
             categoryIds[i] = categories.get(i).getId();
         }
+
         requestCreateShop.setCategories(categoryIds);
         requestCreateShop.setUserId(Account.newInstance(getContext()).getPrefUserUUID());
         requestCreateShop.setName(b.storeName.getText().toString());
         requestCreateShop.setEmail(b.edtEmail.getText().toString());
-        requestCreateShop.setPhoneNumber("+993 "+b.contactPhone1.getText().toString());
-        requestCreateShop.setUserName("shop5");
-        Log.e("TAG", "createShop: "+Account.newInstance(getContext()).getPrefRegisterName() );
-
+        requestCreateShop.setPhoneNumber("+993 " + b.contactPhone1.getText().toString());
+        requestCreateShop.setUserName(b.userName.getText().toString().trim());
 
         Call<UserProfile> call = StaticMethods.getApiHome().createShop(requestCreateShop);
 
@@ -216,9 +216,8 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked, OnBa
             public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
                 if (response.code() == 200 && response.body() != null) {
                     uploadImage(response.body().getId());
-                    Log.e("SUCCESS", "onResponse: +Success" );
-                }
-                else  Log.e("CODE", "onResponse: "+response.code()  );
+                    Log.e("SUCCESS", "onResponse: +Success");
+                } else Log.e("CODE", "onResponse: " + response.code());
 
             }
 
@@ -239,7 +238,7 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked, OnBa
     @Override
     public void onChecked(boolean isChecked, CategoryDto categoryDto) {
         if (isChecked) {
-                categories.add(categoryDto);
+            categories.add(categoryDto);
         } else {
             categories.remove(categoryDto);
         }
