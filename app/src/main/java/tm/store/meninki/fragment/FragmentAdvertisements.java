@@ -57,12 +57,18 @@ public class FragmentAdvertisements extends Fragment {
         b.tabCategories.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                Log.e("TAG", "onTabSelected: " + tab.getId());
-                if (tab.getPosition() == 0) {
-                    int tintColor = getResources().getColor(R.color.white);
-                    tab.getIcon().setTint(tintColor);
-                } else
-                    b.tabCategories.getTabAt(0).getIcon().setTint(getResources().getColor(R.color.contrast));
+                if (getActivity() == null) return;
+
+                try {
+                    if (tab.getPosition() == 0) {
+                        int tintColor = getActivity().getResources().getColor(R.color.white);
+                        tab.getIcon().setTint(tintColor);
+                    } else
+                        b.tabCategories.getTabAt(0).getIcon().setTint(getResources().getColor(R.color.contrast));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
             }
 
             @Override
