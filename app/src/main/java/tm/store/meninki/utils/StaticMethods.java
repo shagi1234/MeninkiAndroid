@@ -254,8 +254,7 @@ public class StaticMethods {
             shape.setShape(GradientDrawable.OVAL);
         } else {
             shape.setShape(GradientDrawable.RECTANGLE);
-
-            shape.setCornerRadii(new float[]{cornerLeftTop, cornerRightTop, 0, 0, 0, 0, cornerRightBottom, cornerLeftBottom});
+            shape.setCornerRadii(new float[]{cornerLeftTop, cornerLeftTop, cornerRightTop, cornerRightTop, cornerRightBottom, cornerRightBottom, cornerLeftBottom, cornerLeftBottom});
         }
         if (color != 0) {
             shape.setColor(context.getResources().getColor(color));

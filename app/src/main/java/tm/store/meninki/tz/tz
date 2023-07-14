@@ -60,8 +60,6 @@
     3.oleg getCategoryAdvertisement api gerek!!!
 
 
-    // shugun dynmaly
-
     1)advertisement ui
     2)advertisement api
       getAll
@@ -71,9 +69,12 @@
     3)Welayats Enum gerek olegden poka 1,2,3,4,5,6 goymaly
     4)filter addwertisement
 
-    //ertir
+    deletShop
+
+
     
     buglary duzetmeli
+
 
 
 

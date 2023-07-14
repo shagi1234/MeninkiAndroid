@@ -118,7 +118,7 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked, OnBa
     }
 
     private boolean isContentsEmpty() {
-        return !(b.storeName.getText().toString().trim().length() > 0 && categories.size() > 0 && b.contactPhone1.getText().toString().trim().length() > 0);
+        return !(b.storeName.getText().toString().trim().length() > 0 && categories.size() > 0 && b.contactPhone1.getText().toString().trim().length() > 0 && b.userName.getText().toString().trim().length() > 0);
     }
 
     @Override
@@ -142,9 +142,9 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked, OnBa
         uploadImage.setImageType(Image.shop);
         uploadImage.setWidth(getWidth(filePath));
         uploadImage.setHeight(getHeight(filePath));
-        uploadImage.setData(new File(filePath));
+        uploadImage.setImage(new File(filePath));
 
-        RequestBody requestFile = RequestBody.create(MediaType.parse(FileUtil.getMimeType(uploadImage.getData())), uploadImage.getData());
+        RequestBody requestFile = RequestBody.create(MediaType.parse(FileUtil.getMimeType(uploadImage.getImage())), uploadImage.getImage());
 
         try {
             RequestBody objectId = RequestBody.create(MediaType.parse("multipart/form-data"), uploadImage.getObjectId());
@@ -153,7 +153,7 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked, OnBa
             RequestBody imageType = RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(uploadImage.getImageType()));
             RequestBody isAvatar = RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(uploadImage.isAvatar()));
 
-            MultipartBody.Part data = MultipartBody.Part.createFormData("data", URLEncoder.encode(uploadImage.getData().getPath(), "utf-8"), requestFile);
+            MultipartBody.Part data = MultipartBody.Part.createFormData("Image", URLEncoder.encode(uploadImage.getImage().getPath(), "utf-8"), requestFile);
 
             Call<Object> call = getApiHome().uploadImage(objectId, isAvatar, imageType, width, height, data);
             call.enqueue(new Callback<Object>() {

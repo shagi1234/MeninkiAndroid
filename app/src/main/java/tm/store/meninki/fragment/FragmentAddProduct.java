@@ -112,9 +112,9 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
         uploadImage.setImageType(Image.option);
         uploadImage.setWidth(getWidth(media.getPath()));
         uploadImage.setHeight(getHeight(media.getPath()));
-        uploadImage.setData(new File(media.getPath()));
+        uploadImage.setImage(new File(media.getPath()));
 
-        RequestBody requestFile = RequestBody.create(MediaType.parse(FileUtil.getMimeType(uploadImage.getData())), uploadImage.getData());
+        RequestBody requestFile = RequestBody.create(MediaType.parse(FileUtil.getMimeType(uploadImage.getImage())), uploadImage.getImage());
 
         try {
             RequestBody objectId = RequestBody.create(MediaType.parse("multipart/form-data"), uploadImage.getObjectId());
@@ -123,7 +123,7 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
             RequestBody imageType = RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(uploadImage.getImageType()));
             RequestBody isAvatar = RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(uploadImage.isAvatar()));
 
-            MultipartBody.Part data = MultipartBody.Part.createFormData("data", URLEncoder.encode(uploadImage.getData().getPath(), "utf-8"), requestFile);
+            MultipartBody.Part data = MultipartBody.Part.createFormData("Image", URLEncoder.encode(uploadImage.getImage().getPath(), "utf-8"), requestFile);
 
             Call<Object> call = getApiHome().uploadImage(objectId, isAvatar, imageType, width, height, data);
             call.enqueue(new Callback<Object>() {
@@ -275,6 +275,7 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
         setBackgroundDrawable(getContext(), b.chooseShop, R.color.white, 0, 10, false, 1);
         setBackgroundDrawable(getContext(), b.count, R.color.low_contrast, 0, 10, false, 1);
         setBackgroundDrawable(getContext(), b.desc, R.color.low_contrast, 0, 10, false, 1);
+
         setBackgroundDrawable(getContext(), b.layWarriant, R.color.white, 0, 10, 10, 0, 0, false, 0);
         setBackgroundDrawable(getContext(), b.prices, R.color.white, 0, 10, 10, 0, 0, false, 0);
         setBackgroundDrawable(getContext(), b.redactorCharacter, R.color.white, 0, 0, 0, 10, 10, false, 0);
