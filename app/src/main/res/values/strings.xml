@@ -21,6 +21,7 @@
     <string name="choose_category">Выберите категорию</string>
     <string name="share_via">Share via</string>
     <string name="subscribers">Подписчики</string>
+    <string name="advertisement">Объявления</string>
 
     <string-array name="array">
         <item>Wariant</item>

@@ -165,14 +165,14 @@ public class FragmentHome extends Fragment {
             public void onResponse(@NonNull Call<ArrayList<HomeArray>> call, @NonNull Response<ArrayList<HomeArray>> response) {
                 b.progressBar.setVisibility(View.GONE);
                 b.main.setVisibility(View.VISIBLE);
-<<<<<<< HEAD
-                if (response.body() == null || response.body().size() == 0)
-                    return;
-                if (response.body().get(0).getBanner()==null) b.banner2.setVisibility(View.GONE);
-                if (response.body().get(0).getShops()==null) b.shopsLay.setVisibility(View.GONE);
-//                adapterGridNew.setStories(response.body().get(1).getNewProducts());
-//                Log.e("TAG_shops", "onResponse: " + new Gson().toJson(response.body().get(0).getShops()));
-=======
+//<<<<<<< HEAD
+//                if (response.body() == null || response.body().size() == 0)
+//                    return;
+//                if (response.body().get(0).getBanner()==null) b.banner2.setVisibility(View.GONE);
+//                if (response.body().get(0).getShops()==null) b.shopsLay.setVisibility(View.GONE);
+////                adapterGridNew.setStories(response.body().get(1).getNewProducts());
+////                Log.e("TAG_shops", "onResponse: " + new Gson().toJson(response.body().get(0).getShops()));
+//=======
 
                 if (response.body() == null || response.body().size() == 0) return;
 
@@ -187,7 +187,6 @@ public class FragmentHome extends Fragment {
                 }
 
                 if (response.body().get(0).getShops() == null) b.shopsLay.setVisibility(View.GONE);
->>>>>>> b22a081d3377369e8701cf744619dbde98fc21e2
                 adapterCircle.setStories(response.body().get(0).getShops());
 
             }

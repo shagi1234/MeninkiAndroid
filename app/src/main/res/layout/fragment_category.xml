@@ -44,20 +44,21 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
-        style="@style/TabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="20dp"
         android:background="@color/color_transparent"
         android:clipToPadding="false"
-        app:tabBackground="@drawable/tab_selector"
+        app:tabBackground="@drawable/tab_categories_selector"
+        app:tabIndicator="@drawable/tab_selected_categories"
         app:tabIndicatorAnimationMode="elastic"
+        app:tabIndicatorColor="@color/color_transparent"
         app:tabIndicatorFullWidth="true"
         app:tabIndicatorGravity="stretch"
-        app:tabMode="auto"
+        app:tabMode="scrollable"
         app:tabSelectedTextColor="@color/bg"
-        app:tabTextAppearance="@style/TabWidgetCategory"
+        app:tabTextAppearance="@style/TabWidgetCategories"
         app:tabTextColor="@color/ic_text" />
 
     <androidx.viewpager.widget.ViewPager

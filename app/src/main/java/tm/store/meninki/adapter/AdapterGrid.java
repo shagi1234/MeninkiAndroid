@@ -311,7 +311,7 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             b.click.setOnClickListener(v -> {
                 int adapterPosition = getAdapterPosition();
 //                FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentPost.newInstance(posts, adapterPosition));
-                FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentProfileViewPager.newInstance(posts, adapterPosition, posts.get(getAdapterPosition()).getUser().getId() ));
+                FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentProfileViewPager.newInstance(posts, adapterPosition, posts.get(getAdapterPosition()).getUser().getId()));
             });
 
             if (posts == null) return;
@@ -372,6 +372,7 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         public void bind() {
+            setBackgroundDrawable(context, b.getRoot(), 0, 0, 8, false, 0);
 
             if (getAdapterPosition() == getItemCount() - 1) {
                 setMargins(b.getRoot(), 0, 0, 0, dpToPx(80, context));
