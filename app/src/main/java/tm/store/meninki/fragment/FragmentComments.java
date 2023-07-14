@@ -36,7 +36,6 @@ import tm.store.meninki.R;
 import tm.store.meninki.adapter.AdapterComment;
 import tm.store.meninki.api.RetrofitCallback;
 import tm.store.meninki.api.data.DtoComment;
-import tm.store.meninki.api.data.ResponsePostGetAllItem;
 import tm.store.meninki.api.request.RequestAddComment;
 import tm.store.meninki.databinding.FragmentCommentsBinding;
 import tm.store.meninki.utils.KeyboardHeightProvider;
