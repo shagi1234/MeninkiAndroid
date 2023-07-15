@@ -19,7 +19,7 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 import tm.store.meninki.R;
-import tm.store.meninki.api.response.ResponseCard;
+import tm.store.meninki.api.data.response.ResponseCard;
 import tm.store.meninki.databinding.ItemStoreBinding;
 import tm.store.meninki.fragment.FragmentProduct;
 

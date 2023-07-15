@@ -3,7 +3,6 @@ package tm.store.meninki.fragment;
 import static tm.store.meninki.utils.Const.mainFragmentManager;
 import static tm.store.meninki.utils.FragmentHelper.addFragment;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
-import static tm.store.meninki.utils.StaticMethods.setPadding;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.content.Context;
@@ -31,7 +30,7 @@ import retrofit2.Call;
 import tm.store.meninki.R;
 import tm.store.meninki.api.ApiClient;
 import tm.store.meninki.api.RetrofitCallback;
-import tm.store.meninki.api.response.DataCheckSms;
+import tm.store.meninki.api.data.response.DataCheckSms;
 import tm.store.meninki.api.services.ServiceLogin;
 import tm.store.meninki.databinding.FragmentSmsCodeBinding;
 import tm.store.meninki.shared.Account;

@@ -1,12 +1,10 @@
 package tm.store.meninki.data;
 
-import java.io.ObjectStreamClass;
 import java.util.ArrayList;
 
 import tm.store.meninki.api.data.DtoBanner;
-import tm.store.meninki.api.data.ProductDto;
-import tm.store.meninki.api.response.ResponseCard;
-import tm.store.meninki.api.response.ResponseHomeShops;
+import tm.store.meninki.api.data.response.ResponseCard;
+import tm.store.meninki.api.data.response.ResponseHomeShops;
 
 public class HomeArray {
    private DtoBanner banner=new DtoBanner();

@@ -146,19 +146,32 @@
         android:layout_alignParentBottom="true"
         android:textColor="@color/bg">
 
-        <TextView
-            android:id="@+id/next_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="40dp"
+        <FrameLayout
             android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="40dp"
             android:layout_marginBottom="30dp"
-            android:background="@color/accent"
-            android:fontFamily="@font/inter_bold"
-            android:gravity="center"
-            android:paddingVertical="15dp"
-            android:text="Завершить"
-            android:textColor="@color/bg" />
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/next_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/accent"
+                android:fontFamily="@font/inter_bold"
+                android:gravity="center"
+                android:paddingVertical="15dp"
+                android:text="Завершить"
+                android:textColor="@color/bg" />
+            <ProgressBar
+                android:id="@+id/btn_progress"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="20dp"
+                android:indeterminateTint="@color/bg"
+                android:visibility="gone" />
+        </FrameLayout>
+
     </FrameLayout>
 
 </RelativeLayout>

@@ -1,4 +1,4 @@
-package tm.store.meninki.api.response;
+package tm.store.meninki.api.data.response;
 
 import java.util.ArrayList;
 

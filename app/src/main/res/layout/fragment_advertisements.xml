@@ -106,6 +106,7 @@
                     android:id="@+id/tab_categories"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
                     android:layout_marginTop="14dp"
                     android:background="@color/color_transparent"
                     android:clipToPadding="false"
@@ -117,13 +118,13 @@
                     app:tabIndicatorGravity="stretch"
                     app:tabMode="scrollable"
                     app:tabSelectedTextColor="@color/bg"
-                    app:tabTextAppearance="@style/TabWidgetCategories">
-                </com.google.android.material.tabs.TabLayout>
+                    app:tabTextAppearance="@style/TabWidgetCategories"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rec_grid"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:layout_marginHorizontal="4dp"
                     android:layout_weight="1"
                     android:visibility="visible" />
 
@@ -150,7 +151,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:fontFamily="@font/inter_bold"
-        android:text="No posts"
+        android:text="No Content"
         android:textSize="20sp"
         android:visibility="gone" />
 

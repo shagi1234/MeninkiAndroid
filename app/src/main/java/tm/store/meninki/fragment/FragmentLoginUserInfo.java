@@ -30,7 +30,7 @@ import retrofit2.Call;
 import tm.store.meninki.R;
 import tm.store.meninki.activity.ActivityMain;
 import tm.store.meninki.api.RetrofitCallback;
-import tm.store.meninki.api.response.DataCheckSms;
+import tm.store.meninki.api.data.response.DataCheckSms;
 import tm.store.meninki.databinding.FragmentLoginUserInformationBinding;
 import tm.store.meninki.shared.Account;
 import tm.store.meninki.utils.KeyboardHeightProvider;
@@ -89,7 +89,8 @@ public class FragmentLoginUserInfo extends Fragment implements KeyboardHeightPro
         b.nextBtn.setOnClickListener(v -> {
             if (getActivity() == null) return;
             b.nextBtn.setEnabled(false);
-            new Handler().postDelayed(() -> b.nextBtn.setEnabled(true), 200);
+            b.nextBtn.setAlpha(0.7f);
+            b.btnProgress.setVisibility(View.VISIBLE);
             if (signedInGoogle) {
                 sendDataGoogle();
                 return;
@@ -161,10 +162,17 @@ public class FragmentLoginUserInfo extends Fragment implements KeyboardHeightPro
                 account.saveRegisterName(b.edtName.getText().toString().trim());
                 account.saveUserIsLoggedIn();
                 goNextActivity();
+                b.nextBtn.setAlpha(1);
+                b.btnProgress.setVisibility(View.GONE);
+                new Handler().postDelayed(() -> b.nextBtn.setEnabled(true), 200);
             }
 
             @Override
             public void onFailure(Throwable t) {
+                Toast.makeText(getContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                b.nextBtn.setAlpha(1);
+                b.btnProgress.setVisibility(View.GONE);
+                new Handler().postDelayed(() -> b.nextBtn.setEnabled(true), 200);
 
             }
         });

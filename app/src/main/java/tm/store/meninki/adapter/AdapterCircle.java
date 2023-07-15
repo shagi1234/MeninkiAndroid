@@ -18,7 +18,7 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 import tm.store.meninki.R;
-import tm.store.meninki.api.response.ResponseHomeShops;
+import tm.store.meninki.api.data.response.ResponseHomeShops;
 import tm.store.meninki.databinding.ItemCircleProductBinding;
 import tm.store.meninki.fragment.FragmentProfile;
 import tm.store.meninki.utils.StaticMethods;

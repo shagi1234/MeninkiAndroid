@@ -1,6 +1,5 @@
 package tm.store.meninki.adapter;
 
-import static com.google.common.net.HttpHeaders.USER_AGENT;
 import static tm.store.meninki.api.Network.BASE_URL;
 import static tm.store.meninki.utils.StaticMethods.dpToPx;
 import static tm.store.meninki.utils.StaticMethods.getWindowWidth;
@@ -29,7 +28,8 @@ import java.util.ArrayList;
 
 import tm.store.meninki.R;
 import tm.store.meninki.api.data.ResponsePostGetAllItem;
-import tm.store.meninki.api.response.ResponseCard;
+import tm.store.meninki.api.data.response.ResponseCard;
+import tm.store.meninki.data.AdvertisementDto;
 import tm.store.meninki.databinding.ItemAdvertisementBinding;
 import tm.store.meninki.databinding.ItemBasketBinding;
 import tm.store.meninki.databinding.ItemPostBinding;
@@ -46,6 +46,8 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private FragmentActivity activity;
     private ArrayList<ResponseCard> grids = new ArrayList<>();
     private ArrayList<ResponsePostGetAllItem> posts = new ArrayList<>();
+
+    private ArrayList<AdvertisementDto> advertisements = new ArrayList<>();
     public final static int TYPE_GRID = 0;
     public final static int TYPE_HORIZONTAL_SMALL = 1;
     public final static int TYPE_HORIZONTAL = 2;
@@ -106,6 +108,9 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public int getItemCount() {
         if (type == TYPE_POST && posts != null) {
             return posts.size();
+        }
+        if (type == TYPE_ADVERTISEMENT && advertisements != null){
+            return advertisements.size();
         }
         if (grids == null) {
             return 0;
@@ -373,45 +378,33 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         public void bind() {
             setBackgroundDrawable(context, b.getRoot(), 0, 0, 8, false, 0);
+            setComponents();
 
-            if (getAdapterPosition() == getItemCount() - 1) {
-                setMargins(b.getRoot(), 0, 0, 0, dpToPx(80, context));
-            }
+//            if (getAdapterPosition() == getItemCount() - 1) {
+//                setMargins(b.getRoot(), 0, 0, 0, dpToPx(80, context));
+//            }
 
             b.click.setOnClickListener(v -> {
                 int adapterPosition = getAdapterPosition();
                 FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentPost.newInstance(posts, adapterPosition));
             });
 
-            if (posts == null) return;
-
-            if (posts.get(getAdapterPosition()).getMedias().size() > 0)
-                try {
-                    GlideUrl glideUrl;
-
-                    if (posts.get(getAdapterPosition()).getMedias().get(0).getMediaType() == 0) {
-                        glideUrl = new GlideUrl(BASE_URL + "/" + posts.get(getAdapterPosition()).getMedias().get(0).getPath(),
-                                new LazyHeaders.Builder().build());
-                    } else
-                        glideUrl = new GlideUrl(BASE_URL + "/" + posts.get(getAdapterPosition()).getMedias().get(0).getPreview(),
-                                new LazyHeaders.Builder().build());
-
-
-                    RequestOptions requestOptions = new RequestOptions()
-                            .placeholder(R.drawable.placeholder)
-                            .error(R.drawable.placeholder);
-
-                    Glide.with(context)
-                            .applyDefaultRequestOptions(requestOptions)
-                            .load(glideUrl)
-                            .timeout(60000)
-                            .override(320, 480)
-                            .into(b.image);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-
-            b.title.setText(posts.get(getAdapterPosition()).getName());
         }
+
+        private void setComponents() {
+            b.title.setText(advertisements.get(getAbsoluteAdapterPosition()).getTitle());
+            b.tvPrice.setText(String.valueOf(advertisements.get(getAdapterPosition()).getPrice()));
+            if (advertisements.get(getAdapterPosition()).getImages()!=null && advertisements.get(getAdapterPosition()).getImages().length>0){
+                Glide.with(context)
+                        .load(advertisements.get(getAdapterPosition()).getImages()[0])
+                        .into(b.image);
+            }
+
+        }
+    }
+
+    public void setAdvertisements(ArrayList<AdvertisementDto> advertisements) {
+        this.advertisements = advertisements;
+        notifyDataSetChanged();
     }
 }

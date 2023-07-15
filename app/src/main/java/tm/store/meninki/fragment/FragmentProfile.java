@@ -44,7 +44,7 @@ import tm.store.meninki.api.data.ResponsePostGetAllItem;
 import tm.store.meninki.api.data.UserProfile;
 import tm.store.meninki.api.enums.Status;
 import tm.store.meninki.api.request.RequestCard;
-import tm.store.meninki.api.response.ResponseCard;
+import tm.store.meninki.api.data.response.ResponseCard;
 import tm.store.meninki.databinding.FragmentProfileBinding;
 import tm.store.meninki.interfaces.OnUserDataChanged;
 import tm.store.meninki.shared.Account;
