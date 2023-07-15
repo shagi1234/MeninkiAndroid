@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,16 +34,13 @@ import com.google.gson.JsonObject;
 
 import retrofit2.Call;
 import tm.store.meninki.R;
-import tm.store.meninki.activity.ActivityMain;
 import tm.store.meninki.api.ApiClient;
 import tm.store.meninki.api.RetrofitCallback;
-import tm.store.meninki.api.response.DataCheckSms;
-import tm.store.meninki.api.response.DataSendSms;
+import tm.store.meninki.api.data.response.DataSendSms;
 import tm.store.meninki.api.services.ServiceLogin;
 import tm.store.meninki.databinding.FragmentCountryAndNumberBinding;
 import tm.store.meninki.interfaces.CountryClickListener;
 import tm.store.meninki.shared.Account;
-import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentCountryAndNumber extends Fragment implements CountryClickListener {
     private FragmentCountryAndNumberBinding b;
@@ -124,6 +122,8 @@ public class FragmentCountryAndNumber extends Fragment implements CountryClickLi
         showKeyboard();
         b.btnLogin.setOnClickListener(v -> {
             b.btnLogin.setEnabled(false);
+            b.btnLogin.setAlpha(0.7f);
+            b.btnProgress.setVisibility(View.VISIBLE);
             sendSms();
         });
 
@@ -169,18 +169,23 @@ public class FragmentCountryAndNumber extends Fragment implements CountryClickLi
         call.enqueue(new RetrofitCallback<DataSendSms>() {
             @Override
             public void onResponse(DataSendSms response) {
-                b.btnLogin.setEnabled(true);
 
                 account.saveSendSmsId(response.getId());
                 account.saveUserPhoneNumber(b.selectCode.getText().toString().trim().substring(1) + b.edtNumber.getText().toString().trim());
 
                 addFragment(mainFragmentManager, R.id.container_login, FragmentSmsCode.newInstance(b.edtNumber.getText().toString()));
+                b.btnLogin.setAlpha(1);
+                b.btnProgress.setVisibility(View.GONE);
+                new Handler().postDelayed(() -> b.btnLogin.setEnabled(true), 200);
 
             }
 
             @Override
             public void onFailure(Throwable t) {
-                b.btnLogin.setEnabled(true);
+                Toast.makeText(getContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                b.btnLogin.setAlpha(1);
+                b.btnProgress.setVisibility(View.GONE);
+                new Handler().postDelayed(() -> b.btnLogin.setEnabled(true), 200);
             }
         });
     }

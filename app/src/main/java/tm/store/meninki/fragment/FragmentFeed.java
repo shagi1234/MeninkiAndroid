@@ -8,10 +8,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
 
@@ -21,7 +19,7 @@ import tm.store.meninki.api.RetrofitCallback;
 import tm.store.meninki.api.data.ResponsePostGetAllItem;
 import tm.store.meninki.api.enums.CardType;
 import tm.store.meninki.api.request.RequestCard;
-import tm.store.meninki.api.response.ResponseCard;
+import tm.store.meninki.api.data.response.ResponseCard;
 import tm.store.meninki.databinding.FragmentFeedBinding;
 import tm.store.meninki.shared.Account;
 import tm.store.meninki.utils.StaticMethods;

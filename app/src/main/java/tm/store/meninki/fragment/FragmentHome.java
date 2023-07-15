@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,8 +25,8 @@ import tm.store.meninki.adapter.AdapterCircle;
 import tm.store.meninki.adapter.AdapterGrid;
 import tm.store.meninki.api.RetrofitCallback;
 import tm.store.meninki.api.request.RequestCard;
-import tm.store.meninki.api.response.ResponseCard;
-import tm.store.meninki.api.response.ResponseHomeShops;
+import tm.store.meninki.api.data.response.ResponseCard;
+import tm.store.meninki.api.data.response.ResponseHomeShops;
 import tm.store.meninki.data.CategoryDto;
 import tm.store.meninki.data.HomeArray;
 import tm.store.meninki.databinding.FragmentHomeBinding;

@@ -17,7 +17,7 @@ import retrofit2.Call;
 import tm.store.meninki.adapter.AdapterGrid;
 import tm.store.meninki.api.RetrofitCallback;
 import tm.store.meninki.api.request.RequestCard;
-import tm.store.meninki.api.response.ResponseCard;
+import tm.store.meninki.api.data.response.ResponseCard;
 import tm.store.meninki.data.StoreDTO;
 import tm.store.meninki.databinding.FragmentListGridBinding;
 import tm.store.meninki.utils.StaticMethods;
