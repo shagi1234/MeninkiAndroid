@@ -129,7 +129,7 @@ public class StaticMethods {
         return (ServiceCategory) ApiClient.createRequest(ServiceCategory.class);
     }
 
-    public static String getTimeOrDayOrDate (Date date) {
+    public static String getTimeOrDayOrDate(Date date) {
         String defaultTimezone = TimeZone.getDefault().getID();
         DateTimeZone timeZone = DateTimeZone.forID(defaultTimezone);
         DateTime dateTimeUtc = DateTime.now().withZone(DateTimeZone.UTC);
@@ -254,8 +254,7 @@ public class StaticMethods {
             shape.setShape(GradientDrawable.OVAL);
         } else {
             shape.setShape(GradientDrawable.RECTANGLE);
-
-            shape.setCornerRadii(new float[]{cornerLeftTop, cornerRightTop, 0, 0, 0, 0, cornerRightBottom, cornerLeftBottom});
+            shape.setCornerRadii(new float[]{cornerLeftTop, cornerLeftTop, cornerRightTop, cornerRightTop, cornerRightBottom, cornerRightBottom, cornerLeftBottom, cornerLeftBottom});
         }
         if (color != 0) {
             shape.setColor(context.getResources().getColor(color));
@@ -292,11 +291,9 @@ public class StaticMethods {
     public static String getEthernetMacAddress() {
         String macAddress = "Not able to read";
         try {
-            List<NetworkInterface> allNetworkInterfaces = Collections.list(NetworkInterface
-                    .getNetworkInterfaces());
+            List<NetworkInterface> allNetworkInterfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
             for (NetworkInterface nif : allNetworkInterfaces) {
-                if (!nif.getName().equalsIgnoreCase("eth0"))
-                    continue;
+                if (!nif.getName().equalsIgnoreCase("eth0")) continue;
 
                 byte[] macBytes = nif.getHardwareAddress();
                 if (macBytes == null) {
@@ -483,10 +480,7 @@ public class StaticMethods {
             return;
         }
 
-        Glide.with(context)
-                .load(BASE_URL + avatar)
-                .error(createGradientDrawable(context))
-                .placeholder(createGradientDrawable(context))
+        Glide.with(context).load(BASE_URL + avatar).error(createGradientDrawable(context)).placeholder(createGradientDrawable(context))
 //                .addListener(new RequestListener<>() {
 //                    @Override
 //                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
@@ -811,8 +805,7 @@ public class StaticMethods {
             statusBarHeight = defaultInsets.getSystemWindowInsetTop();
             navigationBarHeight = defaultInsets.getSystemWindowInsetBottom();
 
-            return defaultInsets.replaceSystemWindowInsets(
-                    0, 0, 0, 0);
+            return defaultInsets.replaceSystemWindowInsets(0, 0, 0, 0);
         });
     }
 
@@ -872,10 +865,8 @@ public class StaticMethods {
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                ObjectAnimator scaleDownX = ObjectAnimator.ofFloat(v,
-                        "scaleX", 0.95f);
-                ObjectAnimator scaleDownY = ObjectAnimator.ofFloat(v,
-                        "scaleY", 0.95f);
+                ObjectAnimator scaleDownX = ObjectAnimator.ofFloat(v, "scaleX", 0.95f);
+                ObjectAnimator scaleDownY = ObjectAnimator.ofFloat(v, "scaleY", 0.95f);
                 scaleDownX.setDuration(100);
                 scaleDownY.setDuration(100);
                 AnimatorSet scaleDown = new AnimatorSet();
@@ -884,10 +875,8 @@ public class StaticMethods {
                 break;
 
             case MotionEvent.ACTION_UP:
-                ObjectAnimator scaleDownX2 = ObjectAnimator.ofFloat(
-                        v, "scaleX", 1f);
-                ObjectAnimator scaleDownY2 = ObjectAnimator.ofFloat(
-                        v, "scaleY", 1f);
+                ObjectAnimator scaleDownX2 = ObjectAnimator.ofFloat(v, "scaleX", 1f);
+                ObjectAnimator scaleDownY2 = ObjectAnimator.ofFloat(v, "scaleY", 1f);
                 scaleDownX2.setDuration(100);
                 scaleDownY2.setDuration(100);
                 AnimatorSet scaleDown2 = new AnimatorSet();
@@ -900,24 +889,22 @@ public class StaticMethods {
     public static void setMarginWithAnim(ViewGroup v, float fromMargin, float toMargin) {
         ViewGroup.MarginLayoutParams gd = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
         ValueAnimator animator = ValueAnimator.ofFloat(fromMargin, toMargin);
-        animator.setDuration(150)
-                .addUpdateListener(animation -> {
-                    float value = (float) animation.getAnimatedValue();
-                    gd.setMargins(0, 0, 0, (int) value);
-                    v.requestLayout();
-                });
+        animator.setDuration(150).addUpdateListener(animation -> {
+            float value = (float) animation.getAnimatedValue();
+            gd.setMargins(0, 0, 0, (int) value);
+            v.requestLayout();
+        });
         animator.start();
     }
 
     public static void setMarginWithAnim(View v, float fromMargin, float toMargin) {
         ViewGroup.MarginLayoutParams gd = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
         ValueAnimator animator = ValueAnimator.ofFloat(fromMargin, toMargin);
-        animator.setDuration(150)
-                .addUpdateListener(animation -> {
-                    float value = (float) animation.getAnimatedValue();
-                    gd.setMargins(0, 0, 0, (int) value);
-                    v.requestLayout();
-                });
+        animator.setDuration(150).addUpdateListener(animation -> {
+            float value = (float) animation.getAnimatedValue();
+            gd.setMargins(0, 0, 0, (int) value);
+            v.requestLayout();
+        });
         animator.start();
     }
 
@@ -947,10 +934,7 @@ public class StaticMethods {
             InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
 
             if (inputMethodManager.isAcceptingText()) {
-                inputMethodManager.hideSoftInputFromWindow(
-                        activity.getCurrentFocus().getWindowToken(),
-                        0
-                );
+                inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
             }
         } catch (Exception e) {
             Log.d("error", "hideSoftKeyboard: " + e.getMessage());
@@ -976,29 +960,23 @@ public class StaticMethods {
     }
 
     public static void animateViewVisibility(View view, View nextView) {
-        view.animate()
-                .alpha(0.0f)
-                .setDuration(100)
-                .setListener(new AnimatorListenerAdapter() {
+        view.animate().alpha(0.0f).setDuration(100).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                view.setVisibility(View.INVISIBLE);
+                nextView.animate().alpha(1.0f).setDuration(100).setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
-                        view.setVisibility(View.INVISIBLE);
-                        nextView.animate()
-                                .alpha(1.0f)
-                                .setDuration(100)
-                                .setListener(new AnimatorListenerAdapter() {
-                                    @Override
-                                    public void onAnimationEnd(Animator animation) {
-                                        super.onAnimationEnd(animation);
-                                        nextView.setVisibility(View.VISIBLE);
-
-                                    }
-                                });
-
+                        nextView.setVisibility(View.VISIBLE);
 
                     }
                 });
+
+
+            }
+        });
     }
 
 
@@ -1032,8 +1010,7 @@ public class StaticMethods {
             } else if (isDownloadsDocument(uri)) {
 
                 final String id = DocumentsContract.getDocumentId(uri);
-                final Uri contentUri = ContentUris.withAppendedId(
-                        Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+                final Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
 
                 return getDataColumn(context, contentUri, null, null);
             }
@@ -1053,9 +1030,7 @@ public class StaticMethods {
                 }
 
                 final String selection = "_id=?";
-                final String[] selectionArgs = new String[]{
-                        split[1]
-                };
+                final String[] selectionArgs = new String[]{split[1]};
 
                 return getDataColumn(context, contentUri, selection, selectionArgs);
             }
@@ -1082,25 +1057,20 @@ public class StaticMethods {
      * @param selectionArgs (Optional) Selection arguments used in the query.
      * @return The value of the _data column, which is typically a file path.
      */
-    public static String getDataColumn(Context context, Uri uri, String selection,
-                                       String[] selectionArgs) {
+    public static String getDataColumn(Context context, Uri uri, String selection, String[] selectionArgs) {
 
         Cursor cursor = null;
         final String column = "_data";
-        final String[] projection = {
-                column
-        };
+        final String[] projection = {column};
 
         try {
-            cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
-                    null);
+            cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs, null);
             if (cursor != null && cursor.moveToFirst()) {
                 final int column_index = cursor.getColumnIndexOrThrow(column);
                 return cursor.getString(column_index);
             }
         } finally {
-            if (cursor != null)
-                cursor.close();
+            if (cursor != null) cursor.close();
         }
         return null;
     }
@@ -1167,13 +1137,9 @@ public class StaticMethods {
         v.startAnimation(a);
     }
 
-    public static void slideView(View view,
-                                 int currentHeight,
-                                 int newHeight) {
+    public static void slideView(View view, int currentHeight, int newHeight) {
 
-        ValueAnimator slideAnimator = ValueAnimator
-                .ofInt(currentHeight, newHeight)
-                .setDuration(500);
+        ValueAnimator slideAnimator = ValueAnimator.ofInt(currentHeight, newHeight).setDuration(500);
 
         /* We use an update listener which listens to each tick
          * and manually updates the height of the view  */
@@ -1252,9 +1218,7 @@ public class StaticMethods {
         Animation a = new Animation() {
             @Override
             protected void applyTransformation(float interpolatedTime, Transformation t) {
-                v.getLayoutParams().width = interpolatedTime == 1
-                        ? LinearLayout.LayoutParams.WRAP_CONTENT
-                        : (int) (targetHeight * interpolatedTime);
+                v.getLayoutParams().width = interpolatedTime == 1 ? LinearLayout.LayoutParams.WRAP_CONTENT : (int) (targetHeight * interpolatedTime);
                 v.requestLayout();
             }
 
@@ -1359,31 +1323,21 @@ public class StaticMethods {
         view.setTranslationY(f);
         view.setVisibility(View.VISIBLE);
         view.setAlpha(0.0f);
-        view.animate()
-                .setDuration(150)
-                .translationY(f - view.getHeight())
-                .alpha(1.0f)
-                .setListener(null);
+        view.animate().setDuration(150).translationY(f - view.getHeight()).alpha(1.0f).setListener(null);
     }
 
     public static void slideDown(ViewGroup view, float f) {
-        view.animate()
-                .translationY(f)
-                .alpha(0.0f)
-                .setDuration(150)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        super.onAnimationEnd(animation);
-                        view.setVisibility(View.GONE);
-                    }
-                });
+        view.animate().translationY(f).alpha(0.0f).setDuration(150).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                view.setVisibility(View.GONE);
+            }
+        });
     }
 
     public static void slidingX(ViewGroup view, float f) {
-        view.animate()
-                .setDuration(150)
-                .translationX(f);
+        view.animate().setDuration(150).translationX(f);
     }
 
     public static boolean isAppRunning(final Context context, final String packageName) {
@@ -1399,8 +1353,7 @@ public class StaticMethods {
         return false;
     }
 
-    public static void animateHeight(final View view, float from, float to,
-                                     int duration) {
+    public static void animateHeight(final View view, float from, float to, int duration) {
         boolean expanding = to > from;
 
         ValueAnimator anim = ValueAnimator.ofInt((int) from, (int) to);
@@ -1409,8 +1362,7 @@ public class StaticMethods {
             @Override//from  ww w. ja v  a 2s . c o m
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 int val = (Integer) valueAnimator.getAnimatedValue();
-                ViewGroup.LayoutParams layoutParams = view
-                        .getLayoutParams();
+                ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
                 layoutParams.height = val;
                 view.setLayoutParams(layoutParams);
             }

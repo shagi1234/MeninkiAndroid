@@ -1,5 +1,7 @@
 package tm.store.meninki.api.request;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.File;
 
 public class RequestUploadImage {
@@ -9,7 +11,6 @@ public class RequestUploadImage {
     private int width;
     private int height;
     private File data;
-
     private File Image;
     private File thumb;
 

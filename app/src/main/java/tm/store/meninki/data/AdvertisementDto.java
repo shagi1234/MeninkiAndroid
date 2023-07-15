@@ -1,11 +1,15 @@
 package tm.store.meninki.data;
 
 public class AdvertisementDto {
+<<<<<<< HEAD
     private String id;
+=======
+>>>>>>> 62abcb632a1ddba741e906f3823d61d0c9480af8
 
     private String title;
     private String description;
     private String[] images;
+<<<<<<< HEAD
     private int price;
 
     public String getId() {
@@ -104,6 +108,11 @@ public class AdvertisementDto {
         isBookmarked = bookmarked;
     }
 
+=======
+    private int id;
+
+    private String price;
+>>>>>>> 62abcb632a1ddba741e906f3823d61d0c9480af8
     private String createdAt;
     private String category;
     private String phoneNumber;

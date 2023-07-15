@@ -9,6 +9,7 @@ public class UserProfile {
     @SerializedName("imagePath")
     private String imgPath;
     private String name;
+    @SerializedName("phoneNumber")
     private String phone;
     private String email;
     private String userName;

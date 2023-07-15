@@ -55,10 +55,11 @@
     10.Когда создаешь магазин и выбираешь категорию нужно выходить свайпом и каждый раз выбирать категорию заново
     7.Там под товорами троеточия (…) кнопка дополнительно наверное(она не нажимается и переходит сразу на товар)
 
-    !!!Oleg posta created_at berenok!!!
+    1.Oleg posta created_at berenok!!!
+    2.Oleg user profile phoneNumber shop da bolsa phone ikisini menzesh etmeli!!!
+    3.oleg getCategoryAdvertisement api gerek!!!
 
 
-    // shugun dynmaly
     1)advertisement ui
     2)advertisement api
       getAll
@@ -68,10 +69,18 @@
     3)Welayats Enum gerek olegden poka 1,2,3,4,5,6 goymaly
     4)filter addwertisement
 
+<<<<<<< HEAD
     !!GetAllAdvertisement-e createdAt goshdurmaly!!!
 
     //ertir
+=======
+    deletShop
+
+
+    
+>>>>>>> 62abcb632a1ddba741e906f3823d61d0c9480af8
     buglary duzetmeli
+
 
 
 
