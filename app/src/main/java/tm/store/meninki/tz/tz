@@ -58,9 +58,10 @@
     1.Oleg posta created_at berenok!!!
     2.Oleg user profile phoneNumber shop da bolsa phone ikisini menzesh etmeli!!!
     3.oleg getCategoryAdvertisement api gerek!!!
+    3.oleg getMyShops api imgPath dp gelya image imagePath etmeli
 
 
-    1)advertisement ui
+    1)advertisement ui++
     2)advertisement api
       getAll
       getById
@@ -70,8 +71,6 @@
     4)filter addwertisement
 
     deletShop
-
-
     
     buglary duzetmeli
 

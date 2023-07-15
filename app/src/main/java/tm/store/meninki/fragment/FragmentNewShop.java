@@ -107,7 +107,7 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked, OnBa
             b.chooseCategory.setEnabled(false);
 
             categories.clear();
-            addFragmentWithAnim(mainFragmentManager, R.id.fragment_container_main, FragmentCategoryList.newInstance(null, FragmentCategoryList.TYPE_CATEGORY));
+            addFragmentWithAnim(mainFragmentManager, R.id.fragment_container_main, FragmentCategoryList.newInstance(null, FragmentCategoryList.TYPE_CATEGORY, ""));
             new Handler().postDelayed(() -> b.chooseCategory.setEnabled(true), 200);
         });
 

@@ -214,7 +214,7 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
             @Override
             public void onResponse(UserProfile response) {
                 setResources(response);
-                Log.e("TAG", "onResponse: "+ true );
+                Log.e("TAG", "onResponse: " + true);
             }
 
             @Override
@@ -428,7 +428,6 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
                 if (response.code() == 200 && response.body() != null) {
                     adapter.setShops(response.body());
                     account.setMyShops(new Gson().toJson(response.body()));
-
                 } else {
                     logWrite(response.code());
                 }

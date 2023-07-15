@@ -43,12 +43,14 @@ public class FragmentCategoryList extends Fragment {
     private int type;
     private static ArrayList<CategoryDto> subCategories;
     private SlidrInterface slidrInterface;
+    private String titleCategory = "";
 
-    public static FragmentCategoryList newInstance(ArrayList<CategoryDto> sub_categories, int type) {
+    public static FragmentCategoryList newInstance(ArrayList<CategoryDto> sub_categories, int type, String titleCategory) {
         Bundle args = new Bundle();
         subCategories = sub_categories;
         FragmentCategoryList fragment = new FragmentCategoryList();
         args.putInt("type", type);
+        args.putString("title", titleCategory);
         fragment.setArguments(args);
         return fragment;
     }
@@ -59,15 +61,16 @@ public class FragmentCategoryList extends Fragment {
 
         if (getArguments() != null) {
             type = getArguments().getInt("type");
+            titleCategory = getArguments().getString("title");
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        StaticMethods.setPadding(b.main, 0, statusBarHeight, 0, navigationBarHeight);
 
-        if (isCategory() || isShop()) {
-            StaticMethods.setPadding(b.main, 0, statusBarHeight, 0, navigationBarHeight);
+        if ((isCategory() || isShop()) && subCategories == null) {
 
             if (slidrInterface == null && getView() != null)
                 slidrInterface = Slidr.replace(getView().findViewById(R.id.main), new SlidrConfig.Builder().position(SlidrPosition.TOP).build());
@@ -77,8 +80,7 @@ public class FragmentCategoryList extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         b = FragmentCategoryListBinding.inflate(inflater, container, false);
         setRecycler();
@@ -98,6 +100,7 @@ public class FragmentCategoryList extends Fragment {
             getCategories();
             return;
         }
+
         hideProgress();
         adapterText.setCategories(subCategories);
     }
@@ -129,8 +132,12 @@ public class FragmentCategoryList extends Fragment {
     }
 
     private void initListeners() {
-//        if (isCategory()) b.bgHeader.setVisibility(View.VISIBLE);
-//        else b.bgHeader.setVisibility(View.GONE);
+        if (subCategories == null && isCategory()) {
+            b.tvHeader.setText("Выбор категории");
+        } else {
+            b.tvHeader.setText(titleCategory);
+        }
+
         b.clickBack.setOnClickListener(v -> getActivity().onBackPressed());
     }
 

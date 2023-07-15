@@ -305,6 +305,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
+                    android:background="@color/bg"
                     android:orientation="vertical">
 
                     <TextView
@@ -326,6 +327,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginTop="1dp"
+                        android:layout_marginBottom="5dp"
                         android:drawableEnd="@drawable/ic_chevron__1_"
                         android:drawableTint="@color/accent"
                         android:fontFamily="@font/inter_regular"
@@ -350,7 +352,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginHorizontal="20dp"
-                        android:layout_marginTop="30dp"
+                        android:layout_marginTop="25sp"
                         android:fontFamily="@font/inter_medium"
                         android:gravity="center"
                         android:maxLines="1"
@@ -364,6 +366,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="20dp"
                         android:layout_marginTop="14dp"
+                        android:background="@color/bg"
                         android:orientation="vertical">
 
                         <TextView

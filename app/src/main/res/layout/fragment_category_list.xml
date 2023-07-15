@@ -12,14 +12,14 @@
         android:background="@color/bg"
         android:orientation="vertical">
 
-        <FrameLayout
+        <LinearLayout
             android:id="@+id/bg_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/bg"
             android:orientation="horizontal"
             android:paddingHorizontal="12dp"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <FrameLayout
                 android:id="@+id/background_back"
@@ -46,29 +46,30 @@
             </FrameLayout>
 
             <TextView
+                android:id="@+id/tv_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="@font/inter_medium"
                 android:gravity="center"
-                android:text="Categories"
+                android:text="Выбор категории"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
-        </FrameLayout>
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rec_category"
-            android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:visibility="gone" />
     </LinearLayout>
 
     <ProgressBar
+        android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:indeterminate="true"
-        android:id="@+id/progress_bar"
         android:indeterminateTint="@color/accent" />
 </FrameLayout>
