@@ -132,10 +132,15 @@ public class FragmentCategoryList extends Fragment {
     }
 
     private void initListeners() {
+        Log.e("TAG_Category", "initListeners: " + subCategories + "  " + isCategory());
         if (subCategories == null && isCategory()) {
+            b.tvHeader.setVisibility(View.VISIBLE);
             b.tvHeader.setText("Выбор категории");
-        } else {
+        } else if (subCategories != null && isCategory()) {
+            b.tvHeader.setVisibility(View.VISIBLE);
             b.tvHeader.setText(titleCategory);
+        } else {
+            b.tvHeader.setVisibility(View.GONE);
         }
 
         b.clickBack.setOnClickListener(v -> getActivity().onBackPressed());

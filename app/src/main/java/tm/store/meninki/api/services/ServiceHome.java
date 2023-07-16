@@ -39,6 +39,7 @@ import tm.store.meninki.data.CharactersDto;
 import tm.store.meninki.data.HomeArray;
 
 public interface ServiceHome {
+
     @GET("api/Product/GetById/{id}")
     Call<ProductDetails> getProductsById(@Path("id") String id);
 

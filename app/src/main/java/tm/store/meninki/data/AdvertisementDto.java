@@ -1,16 +1,20 @@
 package tm.store.meninki.data;
 
 public class AdvertisementDto {
-<<<<<<< HEAD
     private String id;
-=======
->>>>>>> 62abcb632a1ddba741e906f3823d61d0c9480af8
-
     private String title;
     private String description;
     private String[] images;
-<<<<<<< HEAD
     private int price;
+    private String createdAt;
+
+    // open ads
+    private String category;
+    private String phoneNumber;
+    private String userName;
+    private String userAvatar;
+    private int userId;
+    private boolean isBookmarked;
 
     public String getId() {
         return id;
@@ -107,18 +111,5 @@ public class AdvertisementDto {
     public void setBookmarked(boolean bookmarked) {
         isBookmarked = bookmarked;
     }
-
-=======
-    private int id;
-
-    private String price;
->>>>>>> 62abcb632a1ddba741e906f3823d61d0c9480af8
-    private String createdAt;
-    private String category;
-    private String phoneNumber;
-    private String userName;
-    private String userAvatar;
-    private int userId;
-    private boolean isBookmarked;
 
 }
