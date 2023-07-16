@@ -72,6 +72,9 @@
 
     !!GetAllAdvertisement-e createdAt goshdurmaly!!!
     deletShop
+
+    !!getAdsById-de getCategory yok Oleg!!
+    !!Sozdat obyavlenie-de requestBody-da  phoneNumber, price, region yok Oleg!!!
     
     buglary duzetmeli
 

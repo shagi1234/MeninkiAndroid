@@ -308,7 +308,7 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
     }
 
     private void setRecycler() {
-        mediaAddPost = new AdapterMediaAddPost(getContext(), getActivity());
+        mediaAddPost = new AdapterMediaAddPost(getContext(), getActivity(), false);
         b.recMedia.setLayoutManager(new GridLayoutManager(getContext(), 2));
         b.recMedia.setAdapter(mediaAddPost);
     }

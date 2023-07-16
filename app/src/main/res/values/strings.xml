@@ -22,6 +22,18 @@
     <string name="share_via">Share via</string>
     <string name="subscribers">Подписчики</string>
     <string name="advertisement">Объявления</string>
+    <string name="see_advertisement">Посмотреть объявления</string>
+    <string name="minutes_ago">minutes ago</string>
+    <string name="hours_ago">hours ago</string>
+    <string name="days_ago">days ago</string>
+    <string name="new_add">Новое объявление</string>
+    <string name="advertisement_desc">Введите описание т овара или информацию о его состоянии</string>
+    <string name="price">Стоиомсть</string>
+    <string name="media">Медиа</string>
+    <string name="region_or_city">Регион или город</string>
+    <string name="all_turkmenistan">Весь Туркменистан</string>
+    <string name="success">Success</string>
+    <string name="went_error">Something went error !</string>
 
     <string-array name="array">
         <item>Wariant</item>

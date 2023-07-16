@@ -9,6 +9,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.ContentUris;
@@ -1392,5 +1393,35 @@ public class StaticMethods {
         anim.setDuration(duration);
         anim.start();
 
+    }
+
+    public static String convertTime(String createdTime, Activity activity) {
+        String ret;
+        try {
+            SimpleDateFormat inputDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            Date eventTime = inputDate.parse(createdTime);
+            Date curTime = new Date();
+
+            long diffMillis = curTime.getTime() - eventTime.getTime();
+            long diffMinutes = diffMillis / 1000 / 60;
+            long diffHours = diffMillis / 1000 / 60 / 60;
+            long diffDays = diffMillis / 1000 / 60 / 60 / 24;
+
+            if (diffMinutes < 60) {
+                ret = diffMinutes + " " + activity.getResources().getString(R.string.minutes_ago);
+            } else if (diffHours < 24) {
+                ret = diffHours + " " + activity.getResources().getString(R.string.hours_ago);
+            } else if (diffDays < 7) {
+                ret = diffDays + " " + activity.getResources().getString(R.string.days_ago);
+            } else {
+                String dateFormat = " d MMMM yyyy";
+
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat calFormat = new SimpleDateFormat(dateFormat);
+                ret = calFormat.format(eventTime);
+            }
+        } catch (Exception ex) {
+            ret = "error: " + ex.toString();
+        }
+        return ret;
     }
 }

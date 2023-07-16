@@ -87,7 +87,6 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
         productId = UUID.randomUUID().toString();
         // Get the hosting activity's window
         Window window = requireActivity().getWindow();
-
         // Set the desired softInputMode
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
@@ -282,7 +281,7 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
     }
 
     private void setRecycler() {
-        mediaAddPost = new AdapterMediaAddPost(getContext(), getActivity());
+        mediaAddPost = new AdapterMediaAddPost(getContext(), getActivity(), false);
         b.recMedia.setLayoutManager(new GridLayoutManager(getContext(), 2));
         b.recMedia.setAdapter(mediaAddPost);
     }

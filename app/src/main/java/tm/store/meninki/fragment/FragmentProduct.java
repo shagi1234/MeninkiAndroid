@@ -181,7 +181,7 @@ public class FragmentProduct extends Fragment {
     }
 
     private void setImagePager(ArrayList<MediaDto> medias) {
-        AdapterVerticalImagePager adapterVerticalImagePager = new AdapterVerticalImagePager(getContext());
+        AdapterVerticalImagePager adapterVerticalImagePager = new AdapterVerticalImagePager(getContext(), 0);
 
         b.imagePager.setClipToPadding(false);
         b.imagePager.setClipChildren(false);

@@ -18,10 +18,15 @@ import tm.store.meninki.databinding.ItemImageVerticalBinding;
 
 public class AdapterVerticalImagePager extends RecyclerView.Adapter<AdapterVerticalImagePager.ImageHolder> {
     private ArrayList<MediaDto> imageList = new ArrayList<>();
+    private ArrayList<String> images = new ArrayList<>();
     private Context context;
 
-    public AdapterVerticalImagePager(Context context) {
+    private int type;
+
+    public AdapterVerticalImagePager(Context context, int type) {
         this.context = context;
+        this.type = type;
+
     }
 
     @NonNull
@@ -34,15 +39,24 @@ public class AdapterVerticalImagePager extends RecyclerView.Adapter<AdapterVerti
 
     @Override
     public void onBindViewHolder(@NonNull ImageHolder holder, int position) {
-        holder.bind();
+        if (type == 0) {
+            holder.bind();
+        } else holder.adsBind();
+
     }
 
     @Override
     public int getItemCount() {
-        if (imageList == null) {
-            return 0;
+        int listSize;
+        if (type == 0) {
+            if (imageList == null) listSize = 0;
+            else listSize = imageList.size();
+        } else {
+            if (images == null) listSize = 0;
+            else return listSize = images.size();
         }
-        return imageList.size();
+        return listSize;
+
     }
 
     public class ImageHolder extends RecyclerView.ViewHolder {
@@ -62,10 +76,25 @@ public class AdapterVerticalImagePager extends RecyclerView.Adapter<AdapterVerti
                     .load(BASE_URL + "/" + imageList.get(getAdapterPosition()).getPath())
                     .into(b.imageSmall);
         }
+
+        public void adsBind() {
+            Glide.with(context)
+                    .load(BASE_URL + "/" + images.get(getAdapterPosition()))
+                    .into(b.image);
+
+            Glide.with(context)
+                    .load(BASE_URL + "/" + images.get(getAdapterPosition()))
+                    .into(b.imageSmall);
+        }
     }
 
     public void setImageList(ArrayList<MediaDto> imageList) {
         this.imageList = imageList;
+        notifyDataSetChanged();
+    }
+
+    public void setImages(ArrayList<String> images) {
+        this.images = images;
         notifyDataSetChanged();
     }
 }

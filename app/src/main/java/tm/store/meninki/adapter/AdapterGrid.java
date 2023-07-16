@@ -34,6 +34,7 @@ import tm.store.meninki.databinding.ItemAdvertisementBinding;
 import tm.store.meninki.databinding.ItemBasketBinding;
 import tm.store.meninki.databinding.ItemPostBinding;
 import tm.store.meninki.databinding.ItemStaggeredGridBinding;
+import tm.store.meninki.fragment.FragmentAdvertisement;
 import tm.store.meninki.fragment.FragmentPost;
 import tm.store.meninki.fragment.FragmentProduct;
 import tm.store.meninki.fragment.FragmentProfileViewPager;
@@ -380,13 +381,11 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             setBackgroundDrawable(context, b.getRoot(), 0, 0, 8, false, 0);
             setComponents();
 
-//            if (getAdapterPosition() == getItemCount() - 1) {
-//                setMargins(b.getRoot(), 0, 0, 0, dpToPx(80, context));
-//            }
+
 
             b.click.setOnClickListener(v -> {
                 int adapterPosition = getAdapterPosition();
-                FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentPost.newInstance(posts, adapterPosition));
+                FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentAdvertisement.newInstance(advertisements.get(getAdapterPosition()).getId()));
             });
 
         }

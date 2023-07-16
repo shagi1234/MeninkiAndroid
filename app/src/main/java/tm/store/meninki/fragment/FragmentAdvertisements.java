@@ -37,10 +37,12 @@ import tm.store.meninki.api.services.ServiceCategory;
 import tm.store.meninki.data.AdvertisementDto;
 import tm.store.meninki.data.CategoryDto;
 import tm.store.meninki.databinding.FragmentAdvertisementsBinding;
+import tm.store.meninki.shared.Account;
 
 public class FragmentAdvertisements extends Fragment {
     private FragmentAdvertisementsBinding b;
     AdapterGrid adapterGrid;
+    Account account;
 
     public static FragmentAdvertisements newInstance() {
         FragmentAdvertisements fragment = new FragmentAdvertisements();
@@ -52,6 +54,7 @@ public class FragmentAdvertisements extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        account=new Account(getContext());
 
     }
 
@@ -69,10 +72,16 @@ public class FragmentAdvertisements extends Fragment {
     }
 
     private void initListeners() {
-        b.filterClick.setOnClickListener(view -> {
-            b.filterClick.setEnabled(false);
+        b.filterLay.setOnClickListener(view -> {
+            b.filterLay.setEnabled(false);
                 addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentFilterAdvertisement.newInstance());
-            new Handler().postDelayed(() -> b.filterClick.setEnabled(true), 200);
+            new Handler().postDelayed(() -> b.filterLay.setEnabled(true), 200);
+        });
+
+        b.plusClick.setOnClickListener(view -> {
+            b.plusClick.setEnabled(false);
+            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentAddAdvertisement.newInstance(account.getPrefUserUUID()));
+            new Handler().postDelayed(() -> b.plusClick.setEnabled(true), 200);
         });
 
     }

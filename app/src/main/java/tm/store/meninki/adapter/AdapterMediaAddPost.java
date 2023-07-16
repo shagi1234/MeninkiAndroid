@@ -6,6 +6,7 @@ import static tm.store.meninki.utils.StaticMethods.dpToPx;
 import static tm.store.meninki.utils.StaticMethods.getWindowWidth;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.pxToDp;
+import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.setMargins;
 import static tm.store.meninki.utils.StaticMethods.setPadding;
 
@@ -38,10 +39,12 @@ public class AdapterMediaAddPost extends RecyclerView.Adapter<AdapterMediaAddPos
     private static AdapterMediaAddPost instance;
     private FragmentActivity activity;
     private boolean isHasVideo;
+    private boolean isAdvertisement;
 
-    public AdapterMediaAddPost(Context context, FragmentActivity activity) {
+    public AdapterMediaAddPost(Context context, FragmentActivity activity, boolean isAdvertisement) {
         this.context = context;
         this.activity = activity;
+        this.isAdvertisement = isAdvertisement;
     }
 
     @NonNull
@@ -75,7 +78,10 @@ public class AdapterMediaAddPost extends RecyclerView.Adapter<AdapterMediaAddPos
         }
 
         public void bind() {
-            b.image.setLayoutParams(new FrameLayout.LayoutParams(MATCH_PARENT, getWindowWidth(activity) * 3 / 7));
+            if (!isAdvertisement)
+                b.image.setLayoutParams(new FrameLayout.LayoutParams(MATCH_PARENT, getWindowWidth(activity) * 3 / 7));
+            else
+                b.image.setLayoutParams(new FrameLayout.LayoutParams(MATCH_PARENT, (getWindowWidth(activity)-78) / 3));
             setMargins(b.image, dpToPx(5, context), dpToPx(5, context), dpToPx(5, context), dpToPx(5, context));
             if (getAdapterPosition() == getItemCount() - 1) {
                 if (isHasVideo) {
@@ -105,7 +111,11 @@ public class AdapterMediaAddPost extends RecyclerView.Adapter<AdapterMediaAddPos
 
             b.click.setOnClickListener(v -> {
                 if (getAdapterPosition() == getItemCount() - 1) {
-                    showDialog();
+                    if (!isAdvertisement)
+                        showDialog();
+                    else
+                        FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentOpenGallery.newInstance(0, FragmentOpenGallery.IMAGE));
+
                 }
             });
 

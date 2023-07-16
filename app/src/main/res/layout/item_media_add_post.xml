@@ -10,7 +10,6 @@
         android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="160dp"
-        android:layout_margin="5dp"
         android:scaleType="centerCrop"
         android:src="@color/on_bg_ls"
         app:riv_corner_radius="10dp" />
@@ -54,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/ic_add"
+            android:src="@drawable/ic_plus"
             android:tint="@color/contrast"
             tools:ignore="UseAppTint" />
 
@@ -63,6 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
+            android:textSize="12sp"
             android:fontFamily="@font/inter_medium"
             android:text="Добавить еще медиа"
             android:textAlignment="center"

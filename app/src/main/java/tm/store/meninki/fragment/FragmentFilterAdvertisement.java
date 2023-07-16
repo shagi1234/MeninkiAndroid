@@ -6,12 +6,17 @@ import static tm.store.meninki.utils.StaticMethods.setPadding;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +28,8 @@ import android.widget.TextView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import java.util.ArrayList;
+
 import tm.store.meninki.R;
 import tm.store.meninki.databinding.FragmentFilterAdvertisementBinding;
 import tm.store.meninki.utils.Dialog;
@@ -30,6 +37,8 @@ import tm.store.meninki.utils.Dialog;
 public class FragmentFilterAdvertisement extends Fragment {
     FragmentFilterAdvertisementBinding b;
     BottomSheetDialog dialog;
+    ArrayList<String> regions = new ArrayList<>();
+    ArrayList<String> categories = new ArrayList<>();
 
     public FragmentFilterAdvertisement() {
         // Required empty public constructor
@@ -67,8 +76,23 @@ public class FragmentFilterAdvertisement extends Fragment {
 
         b = FragmentFilterAdvertisementBinding.inflate(inflater, container, false);
         setBackgrounds();
+        getRegions();
+        getCategories();
         initListeners();
         return b.getRoot();
+    }
+
+    private void getCategories() {
+
+    }
+
+    private void getRegions() {
+        regions.add("Ahal");
+        regions.add("Lebap");
+        regions.add("Balkan");
+        regions.add("Dashoguz");
+        regions.add("Mary");
+        regions.add("Ashgabat");
     }
 
     private void initListeners() {
@@ -79,9 +103,9 @@ public class FragmentFilterAdvertisement extends Fragment {
             new Handler().postDelayed(() -> b.backIcon.setEnabled(true), 200);
         });
 
-        b.sortedByLay.setOnClickListener(view -> showDialog(b.txtSort.getText().toString().trim(), new String[]{""}));
+        b.sortedByLay.setOnClickListener(view -> showDialog(b.txtSort.getText().toString().trim(), categories));
 
-        b.regionsLay.setOnClickListener(view -> showDialog(b.txtRegion.getText().toString().trim(), new String[]{""}));
+        b.regionsLay.setOnClickListener(view -> showDialog(b.txtRegion.getText().toString().trim(), regions));
     }
 
     private void setBackgrounds() {
@@ -93,7 +117,7 @@ public class FragmentFilterAdvertisement extends Fragment {
         setBackgroundDrawable(getContext(), b.showBtn, R.color.accent, 0, 10, false, 0);
     }
 
-    private void showDialog(String title, String[] items) {
+    private void showDialog(String title, ArrayList<String> items) {
         if (getContext() == null) return;
         dialog = new BottomSheetDialog(getContext(), R.style.SheetDialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -106,25 +130,32 @@ public class FragmentFilterAdvertisement extends Fragment {
 
     }
 
-    private void setDialogComponents(String title, String[] items) {
+    private void setDialogComponents(String title, ArrayList<String> items) {
         LinearLayout root = dialog.findViewById(R.id.root_lay);
         TextView headerText = dialog.findViewById(R.id.title);
-        TextView item1 = dialog.findViewById(R.id.item1);
-        TextView item2 = dialog.findViewById(R.id.item2);
-        TextView item3 = dialog.findViewById(R.id.item3);
-        TextView item4 = dialog.findViewById(R.id.item4);
-        TextView item5 = dialog.findViewById(R.id.item5);
-
+        LinearLayout itemsContent = dialog.findViewById(R.id.items_content);
         headerText.setText(title);
-        if (items == null || items.length == 0) return;
+        if (items.size()==0) return;
+        assert itemsContent != null;
 
-//        item1.setText(items[0]);
-//        item2.setText(items[2]);
-//        item3.setText(items[3]);
-//        item4.setText(items[4]);
-//        item5.setText(items[5]);
+        LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        textParams.setMargins(0, 10, 0, 0);
+        Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.inter_medium);
+        int textColor = ContextCompat.getColor(getContext(), R.color.accent);
+
+        for (String item : items) {
+            TextView textView = new TextView(getContext());
+            textView.setLayoutParams(textParams);
+            textView.setTypeface(typeface);
+            textView.setPadding(20, 10, 20, 10);
+            textView.setTextColor(textColor);
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+            textView.setText(item);
+            itemsContent.addView(textView);
+        }
 
         setPadding(root, 0, 0, 0, navigationBarHeight);
 
     }
+
 }

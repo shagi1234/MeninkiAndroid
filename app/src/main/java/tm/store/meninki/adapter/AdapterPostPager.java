@@ -343,7 +343,7 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
         }
 
         private void setImagePager() {
-            AdapterVerticalImagePager adapterVerticalImagePager = new AdapterVerticalImagePager(context);
+            AdapterVerticalImagePager adapterVerticalImagePager = new AdapterVerticalImagePager(context, 0);
             adapterVerticalImagePager.setImageList(new ArrayList<>(videos.get(getAdapterPosition()).getMedias()));
             b.imagePager.setClipToPadding(false);
             b.imagePager.setClipChildren(false);
