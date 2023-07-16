@@ -112,7 +112,7 @@ public class AdapterMedia extends RecyclerView.Adapter<AdapterMedia.ViewHolder> 
             if (!selectedMediaPath.contains(media1)) {
 
                 if (selectedMediaPath.size() == chooseCount && chooseCount != 0) {
-                    Toast.makeText(context, "You cant select image more 1", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, context.getResources().getString(R.string.you_cant_select_image_more_1), Toast.LENGTH_SHORT).show();
                     return;
                 }
 

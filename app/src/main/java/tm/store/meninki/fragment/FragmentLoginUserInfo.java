@@ -169,7 +169,7 @@ public class FragmentLoginUserInfo extends Fragment implements KeyboardHeightPro
 
             @Override
             public void onFailure(Throwable t) {
-                Toast.makeText(getContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getActivity().getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                 b.nextBtn.setAlpha(1);
                 b.btnProgress.setVisibility(View.GONE);
                 new Handler().postDelayed(() -> b.nextBtn.setEnabled(true), 200);

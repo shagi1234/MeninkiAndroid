@@ -124,7 +124,7 @@ public class FragmentAdvertisements extends Fragment {
             @Override
             public void onFailure(Call<ArrayList<AdvertisementDto>> call, Throwable t) {
                 b.progressBar.setVisibility(View.GONE);
-                Toast.makeText(getContext(), "Check Internet Connection!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getResources().getString(R.string.check_internet_connection), Toast.LENGTH_SHORT).show();
 
             }
         });

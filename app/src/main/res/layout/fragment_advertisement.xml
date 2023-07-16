@@ -60,7 +60,7 @@
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="20dp"
                     android:fontFamily="@font/inter_bold"
-                    android:text="Очки как у Николаса Кейджа размер для толковых"
+                    android:text="@string/sample_title"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -94,7 +94,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter_medium"
-                            android:text="Магазин-название"
+                            tools:text="Магазин-название"
                             android:textColor="@color/contrast" />
 
                         <TextView
@@ -125,7 +125,7 @@
                     android:layout_marginTop="24dp"
                     android:fontFamily="@font/inter_bold"
                     android:gravity="start"
-                    android:text="Описание:"
+                    android:text="@string/description_"
                     android:textColor="@color/contrast" />
 
 
@@ -159,7 +159,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/inter_regular"
-                            android:text="Категория"
+                            android:text="@string/category"
                             android:textColor="@color/ic_text"
                             android:textSize="14sp" />
 
@@ -189,7 +189,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/inter_regular"
-                            android:text="Номер телефона"
+                            android:text="@string/phone_num"
                             android:textColor="@color/ic_text"
                             android:textSize="14sp" />
 
@@ -199,7 +199,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:fontFamily="@font/inter_regular"
-                            android:text="+99362711310"
+                            tools:text="+99362711310"
                             android:textColor="@color/ic_text"
                             android:textSize="14sp" />
 
@@ -291,7 +291,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/inter_semibold"
-                    android:text="1234 TMT"
+                    tools:text="1234 TMT"
                     android:textColor="@color/contrast"
                     android:textSize="16sp" />
 
@@ -306,7 +306,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:fontFamily="@font/inter_regular"
-                        android:text="2 дня назад"
+                        android:text="@string/_2"
                         android:textColor="@color/contrast"
                         android:textSize="12sp" />
                 </LinearLayout>

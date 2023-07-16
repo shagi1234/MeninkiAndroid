@@ -42,6 +42,11 @@ import tm.store.meninki.utils.StaticMethods;
 
 public class ActivityMain extends AppCompatActivity implements View.OnClickListener {
     private ActivityMainBinding b;
+    private static ActivityMain activityMain;
+
+    public static ActivityMain getInstance() {
+        return activityMain;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +55,7 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
         updateAndroidSecurityProvider(this);
         b = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(b.getRoot());
+        activityMain = this;
         mainFragmentManager = getSupportFragmentManager();
         setBackgrounds();
         setNavListeners();
@@ -62,8 +68,6 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
         b.navProfile.setOnClickListener(this);
 
         mainFragmentManager.addOnBackStackChangedListener(() -> {
-
-            Log.e("TAG", "setNavListeners: " + getCurrentFragmentTag().equals(FragmentPost.class.getName()) + "  " + getCurrentFragmentTag() + "\n" + FragmentPost.class.getName());
             if (getCurrentFragmentTag().equals(FragmentPost.class.getName())) {
                 if (lastExoPlayer != null) lastExoPlayer.play();
 
@@ -88,7 +92,11 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
 
     private void setBackgrounds() {
         setBackgroundDrawable(this, b.nav, R.color.bg, 0, 50, false, 0);
-        setNav(R.id.nav_main);
+
+        if (getIntent().getBooleanExtra("is_language_changed", false)) {
+            setNav(R.id.nav_profile);
+        } else
+            setNav(R.id.nav_main);
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -141,10 +149,6 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
         try {
             ProviderInstaller.installIfNeeded(this);
         } catch (GooglePlayServicesRepairableException e) {
-
-//             Thrown when Google Play Services is not installed, up-to-date, or enabled
-//             Show dialog to allow users to install, update, or otherwise enable Google Play services.
-
             GooglePlayServicesUtil.getErrorDialog(e.getConnectionStatusCode(), callingActivity, 0);
         } catch (GooglePlayServicesNotAvailableException e) {
             Log.e("SecurityException", "Google Play Services not available.");

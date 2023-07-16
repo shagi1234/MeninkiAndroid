@@ -76,7 +76,6 @@ public class FragmentProfileViewPager extends Fragment implements OnPostSlided {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         b = FragmentProfileViewPagerBinding.inflate(inflater, container, false);
-//      FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentPost.newInstance(posts, adapterPosition));
         setViewPager();
         return b.getRoot();
     }

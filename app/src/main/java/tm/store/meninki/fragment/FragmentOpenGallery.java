@@ -1,7 +1,6 @@
 package tm.store.meninki.fragment;
 
 import static androidx.core.content.ContextCompat.checkSelfPermission;
-import static androidx.core.content.PermissionChecker.PERMISSION_DENIED;
 import static tm.store.meninki.utils.StaticMethods.hideSoftKeyboard;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
@@ -19,7 +18,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,13 +43,10 @@ import tm.store.meninki.R;
 import tm.store.meninki.adapter.AdapterCharImage;
 import tm.store.meninki.adapter.AdapterMedia;
 import tm.store.meninki.adapter.AdapterMediaAddPost;
-import tm.store.meninki.api.data.OptionDto;
 import tm.store.meninki.data.MediaLocal;
 import tm.store.meninki.data.SelectedMedia;
 import tm.store.meninki.databinding.FragmentOpenGalleryBinding;
 import tm.store.meninki.interfaces.OnBackPressedFragment;
-import tm.store.meninki.utils.Lists;
-import tm.store.meninki.utils.Option;
 import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentOpenGallery extends Fragment implements OnBackPressedFragment {
@@ -166,7 +161,7 @@ public class FragmentOpenGallery extends Fragment implements OnBackPressedFragme
                 Uri uri = Uri.parse(TrimVideo.getTrimmedVideoPath(result.getData()));
 
                 if (AdapterMediaAddPost.getInstance() != null) {
-                    SelectedMedia.getArrayList().add(new MediaLocal(-1, uri.getPath(), 3));
+                    SelectedMedia.getOptionImageList().add(new MediaLocal(-1, uri.getPath(), 3));
                     AdapterMediaAddPost.getInstance().notifyDataSetChanged();
                 }
 
@@ -177,7 +172,7 @@ public class FragmentOpenGallery extends Fragment implements OnBackPressedFragme
 
             if (chooseCount == 1) {
                 if (media.size() == 0 || b.edtTitle.getText().toString().trim().length() == 0) {
-                    Toast.makeText(getContext(), "Your image or text is empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getActivity().getResources().getString(R.string.your_image_or_text_is_empty), Toast.LENGTH_SHORT).show();
                     new Handler().postDelayed(() -> b.btnNext.setEnabled(true), 100);
                     return;
                 }
@@ -185,7 +180,7 @@ public class FragmentOpenGallery extends Fragment implements OnBackPressedFragme
             } else {
 
                 if (AdapterMediaAddPost.getInstance() != null) {
-                    SelectedMedia.getArrayList().addAll(media);
+                    SelectedMedia.getOptionImageList().addAll(media);
                     AdapterMediaAddPost.getInstance().notifyDataSetChanged();
                 }
 

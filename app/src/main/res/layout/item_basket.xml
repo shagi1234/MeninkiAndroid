@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginBottom="20dp"
     android:orientation="vertical"
     android:paddingVertical="14dp">
@@ -33,7 +34,7 @@
             android:layout_marginStart="6dp"
             android:fontFamily="@font/inter_medium"
             android:gravity="center_vertical"
-            android:text="Магазин-название"
+            tools:text="Магазин-название"
             android:textColor="@color/contrast" />
 
     </LinearLayout>
@@ -52,7 +53,7 @@
         android:layout_marginTop="10dp"
         android:fontFamily="@font/inter_medium"
         android:maxLines="3"
-        android:text="Pellentesque mauris cras feugiat lectus quam. Tellus eleifend quis mauris cras"
+        tools:text="Pellentesque mauris cras feugiat lectus quam. Tellus eleifend quis mauris cras"
         android:textColor="@color/contrast"
         android:textSize="14sp" />
 
@@ -73,8 +74,8 @@
             <TextView
                 android:id="@+id/price"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                tools:layout_weight="1"
                 android:fontFamily="@font/inter_bold"
                 android:gravity="start"
                 android:text="1313 TMT"
@@ -93,7 +94,7 @@
                     android:fontFamily="@font/inter_regular"
                     android:gravity="start"
                     android:maxLines="1"
-                    android:text="1000 TMT"
+                    tools:text="1000 TMT"
                     android:textColor="@color/neutral_dark"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -141,7 +142,7 @@
                 android:layout_marginHorizontal="17dp"
                 android:fontFamily="@font/inter_regular"
                 android:gravity="center"
-                android:text="13"
+                tools:text="13"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 

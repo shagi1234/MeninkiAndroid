@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import tm.store.meninki.R;
 import tm.store.meninki.data.CharactersDto;
 import tm.store.meninki.data.SelectedMedia;
 import tm.store.meninki.databinding.ItemPersonalCharactersBinding;
@@ -55,7 +56,7 @@ public class AdapterPersonalCharacters extends RecyclerView.Adapter<AdapterPerso
             character.getOptionTitles().remove(position);
             character.getOptionTypes().remove(position);
             notifyItemRemoved(position);
-            notifyItemRangeChanged(position, SelectedMedia.getArrayList().size());
+            notifyItemRangeChanged(position, SelectedMedia.getOptionImageList().size());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -94,7 +95,7 @@ public class AdapterPersonalCharacters extends RecyclerView.Adapter<AdapterPerso
                 dialog.showDialog(context);
                 dialog.yesBtn.setOnClickListener(v1 -> {
                     if (dialog.title.getText().toString().trim().length() == 0) {
-                        Toast.makeText(context, "Your text is empty, please write something", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, context.getResources().getString(R.string.your_text_is_empty_please_write_something), Toast.LENGTH_SHORT).show();
                         return;
                     }
                     b.nameCharacters.setText(dialog.title.getText().toString().trim());

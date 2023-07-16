@@ -52,7 +52,6 @@ import tm.store.meninki.interfaces.OnCategoryChecked;
 import tm.store.meninki.interfaces.OnChangeProductCharactersCount;
 import tm.store.meninki.interfaces.OnShopChecked;
 import tm.store.meninki.utils.FileUtil;
-import tm.store.meninki.utils.KeyboardHeightProvider;
 import tm.store.meninki.utils.Lists;
 import tm.store.meninki.utils.StaticMethods;
 
@@ -103,7 +102,7 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
     }
 
     private void uploadImage() {
-        MediaLocal media = SelectedMedia.getArrayList().get(i);
+        MediaLocal media = SelectedMedia.getOptionImageList().get(i);
 
         RequestUploadImage uploadImage = new RequestUploadImage();
         uploadImage.setAvatar(false);
@@ -116,6 +115,7 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
         RequestBody requestFile = RequestBody.create(MediaType.parse(FileUtil.getMimeType(uploadImage.getImage())), uploadImage.getImage());
 
         try {
+
             RequestBody objectId = RequestBody.create(MediaType.parse("multipart/form-data"), uploadImage.getObjectId());
             RequestBody width = RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(uploadImage.getWidth()));
             RequestBody height = RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(uploadImage.getHeight()));
@@ -129,9 +129,9 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
                 @Override
                 public void onResponse(@NonNull Call<Object> call, @NonNull Response<Object> response) {
                     if (response.code() == 200 && response.body() != null) {
-                        Toast.makeText(getContext(), "Success upload image" + i, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getActivity().getResources().getString(R.string.success_upload_image) + i, Toast.LENGTH_SHORT).show();
                         i++;
-                        if (SelectedMedia.getArrayList().size() > i) {
+                        if (SelectedMedia.getOptionImageList().size() > i) {
                             uploadImage();
                         } else {
                             i = 0;
@@ -171,7 +171,7 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
         categoryIds = new String[categories.size()];
 
         if (b.title.getText().toString().trim().isEmpty() || b.desc.getText().toString().trim().isEmpty()) {
-            Toast.makeText(getContext(), "Please give information", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getResources().getString(R.string.please_give_information_completely), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -190,7 +190,9 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
             requestAddProduct.setPrice(Double.parseDouble(b.oldPrice.getText().toString().trim()));
         if (!b.price.getText().toString().trim().isEmpty())
             requestAddProduct.setDiscountPrice(Double.parseDouble(b.price.getText().toString().trim()));
+
         requestAddProduct.setCategoryIds(categoryIds);
+
         if (shop != null) requestAddProduct.setShopId(shop.getId());
 
         Call<Boolean> call = StaticMethods.getApiHome().createProduct(requestAddProduct);
@@ -288,7 +290,7 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
 
     @Override
     public boolean onBackPressed() {
-        SelectedMedia.getArrayList().clear();
+        SelectedMedia.getOptionImageList().clear();
         Window window = requireActivity().getWindow();
         // Set the desired softInputMode
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);

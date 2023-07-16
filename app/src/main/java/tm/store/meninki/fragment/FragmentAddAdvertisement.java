@@ -205,7 +205,7 @@ public class FragmentAddAdvertisement extends Fragment implements OnBackPressedF
     }
 
     private void uploadImage(String id) {
-        MediaLocal media = SelectedMedia.getArrayList().get(i);
+        MediaLocal media = SelectedMedia.getOptionImageList().get(i);
 
         RequestUploadImage uploadImage = new RequestUploadImage();
         uploadImage.setAvatar(false);
@@ -233,7 +233,7 @@ public class FragmentAddAdvertisement extends Fragment implements OnBackPressedF
                     if (response.code() == 200 && response.body() != null) {
                         Toast.makeText(getContext(), "Success upload image" + i, Toast.LENGTH_SHORT).show();
                         i++;
-                        if (SelectedMedia.getArrayList().size() > i) {
+                        if (SelectedMedia.getOptionImageList().size() > i) {
                             uploadImage(id);
                         } else {
                             i = 0;
@@ -312,7 +312,7 @@ public class FragmentAddAdvertisement extends Fragment implements OnBackPressedF
 
     @Override
     public boolean onBackPressed() {
-        SelectedMedia.getArrayList().clear();
+        SelectedMedia.getOptionImageList().clear();
         Window window = requireActivity().getWindow();
         // Set the desired softInputMode
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);

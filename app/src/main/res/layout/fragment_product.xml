@@ -60,7 +60,7 @@
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="20dp"
                     android:fontFamily="@font/inter_bold"
-                    android:text="Очки как у Николаса Кейджа размер для толковых"
+                    android:text="@string/sample_title"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -94,7 +94,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter_medium"
-                            android:text="Магазин-название"
+                            android:text="@string/name_store"
                             android:textColor="@color/contrast" />
 
                         <TextView
@@ -102,7 +102,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:fontFamily="@font/inter_regular"
-                            android:text="Перейти в магазин"
+                            android:text="@string/go_to_store"
                             android:textColor="@color/neutral_dark"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -125,7 +125,7 @@
                     android:layout_marginTop="24dp"
                     android:fontFamily="@font/inter_bold"
                     android:gravity="start"
-                    android:text="Описание:"
+                    android:text="@string/description_"
                     android:textColor="@color/contrast" />
 
                 <TextView
@@ -154,7 +154,7 @@
                         android:fontFamily="@font/inter_medium"
                         android:gravity="center"
                         android:paddingVertical="10dp"
-                        android:text="Создать пост с этим"
+                        android:text="@string/add_post_using_it"
                         android:textColor="@color/bg"
                         android:visibility="visible"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -305,7 +305,7 @@
                         android:fontFamily="@font/inter_regular"
                         android:gravity="start"
                         android:maxLines="1"
-                        android:text="-134 TMT"
+                        android:text=" -134 TMT"
                         android:textColor="@color/contrast"
                         android:textSize="12sp" />
                 </LinearLayout>

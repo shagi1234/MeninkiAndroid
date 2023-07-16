@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import java.util.ArrayList;
 
 import retrofit2.Call;
+import tm.store.meninki.R;
 import tm.store.meninki.adapter.AdapterGrid;
 import tm.store.meninki.api.RetrofitCallback;
 import tm.store.meninki.api.data.ResponsePostGetAllItem;
@@ -99,7 +100,7 @@ public class FragmentFeed extends Fragment {
                 //showNoConnection
                 b.recGrid.setVisibility(View.GONE);
                 b.noContent.setVisibility(View.VISIBLE);
-                b.noContent.setText("No connection");
+                b.noContent.setText(R.string.no_connection);
             }
         });
     }

@@ -67,6 +67,9 @@ public class FragmentRedactorPrice extends Fragment {
 
     private void initListeners() {
         b.goBasket.setOnClickListener(v -> updatePH());
+        b.backBtn.setOnClickListener(view -> {
+            getActivity().onBackPressed();
+        });
     }
 
     private void updatePH() {
@@ -77,7 +80,7 @@ public class FragmentRedactorPrice extends Fragment {
             @Override
             public void onResponse(@NonNull Call<Boolean> call, @NonNull Response<Boolean> response) {
                 if (response.code() == 200 && response.body() != null && response.body()) {
-                    Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getActivity().getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
                 }
             }
 

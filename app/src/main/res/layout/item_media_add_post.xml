@@ -64,7 +64,7 @@
             android:layout_marginTop="8dp"
             android:textSize="12sp"
             android:fontFamily="@font/inter_medium"
-            android:text="Добавить еще медиа"
+            android:text="@string/add_more_medi"
             android:textAlignment="center"
             android:textColor="@color/contrast" />
     </LinearLayout>

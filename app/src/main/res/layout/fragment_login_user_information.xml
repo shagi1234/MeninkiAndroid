@@ -45,7 +45,7 @@
                 android:layout_gravity="center"
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/inter_semibold"
-                android:text="Расскажи о себе"
+                android:text="@string/tell_about_yourself"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
@@ -58,7 +58,7 @@
             android:layout_marginHorizontal="40dp"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/inter_regular"
-            android:text="Достаточно только имени. Фотографию и подробные данные о себе вы сможете добавить позже."
+            android:text="@string/only_image_other_optional"
             android:textColor="@color/contrast"
             android:textSize="14sp" />
 
@@ -69,7 +69,7 @@
             android:layout_marginHorizontal="40dp"
             android:layout_marginTop="50dp"
             android:fontFamily="@font/inter_medium"
-            android:text="Введи свое имя"
+            android:text="@string/enter_your_name"
             android:textColor="@color/black"
             android:textSize="14sp" />
 
@@ -106,7 +106,7 @@
             android:layout_marginHorizontal="40dp"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/inter_medium"
-            android:text="Придумай юзернейм"
+            android:text="@string/enter_username"
             android:textColor="@color/black"
             android:textSize="14sp" />
 
@@ -122,7 +122,7 @@
             android:paddingEnd="20sp"
             android:textColor="@color/contrast"
             android:textColorHint="@color/neutral_dark"
-            android:textSize="14dp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/error_username"
@@ -160,7 +160,7 @@
                 android:fontFamily="@font/inter_bold"
                 android:gravity="center"
                 android:paddingVertical="15dp"
-                android:text="Завершить"
+                android:text="@string/finsh"
                 android:textColor="@color/bg" />
             <ProgressBar
                 android:id="@+id/btn_progress"

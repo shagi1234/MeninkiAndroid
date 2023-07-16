@@ -27,10 +27,11 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/post_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_bold"
-                android:text="Main"
+                tools:text="Main"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
@@ -39,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:fontFamily="@font/inter_medium"
-                android:text="Чтобы закрыть это меню, смахните шторку вниз."
+                android:text="@string/bottom_sheet_post_hint"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
@@ -50,7 +51,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="20dp"
                 android:fontFamily="@font/inter_medium"
-                android:text="July 7 2023  12:00"
+                android:text="@string/july_7_2023_12_00"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
@@ -69,7 +70,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_weight="1"
                     android:fontFamily="@font/inter_medium"
-                    android:text="Like"
+                    android:text="@string/like"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 
@@ -109,7 +110,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_weight="1"
                     android:fontFamily="@font/inter_medium"
-                    android:text="Download"
+                    android:text="@string/download"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 
@@ -139,7 +140,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_weight="1"
                     android:fontFamily="@font/inter_medium"
-                    android:text="Перейти к товару"
+                    android:text="@string/go_to_product"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 
@@ -169,7 +170,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_weight="1"
                     android:fontFamily="@font/inter_medium"
-                    android:text="Поделиться"
+                    android:text="@string/share"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 
@@ -200,7 +201,7 @@
                     android:layout_weight="1"
                     android:layout_marginEnd="6dp"
                     android:fontFamily="@font/inter_medium"
-                    android:text="Обзоры автора \ перейти в магаз"
+                    android:text="@string/post_authors_go_to_store"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 
@@ -229,7 +230,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_weight="1"
                     android:fontFamily="@font/inter_medium"
-                    android:text="Пожаловаться"
+                    android:text="@string/complain"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 

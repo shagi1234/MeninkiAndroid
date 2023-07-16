@@ -3,12 +3,13 @@ package tm.store.meninki.data;
 import java.util.ArrayList;
 
 public class SelectedMedia {
-    private static ArrayList<MediaLocal> arrayList;
+    private static ArrayList<MediaLocal> productImageList;
+    private static ArrayList<MediaLocal> optionImageList;
 
-    public static ArrayList<MediaLocal> getArrayList() {
-        if (arrayList == null) {
-            arrayList = new ArrayList<>();
+    public static ArrayList<MediaLocal> getOptionImageList() {
+        if (optionImageList == null) {
+            optionImageList = new ArrayList<>();
         }
-        return arrayList;
+        return optionImageList;
     }
 }

@@ -31,7 +31,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/inter_semibold"
                 android:gravity="center_vertical"
-                android:text="Новый Обзор"
+                android:text="@string/new_post"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
@@ -83,7 +83,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/inter_semibold"
-                        android:text="Очки как у Николаса Кейджа размер для толковых"
+                        tools:text="Очки как у Николаса Кейджа размер для толковых"
                         android:textColor="@color/contrast"
                         android:textSize="16sp" />
 
@@ -108,62 +108,10 @@
                             android:layout_gravity="center"
                             android:layout_marginStart="10dp"
                             android:fontFamily="@font/inter_medium"
-                            android:text="Магазин-название"
+                            tools:text="Магазин-название"
                             android:textColor="@color/contrast" />
                     </LinearLayout>
                 </LinearLayout>
-
-                <!--            <TextView-->
-                <!--                android:id="@+id/count"-->
-                <!--                android:layout_width="wrap_content"-->
-                <!--                android:layout_height="match_parent"-->
-                <!--                android:layout_marginStart="20dp"-->
-                <!--                android:layout_marginTop="30dp"-->
-                <!--                android:drawableLeft="@drawable/ic_arrow_sort"-->
-                <!--                android:drawablePadding="10dp"-->
-                <!--                android:drawableTint="@color/black"-->
-                <!--                android:fontFamily="@font/inter_medium"-->
-                <!--                android:gravity="start"-->
-                <!--                android:maxLines="1"-->
-                <!--                android:text="Рейтинг"-->
-                <!--                android:textColor="@color/black" />-->
-
-                <!--            <LinearLayout-->
-                <!--                android:id="@+id/lay_count_control"-->
-                <!--                android:layout_width="match_parent"-->
-                <!--                android:layout_height="wrap_content"-->
-                <!--                android:layout_marginHorizontal="20dp"-->
-                <!--                android:layout_marginTop="10dp">-->
-
-                <!--                <ImageView-->
-                <!--                    android:layout_width="wrap_content"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:paddingHorizontal="30dp"-->
-                <!--                    android:paddingVertical="20dp"-->
-                <!--                    android:src="@drawable/ic_subtract_circle_red" />-->
-
-                <!--                <TextView-->
-                <!--                    android:layout_width="0dp"-->
-                <!--                    android:layout_height="match_parent"-->
-                <!--                    android:layout_weight="1"-->
-                <!--                    android:fontFamily="@font/inter_medium"-->
-                <!--                    android:gravity="center"-->
-                <!--                    android:maxLines="1"-->
-                <!--                    android:paddingHorizontal="10dp"-->
-                <!--                    android:singleLine="true"-->
-                <!--                    android:text="134"-->
-                <!--                    android:textAlignment="center"-->
-                <!--                    android:textColor="@color/contrast"-->
-                <!--                    android:textSize="24sp" />-->
-
-                <!--                <ImageView-->
-                <!--                    android:layout_width="wrap_content"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:paddingHorizontal="30dp"-->
-                <!--                    android:paddingVertical="20dp"-->
-                <!--                    android:src="@drawable/ic_add_circle_green" />-->
-
-                <!--            </LinearLayout>-->
 
 
                 <EditText
@@ -186,7 +134,7 @@
                     android:layout_marginTop="20dp"
                     android:fontFamily="@font/inter_medium"
                     android:gravity="top"
-                    android:hint="Описание (необязательно)"
+                    android:hint="@string/description_optional"
                     android:padding="14dp"
                     android:textColor="@color/contrast"
                     android:textColorHint="@color/neutral_dark"
@@ -199,7 +147,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="20dp"
                     android:fontFamily="@font/inter_semibold"
-                    android:text="Медиа"
+                    android:text="@string/media"
                     android:textColor="@color/old_black"
                     android:textSize="16sp" />
 

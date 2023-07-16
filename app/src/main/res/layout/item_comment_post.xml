@@ -67,9 +67,9 @@
             <FrameLayout
                 android:id="@+id/lay_image"
                 android:layout_width="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginStart="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -96,10 +96,10 @@
             <LinearLayout
                 android:id="@+id/linearLayout3"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginStart="10dp"
+                android:layout_weight="1"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toStartOf="@id/ic_favorite"
                 app:layout_constraintStart_toEndOf="@+id/lay_image"
@@ -117,8 +117,8 @@
                         android:layout_marginVertical="7.5dp"
                         android:layout_weight="1"
                         android:fontFamily="@font/inter_regular"
-                        android:text="Shahruh"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/black"
+                        tools:text="Shahruh" />
 
                     <TextView
                         android:id="@+id/created_at"
@@ -127,10 +127,10 @@
                         android:layout_gravity="center"
                         android:layout_marginEnd="10dp"
                         android:fontFamily="@font/inter_regular"
-                        android:text="12:32 | 05.05.2022"
                         android:textColor="@color/neutral_dark"
                         android:textSize="10sp"
-                        tools:ignore="SmallSp" />
+                        tools:ignore="SmallSp"
+                        tools:text="12:32 | 05.05.2022" />
                 </LinearLayout>
 
                 <TextView

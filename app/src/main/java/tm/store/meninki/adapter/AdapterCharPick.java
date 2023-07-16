@@ -113,7 +113,7 @@ public class AdapterCharPick extends RecyclerView.Adapter<AdapterCharPick.CharIm
                         dialog.showDialog(context);
                         dialog.yesBtn.setOnClickListener(v1 -> {
                             if (dialog.title.getText().toString().trim().length() == 0) {
-                                Toast.makeText(context, "Your text is empty, please write something", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, context.getResources().getString(R.string.your_text_is_empty_please_write_something), Toast.LENGTH_SHORT).show();
                                 return;
                             }
                             addText(dialog.title.getText().toString().trim());

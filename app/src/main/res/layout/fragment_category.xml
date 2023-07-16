@@ -25,7 +25,7 @@
             android:background="@color/white"
             android:fontFamily="@font/inter_medium"
             android:gravity="center_vertical"
-            android:hint="Поиск"
+            android:hint="@string/search"
             android:maxLines="1"
             android:paddingVertical="10dp"
             android:paddingStart="14dp"

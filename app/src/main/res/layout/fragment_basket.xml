@@ -14,15 +14,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingTop="30dp"
         android:paddingHorizontal="12dp"
+        android:paddingTop="30dp"
         android:paddingBottom="14dp">
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_marginStart="8dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_bold"
                 android:gravity="center_vertical"
-                android:text="Корзина"
+                android:text="@string/card"
                 android:textColor="@color/contrast"
                 android:textSize="20sp" />
 
@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:fontFamily="@font/inter_bold"
-                android:text="1313 TMT всего"
+                android:text="1313 TMT"
                 android:textColor="@color/accent"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"

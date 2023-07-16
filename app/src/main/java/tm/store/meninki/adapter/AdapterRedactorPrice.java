@@ -1,5 +1,6 @@
 package tm.store.meninki.adapter;
 
+import static tm.store.meninki.utils.StaticMethods.dpToPx;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 
 import android.content.Context;
@@ -12,12 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 import tm.store.meninki.R;
 import tm.store.meninki.api.data.OptionDto;
 import tm.store.meninki.api.data.PersonalCharacterDto;
 import tm.store.meninki.databinding.ItemRedarctorPriceBinding;
 import tm.store.meninki.utils.Option;
+import tm.store.meninki.utils.StaticMethods;
 
 public class AdapterRedactorPrice extends RecyclerView.Adapter<AdapterRedactorPrice.CharImageHolder> {
     private ArrayList<PersonalCharacterDto> characters;
@@ -63,6 +66,7 @@ public class AdapterRedactorPrice extends RecyclerView.Adapter<AdapterRedactorPr
             setBackgroundDrawable(context, b.edtOldPrice, R.color.bg, R.color.low_contrast, 10, false, 1);
 
             ArrayList<OptionDto> options = characters.get(getAdapterPosition()).getOptions();
+
             if (options != null)
                 for (int i = 0; i < options.size(); i++) {
                     if (options.get(i).getOptionType() == Option.CHARACTER_TEXT) {
@@ -77,7 +81,13 @@ public class AdapterRedactorPrice extends RecyclerView.Adapter<AdapterRedactorPr
                                 .into(b.imgOption);
                     }
                 }
+
+
+            if (getAdapterPosition() == getItemCount() - 1) {
+                StaticMethods.setMargins(b.getRoot(), dpToPx(14, context), dpToPx(5, context), dpToPx(14, context), dpToPx(80, context));
+            }
         }
+
     }
 
 }

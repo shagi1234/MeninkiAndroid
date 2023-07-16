@@ -29,7 +29,7 @@
                 android:layout_marginBottom="16dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/inter_semibold"
-                android:text="Новый магазин"
+                android:text="@string/new_shop"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -81,7 +81,7 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="30dp"
                         android:fontFamily="@font/inter_bold"
-                        android:text="Магазины"
+                        android:text="@string/stores"
                         android:textAllCaps="true"
                         android:textColor="@color/black"
                         android:textSize="20sp"
@@ -116,7 +116,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="30dp"
                         android:fontFamily="@font/inter_regular"
-                        android:text="Название магазина"
+                        android:text="@string/title_shop"
                         android:textColor="@color/black"
                         android:textSize="14sp"
                         android:textStyle="normal" />
@@ -129,7 +129,8 @@
                         android:layout_marginTop="6dp"
                         android:background="@color/white"
                         android:fontFamily="@font/inter_bold"
-                        android:hint="Title shop"
+                        android:hint="@string/enter_name_store"
+                        android:textColorHint="@color/neutral_dark"
                         android:paddingVertical="15dp"
                         android:paddingStart="20dp"
                         android:textSize="14sp" />
@@ -140,7 +141,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="30dp"
                         android:fontFamily="@font/inter_regular"
-                        android:text="Username"
+                        android:text="@string/username"
                         android:textColor="@color/black"
                         android:textSize="14sp"
                         android:textStyle="normal" />
@@ -153,7 +154,8 @@
                         android:layout_marginTop="6dp"
                         android:background="@color/white"
                         android:fontFamily="@font/inter_bold"
-                        android:hint="Unique name for store"
+                        android:textColorHint="@color/neutral_dark"
+                        android:hint="@string/unique_name_for_store"
                         android:paddingVertical="15dp"
                         android:paddingStart="20dp"
                         android:textSize="14sp" />
@@ -164,7 +166,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="20dp"
                         android:fontFamily="@font/inter_regular"
-                        android:text="Категория магазина"
+                        android:text="@string/category_store"
                         android:textColor="@color/black"
                         android:textSize="14sp"
                         android:textStyle="normal" />
@@ -225,7 +227,7 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="30dp"
                         android:fontFamily="@font/inter_bold"
-                        android:text="Дополнительная информация"
+                        android:text="@string/more_information"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
@@ -236,7 +238,7 @@
                         android:layout_marginHorizontal="20dp"
                         android:layout_marginTop="20dp"
                         android:fontFamily="@font/inter_medium"
-                        android:text="Укажите дополнительные параметры: Описание магазина (приветствие), дополнительные контакты и ссылки на соцсети и вебсайты."
+                        android:text="@string/des_new_shop"
                         android:textColor="@color/neutral_dark"
                         android:textSize="14sp" />
 
@@ -246,7 +248,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="30dp"
                         android:fontFamily="@font/inter_regular"
-                        android:text="Email"
+                        android:text="@string/email"
                         android:textColor="@color/black"
                         android:textSize="14sp"
                         android:textStyle="normal" />
@@ -270,7 +272,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="30dp"
                         android:fontFamily="@font/inter_regular"
-                        android:text="Вебсайт"
+                        android:text="@string/website"
                         android:textColor="@color/black"
                         android:textSize="14sp"
                         android:textStyle="normal" />
@@ -308,7 +310,7 @@
                         android:gravity="center"
                         android:paddingHorizontal="17dp"
                         android:paddingVertical="10dp"
-                        android:text="Опубликовать"
+                        android:text="@string/publish"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textStyle="bold"

@@ -64,7 +64,7 @@
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="224dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:orientation="vertical">
 
@@ -93,7 +93,7 @@
                             android:background="@drawable/circle_background_primary"
                             android:fontFamily="@font/inter_medium"
                             android:gravity="center"
-                            android:text="SD"
+                            tools:text="SD"
                             android:textColor="@color/white"
                             android:textSize="16sp"
                             android:visibility="gone" />
@@ -120,7 +120,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:fontFamily="@font/inter_regular"
-                        android:text="12K"
+                        tools:text="12K"
                         android:textColor="@color/white"
                         android:textSize="12sp" />
 
@@ -143,7 +143,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:fontFamily="@font/inter_regular"
-                        android:text="12K"
+                        tools:text="12K"
                         android:textColor="@color/white"
                         android:textSize="12sp" />
 
@@ -166,7 +166,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:fontFamily="@font/inter_regular"
-                        android:text="12K"
+                        tools:text="12K"
                         android:textColor="@color/white"
                         android:textSize="12sp"
                         android:visibility="gone" />
@@ -205,7 +205,7 @@
                         android:fontFamily="@font/inter_regular"
                         android:gravity="center_vertical"
                         android:maxLines="1"
-                        android:text="twodiesdeveloper"
+                        tools:text="twodiesdeveloper"
                         android:textColor="@color/white"
                         android:textSize="14sp" />
 
@@ -219,7 +219,7 @@
                         android:gravity="center_vertical"
                         android:maxLines="1"
                         android:padding="4dp"
-                        android:text="Подписаться"
+                        android:text="@string/subscribe"
                         android:textColor="@color/white"
                         android:textSize="14sp"
                         android:visibility="gone" />
@@ -245,7 +245,7 @@
                         android:fontFamily="@font/inter_regular"
                         android:gravity="center_vertical"
                         android:maxLines="3"
-                        android:text="Купила очки как у моего братюни! Совсем недорого, горбатая бабка продавала на ВДНХ. Качество хорошее, цвет точно такой же"
+                        tools:text="@string/sample_desc"
                         android:textColor="@color/white"
                         android:textSize="14sp" />
 
@@ -321,8 +321,8 @@
                     android:gravity="center_vertical"
                     android:maxLines="1"
                     android:textColor="@color/white"
-                    android:textSize="12dp"
-                    tools:text="Очки как у Николаса Кейджа размер для толковых" />
+                    android:textSize="12sp"
+                    tools:text="@string/sample_title" />
             </LinearLayout>
 
             <com.makeramen.roundedimageview.RoundedImageView

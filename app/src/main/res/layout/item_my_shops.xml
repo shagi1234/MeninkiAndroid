@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -43,7 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/inter_regular"
-                    android:text="Вино “У Газиза”"
+                    tools:text="Вино “У Газиза”"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 
@@ -53,7 +54,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:fontFamily="@font/inter_regular"
-                    android:text="1313 товаров"
+                    tools:text="1313 товаров"
                     android:textColor="@color/nigga_grey"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -96,7 +97,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:fontFamily="@font/inter_regular"
-                android:text="Ожидающие заказы"
+                android:text="@string/waiting_orders"
                 android:textColor="@color/accent" />
 
             <TextView
@@ -126,7 +127,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:fontFamily="@font/inter_regular"
-                android:text="Новые сообщения"
+                android:text="@string/new_message"
                 android:textColor="@color/accent" />
 
             <TextView
@@ -154,7 +155,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:fontFamily="@font/inter_regular"
-                android:text="Товаров"
+                android:text="@string/products"
                 android:textColor="@color/black" />
 
             <TextView
@@ -182,7 +183,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:fontFamily="@font/inter_regular"
-                android:text="Просмотров "
+                android:text="@string/views"
                 android:textColor="@color/black" />
 
             <TextView
@@ -211,7 +212,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:fontFamily="@font/inter_regular"
-                android:text="Суммарный рейтинг"
+                android:text="@string/total_rating"
                 android:textColor="@color/black" />
 
             <TextView
@@ -245,7 +246,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:fontFamily="@font/inter_regular"
-            android:text="Подробная статистика"
+            android:text="@string/more_statics"
             android:textColor="@color/black" />
 
         <ImageView

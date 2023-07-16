@@ -42,7 +42,7 @@
                         android:layout_marginBottom="18dp"
                         android:fontFamily="@font/inter_bold"
                         android:paddingHorizontal="20dp"
-                        android:text="Обзоры"
+                        android:text="@string/posts"
                         android:textColor="@color/contrast"
                         android:textSize="20sp" />
 
@@ -86,7 +86,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:fontFamily="@font/inter_bold"
-        android:text="No posts"
+        android:text="@string/no_content"
         android:textSize="20sp"
         android:visibility="gone" />
 

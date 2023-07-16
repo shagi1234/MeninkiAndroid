@@ -173,7 +173,7 @@
         android:layout_height="match_parent">
 
         <include
-            android:id="@+id/bottom"
+            android:id="@+id/bottom_sheet"
             layout="@layout/item_bottom_sheet_charachterics" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

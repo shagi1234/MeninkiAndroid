@@ -167,9 +167,9 @@ public class FragmentEditProfile extends Fragment implements OnBackPressedFragme
     }
 
     private void updateProfile() {
-        dialog = ProgressDialog.show(getContext(), "", "Uploading. Please wait...", true);
+        dialog = ProgressDialog.show(getContext(), "", getActivity().getResources().getString(R.string.uploading_please_wait), true);
         if (isContentEmpty()) {
-            Toast.makeText(getContext(), "Please write your information", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getActivity().getResources().getString(R.string.please_write_your_information), Toast.LENGTH_SHORT).show();
             return;
         }
         UserProfile u = new UserProfile();
@@ -183,7 +183,7 @@ public class FragmentEditProfile extends Fragment implements OnBackPressedFragme
             @Override
             public void onResponse(Boolean response) {
                 if (response) {
-                    Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getActivity().getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
 
                     if (filePath == null) {
                         if (fragmentProfile != null) {
@@ -206,14 +206,14 @@ public class FragmentEditProfile extends Fragment implements OnBackPressedFragme
 
                     return;
                 }
-                Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getActivity().getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
 
             }
 
             @Override
             public void onFailure(Throwable t) {
-                Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getActivity().getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
         });

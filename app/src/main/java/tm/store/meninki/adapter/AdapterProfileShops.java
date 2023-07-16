@@ -87,6 +87,7 @@ public class AdapterProfileShops extends RecyclerView.Adapter<AdapterProfileShop
                 b.shopsLay.setVisibility(View.VISIBLE);
                 b.addShopLay.setVisibility(View.GONE);
             }
+
             return getAdapterPosition() == getItemCount() - 1;
         }
     }

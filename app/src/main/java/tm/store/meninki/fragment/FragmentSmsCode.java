@@ -9,6 +9,7 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.text.Editable;
@@ -20,6 +21,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -31,6 +33,7 @@ import tm.store.meninki.R;
 import tm.store.meninki.api.ApiClient;
 import tm.store.meninki.api.RetrofitCallback;
 import tm.store.meninki.api.data.response.DataCheckSms;
+import tm.store.meninki.api.data.response.DataSendSms;
 import tm.store.meninki.api.services.ServiceLogin;
 import tm.store.meninki.databinding.FragmentSmsCodeBinding;
 import tm.store.meninki.shared.Account;
@@ -168,12 +171,32 @@ public class FragmentSmsCode extends Fragment {
                 b.btnResendCode.setOnClickListener(view -> {
                     b.btnResendCode.setEnabled(false);
 
-                    // again
+                    // send again
+                    sendSms();
 
                     countDownTime(120, b.btnResendCode);
                 });
 
             }
         }.start();
+    }
+
+    private void sendSms() {
+        ServiceLogin serviceLogin = (ServiceLogin) ApiClient.createRequest(ServiceLogin.class);
+        JsonObject j = new JsonObject();
+        j.addProperty("phoneNumber", "993" + number);
+
+        Call<DataSendSms> call = serviceLogin.sendSms(j);
+        call.enqueue(new RetrofitCallback<DataSendSms>() {
+            @Override
+            public void onResponse(DataSendSms response) {
+
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Toast.makeText(getContext(), getActivity().getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

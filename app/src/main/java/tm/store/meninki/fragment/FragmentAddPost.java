@@ -45,7 +45,6 @@ import tm.store.meninki.data.SelectedMedia;
 import tm.store.meninki.data.ShopDTO;
 import tm.store.meninki.databinding.FragmentAddPostBinding;
 import tm.store.meninki.interfaces.OnBackPressedFragment;
-import tm.store.meninki.shared.Account;
 import tm.store.meninki.utils.FileUtil;
 import tm.store.meninki.utils.StaticMethods;
 
@@ -153,10 +152,10 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
                 @Override
                 public void onResponse(@NonNull Call<Object> call, @NonNull Response<Object> response) {
                     if (response.code() == 200 && response.body() != null) {
-                        Toast.makeText(getContext(), "Success upload image" + i, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getActivity().getResources().getString(R.string.success_upload_image) + i, Toast.LENGTH_SHORT).show();
                         i++;
-                        if (SelectedMedia.getArrayList().size() > i) {
-                            uploadImage(SelectedMedia.getArrayList().get(i));
+                        if (SelectedMedia.getOptionImageList().size() > i) {
+                            uploadImage(SelectedMedia.getOptionImageList().get(i));
                         } else {
                             i = 0;
                             dialog.dismiss();
@@ -209,7 +208,7 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
                 @Override
                 public void onResponse(@NonNull Call<Object> call, @NonNull Response<Object> response) {
                     if (response.code() == 200 && response.body() != null) {
-                        Toast.makeText(getContext(), "Success upload ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getResources().getString(R.string.success_upload), Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                         getActivity().onBackPressed();
                     }
@@ -261,7 +260,7 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
 
     private void addPost() {
         dialog = ProgressDialog.show(getContext(), "",
-                "Uploading. Please wait...", true);
+                getActivity().getResources().getString(R.string.uploading_please_wait), true);
 
         RequestAddPost r = new RequestAddPost();
         r.setDescription(b.desc.getText().toString().trim());
@@ -275,27 +274,27 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
                 if (response.code() == 200 && response.body() != null) {
                     postId = response.body();
 
-                    if (SelectedMedia.getArrayList().size() == 0) {
-                        Toast.makeText(getContext(), "Files size must be more than 0", Toast.LENGTH_SHORT).show();
+                    if (SelectedMedia.getOptionImageList().size() == 0) {
+                        Toast.makeText(getContext(), getActivity().getResources().getString(R.string.files_size_must_be_more_than_0), Toast.LENGTH_SHORT).show();
                         return;
                     }
 
-                    if (SelectedMedia.getArrayList().get(0).getType() == 3) {
-                        uploadVideo(SelectedMedia.getArrayList().get(0));
+                    if (SelectedMedia.getOptionImageList().get(0).getType() == 3) {
+                        uploadVideo(SelectedMedia.getOptionImageList().get(0));
                     } else
-                        uploadImage(SelectedMedia.getArrayList().get(i));
+                        uploadImage(SelectedMedia.getOptionImageList().get(i));
 
-                    Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getActivity().getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getActivity().getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
 
             }
 
             @Override
             public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
-                Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),getActivity().getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -315,7 +314,7 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
 
     @Override
     public boolean onBackPressed() {
-        SelectedMedia.getArrayList().clear();
+        SelectedMedia.getOptionImageList().clear();
         return false;
     }
 }

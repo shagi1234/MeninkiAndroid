@@ -106,7 +106,7 @@ public class FragmentComments extends Fragment implements KeyboardHeightProvider
             @Override
             public void onResponse(DtoComment response) {
                 if (response == null) {
-                    Toast.makeText(getContext(), "Error comment not sent", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getActivity().getResources().getString(R.string.error_while_sending_comment), Toast.LENGTH_SHORT).show();
                     return;
                 }
 

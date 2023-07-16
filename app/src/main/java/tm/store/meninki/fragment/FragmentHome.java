@@ -63,8 +63,6 @@ public class FragmentHome extends Fragment {
         getHome2();
         getHome3();
 
-        initListeners();
-
         return b.getRoot();
     }
 
@@ -164,14 +162,6 @@ public class FragmentHome extends Fragment {
             public void onResponse(@NonNull Call<ArrayList<HomeArray>> call, @NonNull Response<ArrayList<HomeArray>> response) {
                 b.progressBar.setVisibility(View.GONE);
                 b.main.setVisibility(View.VISIBLE);
-//<<<<<<< HEAD
-//                if (response.body() == null || response.body().size() == 0)
-//                    return;
-//                if (response.body().get(0).getBanner()==null) b.banner2.setVisibility(View.GONE);
-//                if (response.body().get(0).getShops()==null) b.shopsLay.setVisibility(View.GONE);
-////                adapterGridNew.setStories(response.body().get(1).getNewProducts());
-////                Log.e("TAG_shops", "onResponse: " + new Gson().toJson(response.body().get(0).getShops()));
-//=======
 
                 if (response.body() == null || response.body().size() == 0) return;
 
@@ -195,81 +185,5 @@ public class FragmentHome extends Fragment {
                 b.progressBar.setVisibility(View.GONE);
             }
         });
-    }
-
-    private void getShops() {
-        RequestCard requestCard = new RequestCard();
-        requestCard.setCategoryIds(null);
-        requestCard.setDescending(true);
-        requestCard.setSortType(0);
-        requestCard.setPageNumber(1);
-        requestCard.setTake(10);
-        Call<ArrayList<ResponseHomeShops>> call = StaticMethods.getApiHome().getAllShop(requestCard);
-        call.enqueue(new RetrofitCallback<ArrayList<ResponseHomeShops>>() {
-            @Override
-            public void onResponse(ArrayList<ResponseHomeShops> response) {
-                if (response == null || response.size() == 0) {
-                    //no content
-                    return;
-                }
-//                adapterShops.setStories(response);
-
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-
-            }
-        });
-
-    }
-
-    private void getCategories() {
-        Call<ArrayList<CategoryDto>> call = StaticMethods.getApiCategory().getAllCategory();
-        call.enqueue(new Callback<ArrayList<CategoryDto>>() {
-            @Override
-            public void onResponse(@NonNull Call<ArrayList<CategoryDto>> call, @NonNull Response<ArrayList<CategoryDto>> response) {
-
-                if (response.code() == 200 && response.body() != null) {
-//                    adapterCircle.setStories(response.body());
-                } else {
-                    logWrite(response.code());
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<ArrayList<CategoryDto>> call, @NonNull Throwable t) {
-                logWrite(t.getMessage());
-
-            }
-        });
-    }
-
-    private void getPosts() {
-
-        RequestCard requestCard = new RequestCard();
-//        requestCard.setCardTypes(new int[]{CardType.post});
-        requestCard.setCategoryIds(null);
-        requestCard.setDescending(true);
-        requestCard.setPageNumber(1);
-        requestCard.setTake(10);
-
-        Call<ArrayList<ResponseCard>> call = StaticMethods.getApiHome().getCard(requestCard);
-        call.enqueue(new RetrofitCallback<ArrayList<ResponseCard>>() {
-            @Override
-            public void onResponse(ArrayList<ResponseCard> response) {
-//                adapterStore.setStories(response);
-
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                Log.e("TAG_Error", "onFailure: " + t);
-            }
-        });
-    }
-
-    private void initListeners() {
-
     }
 }

@@ -16,7 +16,7 @@
         android:layout_marginTop="32dp"
         android:fontFamily="@font/inter_regular"
         android:gravity="center_vertical"
-        android:text="Характеристики"
+        android:text="@string/characteristics"
         android:textAllCaps="true"
         android:textColor="@color/black"
         android:textStyle="bold" />
@@ -32,7 +32,7 @@
         android:gravity="center_vertical"
         android:paddingHorizontal="20dp"
         android:paddingVertical="14dp"
-        android:text="Текстовое описание"
+        android:text="@string/text_description"
         android:textColor="@color/contrast" />
 
     <TextView
@@ -45,7 +45,7 @@
         android:gravity="center_vertical"
         android:paddingHorizontal="20dp"
         android:paddingVertical="14dp"
-        android:text="Фотография"
+        android:text="@string/photo"
         android:textColor="@color/contrast" />
 
 </LinearLayout>

@@ -10,6 +10,7 @@ import static tm.store.meninki.utils.StaticMethods.setMargins;
 import static tm.store.meninki.utils.StaticMethods.setPadding;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -37,6 +38,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import tm.store.meninki.R;
+import tm.store.meninki.activity.ActivitySettings;
 import tm.store.meninki.adapter.AdapterGrid;
 import tm.store.meninki.adapter.AdapterProfileShops;
 import tm.store.meninki.api.RetrofitCallback;
@@ -134,11 +136,11 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
 
                     b.layShops.setVisibility(View.VISIBLE);
 
-                    b.myBookmarks.setText("Написать сообщение");
+                    b.myBookmarks.setText(R.string.send_message);
                     b.countBookmark.setVisibility(View.GONE);
                     b.addSms.setVisibility(View.VISIBLE);
 
-                    b.myShops.setText("Подписаться");
+                    b.myShops.setText(R.string.subscribe);
                     b.countShops.setVisibility(View.GONE);
                     b.followIc.setVisibility(View.VISIBLE);
 
@@ -150,7 +152,7 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
             case TYPE_SHOP:
                 b.countBookmark.setVisibility(View.GONE);
                 b.allFollows.setText(R.string.products);
-                b.header.setText("Shops");
+                b.header.setText(R.string.shops);
 
                 b.settings.setVisibility(View.GONE);
                 setRecycler(AdapterGrid.TYPE_GRID);
@@ -382,7 +384,10 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
         b.settings.setOnClickListener(view -> {
             wait(view);
 
-            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentSettings.newInstance());
+//            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentSettings.newInstance());
+            Intent intent=new Intent(getContext(), ActivitySettings.class);
+            startActivity(intent);
+
         });
 
         b.addProduct.setOnClickListener(v -> FragmentHelper.addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentAddProduct.newInstance()));

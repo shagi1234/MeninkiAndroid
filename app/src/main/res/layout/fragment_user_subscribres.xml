@@ -51,7 +51,7 @@
                     android:layout_marginStart="5dp"
                     android:fontFamily="@font/inter_bold"
                     android:gravity="center"
-                    android:text="Мои подписки"
+                    android:text="@string/my_follows"
                     android:textColor="@color/contrast"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -78,7 +78,7 @@
                 android:fontFamily="@font/inter_medium"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="Users"
+                android:text="@string/users"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
@@ -91,7 +91,7 @@
                 android:fontFamily="@font/inter_medium"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="Shops"
+                android:text="@string/shops"
                 android:textColor="@color/accent"
                 android:textSize="16sp" />
         </LinearLayout>
@@ -108,7 +108,7 @@
     <TextView
         android:id="@+id/no_content"
         android:layout_gravity="center"
-        android:text="No content"
+        android:text="@string/no_content"
         android:fontFamily="@font/inter_semibold"
         android:textSize="18sp"
         android:layout_width="wrap_content"

@@ -88,7 +88,7 @@ public class FragmentCharacterics extends Fragment implements OnBackPressedFragm
         setBackgroundDrawable(getContext(), b.txtGoBasket, R.color.accent, 0, 50, false, 0);
         setBackgroundDrawable(getContext(), b.bgRedactorCharacter, R.color.contrast, 0, 50, false, 0);
 
-        bottomSheetBehavior = BottomSheetBehavior.from(b.bottom.root);
+        bottomSheetBehavior = BottomSheetBehavior.from(b.bottomSheet.root);
         bottomSheetBehavior.setHideable(true);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
@@ -118,7 +118,7 @@ public class FragmentCharacterics extends Fragment implements OnBackPressedFragm
 
         b.grayContainer.setOnClickListener(v -> bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN));
 
-        b.bottom.photo.setOnClickListener(v -> {
+        b.bottomSheet.photo.setOnClickListener(v -> {
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
             getPersonalCharacters().getOptionTitles().add("Characteristic");
             getPersonalCharacters().getOptions().add(new ArrayList<>());
@@ -126,7 +126,7 @@ public class FragmentCharacterics extends Fragment implements OnBackPressedFragm
             adapterPersonalCharacters.insert(adapterPersonalCharacters.getItemCount() - 1);
         });
 
-        b.bottom.txt.setOnClickListener(v -> {
+        b.bottomSheet.txt.setOnClickListener(v -> {
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
             getPersonalCharacters().getOptionTitles().add("Characteristic");
             getPersonalCharacters().getOptions().add(new ArrayList<>());

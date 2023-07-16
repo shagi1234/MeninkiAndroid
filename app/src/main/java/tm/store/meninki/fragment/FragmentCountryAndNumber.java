@@ -182,7 +182,7 @@ public class FragmentCountryAndNumber extends Fragment implements CountryClickLi
 
             @Override
             public void onFailure(Throwable t) {
-                Toast.makeText(getContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getActivity().getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                 b.btnLogin.setAlpha(1);
                 b.btnProgress.setVisibility(View.GONE);
                 new Handler().postDelayed(() -> b.btnLogin.setEnabled(true), 200);

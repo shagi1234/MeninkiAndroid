@@ -63,10 +63,10 @@ public class AdapterMediaAddPost extends RecyclerView.Adapter<AdapterMediaAddPos
 
     @Override
     public int getItemCount() {
-        if (SelectedMedia.getArrayList() == null) {
+        if (SelectedMedia.getOptionImageList() == null) {
             return 0;
         }
-        return SelectedMedia.getArrayList().size() + 1;
+        return SelectedMedia.getOptionImageList().size() + 1;
     }
 
     public class CharImageHolder extends RecyclerView.ViewHolder {
@@ -97,14 +97,14 @@ public class AdapterMediaAddPost extends RecyclerView.Adapter<AdapterMediaAddPos
                 b.clear.setVisibility(View.VISIBLE);
                 b.layAdd.setVisibility(View.GONE);
 
-                if (SelectedMedia.getArrayList().get(getAdapterPosition()).getType() == 3) {
+                if (SelectedMedia.getOptionImageList().get(getAdapterPosition()).getType() == 3) {
                     b.isVideo.setVisibility(View.VISIBLE);
                     isHasVideo = true;
                 } else b.isVideo.setVisibility(View.GONE);
 
 
                 Glide.with(context)
-                        .load(SelectedMedia.getArrayList().get(getAdapterPosition()).getPath())
+                        .load(SelectedMedia.getOptionImageList().get(getAdapterPosition()).getPath())
                         .placeholder(R.color.on_bg_ls)
                         .into(b.image);
             }
@@ -130,7 +130,7 @@ public class AdapterMediaAddPost extends RecyclerView.Adapter<AdapterMediaAddPos
         LinearLayout root = dialog.findViewById(R.id.root);
         setPadding(root, 0, 0, 0, navigationBarHeight);
 
-        if (SelectedMedia.getArrayList().size() > 0) {
+        if (SelectedMedia.getOptionImageList().size() > 0) {
             dialog.findViewById(R.id.video).setVisibility(View.GONE);
         } else dialog.findViewById(R.id.video).setVisibility(View.VISIBLE);
 
@@ -153,13 +153,13 @@ public class AdapterMediaAddPost extends RecyclerView.Adapter<AdapterMediaAddPos
 
     private void removeAt(int position) {
         try {
-            if (SelectedMedia.getArrayList().get(position).getType() == 3) {
+            if (SelectedMedia.getOptionImageList().get(position).getType() == 3) {
                 isHasVideo = false;
                 notifyItemChanged(getItemCount() - 1);
             }
-            SelectedMedia.getArrayList().remove(position);
+            SelectedMedia.getOptionImageList().remove(position);
             notifyItemRemoved(position);
-            notifyItemRangeChanged(position, SelectedMedia.getArrayList().size());
+            notifyItemRangeChanged(position, SelectedMedia.getOptionImageList().size());
         } catch (Exception e) {
             e.printStackTrace();
         }

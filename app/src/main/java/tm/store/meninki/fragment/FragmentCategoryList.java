@@ -68,13 +68,15 @@ public class FragmentCategoryList extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        if (!isCategory() && subCategories != null) return;
+
         StaticMethods.setPadding(b.main, 0, statusBarHeight, 0, navigationBarHeight);
 
         if ((isCategory() || isShop()) && subCategories == null) {
 
             if (slidrInterface == null && getView() != null)
                 slidrInterface = Slidr.replace(getView().findViewById(R.id.main), new SlidrConfig.Builder().position(SlidrPosition.TOP).build());
-
         }
 
     }
@@ -134,13 +136,13 @@ public class FragmentCategoryList extends Fragment {
     private void initListeners() {
         Log.e("TAG_Category", "initListeners: " + subCategories + "  " + isCategory());
         if (subCategories == null && isCategory()) {
-            b.tvHeader.setVisibility(View.VISIBLE);
+            b.bgHeader.setVisibility(View.VISIBLE);
             b.tvHeader.setText("Выбор категории");
         } else if (subCategories != null && isCategory()) {
-            b.tvHeader.setVisibility(View.VISIBLE);
+            b.bgHeader.setVisibility(View.VISIBLE);
             b.tvHeader.setText(titleCategory);
         } else {
-            b.tvHeader.setVisibility(View.GONE);
+            b.bgHeader.setVisibility(View.GONE);
         }
 
         b.clickBack.setOnClickListener(v -> getActivity().onBackPressed());

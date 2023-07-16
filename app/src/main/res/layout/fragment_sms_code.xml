@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/bg"
     android:clickable="true"
     android:focusable="true">
@@ -25,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_regular"
-                android:text="Введите код, отправленный на номер"
+                android:text="@string/enter_code_sent_to_number"
                 android:textColor="@color/contrast"
                 android:textSize="14sp" />
 
@@ -35,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:fontFamily="@font/inter_bold"
-                android:text="+993 64411955"
+                tools:text="+993 64411955"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
@@ -65,7 +66,7 @@
             android:layout_marginTop="40dp"
             android:layout_marginBottom="20dp"
             android:fontFamily="@font/inter_regular"
-            android:text="Переотправить через: 0:13"
+            android:text="@string/resend_again_until"
             android:textSize="14sp" />
 
         <TextView
@@ -78,7 +79,7 @@
             android:layout_marginBottom="20dp"
             android:drawablePadding="6dp"
             android:fontFamily="@font/inter_regular"
-            android:text="Продолжая, вы принимаете условия конфиденциальности и пользовательское соглашение."
+            android:text="@string/privacy_policy"
             android:textAlignment="center"
             android:textSize="14sp" />
 

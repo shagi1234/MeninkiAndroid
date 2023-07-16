@@ -96,7 +96,7 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked, OnBa
             new Handler().postDelayed(() -> b.goBasket.setEnabled(true), 200);
 
             if (isContentsEmpty()) {
-                Toast.makeText(getContext(), "Please write information completely ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getActivity().getResources().getString(R.string.please_give_information_completely), Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -160,7 +160,7 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked, OnBa
                 @Override
                 public void onResponse(@NonNull Call<Object> call, @NonNull Response<Object> response) {
                     if (response.code() == 200 && response.body() != null) {
-                        Toast.makeText(getContext(), "Success upload image", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getActivity().getResources().getString(R.string.success_upload_image), Toast.LENGTH_SHORT).show();
                     }
                     Log.e("Add_post", "onResponse: " + response.message());
 
@@ -216,7 +216,7 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked, OnBa
             public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
                 if (response.code() == 200 && response.body() != null) {
                     uploadImage(response.body().getId());
-                    Log.e("SUCCESS", "onResponse: +Success");
+                    Log.e("SUCCESS", "onResponse:");
                 } else Log.e("CODE", "onResponse: " + response.code());
 
             }
