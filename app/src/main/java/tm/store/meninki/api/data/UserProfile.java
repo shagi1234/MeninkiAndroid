@@ -16,6 +16,7 @@ public class UserProfile {
     private boolean isSubscribed;
     private int subscriberCount;
     private int subscriptionCount;
+    private String[] category;
     @SerializedName("totalProduct")
     private int productCount;
     private int placeInRating; // ine shop-da bar, user profile-da yok
@@ -28,6 +29,10 @@ public class UserProfile {
 
     public String getPhone() {
         return phone;
+    }
+
+    public String[] getCategory() {
+        return category;
     }
 
     public void setPhone(String phone) {

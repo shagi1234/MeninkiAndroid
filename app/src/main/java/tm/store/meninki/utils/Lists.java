@@ -14,4 +14,8 @@ public class Lists {
         }
         return personalCharacters;
     }
+
+    public static void setPersonalCharacters(CharactersDto personalCharacters) {
+        Lists.personalCharacters = personalCharacters;
+    }
 }

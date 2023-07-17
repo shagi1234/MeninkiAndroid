@@ -50,6 +50,7 @@ import tm.store.meninki.interfaces.OnBackPressedFragment;
 import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentOpenGallery extends Fragment implements OnBackPressedFragment {
+    public static final int IMAGE_OPTION = 3;
     private FragmentOpenGalleryBinding b;
     private ArrayList<MediaLocal> media = new ArrayList<>();
     private String TAG = "Media";
@@ -161,7 +162,7 @@ public class FragmentOpenGallery extends Fragment implements OnBackPressedFragme
                 Uri uri = Uri.parse(TrimVideo.getTrimmedVideoPath(result.getData()));
 
                 if (AdapterMediaAddPost.getInstance() != null) {
-                    SelectedMedia.getOptionImageList().add(new MediaLocal(-1, uri.getPath(), 3));
+                    SelectedMedia.getProductImageList().add(new MediaLocal(-1, uri.getPath(), 3));
                     AdapterMediaAddPost.getInstance().notifyDataSetChanged();
                 }
 
@@ -179,8 +180,8 @@ public class FragmentOpenGallery extends Fragment implements OnBackPressedFragme
 
             } else {
 
-                if (AdapterMediaAddPost.getInstance() != null) {
-                    SelectedMedia.getOptionImageList().addAll(media);
+                if (AdapterMediaAddPost.getInstance() != null && isVideo != IMAGE_OPTION) {
+                    SelectedMedia.getProductImageList().addAll(media);
                     AdapterMediaAddPost.getInstance().notifyDataSetChanged();
                 }
 
@@ -213,6 +214,7 @@ public class FragmentOpenGallery extends Fragment implements OnBackPressedFragme
                 selection = MediaStore.Files.FileColumns.MEDIA_TYPE + "=" + MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
                 break;
             case IMAGE:
+            case IMAGE_OPTION:
                 selection = MediaStore.Files.FileColumns.MEDIA_TYPE + "=" + MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
                 break;
             default:

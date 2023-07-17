@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class MediaLocal {
     private int id;
+    private String uuid;
     @SerializedName("image_path")
     private String path;
     private int type;
@@ -13,6 +14,10 @@ public class MediaLocal {
         this.path = path;
         this.type = type;
     }
+    public MediaLocal(String uuid, String path) {
+        this.uuid = uuid;
+        this.path = path;
+    }
 
     public int getType() {
         return type;
@@ -20,6 +25,14 @@ public class MediaLocal {
 
     public int getId() {
         return id;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public void setId(int id) {

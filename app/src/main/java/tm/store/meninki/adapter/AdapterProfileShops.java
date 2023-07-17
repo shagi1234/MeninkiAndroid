@@ -60,7 +60,7 @@ public class AdapterProfileShops extends RecyclerView.Adapter<AdapterProfileShop
         public void bind() {
             b.getRoot().setOnClickListener(v -> {
                 if (getAdapterPosition() == getItemCount() - 1) {
-                    FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentNewShop.newInstance());
+                    FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentNewShop.newInstance(""));
                     return;
                 }
                 FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(FragmentProfile.TYPE_SHOP, shops.get(getAdapterPosition()).getId()));

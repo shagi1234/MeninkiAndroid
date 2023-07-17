@@ -154,8 +154,8 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
                     if (response.code() == 200 && response.body() != null) {
                         Toast.makeText(getContext(), getActivity().getResources().getString(R.string.success_upload_image) + i, Toast.LENGTH_SHORT).show();
                         i++;
-                        if (SelectedMedia.getOptionImageList().size() > i) {
-                            uploadImage(SelectedMedia.getOptionImageList().get(i));
+                        if (SelectedMedia.getProductImageList().size() > i) {
+                            uploadImage(SelectedMedia.getProductImageList().get(i));
                         } else {
                             i = 0;
                             dialog.dismiss();
@@ -274,15 +274,15 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
                 if (response.code() == 200 && response.body() != null) {
                     postId = response.body();
 
-                    if (SelectedMedia.getOptionImageList().size() == 0) {
+                    if (SelectedMedia.getProductImageList().size() == 0) {
                         Toast.makeText(getContext(), getActivity().getResources().getString(R.string.files_size_must_be_more_than_0), Toast.LENGTH_SHORT).show();
                         return;
                     }
 
-                    if (SelectedMedia.getOptionImageList().get(0).getType() == 3) {
-                        uploadVideo(SelectedMedia.getOptionImageList().get(0));
+                    if (SelectedMedia.getProductImageList().get(0).getType() == 3) {
+                        uploadVideo(SelectedMedia.getProductImageList().get(0));
                     } else
-                        uploadImage(SelectedMedia.getOptionImageList().get(i));
+                        uploadImage(SelectedMedia.getProductImageList().get(i));
 
                     Toast.makeText(getContext(), getActivity().getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
                     return;
@@ -314,7 +314,7 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
 
     @Override
     public boolean onBackPressed() {
-        SelectedMedia.getOptionImageList().clear();
+        SelectedMedia.getProductImageList().clear();
         return false;
     }
 }

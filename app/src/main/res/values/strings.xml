@@ -37,6 +37,7 @@
     <string name="please_give_information_completely">Пожалуйста, предоставьте полную информацию</string>
     <string name="check_internet_connection">Проверьте подключение к Интернету!</string>
     <string name="error_while_sending_comment">Ошибка при отправке комментария</string>
+    <string name="error_while_uploading_image">Ошибка при загрузке изображения</string>
     <string name="please_write_your_information">Пожалуйста, заполните свою информацию</string>
     <string name="no_connection">Нет соединения</string>
     <string name="feed">Лента</string>
@@ -148,6 +149,9 @@
     <string name="minutes_ago">минут назад</string>
     <string name="hours_ago">часов назад</string>
     <string name="days_ago">дней назад</string>
+    <string name="edit_shop">Редактировать магазин</string>
+    <string name="delete_shop">Delete Shop</string>
+    <string name="do_you_really_want_delete_shop">Do you really want to delete your shop</string>
 
     <string-array name="array">
         <item>Вариант</item>

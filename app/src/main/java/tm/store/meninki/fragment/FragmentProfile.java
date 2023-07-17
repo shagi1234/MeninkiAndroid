@@ -1,5 +1,7 @@
 package tm.store.meninki.fragment;
 
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static tm.store.meninki.api.Network.BASE_URL;
 import static tm.store.meninki.utils.Const.mainFragmentManager;
 import static tm.store.meninki.utils.FragmentHelper.addFragment;
@@ -10,15 +12,24 @@ import static tm.store.meninki.utils.StaticMethods.setMargins;
 import static tm.store.meninki.utils.StaticMethods.setPadding;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -38,6 +49,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import tm.store.meninki.R;
+import tm.store.meninki.activity.ActivityLoginRegister;
+import tm.store.meninki.activity.ActivityMain;
 import tm.store.meninki.activity.ActivitySettings;
 import tm.store.meninki.adapter.AdapterGrid;
 import tm.store.meninki.adapter.AdapterProfileShops;
@@ -64,6 +77,7 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
     private Account account;
     private UserProfile user;
     private String id;
+    private ProgressDialog progressDialog;
 
     public static FragmentProfile newInstance(String type, String id) {
         FragmentProfile fragment = new FragmentProfile();
@@ -171,6 +185,7 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
 
                 if (isMyShop) {
                     b.settings.setVisibility(View.VISIBLE);
+                    b.settings.setImageResource(R.drawable.editvv);
 
                     b.myShops.setText(R.string.new_products);
                     b.countShops.setVisibility(View.VISIBLE);
@@ -383,15 +398,82 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
 
         b.settings.setOnClickListener(view -> {
             wait(view);
-
-//            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentSettings.newInstance());
-            Intent intent=new Intent(getContext(), ActivitySettings.class);
+            if (Objects.equals(type, TYPE_SHOP) && isMyShop) {
+                addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentNewShop.newInstance(id));
+                return;
+            }
+            Intent intent = new Intent(getContext(), ActivitySettings.class);
             startActivity(intent);
 
         });
 
+        b.icMore.setOnClickListener(view -> {
+            if (Objects.equals(type, TYPE_SHOP) && isMyShop) {
+                showBottomSheet();
+                return;
+            }
+        });
+
         b.addProduct.setOnClickListener(v -> FragmentHelper.addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentAddProduct.newInstance()));
 
+    }
+
+    private void showBottomSheet() {
+
+        android.app.Dialog dialog1 = new android.app.Dialog(getContext());
+        dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog1.setContentView(R.layout.bottomsheet_choose_language);
+
+        dialog1.findViewById(R.id.lay_ru).setVisibility(View.GONE);
+        dialog1.findViewById(R.id.header).setVisibility(View.GONE);
+        TextView tv = dialog1.findViewById(R.id.lang_en);
+        tv.setText(R.string.delete_shop);
+
+        dialog1.findViewById(R.id.lay_en).setOnClickListener(v -> {
+            new AlertDialog.Builder(getContext()).setTitle(getResources().getString(R.string.delete_shop)).setMessage(R.string.do_you_really_want_delete_shop).setPositiveButton(getResources().getString(R.string.continuee), (dialog, which) -> {
+                //deleteShop
+                showProgressDialog();
+                deleteShop();
+
+            }).setNegativeButton(getResources().getString(R.string.cancel), null).setIcon(R.drawable.ic_trash).show();
+            dialog1.dismiss();
+        });
+
+        dialog1.getWindow().setLayout(MATCH_PARENT, WRAP_CONTENT);
+        dialog1.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog1.getWindow().getAttributes().windowAnimations = R.style.DialogAnim;
+        dialog1.getWindow().setGravity(Gravity.BOTTOM);
+        dialog1.show();
+    }
+
+    private void showProgressDialog() {
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Loading...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+
+    private void dismissProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+    }
+
+    private void deleteShop() {
+        Call<Object> call = StaticMethods.getApiHome().deleteShop(id);
+        call.enqueue(new RetrofitCallback<Object>() {
+            @Override
+            public void onResponse(Object response) {
+                dismissProgressDialog();
+                Toast.makeText(getContext(), getActivity().getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                dismissProgressDialog();
+                Toast.makeText(getContext(), getActivity().getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void wait(View view) {

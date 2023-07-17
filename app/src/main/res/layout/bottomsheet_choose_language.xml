@@ -15,7 +15,7 @@
         android:layout_marginTop="32dp"
         android:fontFamily="@font/roboto_medium_numbers"
         android:gravity="center_vertical"
-        android:text="Choose language"
+        android:text="@string/choose_lang"
         android:textColor="@color/contrast"
         android:textSize="22sp"
         android:textStyle="bold" />

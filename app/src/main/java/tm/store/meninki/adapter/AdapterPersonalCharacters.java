@@ -56,7 +56,7 @@ public class AdapterPersonalCharacters extends RecyclerView.Adapter<AdapterPerso
             character.getOptionTitles().remove(position);
             character.getOptionTypes().remove(position);
             notifyItemRemoved(position);
-            notifyItemRangeChanged(position, SelectedMedia.getOptionImageList().size());
+            notifyItemRangeChanged(position, SelectedMedia.getProductImageList().size());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -98,7 +98,8 @@ public class AdapterPersonalCharacters extends RecyclerView.Adapter<AdapterPerso
                         Toast.makeText(context, context.getResources().getString(R.string.your_text_is_empty_please_write_something), Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    b.nameCharacters.setText(dialog.title.getText().toString().trim());
+                    character.getOptionTitles().set(getAdapterPosition(), dialog.title.getText().toString().trim());
+                    b.nameCharacters.setText(character.getOptionTitles().get(getAdapterPosition()));
                     dialog.dialog.dismiss();
                 });
             });

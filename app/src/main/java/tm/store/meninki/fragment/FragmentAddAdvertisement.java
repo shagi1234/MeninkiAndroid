@@ -38,7 +38,6 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.UUID;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -58,7 +57,6 @@ import tm.store.meninki.data.MediaLocal;
 import tm.store.meninki.data.SelectedMedia;
 import tm.store.meninki.databinding.FragmentAddAdvertisementBinding;
 import tm.store.meninki.interfaces.OnBackPressedFragment;
-import tm.store.meninki.utils.Dialog;
 import tm.store.meninki.utils.FileUtil;
 
 public class FragmentAddAdvertisement extends Fragment implements OnBackPressedFragment {
@@ -205,7 +203,7 @@ public class FragmentAddAdvertisement extends Fragment implements OnBackPressedF
     }
 
     private void uploadImage(String id) {
-        MediaLocal media = SelectedMedia.getOptionImageList().get(i);
+        MediaLocal media = SelectedMedia.getProductImageList().get(i);
 
         RequestUploadImage uploadImage = new RequestUploadImage();
         uploadImage.setAvatar(false);
@@ -233,7 +231,7 @@ public class FragmentAddAdvertisement extends Fragment implements OnBackPressedF
                     if (response.code() == 200 && response.body() != null) {
                         Toast.makeText(getContext(), "Success upload image" + i, Toast.LENGTH_SHORT).show();
                         i++;
-                        if (SelectedMedia.getOptionImageList().size() > i) {
+                        if (SelectedMedia.getProductImageList().size() > i) {
                             uploadImage(id);
                         } else {
                             i = 0;
@@ -312,7 +310,7 @@ public class FragmentAddAdvertisement extends Fragment implements OnBackPressedF
 
     @Override
     public boolean onBackPressed() {
-        SelectedMedia.getOptionImageList().clear();
+        SelectedMedia.getProductImageList().clear();
         Window window = requireActivity().getWindow();
         // Set the desired softInputMode
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);

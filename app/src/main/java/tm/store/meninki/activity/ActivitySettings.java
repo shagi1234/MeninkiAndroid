@@ -87,7 +87,7 @@ public class ActivitySettings extends AppCompatActivity {
             startActivity(intent);
             this.finish();
 
-        }).setNegativeButton(getResources().getString(R.string.cancel), null).setIcon(R.drawable.baseline_logout_24).show());
+        }).setNegativeButton(getResources().getString(R.string.cancel), null).setIcon(R.drawable.ic_trash).show());
 
         b.icBack.setOnClickListener(view -> onBackPressed());
 

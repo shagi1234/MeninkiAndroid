@@ -121,6 +121,12 @@ public interface ServiceHome {
     @POST("api/Shop")
     Call<UserProfile> createShop(@Body RequestCreateShop requestAddProduct);
 
+    @PUT("api/Shop")
+    Call<UserProfile> editShop(@Body RequestCreateShop requestAddProduct);
+
+    @DELETE("api/Shop/{id}")
+    Call<Object> deleteShop(@Path("id") String uuid);
+
 
     @GET("api/Shop/GetById/{id}")
     Call<UserProfile> getShopById(@Path("id") String id);

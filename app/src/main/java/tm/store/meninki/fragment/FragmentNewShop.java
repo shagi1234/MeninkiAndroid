@@ -1,6 +1,7 @@
 package tm.store.meninki.fragment;
 
 import static android.app.Activity.RESULT_OK;
+import static tm.store.meninki.api.Network.BASE_URL;
 import static tm.store.meninki.utils.Const.mainFragmentManager;
 import static tm.store.meninki.utils.FragmentHelper.addFragmentWithAnim;
 import static tm.store.meninki.utils.StaticMethods.getApiHome;
@@ -33,6 +34,7 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -41,6 +43,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import tm.store.meninki.R;
+import tm.store.meninki.api.RetrofitCallback;
 import tm.store.meninki.api.data.UserProfile;
 import tm.store.meninki.api.enums.Image;
 import tm.store.meninki.api.request.RequestCreateShop;
@@ -58,10 +61,12 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked, OnBa
     private ArrayList<CategoryDto> categories = new ArrayList<>();
     private final int PICK_IMAGE_REQUEST = 1;
     private String filePath;
+    private String id;
 
-    public static FragmentNewShop newInstance() {
+    public static FragmentNewShop newInstance(String id) {
         FragmentNewShop fragment = new FragmentNewShop();
         Bundle args = new Bundle();
+        args.putString("id", id);
         fragment.setArguments(args);
         return fragment;
     }
@@ -70,7 +75,9 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked, OnBa
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Change the soft input mode
-
+        if (getArguments() != null) {
+            id = getArguments().getString("id");
+        }
     }
 
     @Override
@@ -86,8 +93,52 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked, OnBa
         new Handler().postDelayed(this::setBackgrounds, 100);
         requireActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
+        check();
         initListeners();
         return b.getRoot();
+    }
+
+    private void check() {
+        if (!Objects.equals(id, "")) {
+            b.header.setText(R.string.edit_shop);
+            getShopById();
+        }
+    }
+
+    private void getShopById() {
+        Call<UserProfile> call = StaticMethods.getApiHome().getShopById(id);
+        call.enqueue(new RetrofitCallback<UserProfile>() {
+            @Override
+            public void onResponse(UserProfile response) {
+                setResources(response);
+                Log.e("TAG", "onResponse: " + true);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
+    }
+
+    private void setResources(UserProfile response) {
+        try {
+            b.userName.setText(response.getUserName());
+            b.storeName.setText(response.getName());
+            b.contactPhone1.setText(response.getPhone());
+            b.edtEmail.setText(response.getEmail());
+            String joinedString = String.join(",", response.getCategory());
+            b.chooseCategory.setText(joinedString);
+
+            Glide.with(getContext())
+                    .load(BASE_URL + response.getImgPath())
+                    .into(b.imageShop);
+
+        } catch (Exception e) {
+            Toast.makeText(getContext(), getActivity().getResources().getString(R.string.something_went_wrong) + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+
     }
 
     private void initListeners() {
@@ -103,6 +154,7 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked, OnBa
             createShop();
 
         });
+
         b.chooseCategory.setOnClickListener(v -> {
             b.chooseCategory.setEnabled(false);
 
@@ -115,6 +167,8 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked, OnBa
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(intent, PICK_IMAGE_REQUEST);
         });
+
+        b.backBtn.setOnClickListener(view -> getActivity().onBackPressed());
     }
 
     private boolean isContentsEmpty() {
@@ -136,6 +190,7 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked, OnBa
     }
 
     private void uploadImage(String productId) {
+        if (filePath == null) return;
         RequestUploadImage uploadImage = new RequestUploadImage();
         uploadImage.setAvatar(true);
         uploadImage.setObjectId(productId);
@@ -209,7 +264,12 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked, OnBa
         requestCreateShop.setPhoneNumber("+993 " + b.contactPhone1.getText().toString());
         requestCreateShop.setUserName(b.userName.getText().toString().trim());
 
-        Call<UserProfile> call = StaticMethods.getApiHome().createShop(requestCreateShop);
+        Call<UserProfile> call;
+
+        if (id.equals("")) {
+            call = StaticMethods.getApiHome().createShop(requestCreateShop);
+        } else call = StaticMethods.getApiHome().editShop(requestCreateShop);
+
 
         call.enqueue(new Callback<UserProfile>() {
             @Override

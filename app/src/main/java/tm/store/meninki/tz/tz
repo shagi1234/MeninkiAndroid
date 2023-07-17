@@ -45,6 +45,7 @@
     2.В том же товаре когда нажимаешь на корзину пишет метод not allowed
     24.filter
     25.search
+
     20.post page bottomSheet
    +- 21.post item bottomSheet
     26.orders page ui and api

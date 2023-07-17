@@ -109,7 +109,7 @@ public class AdapterCharImage extends RecyclerView.Adapter<AdapterCharImage.Char
 
                 if (isAddable == AdapterCharPick.ADDABLE) {
                     if (getAdapterPosition() == getItemCount() - 1) {
-                        FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentOpenGallery.newInstance(0, FragmentOpenGallery.IMAGE));
+                        FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentOpenGallery.newInstance(0, FragmentOpenGallery.IMAGE_OPTION));
                     }
                     return;
                 }
@@ -130,6 +130,7 @@ public class AdapterCharImage extends RecyclerView.Adapter<AdapterCharImage.Char
 
     public void insertOption(ArrayList<MediaLocal> medias) {
         for (int i = 0; i < medias.size(); i++) {
+
             OptionDto option = new OptionDto();
             option.setOptionType(Option.CHARACTER_IMAGE);
             option.setOptionLevel(characterPosition);

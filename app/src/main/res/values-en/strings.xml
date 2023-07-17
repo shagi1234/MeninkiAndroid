@@ -66,9 +66,9 @@
     <string name="choose_shop">Choose shop</string>
     <string name="price">Price</string>
     <string name="price_smal">Price</string>
-    <string name="necessary_layer">Mandatory field</string>
+    <string name="necessary_layer">Required</string>
     <string name="discount_price">Discount price</string>
-    <string name="optinal">Optional</string>
+    <string name="optinal">Not required</string>
     <string name="count">Count</string>
     <string name="characteristics_product">Product characteristics</string>
     <string name="description_add_characteristic_product">Here you can add characteristics to your product and create variations for each characteristic. Read the help text for more information.</string>
@@ -148,6 +148,9 @@
     <string name="minutes_ago">minutes ago</string>
     <string name="hours_ago">hours ago</string>
     <string name="days_ago">days ago</string>
+    <string name="error_while_uploading_image">Error while uploading image</string>
+    <string name="edit_shop">Edit shop</string>
+
     <string-array name="array">
         <item>Variant</item>
         <item>Variant</item>
