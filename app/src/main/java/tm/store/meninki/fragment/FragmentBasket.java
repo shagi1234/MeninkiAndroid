@@ -51,8 +51,8 @@ public class FragmentBasket extends Fragment {
 
     private void setRecycler() {
         adapterGrid = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_BASKET, -1);
-        b.recProducts.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        b.recProducts.setAdapter(adapterGrid);
+//        b.recProducts.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+//        b.recProducts.setAdapter(adapterGrid);
         adapterGrid.setStories(null);
     }
 

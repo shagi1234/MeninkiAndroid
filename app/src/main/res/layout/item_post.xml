@@ -114,14 +114,15 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/inter_medium"
                 android:maxLines="1"
-                tools:text="Pellentesque mauris cras feugiat lectus quam. Tellus eleifend quis mauris cras"
-                android:textColor="@color/contrast" />
+                android:textColor="@color/contrast"
+                tools:text="Pellentesque mauris cras feugiat lectus quam. Tellus eleifend quis mauris cras" />
 
             <FrameLayout
                 android:layout_width="30dp"
                 android:layout_height="30dp">
 
                 <FrameLayout
+                    android:id="@+id/more_info"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_corner_20" />
