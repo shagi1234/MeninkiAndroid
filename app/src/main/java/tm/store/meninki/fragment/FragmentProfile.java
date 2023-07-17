@@ -109,7 +109,6 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
             case TYPE_USER:
                 setRecycler(AdapterGrid.TYPE_POST);
 
-
                 b.allFollows.setText(R.string.subscribes);
                 b.header.setText(b.nameUser.getText().toString());
 
@@ -152,7 +151,7 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
             case TYPE_SHOP:
                 b.countBookmark.setVisibility(View.GONE);
                 b.allFollows.setText(R.string.products);
-                b.header.setText(R.string.shops);
+
 
                 b.settings.setVisibility(View.GONE);
                 setRecycler(AdapterGrid.TYPE_GRID);
@@ -175,6 +174,8 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
                     b.myShops.setText(R.string.new_products);
                     b.countShops.setVisibility(View.VISIBLE);
                     b.myBookmarks.setText(getResources().getString(R.string.bookmark));
+
+
 
                     b.layVisitors.setVisibility(View.VISIBLE);
                     b.layPlaceRating.setVisibility(View.VISIBLE);
@@ -216,6 +217,7 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
             @Override
             public void onResponse(UserProfile response) {
                 setResources(response);
+                b.mainLayout.setVisibility(View.VISIBLE);
                 Log.e("TAG", "onResponse: " + true);
             }
 
@@ -232,6 +234,7 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
             @Override
             public void onResponse(UserProfile response) {
                 setResources(response);
+                b.mainLayout.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -245,6 +248,7 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
         user = response;
         if (getContext() == null) return;
         b.nameUser.setText(response.getName());
+        b.header.setText(response.getName());
         b.desc.setText(response.getDescription());
         b.phoneNum.setText(response.getPhone());
         b.countSubscribers.setText(String.valueOf(response.getSubscriberCount()));
@@ -364,7 +368,7 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
             if (type.equals(TYPE_SHOP)) {
 
                 if (isMyShop) {
-
+                    addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentOrders.newInstance());
                 } else {
                     userSubscribe(!user.isSubscribed(), true);
                     checkSubscribe(!user.isSubscribed());

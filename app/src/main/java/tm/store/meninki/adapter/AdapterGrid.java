@@ -3,15 +3,23 @@ package tm.store.meninki.adapter;
 import static tm.store.meninki.api.Network.BASE_URL;
 import static tm.store.meninki.utils.StaticMethods.dpToPx;
 import static tm.store.meninki.utils.StaticMethods.getWindowWidth;
+import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.setMargins;
+import static tm.store.meninki.utils.StaticMethods.setPadding;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
@@ -23,6 +31,8 @@ import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
 
@@ -39,6 +49,7 @@ import tm.store.meninki.fragment.FragmentPost;
 import tm.store.meninki.fragment.FragmentProduct;
 import tm.store.meninki.fragment.FragmentProfileViewPager;
 import tm.store.meninki.utils.Const;
+import tm.store.meninki.utils.Dialog;
 import tm.store.meninki.utils.FragmentHelper;
 import tm.store.meninki.utils.StaticMethods;
 
@@ -55,6 +66,7 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public final static int TYPE_POST = 4;
     public final static int TYPE_ADVERTISEMENT = 5;
     public final static int TYPE_BASKET = 3;
+    BottomSheetDialog dialog;
     private int maxSize;
     private int type;
 
@@ -110,7 +122,7 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (type == TYPE_POST && posts != null) {
             return posts.size();
         }
-        if (type == TYPE_ADVERTISEMENT && advertisements != null){
+        if (type == TYPE_ADVERTISEMENT && advertisements != null) {
             return advertisements.size();
         }
         if (grids == null) {
@@ -366,6 +378,43 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             b.title.setText(posts.get(getAdapterPosition()).getName());
             Log.e("TAG_title_post", "bind: " + posts.get(getAdapterPosition()).getName());
+
+            b.moreInfo.setOnClickListener(view -> showDialog());
+        }
+
+
+        private void showDialog() {
+            dialog = new BottomSheetDialog(context, R.style.SheetDialog);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.bottom_sheet_story_info);
+            dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnim;
+            dialog.getWindow().setGravity(Gravity.BOTTOM);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+            setDialogComponents();
+
+            dialog.show();
+
+
+        }
+
+        private void setDialogComponents() {
+            FrameLayout root = dialog.findViewById(R.id.bottom_root);
+            TextView profileName = dialog.findViewById(R.id.profile_name);
+            RoundedImageView roundedImageView = dialog.findViewById(R.id.profile_box);
+            TextView title = dialog.findViewById(R.id.title);
+            TextView description = dialog.findViewById(R.id.description);
+
+            profileName.setText(posts.get(getAdapterPosition()).getUser().getName());
+            description.setText(posts.get(getAdapterPosition()).getDescription());
+            Glide.with(context)
+                    .load(posts.get(getAdapterPosition()).getMedias().get(0))
+                    .into(roundedImageView);
+            title.setText(posts.get(getAdapterPosition()).getName());
+
+
+            setPadding(root, 0, 0, 0, navigationBarHeight);
+
         }
     }
 
@@ -382,7 +431,6 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             setComponents();
 
 
-
             b.click.setOnClickListener(v -> {
                 int adapterPosition = getAdapterPosition();
                 FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentAdvertisement.newInstance(advertisements.get(getAdapterPosition()).getId()));
@@ -393,7 +441,7 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private void setComponents() {
             b.title.setText(advertisements.get(getAbsoluteAdapterPosition()).getTitle());
             b.tvPrice.setText(String.valueOf(advertisements.get(getAdapterPosition()).getPrice()));
-            if (advertisements.get(getAdapterPosition()).getImages()!=null && advertisements.get(getAdapterPosition()).getImages().length>0){
+            if (advertisements.get(getAdapterPosition()).getImages() != null && advertisements.get(getAdapterPosition()).getImages().length > 0) {
                 Glide.with(context)
                         .load(advertisements.get(getAdapterPosition()).getImages()[0])
                         .into(b.image);

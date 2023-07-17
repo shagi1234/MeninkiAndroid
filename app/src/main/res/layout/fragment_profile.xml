@@ -7,6 +7,8 @@
     tools:context=".fragment.FragmentProfile">
 
     <LinearLayout
+        android:id="@+id/main_layout"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/bg"
@@ -155,10 +157,10 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="6dp"
                                         android:fontFamily="@font/inter_medium"
-                                        tools:text="+993 61 234567"
                                         android:textColor="@color/ic_text"
                                         android:textSize="14sp"
-                                        android:textStyle="normal" />
+                                        android:textStyle="normal"
+                                        tools:text="+993 61 234567" />
 
                                 </LinearLayout>
 
@@ -536,6 +538,26 @@
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/add_product"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="24dp"
+                android:visibility="gone"
+                app:cardBackgroundColor="@color/accent"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_add"
+                    app:tint="@color/bg" />
+            </androidx.cardview.widget.CardView>
+
+
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     </LinearLayout>
@@ -575,22 +597,21 @@
 
     </FrameLayout>
 
-    <FrameLayout
-        android:id="@+id/add_product"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="20dp"
-        android:background="@color/on_bg_ls"
-        android:visibility="gone">
+    <!--    <FrameLayout-->
+    <!--        android:layout_width="50dp"-->
+    <!--        android:layout_height="50dp"-->
+    <!--        android:layout_gravity="bottom|end"-->
+    <!--        android:layout_margin="20dp"-->
+    <!--        android:background="@color/on_bg_ls"-->
+    <!--        android:visibility="gone">-->
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_add" />
+    <!--        <ImageView-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_gravity="center"-->
+    <!--            android:src="@drawable/ic_add" />-->
 
-    </FrameLayout>
+    <!--    </FrameLayout>-->
 
     <ProgressBar
         android:id="@+id/progress_bar"
