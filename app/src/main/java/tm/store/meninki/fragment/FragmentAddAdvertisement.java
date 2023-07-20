@@ -4,6 +4,7 @@ import static tm.store.meninki.utils.StaticMethods.getApiHome;
 import static tm.store.meninki.utils.StaticMethods.logWrite;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
+import static tm.store.meninki.utils.StaticMethods.setMargins;
 import static tm.store.meninki.utils.StaticMethods.setPadding;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
@@ -38,6 +39,7 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -53,21 +55,22 @@ import tm.store.meninki.api.request.RequestAddAdvertisement;
 import tm.store.meninki.api.request.RequestUploadImage;
 import tm.store.meninki.api.services.ServiceAdvertisement;
 import tm.store.meninki.data.AdvertisementDto;
+import tm.store.meninki.data.CategoryDto;
 import tm.store.meninki.data.MediaLocal;
 import tm.store.meninki.data.SelectedMedia;
 import tm.store.meninki.databinding.FragmentAddAdvertisementBinding;
 import tm.store.meninki.interfaces.OnBackPressedFragment;
 import tm.store.meninki.utils.FileUtil;
+import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentAddAdvertisement extends Fragment implements OnBackPressedFragment {
-
     FragmentAddAdvertisementBinding b;
     String userId;
-    ArrayList<String> categoryIds = new ArrayList<>();
     RequestAddAdvertisement requestBody = new RequestAddAdvertisement();
-    ArrayList<String> categories = new ArrayList<>();
+    ArrayList<CategoryDto> categories = new ArrayList<>();
     ArrayList<String> regions = new ArrayList<>();
     private AdapterMediaAddPost mediaAddPost;
+    private int selectedRegion;
     int i;
     BottomSheetDialog dialog;
 
@@ -79,10 +82,8 @@ public class FragmentAddAdvertisement extends Fragment implements OnBackPressedF
     @Override
     public void onResume() {
         super.onResume();
-        new Handler().postDelayed(() -> {
-            setPadding(b.layHeader, 0, statusBarHeight, 0, 0);
-            setPadding(b.getRoot(), 0, 0, 0, navigationBarHeight);
-        }, 50);
+        setMargins(b.layHeader, 0, statusBarHeight, 0, 0);
+        setPadding(b.getRoot(), 0, 0, 0, navigationBarHeight);
 
     }
 
@@ -100,7 +101,6 @@ public class FragmentAddAdvertisement extends Fragment implements OnBackPressedF
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             userId = getArguments().getString("uid");
-
         }
 
         if (getActivity() == null) return;
@@ -109,15 +109,39 @@ public class FragmentAddAdvertisement extends Fragment implements OnBackPressedF
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         b = FragmentAddAdvertisementBinding.inflate(inflater, container, false);
         setBackgrounds();
         setRecycler();
+        getAllCategories();
         getRegions();
         initListeners();
         return b.getRoot();
     }
+
+    private void getAllCategories() {
+        Call<ArrayList<CategoryDto>> call = StaticMethods.getApiCategory().getAllCategory(1);
+        call.enqueue(new Callback<ArrayList<CategoryDto>>() {
+            @Override
+            public void onResponse(@NonNull Call<ArrayList<CategoryDto>> call, @NonNull Response<ArrayList<CategoryDto>> response) {
+
+                if (response.code() == 200 && response.body() != null) {
+//                    setTabCategories(response.body());
+                    categories = response.body();
+                } else {
+                    logWrite(response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ArrayList<CategoryDto>> call, @NonNull Throwable t) {
+                logWrite(t.getMessage());
+
+            }
+        });
+
+    }
+
 
     private void setRecycler() {
         mediaAddPost = new AdapterMediaAddPost(getContext(), getActivity(), true);
@@ -136,20 +160,24 @@ public class FragmentAddAdvertisement extends Fragment implements OnBackPressedF
             addAdvertisement();
         });
 
-        b.categoryLay.setOnClickListener(view -> showDialog(b.txtCategory.getText().toString(), categories));
+        b.categoryLay.setOnClickListener(view -> showDialogCategory(b.txtCategory.getText().toString(), categories));
         b.regionLay.setOnClickListener(view -> showDialog(b.txtRegion.getText().toString(), regions));
 
 
     }
 
     private void setRequest() {
-        categoryIds.add("3fa85f64-5717-4562-b3fc-2c963f66afa6");
-//            b.grayContainer.setVisibility(View.VISIBLE);
-
         requestBody.setUserId(userId);
         requestBody.setName(b.title.getText().toString().trim());
+        try {
+            requestBody.setRegion(regions.indexOf(b.regionTv.getText().toString().trim()));
+        } catch (Exception e) {
+            requestBody.setRegion(0);
+        }
+        requestBody.setCategoryId(categories.get(0).getId());
+        requestBody.setPrice(Integer.parseInt(b.price.getText().toString().trim()));
+        requestBody.setPhoneNumber("+993" + b.phoneEdt.getText().toString().trim());
         requestBody.setDescription(b.desc.getText().toString().trim());
-        requestBody.setCategoryIds(categoryIds);
     }
 
     private void setBackgrounds() {
@@ -169,14 +197,13 @@ public class FragmentAddAdvertisement extends Fragment implements OnBackPressedF
         call.enqueue(new Callback<AdvertisementDto>() {
             @Override
             public void onResponse(Call<AdvertisementDto> call, Response<AdvertisementDto> response) {
-                if (response.body() == null) return;
-                if (response.code() == 200) {
-                    if (getActivity() == null) return;
-                    uploadImage(response.body().getId());
-                    Toast.makeText(getContext(), R.string.success, Toast.LENGTH_SHORT).show();
-                    getActivity().onBackPressed();
+                if (response.body() == null || getActivity() == null) return;
 
-                } else logWrite(response.code());
+                uploadImage(response.body().getId());
+                Log.e("TAG_salam", "onResponse: " + response.body().getId());
+                Toast.makeText(getContext(), R.string.success, Toast.LENGTH_SHORT).show();
+                getActivity().onBackPressed();
+
                 b.btnSave.setEnabled(true);
                 b.grayContainer.setVisibility(View.GONE);
             }
@@ -185,6 +212,7 @@ public class FragmentAddAdvertisement extends Fragment implements OnBackPressedF
             public void onFailure(Call<AdvertisementDto> call, Throwable t) {
                 Toast.makeText(getContext(), R.string.went_error, Toast.LENGTH_SHORT).show();
                 b.btnSave.setEnabled(true);
+                Log.e("TAG_add_ads", "onFailure: "+t);
                 b.grayContainer.setVisibility(View.GONE);
 
             }
@@ -229,7 +257,8 @@ public class FragmentAddAdvertisement extends Fragment implements OnBackPressedF
                 @Override
                 public void onResponse(@NonNull Call<Object> call, @NonNull Response<Object> response) {
                     if (response.code() == 200 && response.body() != null) {
-                        Toast.makeText(getContext(), "Success upload image" + i, Toast.LENGTH_SHORT).show();
+                        if (getActivity() != null)
+                            Toast.makeText(getContext(), getActivity().getResources().getString(R.string.success_upload_image) + i, Toast.LENGTH_SHORT).show();
                         i++;
                         if (SelectedMedia.getProductImageList().size() > i) {
                             uploadImage(id);
@@ -267,6 +296,19 @@ public class FragmentAddAdvertisement extends Fragment implements OnBackPressedF
         return options.outHeight;
     }
 
+    private void showDialogCategory(String title, ArrayList<CategoryDto> items) {
+        if (getContext() == null) return;
+        dialog = new BottomSheetDialog(getContext(), R.style.SheetDialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.bottomsheet_ads_filter);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnim;
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        setDialogComponentsCategory(title, items);
+        dialog.show();
+
+    }
+
     private void showDialog(String title, ArrayList<String> items) {
         if (getContext() == null) return;
         dialog = new BottomSheetDialog(getContext(), R.style.SheetDialog);
@@ -277,6 +319,39 @@ public class FragmentAddAdvertisement extends Fragment implements OnBackPressedF
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         setDialogComponents(title, items);
         dialog.show();
+
+    }
+
+    private void setDialogComponentsCategory(String title, ArrayList<CategoryDto> items) {
+        LinearLayout root = dialog.findViewById(R.id.root_lay);
+        TextView headerText = dialog.findViewById(R.id.title);
+        LinearLayout itemsContent = dialog.findViewById(R.id.items_content);
+        headerText.setText(title);
+        if (items.size() == 0) return;
+        assert itemsContent != null;
+
+        LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        textParams.setMargins(0, 10, 0, 0);
+        Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.inter_medium);
+        int textColor = ContextCompat.getColor(getContext(), R.color.accent);
+
+        for (CategoryDto item : items) {
+            TextView textView = new TextView(getContext());
+            textView.setLayoutParams(textParams);
+            textView.setTypeface(typeface);
+            textView.setPadding(20, 10, 20, 10);
+            textView.setTextColor(textColor);
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+            textView.setText(item.getName());
+            itemsContent.addView(textView);
+
+            textView.setOnClickListener(view -> {
+                b.categoryTv.setText(textView.getText().toString().trim());
+                dialog.dismiss();
+            });
+        }
+
+        setPadding(root, 0, 0, 0, navigationBarHeight);
 
     }
 
@@ -302,6 +377,11 @@ public class FragmentAddAdvertisement extends Fragment implements OnBackPressedF
             textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
             textView.setText(item);
             itemsContent.addView(textView);
+
+            textView.setOnClickListener(view -> {
+                b.regionTv.setText(textView.getText().toString().trim());
+                dialog.dismiss();
+            });
         }
 
         setPadding(root, 0, 0, 0, navigationBarHeight);

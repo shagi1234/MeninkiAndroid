@@ -56,26 +56,28 @@
     10.Когда создаешь магазин и выбираешь категорию нужно выходить свайпом и каждый раз выбирать категорию заново
     7.Там под товорами троеточия (…) кнопка дополнительно наверное(она не нажимается и переходит сразу на товар)
 
-    1.Oleg posta created_at berenok!!!
-    2.Oleg user profile phoneNumber shop da bolsa phone ikisini menzesh etmeli!!!
+    ++1.Oleg posta created_at berenok!!!
+    ++2.Oleg user profile phoneNumber shop da bolsa phone ikisini menzesh etmeli!!!
     3.oleg getCategoryAdvertisement api gerek!!!
-    3.oleg getMyShops api imgPath dp gelya image imagePath etmeli
+    ++4.oleg getMyShops api imgPath dp gelya image imagePath etmeli
 
 
     1)advertisement ui++
-    2)advertisement api
-      getAll
-      getById
-      create
-      getCategoriesAd
-    3)Welayats Enum gerek olegden poka 1,2,3,4,5,6 goymaly
-    4)filter addwertisement
+    2)advertisement api++
+      getAll+++
+      getById++
+      create++
 
-    !!GetAllAdvertisement-e createdAt goshdurmaly!!!
+      getCategoriesAd
+    ++3)Welayats Enum gerek olegden poka 1,2,3,4,5,6 goymaly
+    ++4)filter addwertisement
+
+    ++!!GetAllAdvertisement-e createdAt goshdurmaly!!!
+
     deletShop
 
-    !!getAdsById-de getCategory yok Oleg!!
-    !!Sozdat obyavlenie-de requestBody-da  phoneNumber, price, region yok Oleg!!!
+    !!getAdsById-de getCategory yok!!
+    ++!!Sozdat obyavlenie-de requestBody-da  phoneNumber, price, region yok
     
     buglary duzetmeli
 

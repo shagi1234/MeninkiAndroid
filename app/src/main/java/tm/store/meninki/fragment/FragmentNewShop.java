@@ -300,7 +300,10 @@ public class FragmentNewShop extends Fragment implements OnCategoryChecked, OnBa
         if (isChecked) {
             categories.add(categoryDto);
         } else {
-            categories.remove(categoryDto);
+            if (categoryDto == null) {
+                categories.clear();
+            } else
+                categories.remove(categoryDto);
         }
         StringBuilder s = new StringBuilder();
         for (int i = 0; i < categories.size(); i++) {

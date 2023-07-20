@@ -1,5 +1,6 @@
 package tm.store.meninki.fragment;
 
+import static tm.store.meninki.adapter.AdapterCharPick.NOT_ADDABLE;
 import static tm.store.meninki.api.Network.BASE_URL;
 import static tm.store.meninki.utils.Const.mainFragmentManager;
 import static tm.store.meninki.utils.FragmentHelper.addFragment;
@@ -35,10 +36,13 @@ import tm.store.meninki.adapter.AdapterPersonalCharacters;
 import tm.store.meninki.adapter.AdapterVerticalImagePager;
 import tm.store.meninki.api.RetrofitCallback;
 import tm.store.meninki.api.data.MediaDto;
+import tm.store.meninki.api.data.OptionDto;
+import tm.store.meninki.api.data.PersonalCharacterDto;
 import tm.store.meninki.api.data.ProductDetails;
 import tm.store.meninki.api.request.RequestAddToCard;
 import tm.store.meninki.data.CharactersDto;
 import tm.store.meninki.databinding.FragmentProductBinding;
+import tm.store.meninki.shared.Account;
 import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentProduct extends Fragment {
@@ -46,6 +50,7 @@ public class FragmentProduct extends Fragment {
     private String uuid;
     private ProductDetails productDetails;
     private AdapterPersonalCharacters adapterPersonalCharacters;
+    public static String[] selectedOptionIds;
 
     public static FragmentProduct newInstance(String uuid) {
         FragmentProduct fragment = new FragmentProduct();
@@ -104,31 +109,58 @@ public class FragmentProduct extends Fragment {
     }
 
     private void setResources(ProductDetails productDetails) {
+        if (getContext() == null) return;
+
         this.productDetails = productDetails;
         setImagePager(productDetails.getMedias());
         b.itemName.setText(productDetails.getName());
         b.desc.setText(productDetails.getDescription());
         b.titleStore.setText(productDetails.getShop().getName());
-        if (getContext() == null) return;
-        Glide.with(getContext()).load(BASE_URL + productDetails.getShop().getImgPath()).into(b.avatarStore);
 
+        Glide.with(getContext()).load(BASE_URL + "/" + productDetails.getShop().getImgPath()).into(b.avatarStore);
         b.price.setText(productDetails.getPrice() + " TMT");
-        setPersonalCharacteristics(productDetails);
+        setPersonalCharacteristics();
         b.progressBar.setVisibility(View.GONE);
         b.main.setVisibility(View.VISIBLE);
     }
 
-    private void setPersonalCharacteristics(ProductDetails productDetails) {
+    private void setPersonalCharacteristics() {
         setRecyclerPH();
     }
 
     private void setRecyclerPH() {
-        CharactersDto charactersDto = new CharactersDto();
-        charactersDto.setOptionTitles(productDetails.getOptionTitles());
-//        charactersDto.setOptionTitles(productDetails.getOptions());
-        adapterPersonalCharacters = new AdapterPersonalCharacters(getContext(), charactersDto, uuid);
-        b.recPh.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        b.recPh.setAdapter(adapterPersonalCharacters);
+        new Thread(() -> {
+            CharactersDto charactersDto = new CharactersDto();
+            charactersDto.setOptionTitles(productDetails.getOptionTitles());
+            charactersDto.setOptions(generateOptions(productDetails.getOptions()));
+            selectedOptionIds = new String[productDetails.getOptionTitles().size()];
+
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(() -> {
+                    adapterPersonalCharacters = new AdapterPersonalCharacters(getContext(), charactersDto, uuid, NOT_ADDABLE);
+                    b.recPh.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+                    b.recPh.setAdapter(adapterPersonalCharacters);
+                });
+            }
+
+        }).start();
+
+    }
+
+    private ArrayList<ArrayList<OptionDto>> generateOptions(ArrayList<OptionDto> allOptions) {
+        ArrayList<ArrayList<OptionDto>> options = new ArrayList<>();
+
+        for (int i = 0; i < productDetails.getOptionTitles().size(); i++) {
+            ArrayList<OptionDto> option = new ArrayList<>();
+
+            for (int j = 0; j < allOptions.size(); j++) {
+                if (allOptions.get(j).getOptionLevel() == i) {
+                    option.add(allOptions.get(j));
+                }
+            }
+            options.add(option);
+        }
+        return options;
     }
 
     private void checkUI() {
@@ -151,10 +183,15 @@ public class FragmentProduct extends Fragment {
         RequestAddToCard requestAddToCard = new RequestAddToCard();
         requestAddToCard.setProductId(uuid);
         requestAddToCard.setShopId(productDetails.getShop().getId());
-        requestAddToCard.setPersonalCharacteristicsId(productDetails.getPersonalCharacteristics().get(0).getId());
+        requestAddToCard.setPersonalCharacteristicsId(findPersonalCharacteristics());
         requestAddToCard.setCount(1);
 
-        Call<Boolean> call = StaticMethods.getApiHome().addToCard(requestAddToCard);
+        Call<Boolean> call = StaticMethods.getApiHome().addToCard(
+                requestAddToCard.getProductId(),
+                requestAddToCard.getPersonalCharacteristicsId(),
+                requestAddToCard.getCount(),
+                requestAddToCard.getShopId()
+        );
 
         call.enqueue(new Callback<Boolean>() {
             @Override
@@ -173,6 +210,31 @@ public class FragmentProduct extends Fragment {
         });
     }
 
+    private String findPersonalCharacteristics() {
+        String phId = null;
+
+        for (PersonalCharacterDto personalCharacter : productDetails.getPersonalCharacteristics()) {
+            if (isEqualsOptionId(personalCharacter)) {
+                phId = personalCharacter.getId();
+            }
+        }
+        if (phId == null && productDetails.getPersonalCharacteristics().size() > 0) {
+            phId = productDetails.getPersonalCharacteristics().get(0).getId();
+        }
+        return phId;
+    }
+
+    private boolean isEqualsOptionId(PersonalCharacterDto pc) {
+        boolean allTrue = false;
+        for (int i = 0; i < pc.getOptions().size(); i++) {
+            allTrue = Objects.equals(selectedOptionIds[i], pc.getOptions().get(i).getId());
+            if (!allTrue) break;
+        }
+        Log.e("TAG_product", "isEqualsOptionId: " + allTrue);
+        return allTrue;
+    }
+
+
     private void setBackgrounds() {
         setBackgroundDrawable(getContext(), b.bgFav, R.color.bg, 0, 10, false, 0);
         setBackgroundDrawable(getContext(), b.bgGoCard, R.color.contrast, 0, 10, false, 0);
@@ -182,14 +244,11 @@ public class FragmentProduct extends Fragment {
 
     private void setImagePager(ArrayList<MediaDto> medias) {
         AdapterVerticalImagePager adapterVerticalImagePager = new AdapterVerticalImagePager(getContext(), 0);
-
         b.imagePager.setClipToPadding(false);
         b.imagePager.setClipChildren(false);
         b.imagePager.setOffscreenPageLimit(3);
         b.imagePager.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
-
         b.imagePager.setAdapter(adapterVerticalImagePager);
-
         adapterVerticalImagePager.setImageList(medias);
         b.indicator.setViewPager(b.imagePager);
 

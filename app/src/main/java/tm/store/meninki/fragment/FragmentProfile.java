@@ -24,7 +24,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,8 +48,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import tm.store.meninki.R;
-import tm.store.meninki.activity.ActivityLoginRegister;
-import tm.store.meninki.activity.ActivityMain;
 import tm.store.meninki.activity.ActivitySettings;
 import tm.store.meninki.adapter.AdapterGrid;
 import tm.store.meninki.adapter.AdapterProfileShops;
@@ -61,18 +58,20 @@ import tm.store.meninki.api.enums.Status;
 import tm.store.meninki.api.request.RequestCard;
 import tm.store.meninki.api.data.response.ResponseCard;
 import tm.store.meninki.databinding.FragmentProfileBinding;
+import tm.store.meninki.interfaces.OnProfileOpened;
 import tm.store.meninki.interfaces.OnUserDataChanged;
 import tm.store.meninki.shared.Account;
 import tm.store.meninki.utils.FragmentHelper;
 import tm.store.meninki.utils.StaticMethods;
 
-public class FragmentProfile extends Fragment implements OnUserDataChanged {
+public class FragmentProfile extends Fragment implements OnUserDataChanged, OnProfileOpened {
     private FragmentProfileBinding b;
     private AdapterGrid adapterGrid;
     AdapterProfileShops adapter;
     private String type;
     public final static String TYPE_USER = "user";
     public final static String TYPE_SHOP = "shop";
+    public final static String MY_PROFILE_WITH_NAV = "my_profile_with_nav";
     private boolean isMyShop;
     private Account account;
     private UserProfile user;
@@ -92,7 +91,7 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
     public void onResume() {
         super.onResume();
         setMargins(b.coordinator, 0, 0, 0, navigationBarHeight);
-        if (Objects.equals(type, TYPE_SHOP)) {
+        if (!Objects.equals(type, MY_PROFILE_WITH_NAV)) {
             setPadding(b.getRoot(), 0, statusBarHeight, 0, 0);
         }
     }
@@ -101,7 +100,7 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         account = Account.newInstance(getContext());
-        if (getActivity() != null) {
+        if (getArguments() != null) {
             type = getArguments().getString("type");
             id = getArguments().getString("id");
         }
@@ -121,16 +120,17 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
 
         switch (type) {
             case TYPE_USER:
+            case MY_PROFILE_WITH_NAV:
                 setRecycler(AdapterGrid.TYPE_POST);
 
                 b.allFollows.setText(R.string.subscribes);
                 b.header.setText(b.nameUser.getText().toString());
 
+                setRecyclerShops();
+
+                getUserShops();
+
                 if (isMe()) {
-
-                    setRecyclerShops();
-
-                    getMyShops();
 
                     b.settings.setVisibility(View.VISIBLE);
                     b.contactsLay.setVisibility(View.GONE);
@@ -191,7 +191,6 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
                     b.myBookmarks.setText(getResources().getString(R.string.bookmark));
 
 
-
                     b.layVisitors.setVisibility(View.VISIBLE);
                     b.layPlaceRating.setVisibility(View.VISIBLE);
 
@@ -221,7 +220,7 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
     }
 
     private void setRecyclerShops() {
-        adapter = new AdapterProfileShops(getContext());
+        adapter = new AdapterProfileShops(getContext(), isMe());
         b.rvShops.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         b.rvShops.setAdapter(adapter);
     }
@@ -254,7 +253,7 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
 
             @Override
             public void onFailure(Throwable t) {
-
+                b.progressBar.setVisibility(View.GONE);
             }
         });
     }
@@ -344,7 +343,7 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
     private void getProducts() {
         RequestCard requestCard = new RequestCard();
         requestCard.setSortType(0);
-//        requestCard.setShopId(id);
+        requestCard.setShopId(id);
         requestCard.setTake(10);
         requestCard.setPageNumber(1);
         requestCard.setDescending(true);
@@ -375,7 +374,11 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
 
         b.laySubscribers.setOnClickListener(v -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentUserSubscribers.newInstance(type, id, true)));
 
-        b.layFollows.setOnClickListener(v -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentUserSubscribers.newInstance(type, id, false)));
+        b.layFollows.setOnClickListener(v -> {
+            if (!Objects.equals(type, TYPE_SHOP))
+                addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentUserSubscribers.newInstance(type, id, false));
+            else b.appBarLayout.setExpanded(false, true);
+        });
 
         b.layBack.setOnClickListener(v -> getActivity().onBackPressed());
 
@@ -418,12 +421,11 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
             }
         });
 
-        b.addProduct.setOnClickListener(v -> FragmentHelper.addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentAddProduct.newInstance()));
+        b.addProduct.setOnClickListener(v -> FragmentHelper.addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentAddProduct.newInstance(id)));
 
     }
 
     private void showBottomSheet() {
-
         android.app.Dialog dialog1 = new android.app.Dialog(getContext());
         dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog1.setContentView(R.layout.bottomsheet_choose_language);
@@ -511,14 +513,17 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
 
     }
 
-    private void getMyShops() {
-        Call<ArrayList<UserProfile>> call = StaticMethods.getApiHome().getMyShops(Account.newInstance(getContext()).getPrefUserUUID(), Status.in_review, 1, 10);
+    private void getUserShops() {
+        Call<ArrayList<UserProfile>> call = StaticMethods.getApiHome().getMyShops(id, Status.in_review, 1, 10);
         call.enqueue(new Callback<ArrayList<UserProfile>>() {
             @Override
             public void onResponse(Call<ArrayList<UserProfile>> call, Response<ArrayList<UserProfile>> response) {
                 if (response.code() == 200 && response.body() != null) {
                     adapter.setShops(response.body());
-                    account.setMyShops(new Gson().toJson(response.body()));
+                    adapter.setMe(isMe());
+
+                    if (isMe())
+                        account.setMyShops(new Gson().toJson(response.body()));
                 } else {
                     logWrite(response.code());
                 }
@@ -551,5 +556,14 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged {
     @Override
     public void onChange() {
         getUserById();
+    }
+
+    @Override
+    public void onOpen(String uuid) {
+        b.mainLayout.setVisibility(View.GONE);
+        b.progressBar.setVisibility(View.VISIBLE);
+        id = uuid;
+        check();
+
     }
 }

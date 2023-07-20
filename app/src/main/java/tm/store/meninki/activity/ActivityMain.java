@@ -1,9 +1,11 @@
 package tm.store.meninki.activity;
 
+import static tm.store.meninki.adapter.AdapterMediaAddPost.PICK_VIDEO_REQUEST;
 import static tm.store.meninki.adapter.AdapterPostPager.lastExoPlayer;
 import static tm.store.meninki.utils.Const.mainFragmentManager;
 import static tm.store.meninki.utils.FragmentHelper.hideAdd;
 import static tm.store.meninki.utils.StaticMethods.dpToPx;
+import static tm.store.meninki.utils.StaticMethods.hideSoftKeyboard;
 import static tm.store.meninki.utils.StaticMethods.initSystemUIViewListeners;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
@@ -14,11 +16,15 @@ import static tm.store.meninki.utils.StaticMethods.transparentStatusAndNavigatio
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -27,8 +33,13 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.security.ProviderInstaller;
+import com.gowtham.library.utils.LogMessage;
+import com.gowtham.library.utils.TrimVideo;
 
 import tm.store.meninki.R;
+import tm.store.meninki.adapter.AdapterMediaAddPost;
+import tm.store.meninki.data.MediaLocal;
+import tm.store.meninki.data.SelectedMedia;
 import tm.store.meninki.databinding.ActivityMainBinding;
 import tm.store.meninki.fragment.FragmentBasket;
 import tm.store.meninki.fragment.FragmentCategory;
@@ -57,6 +68,7 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
         setContentView(b.getRoot());
         activityMain = this;
         mainFragmentManager = getSupportFragmentManager();
+        hideSoftKeyboard(this);
         setBackgrounds();
         setNavListeners();
     }
@@ -109,7 +121,7 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
                 setBackgroundDrawable(this, b.navMain, R.color.contrast, 0, 0, true, 0);
                 b.navMain.setImageResource(R.drawable.main_active);
 
-                hideAdd(FragmentMain.newInstance(), FragmentMain.class.getSimpleName(), mainFragmentManager, R.id.content_with_nav);
+                hideAdd(FragmentMain.newInstance(false), FragmentMain.class.getSimpleName(), mainFragmentManager, R.id.content_with_nav);
                 break;
             case R.id.nav_category:
                 setBackgroundDrawable(this, b.navCategory, R.color.contrast, 0, 0, true, 0);
@@ -125,8 +137,7 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.nav_profile:
                 setBackgroundDrawable(this, b.navProfile, R.color.contrast, 0, 0, true, 0);
-
-                hideAdd(FragmentProfile.newInstance(FragmentProfile.TYPE_USER, Account.newInstance(ActivityMain.this).getPrefUserUUID()), FragmentProfile.class.getSimpleName(), mainFragmentManager, R.id.content_with_nav);
+                hideAdd(FragmentProfile.newInstance(FragmentProfile.MY_PROFILE_WITH_NAV, Account.newInstance(ActivityMain.this).getPrefUserUUID()), FragmentProfile.class.getSimpleName(), mainFragmentManager, R.id.content_with_nav);
                 break;
 
         }
@@ -173,6 +184,29 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
         Fragment fragment = mainFragmentManager.findFragmentById(R.id.fragment_container_main);
         if (!(fragment instanceof OnBackPressedFragment) || !((OnBackPressedFragment) fragment).onBackPressed()) {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_VIDEO_REQUEST && resultCode == RESULT_OK && data != null) {
+            Uri selectedVideoUri = data.getData();
+            Log.e("OnVideoSelected", "onActivityResult: " + selectedVideoUri.toString());
+
+            TrimVideo.activity(selectedVideoUri.toString())
+                    .start(this, registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                        if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                            Uri uri = Uri.parse(TrimVideo.getTrimmedVideoPath(result.getData()));
+
+                            if (AdapterMediaAddPost.getInstance() != null) {
+                                SelectedMedia.getProductImageList().add(new MediaLocal(-1, uri.getPath(), 3));
+                                AdapterMediaAddPost.getInstance().notifyDataSetChanged();
+                            }
+
+                        } else LogMessage.v("videoTrimResultLauncher data is null");
+                    }));
+            // Do something with the selected video URI
         }
     }
 

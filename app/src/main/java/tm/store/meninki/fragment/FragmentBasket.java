@@ -11,9 +11,18 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import tm.store.meninki.R;
 import tm.store.meninki.adapter.AdapterGrid;
+import tm.store.meninki.api.data.ResponseOrderGetAll;
+import tm.store.meninki.api.request.RequestGetAllOrder;
 import tm.store.meninki.databinding.FragmentBasketBinding;
+import tm.store.meninki.shared.Account;
+import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentBasket extends Fragment {
     private FragmentBasketBinding b;
@@ -38,8 +47,39 @@ public class FragmentBasket extends Fragment {
         b = FragmentBasketBinding.inflate(inflater, container, false);
         setBackgrounds();
         setRecycler();
+        getAllOrder();
         initListeners();
         return b.getRoot();
+    }
+
+    private void getAllOrder() {
+        b.progressBar.setVisibility(View.VISIBLE);
+        RequestGetAllOrder requestGetAllOrder = new RequestGetAllOrder();
+        requestGetAllOrder.setOrderStatus(0);
+        Call<ArrayList<ResponseOrderGetAll>> call = StaticMethods.getApiHomeWithoutHeader().getAllOrder(Account.newInstance(getContext()).getAccessToken(),
+                requestGetAllOrder);
+
+        call.enqueue(new Callback<ArrayList<ResponseOrderGetAll>>() {
+            @Override
+            public void onResponse(Call<ArrayList<ResponseOrderGetAll>> call, Response<ArrayList<ResponseOrderGetAll>> response) {
+                if (response.body() == null || response.body().size() == 0) {
+                    b.noContent.setText(R.string.no_content);
+                    b.noContent.setVisibility(View.VISIBLE);
+                    b.progressBar.setVisibility(View.GONE);
+                    return;
+                }
+                b.progressBar.setVisibility(View.GONE);
+                b.noContent.setVisibility(View.GONE);
+                adapterGrid.setOrders(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<ResponseOrderGetAll>> call, Throwable t) {
+                b.progressBar.setVisibility(View.GONE);
+                b.noContent.setVisibility(View.VISIBLE);
+                b.noContent.setText(R.string.no_connection);
+            }
+        });
     }
 
     private void setBackgrounds() {
@@ -51,8 +91,8 @@ public class FragmentBasket extends Fragment {
 
     private void setRecycler() {
         adapterGrid = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_BASKET, -1);
-//        b.recProducts.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-//        b.recProducts.setAdapter(adapterGrid);
+        b.recGrids.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        b.recGrids.setAdapter(adapterGrid);
         adapterGrid.setStories(null);
     }
 

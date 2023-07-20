@@ -6,8 +6,8 @@ public class Image {
 	public static final int category = 2;
 	public static final int banner = 3;
 	public static final int advertisementBoard = 4;
-	public static final int media = 5;
-	public static final int option = 6;
+	public static final int media = 5;// for product,post
+	public static final int option = 6;//only option
 
 	public static final String keyObjectId = "objectId";
 	public static final String keyWidth = "width";

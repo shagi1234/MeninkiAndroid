@@ -1,9 +1,11 @@
 package tm.store.meninki.adapter;
 
+import static tm.store.meninki.fragment.FragmentProduct.selectedOptionIds;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.setMargins;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,11 +35,13 @@ public class AdapterCharPick extends RecyclerView.Adapter<AdapterCharPick.CharIm
     private ConstraintLayout lastClicked;
     private TextView lastText;
     private String prodId;
+    private int characterPosition;
 
     public AdapterCharPick(Context context, int isAddable, String prodId, int adapterPosition) {
         this.context = context;
         this.isAddable = isAddable;
         this.prodId = prodId;
+        this.characterPosition = adapterPosition;
     }
 
     @NonNull
@@ -86,11 +90,14 @@ public class AdapterCharPick extends RecyclerView.Adapter<AdapterCharPick.CharIm
                 b.layAdd.setVisibility(View.GONE);
                 b.pickText.setVisibility(View.VISIBLE);
                 b.click.setBackgroundResource(R.drawable.ripple);
-                setBackgroundDrawable(context, b.root, R.color.on_bg_ls, 0, 10, false, 0);
-                b.pickText.setTextColor(context.getResources().getColor(R.color.contrast));
+                selectedOptionIds[characterPosition] = options.get(getAdapterPosition()).getId();
+                setBackgroundDrawable(context, b.root, R.color.color_transparent, R.color.accent, 4, false, 3);
+                b.pickText.setTextColor(context.getResources().getColor(R.color.accent));
                 b.pickText.setText(options.get(getAdapterPosition()).getValue());
+
                 lastClicked = b.root;
                 lastText = b.pickText;
+
             } else if (getAdapterPosition() == getItemCount() - 1 && isAddable == ADDABLE) {
                 b.pickText.setVisibility(View.INVISIBLE);
                 setBackgroundDrawable(context, b.layAdd, R.color.low_contrast, 0, 20, false, 0);
@@ -100,12 +107,14 @@ public class AdapterCharPick extends RecyclerView.Adapter<AdapterCharPick.CharIm
                 b.layAdd.setVisibility(View.GONE);
                 b.pickText.setVisibility(View.VISIBLE);
                 b.click.setBackgroundResource(R.drawable.ripple);
+
                 setBackgroundDrawable(context, b.root, R.color.on_bg_ls, 0, 10, false, 0);
                 b.pickText.setTextColor(context.getResources().getColor(R.color.contrast));
                 b.pickText.setText(options.get(getAdapterPosition()).getValue());
             }
 
             b.click.setOnClickListener(v -> {
+                Log.e("TAG_zzz", "bind: " + isAddable + lastClicked);
                 if (isAddable == ADDABLE) {
                     if (getAdapterPosition() == getItemCount() - 1) {
                         //add item text
@@ -124,6 +133,7 @@ public class AdapterCharPick extends RecyclerView.Adapter<AdapterCharPick.CharIm
                 }
                 if (lastClicked == b.root) return;
 
+                selectedOptionIds[characterPosition] = options.get(getAdapterPosition()).getId();
                 setBackgroundDrawable(context, b.root, R.color.color_transparent, R.color.accent, 4, false, 3);
                 b.pickText.setTextColor(context.getResources().getColor(R.color.accent));
 
@@ -131,6 +141,7 @@ public class AdapterCharPick extends RecyclerView.Adapter<AdapterCharPick.CharIm
                     lastText.setTextColor(context.getResources().getColor(R.color.contrast));
                     setBackgroundDrawable(context, lastClicked, R.color.color_transparent, R.color.neutral_dark, 4, false, 1);
                 }
+
                 lastText = b.pickText;
                 lastClicked = b.root;
             });
@@ -145,7 +156,7 @@ public class AdapterCharPick extends RecyclerView.Adapter<AdapterCharPick.CharIm
         optionDto.setValue(trim);
         optionDto.setId(UUID.randomUUID().toString());
         optionDto.setProductId(prodId);
-        optionDto.setOptionLevel(options.size());
+        optionDto.setOptionLevel(characterPosition);
 
         options.add(optionDto);
         notifyItemInserted(options.size() - 1);

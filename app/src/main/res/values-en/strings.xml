@@ -150,7 +150,11 @@
     <string name="days_ago">days ago</string>
     <string name="error_while_uploading_image">Error while uploading image</string>
     <string name="edit_shop">Edit shop</string>
-
+    <string name="delete_shop">Delete Shop</string>
+    <string name="do_you_really_want_delete_shop">Do you really want to delete your shop</string>
+    <string name="popular">Popular</string>
+    <string name="news">News</string>
+    <string name="sort_by_date">Sort by Date - Newest First</string>
     <string-array name="array">
         <item>Variant</item>
         <item>Variant</item>

@@ -1,5 +1,8 @@
 package tm.store.meninki.adapter;
 
+import static tm.store.meninki.adapter.AdapterCharPick.NOT_ADDABLE;
+import static tm.store.meninki.api.Network.BASE_URL;
+import static tm.store.meninki.fragment.FragmentProduct.selectedOptionIds;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.setMargins;
 
@@ -86,11 +89,12 @@ public class AdapterCharImage extends RecyclerView.Adapter<AdapterCharImage.Char
                 setMargins(b.getRoot(), StaticMethods.dpToPx(4, context), StaticMethods.dpToPx(0, context), StaticMethods.dpToPx(4, context), 0);
             }
 
-            if (getAdapterPosition() == 0 && isAddable == AdapterCharPick.NOT_ADDABLE) {
+            if (getAdapterPosition() == 0 && isAddable == NOT_ADDABLE) {
                 b.click.setBackgroundResource(R.drawable.ripple);
                 b.main.setVisibility(View.VISIBLE);
                 b.layAdd.setVisibility(View.GONE);
-                Glide.with(context).load(options.get(getAdapterPosition()).getImagePath()).placeholder(R.color.neutral_dark).into(b.image);
+                setImage();
+                selectedOptionIds[characterPosition] = options.get(getAdapterPosition()).getId();
                 setBackgroundDrawable(context, b.main, R.color.neutral_dark, R.color.accent, 4, false, 3);
                 lastClicked = b.main;
             } else if (getAdapterPosition() == getItemCount() - 1 && isAddable == AdapterCharPick.ADDABLE) {
@@ -100,7 +104,7 @@ public class AdapterCharImage extends RecyclerView.Adapter<AdapterCharImage.Char
             } else {
                 b.click.setBackgroundResource(R.drawable.ripple);
                 b.main.setVisibility(View.VISIBLE);
-                Glide.with(context).load(options.get(getAdapterPosition()).getImagePath()).placeholder(R.color.neutral_dark).into(b.image);
+                setImage();
                 b.layAdd.setVisibility(View.GONE);
                 setBackgroundDrawable(context, b.main, R.color.neutral_dark, 0, 4, false, 0);
             }
@@ -116,6 +120,7 @@ public class AdapterCharImage extends RecyclerView.Adapter<AdapterCharImage.Char
 
                 if (lastClicked == b.main) return;
 
+                selectedOptionIds[characterPosition] = options.get(getAdapterPosition()).getId();
                 setBackgroundDrawable(context, b.main, R.color.neutral_dark, R.color.accent, 4, false, 3);
 
                 if (lastClicked != null)
@@ -126,6 +131,13 @@ public class AdapterCharImage extends RecyclerView.Adapter<AdapterCharImage.Char
 
 
         }
+
+        private void setImage() {
+            if (isAddable == NOT_ADDABLE) {
+                Glide.with(context).load(BASE_URL + "/" + options.get(getAdapterPosition()).getImagePath()).placeholder(R.color.neutral_dark).into(b.image);
+            }
+            Glide.with(context).load(options.get(getAdapterPosition()).getImagePath()).placeholder(R.color.neutral_dark).into(b.image);
+        }
     }
 
     public void insertOption(ArrayList<MediaLocal> medias) {
@@ -135,7 +147,7 @@ public class AdapterCharImage extends RecyclerView.Adapter<AdapterCharImage.Char
             option.setOptionType(Option.CHARACTER_IMAGE);
             option.setOptionLevel(characterPosition);
             option.setImagePath(medias.get(i).getPath());
-            option.setOptionsImageId(UUID.randomUUID().toString());
+            option.setId(UUID.randomUUID().toString());
             option.setProductId(prodId);
 
             options.add(option);

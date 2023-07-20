@@ -181,6 +181,7 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
             b.titleProd.setText(videos.get(getAdapterPosition()).getProductTitle());
 
             Glide.with(context).load(BASE_URL + "/" + videos.get(getAdapterPosition()).getProductMedia()).placeholder(R.color.low_contrast).into(b.imgProd);
+            Glide.with(context).load(BASE_URL + "/" + videos.get(getAdapterPosition()).getUser().getImgPath()).placeholder(R.color.low_contrast).into(b.friendImg);
 
             b.backBtn.setOnClickListener(v -> activity.onBackPressed());
             b.like.setOnClickListener(v -> like(getAdapterPosition()));
@@ -224,6 +225,7 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
 
             b.titleProd.setText(videos.get(getAdapterPosition()).getProductTitle());
 
+            Glide.with(context).load(BASE_URL + "/" + videos.get(getAdapterPosition()).getUser().getImgPath()).placeholder(R.color.low_contrast).into(b.friendImg);
             Glide.with(context).load(BASE_URL + "/" + videos.get(getAdapterPosition()).getProductMedia()).placeholder(R.color.low_contrast).into(b.imgProd);
 
             b.backBtn.setOnClickListener(v -> activity.onBackPressed());
@@ -239,7 +241,7 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
             b.clickStore.setOnClickListener(view -> {
                 b.clickStore.setEnabled(false);
                 new Handler().postDelayed(() -> b.clickStore.setEnabled(true), 200);
-                addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProduct.newInstance(videos.get(getAdapterPosition()).getProductId()));
+//                addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProduct.newInstance(videos.get(getAdapterPosition()).getProductId()));
             });
 
         }

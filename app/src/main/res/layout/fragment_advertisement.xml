@@ -13,7 +13,7 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -169,7 +169,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:fontFamily="@font/inter_regular"
-                            android:text="Квартиры"
+                            tools:text="Квартиры"
                             android:textColor="@color/ic_text"
                             android:textSize="14sp" />
 

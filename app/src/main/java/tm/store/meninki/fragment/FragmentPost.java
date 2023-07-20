@@ -1,8 +1,6 @@
 package tm.store.meninki.fragment;
 
 import static tm.store.meninki.adapter.AdapterPostPager.lastExoPlayer;
-import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
-import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,13 +25,13 @@ import tm.store.meninki.databinding.FragmentPostBinding;
 import tm.store.meninki.interfaces.OnBackPressedFragment;
 import tm.store.meninki.interfaces.OnPostSlided;
 import tm.store.meninki.utils.Const;
-import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentPost extends Fragment implements OnBackPressedFragment {
     private FragmentPostBinding b;
     private AdapterPostPager adapterViewPager;
     private int adapterPosition;
     private ArrayList<ResponsePostGetAllItem> posts;
+    private String currentUserId = "";
 
     public static FragmentPost newInstance(ArrayList<ResponsePostGetAllItem> posts, int adapterPosition) {
         FragmentPost fragment = new FragmentPost();
@@ -95,6 +93,7 @@ public class FragmentPost extends Fragment implements OnBackPressedFragment {
         adapterViewPager = new AdapterPostPager(getContext(), getActivity(), videos, b.viewPager2);
         b.viewPager2.setAdapter(adapterViewPager);
         b.viewPager2.setPageTransformer(new ZoomOutPageTransformer());
+        passId(0,videos.get(0).getUser().getId());
 
         b.viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
@@ -104,14 +103,20 @@ public class FragmentPost extends Fragment implements OnBackPressedFragment {
                     adapterViewPager.setPosition(position);
                     adapterViewPager.releasePlayer();
                 }, 300);
-                Fragment fragment = Const.mainFragmentManager.findFragmentByTag(FragmentProfileViewPager.class.getSimpleName());
-                if (fragment instanceof OnPostSlided){
-                    ((OnPostSlided) fragment).onPostSlided(position, videos.get(position).getUser().getId());
-                }
+
+               passId(position,videos.get(position).getUser().getId());
             }
         });
 
         b.viewPager2.setCurrentItem(adapterPosition, false);
+    }
+
+    private void passId(int position, String id) {
+        Fragment fragment = Const.mainFragmentManager.findFragmentByTag(FragmentProfileViewPager.class.getName());
+
+        if (fragment instanceof OnPostSlided) {
+            ((OnPostSlided) fragment).onPostSlided(position, id);
+        }
     }
 
     @Override

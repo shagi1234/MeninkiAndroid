@@ -152,6 +152,9 @@
     <string name="edit_shop">Редактировать магазин</string>
     <string name="delete_shop">Delete Shop</string>
     <string name="do_you_really_want_delete_shop">Do you really want to delete your shop</string>
+    <string name="popular">Популярное</string>
+    <string name="news">Новинки</string>
+    <string name="sort_by_date">По дате - сначала новые</string>
 
     <string-array name="array">
         <item>Вариант</item>

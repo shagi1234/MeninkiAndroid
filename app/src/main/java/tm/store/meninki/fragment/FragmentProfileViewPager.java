@@ -6,6 +6,8 @@ import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import android.os.Handler;
 import android.util.Log;
@@ -26,23 +28,19 @@ import tm.store.meninki.api.data.ResponsePostGetAllItem;
 import tm.store.meninki.data.FragmentPager;
 import tm.store.meninki.databinding.FragmentProfileViewPagerBinding;
 import tm.store.meninki.interfaces.OnPostSlided;
+import tm.store.meninki.interfaces.OnProfileOpened;
 import tm.store.meninki.utils.Const;
 import tm.store.meninki.utils.FragmentHelper;
 import tm.store.meninki.utils.StaticMethods;
 
 
 public class FragmentProfileViewPager extends Fragment implements OnPostSlided {
-    FragmentProfileViewPagerBinding b;
-    SlidePagerAdapter adapterViewPager;
-    ArrayList<FragmentPager> fragmentList = new ArrayList<>();
+    private FragmentProfileViewPagerBinding b;
+    private SlidePagerAdapter adapterViewPager;
 
     private ArrayList<ResponsePostGetAllItem> posts;
-    String userId;
+    private String userId;
     int adapterPosition;
-
-    public FragmentProfileViewPager() {
-        // Required empty public constructor
-    }
 
     @Override
     public void onResume() {
@@ -85,11 +83,38 @@ public class FragmentProfileViewPager extends Fragment implements OnPostSlided {
         adapterViewPager.addFragment(FragmentPost.newInstance(posts, adapterPosition));
         adapterViewPager.addFragment(FragmentProfile.newInstance(FragmentProfile.TYPE_USER, userId));
         b.viewPager.setAdapter(adapterViewPager);
+
+        b.viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position != 0) {
+                    Fragment fragment=getFragmentAtPosition(position);
+
+                    if (fragment instanceof OnProfileOpened) {
+                        ((OnProfileOpened) fragment).onOpen(userId);
+                    }
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+    private Fragment getFragmentAtPosition(int position) {
+        SlidePagerAdapter adapter = (SlidePagerAdapter) b.viewPager.getAdapter();
+        return adapter.getItem(position);
     }
 
     @Override
     public void onPostSlided(int adapterPosition, String userId) {
         this.userId = userId;
-        Log.e("USER ID", "onPostSlided: "+userId);
+        Log.e("USER ID", "onPostSlided: " + userId);
     }
 }

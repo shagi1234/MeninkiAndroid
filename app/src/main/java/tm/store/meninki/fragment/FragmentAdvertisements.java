@@ -1,23 +1,28 @@
 package tm.store.meninki.fragment;
 
 import static tm.store.meninki.adapter.AdapterGrid.TYPE_ADVERTISEMENT;
+import static tm.store.meninki.fragment.FragmentMain.editSearch;
 import static tm.store.meninki.utils.Const.mainFragmentManager;
 import static tm.store.meninki.utils.FragmentHelper.addFragment;
 import static tm.store.meninki.utils.StaticMethods.logWrite;
+import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
+import static tm.store.meninki.utils.StaticMethods.setPadding;
+import static tm.store.meninki.utils.StaticMethods.setPaddingWithHandler;
+import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Handler;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
@@ -33,20 +38,25 @@ import tm.store.meninki.adapter.AdapterGrid;
 import tm.store.meninki.api.ApiClient;
 import tm.store.meninki.api.request.RequestAllAdvertisement;
 import tm.store.meninki.api.services.ServiceAdvertisement;
-import tm.store.meninki.api.services.ServiceCategory;
 import tm.store.meninki.data.AdvertisementDto;
 import tm.store.meninki.data.CategoryDto;
 import tm.store.meninki.databinding.FragmentAdvertisementsBinding;
+import tm.store.meninki.interfaces.GetAllAdvertisement;
+import tm.store.meninki.interfaces.OnSearched;
 import tm.store.meninki.shared.Account;
+import tm.store.meninki.utils.StaticMethods;
 
-public class FragmentAdvertisements extends Fragment {
+public class FragmentAdvertisements extends Fragment implements GetAllAdvertisement, OnSearched {
     private FragmentAdvertisementsBinding b;
     AdapterGrid adapterGrid;
     Account account;
+    private String selectedCategory;
+    private boolean isSearch;
 
-    public static FragmentAdvertisements newInstance() {
+    public static FragmentAdvertisements newInstance(boolean isSearch) {
         FragmentAdvertisements fragment = new FragmentAdvertisements();
         Bundle args = new Bundle();
+        args.putBoolean("is_search", isSearch);
         fragment.setArguments(args);
         return fragment;
     }
@@ -54,27 +64,118 @@ public class FragmentAdvertisements extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        account=new Account(getContext());
+        account = new Account(getContext());
+        if (getArguments() != null) {
+            isSearch = getArguments().getBoolean("is_search");
+        }
 
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public void setUserVisibleHint(boolean visible) {
+        super.setUserVisibleHint(visible);
+        if (visible && isResumed()) {
+            onResume();
+        }
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (isSearch) {
+            setPadding(b.getRoot(), 0, statusBarHeight, 0, 0);
+        }
+        if (!getUserVisibleHint() || getActivity() == null) {
+            return;
+        }
+        if (editSearch == null) return;
+        if (isSearch)
+            onSearched(editSearch.getText().toString().trim());
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         b = FragmentAdvertisementsBinding.inflate(inflater, container, false);
+        checkUi();
         setRecyclerAdvertisements();
-        setTabCategories();
+        getAllCategories();
         initListeners();
 
-        getAllAdvertisements();
+        getAllAdvertisements(createInitialRequestBody(null));
         return b.getRoot();
+    }
+
+    private void checkUi() {
+        if (isSearch) {
+            b.appBarLayout.setVisibility(View.GONE);
+            b.tabCategories.setVisibility(View.GONE);
+
+            if (editSearch != null)
+                editSearch.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        if (editSearch != null)
+                            onSearched(editSearch.getText().toString().trim());
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
+        } else {
+            b.appBarLayout.setVisibility(View.VISIBLE);
+            b.tabCategories.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private RequestAllAdvertisement createInitialRequestBody(String categoryId) {
+        int[] welayats = {0};
+        RequestAllAdvertisement requestAllAdvertisement = new RequestAllAdvertisement();
+        requestAllAdvertisement.setSortType(0);
+        requestAllAdvertisement.setDescending(true);
+        requestAllAdvertisement.setPageNumber(1);
+        requestAllAdvertisement.setTake(20);
+        requestAllAdvertisement.setWelayats(welayats);
+
+        if (categoryId != null)
+            requestAllAdvertisement.setCategoryIds(new String[]{categoryId});
+        return requestAllAdvertisement;
+    }
+
+    private void getAllCategories() {
+        Call<ArrayList<CategoryDto>> call = StaticMethods.getApiCategory().getAllCategory(1);
+        call.enqueue(new Callback<ArrayList<CategoryDto>>() {
+            @Override
+            public void onResponse(@NonNull Call<ArrayList<CategoryDto>> call, @NonNull Response<ArrayList<CategoryDto>> response) {
+
+                if (response.code() == 200 && response.body() != null) {
+                    setTabCategories(response.body());
+                } else {
+                    logWrite(response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ArrayList<CategoryDto>> call, @NonNull Throwable t) {
+                logWrite(t.getMessage());
+
+            }
+        });
+
     }
 
     private void initListeners() {
         b.filterLay.setOnClickListener(view -> {
             b.filterLay.setEnabled(false);
-                addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentFilterAdvertisement.newInstance());
+            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentFilterAdvertisement.newInstance(selectedCategory));
             new Handler().postDelayed(() -> b.filterLay.setEnabled(true), 200);
         });
 
@@ -82,6 +183,11 @@ public class FragmentAdvertisements extends Fragment {
             b.plusClick.setEnabled(false);
             addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentAddAdvertisement.newInstance(account.getPrefUserUUID()));
             new Handler().postDelayed(() -> b.plusClick.setEnabled(true), 200);
+        });
+
+        b.swipeLayout.setOnRefreshListener(() -> {
+            getAllCategories();
+            getActivity().runOnUiThread(() -> b.swipeLayout.setRefreshing(false));
         });
 
     }
@@ -92,59 +198,66 @@ public class FragmentAdvertisements extends Fragment {
         b.recGrid.setAdapter(adapterGrid);
     }
 
-    private void getAllAdvertisements() {
-        int[] welayats = {0};
-        String[] categoryIds = {"3fa85f64-5717-4562-b3fc-2c963f66afa6"};
-        RequestAllAdvertisement requestAllAdvertisement = new RequestAllAdvertisement();
-        requestAllAdvertisement.setSortType(0);
-        requestAllAdvertisement.setDescending(true);
-        requestAllAdvertisement.setPageNumber(1);
-        requestAllAdvertisement.setTake(20);
-        requestAllAdvertisement.setWelayats(welayats);
-        requestAllAdvertisement.setCategoryIds(categoryIds);
+    private void getAllAdvertisements(RequestAllAdvertisement requestAllAdvertisement) {
+        b.progressBar.setVisibility(View.VISIBLE);
+        b.noContent.setVisibility(View.GONE);
+        b.recGrid.setVisibility(View.GONE);
 
         ServiceAdvertisement serviceAdvertisement = (ServiceAdvertisement) ApiClient.createRequest(ServiceAdvertisement.class);
         Call<ArrayList<AdvertisementDto>> call = serviceAdvertisement.getAllAdvertisements(requestAllAdvertisement);
         call.enqueue(new Callback<ArrayList<AdvertisementDto>>() {
             @Override
-            public void onResponse(Call<ArrayList<AdvertisementDto>> call, Response<ArrayList<AdvertisementDto>> response) {
-                b.progressBar.setVisibility(View.GONE);
+            public void onResponse(@NonNull Call<ArrayList<AdvertisementDto>> call, @NonNull Response<ArrayList<AdvertisementDto>> response) {
                 if (response.body() == null || response.body().size() == 0) {
+                    b.noContent.setText(R.string.no_content);
                     b.noContent.setVisibility(View.VISIBLE);
+                    b.progressBar.setVisibility(View.GONE);
+                    b.recGrid.setVisibility(View.GONE);
                     return;
 
                 }
-                if (response.code() == 200 && response.body() != null) {
-                    adapterGrid.setAdvertisements(response.body());
-                } else {
-                    logWrite(response.code());
-                }
+                b.recGrid.setVisibility(View.VISIBLE);
+                adapterGrid.setAdvertisements(response.body());
+
+                if (requestAllAdvertisement.getCategoryIds() != null && requestAllAdvertisement.getCategoryIds().length != 0)
+                    selectedCategory = requestAllAdvertisement.getCategoryIds()[0];
+
+                b.progressBar.setVisibility(View.GONE);
+
             }
 
             @Override
             public void onFailure(Call<ArrayList<AdvertisementDto>> call, Throwable t) {
                 b.progressBar.setVisibility(View.GONE);
+                b.recGrid.setVisibility(View.GONE);
+                b.noContent.setVisibility(View.VISIBLE);
+                b.noContent.setText(R.string.no_connection);
                 Toast.makeText(getContext(), getResources().getString(R.string.check_internet_connection), Toast.LENGTH_SHORT).show();
-
             }
         });
     }
 
-    private void setTabCategories() {
+    private void setTabCategories(ArrayList<CategoryDto> categories) {
         b.tabCategories.setTabRippleColor(null);
+        b.tabCategories.removeAllTabs();
         b.tabCategories.addTab(b.tabCategories.newTab().setText(""));
 
         Objects.requireNonNull(b.tabCategories.getTabAt(0)).setIcon(R.drawable.ic_categories_tab);
         b.tabCategories.getTabAt(0).getIcon().setTint(getResources().getColor(R.color.bg));
 
-        b.tabCategories.addTab(b.tabCategories.newTab().setText("Tab1"));
-        b.tabCategories.addTab(b.tabCategories.newTab().setText("Tab2"));
-        b.tabCategories.addTab(b.tabCategories.newTab().setText("Tab3"));
+        for (int i = 0; i < categories.size(); i++) {
+            b.tabCategories.addTab(b.tabCategories.newTab().setText(categories.get(i).getName()));
+        }
 
         b.tabCategories.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (getActivity() == null) return;
+
+                if (tab.getPosition() == 0) {
+                    getAllAdvertisements(createInitialRequestBody(null));
+                } else
+                    getAllAdvertisements(createInitialRequestBody(categories.get(tab.getPosition() - 1).getId()));
 
                 try {
                     if (tab.getPosition() == 0) {
@@ -170,4 +283,18 @@ public class FragmentAdvertisements extends Fragment {
         });
     }
 
+    @Override
+    public void getAllAds(RequestAllAdvertisement requestAllAdvertisement) {
+        getAllAdvertisements(requestAllAdvertisement);
+    }
+
+    @Override
+    public void onSearched(String text) {
+        RequestAllAdvertisement requestAllAdvertisement = createInitialRequestBody(null);
+        requestAllAdvertisement.setSearch(text);
+        if (text.length() == 0) {
+            b.recGrid.setVisibility(View.INVISIBLE);
+        } else b.recGrid.setVisibility(View.VISIBLE);
+        getAllAdvertisements(requestAllAdvertisement);
+    }
 }

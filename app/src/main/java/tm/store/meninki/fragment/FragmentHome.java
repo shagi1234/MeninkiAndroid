@@ -35,7 +35,8 @@ import tm.store.meninki.utils.StaticMethods;
 public class FragmentHome extends Fragment {
     private FragmentHomeBinding b;
     private AdapterCircle adapterCircle;
-    private AdapterGrid adapterGridPopular;
+    private AdapterGrid adapterGridPopularProd;
+    private AdapterGrid adapterGridPopularPost;
     private AdapterGrid adapterGridNew;
 
     public static FragmentHome newInstance() {
@@ -67,9 +68,13 @@ public class FragmentHome extends Fragment {
     }
 
     private void setRecycler() {
-        adapterGridPopular = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_GRID, 10);
-        b.recPopular.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        b.recPopular.setAdapter(adapterGridPopular);
+        adapterGridPopularProd = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_GRID, 10);
+        b.recPopularProd.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        b.recPopularProd.setAdapter(adapterGridPopularProd);
+
+        adapterGridPopularPost = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_POST, 10);
+        b.recPopularPost.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        b.recPopularPost.setAdapter(adapterGridPopularPost);
 
         adapterGridNew = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_GRID, 10);
         b.recNewProducts.setLayoutManager(new GridLayoutManager(getContext(), 2));
@@ -90,7 +95,7 @@ public class FragmentHome extends Fragment {
                 ArrayList<HomeArray> responseBody = response.body();
 
                 if (responseBody == null || responseBody.isEmpty()) {
-                    b.popularsLay.setVisibility(View.GONE);
+                    b.popularProdLay.setVisibility(View.GONE);
                     b.banner1.setVisibility(View.GONE);
                     return;
                 }
@@ -107,11 +112,11 @@ public class FragmentHome extends Fragment {
                     b.banner1.setVisibility(View.GONE);
                 }
 
-                if (responseBody.size() > 1) {
-                    b.popularsLay.setVisibility(View.VISIBLE);
-                    adapterGridPopular.setStories(responseBody.get(1).getPopularProducts());
+                if (responseBody.get(0).getPopularProducts()!=null) {
+                    b.popularProdLay.setVisibility(View.VISIBLE);
+                    adapterGridPopularProd.setStories(responseBody.get(0).getPopularProducts());
                 } else {
-                    b.popularsLay.setVisibility(View.GONE);
+                    b.popularProdLay.setVisibility(View.GONE);
                 }
 
             }
@@ -128,13 +133,22 @@ public class FragmentHome extends Fragment {
             @Override
             public void onResponse(@NonNull Call<ArrayList<HomeArray>> call, @NonNull Response<ArrayList<HomeArray>> response) {
                 b.main.setVisibility(View.VISIBLE);
+
                 if (response.body() == null || response.body().size() == 0) {
                     b.banner1.setVisibility(View.GONE);
+                    b.popularPostLay.setVisibility(View.GONE);
                     return;
                 }
 
-                b.banner1.setVisibility(View.VISIBLE);
-                setBanner(response);
+                if (response.body().get(0).getPopularPosts() != null) {
+                    b.popularPostLay.setVisibility(View.VISIBLE);
+                    adapterGridPopularPost.setPosts(response.body().get(0).getPopularPosts());
+                } else b.popularPostLay.setVisibility(View.GONE);
+
+                if (response.body().size() > 1 && response.body().get(1).getBanner() != null) {
+                    setBanner(response);
+                }
+
             }
 
             @Override
@@ -145,14 +159,15 @@ public class FragmentHome extends Fragment {
     }
 
     private void setBanner(Response<ArrayList<HomeArray>> response) {
-        if (response.body().get(0).getBanner() == null) {
+        if (response.body().size() == 0 || response.body().get(0).getBanner() == null) {
             return;
         }
-        if (response.body().size() > 0 && response.body().get(0).getBanner() != null)
-            b.banner1.setVisibility(View.VISIBLE);
-        Glide.with(getContext()).load(response.body().get(0).getBanner().getBannerImage()).placeholder(R.drawable.placeholder).error(R.drawable.placeholder).into(b.banner2);
-        b.descLabel.setText(response.body().get(0).getBanner().getTitle());
-        b.desc.setText(response.body().get(0).getBanner().getDescription());
+        if (response.body().size() > 0 && response.body().get(0).getBanner() != null) {
+            b.banner2.setVisibility(View.VISIBLE);
+            Glide.with(getContext()).load(response.body().get(0).getBanner().getBannerImage()).placeholder(R.drawable.placeholder).error(R.drawable.placeholder).into(b.banner2);
+            b.descLabel.setText(response.body().get(0).getBanner().getTitle());
+            b.desc.setText(response.body().get(0).getBanner().getDescription());
+        } else b.layBanner2.setVisibility(View.GONE);
     }
 
     private void getHome3() {
@@ -168,7 +183,7 @@ public class FragmentHome extends Fragment {
                 if (response.body().get(0).getBanner() == null) b.banner2.setVisibility(View.GONE);
                 else b.banner2.setVisibility(View.VISIBLE);
 
-                if (response.body().get(0).getNewProducts() == null || response.body().get(0).getNewProducts().size() == 0)
+                if (response.body().get(1).getNewProducts() == null || response.body().get(1).getNewProducts().size() == 0)
                     b.newsLay.setVisibility(View.GONE);
                 else {
                     b.newsLay.setVisibility(View.VISIBLE);

@@ -1,6 +1,7 @@
 package tm.store.meninki.fragment;
 
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN;
+import static tm.store.meninki.adapter.AdapterCharPick.ADDABLE;
 import static tm.store.meninki.utils.Const.mainFragmentManager;
 import static tm.store.meninki.utils.Lists.getPersonalCharacters;
 import static tm.store.meninki.utils.Lists.setPersonalCharacters;
@@ -28,7 +29,6 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -43,11 +43,9 @@ import tm.store.meninki.api.enums.Image;
 import tm.store.meninki.api.request.RequestUploadImage;
 import tm.store.meninki.data.CharactersDto;
 import tm.store.meninki.data.MediaLocal;
-import tm.store.meninki.data.SelectedMedia;
 import tm.store.meninki.databinding.FragmentCharactericsBinding;
 import tm.store.meninki.interfaces.OnBackPressedFragment;
 import tm.store.meninki.interfaces.OnChangeProductCharactersCount;
-import tm.store.meninki.shared.Account;
 import tm.store.meninki.utils.FileUtil;
 import tm.store.meninki.utils.Option;
 import tm.store.meninki.utils.StaticMethods;
@@ -55,7 +53,6 @@ import tm.store.meninki.utils.StaticMethods;
 public class FragmentCharacterics extends Fragment implements OnBackPressedFragment {
     private FragmentCharactericsBinding b;
     private BottomSheetBehavior<View> bottomSheetBehavior;
-
     public static int countVariant;
     private AdapterPersonalCharacters adapterPersonalCharacters;
     private String productId;
@@ -101,7 +98,7 @@ public class FragmentCharacterics extends Fragment implements OnBackPressedFragm
     }
 
     private void setRecycler() {
-        adapterPersonalCharacters = new AdapterPersonalCharacters(getContext(), personalCharacters, productId);
+        adapterPersonalCharacters = new AdapterPersonalCharacters(getContext(), personalCharacters, productId, ADDABLE);
         b.recMedia.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         b.recMedia.setAdapter(adapterPersonalCharacters);
     }
@@ -250,13 +247,13 @@ public class FragmentCharacterics extends Fragment implements OnBackPressedFragm
                     countVariant = response.body().size();
                     setPersonalCharacters(personalCharacters);
 
-                    for (int i = 0; i < personalCharacters.getOptionTypes().size(); i++) {
-                        if (personalCharacters.getOptionTypes().get(i) == 2) {
+                    for (int i = 0; i < personalCharacters.getOptionTitles().size(); i++) {
+                        if (personalCharacters.getOptions().get(i).get(0).getOptionType() == 2) {
 
                             ArrayList<MediaLocal> arrayList = new ArrayList<>();
 
                             for (int j = 0; j < personalCharacters.getOptions().get(i).size(); j++) {
-                                arrayList.add(new MediaLocal(personalCharacters.getOptions().get(i).get(j).getOptionsImageId(), personalCharacters.getOptions().get(i).get(j).getImagePath()));
+                                arrayList.add(new MediaLocal(personalCharacters.getOptions().get(i).get(j).getId(), personalCharacters.getOptions().get(i).get(j).getImagePath()));
                             }
 
                             AsyncTask.execute(() -> uploadImage(arrayList));

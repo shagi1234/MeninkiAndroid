@@ -9,6 +9,7 @@ public class UserProfile {
     @SerializedName("imagePath")
     private String imgPath;
     private String name;
+    private String firstName;
     @SerializedName("phoneNumber")
     private String phone;
     private String email;
@@ -33,6 +34,10 @@ public class UserProfile {
 
     public String[] getCategory() {
         return category;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public void setPhone(String phone) {

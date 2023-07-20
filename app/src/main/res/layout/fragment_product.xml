@@ -79,6 +79,7 @@
                         android:layout_height="38dp"
                         android:layout_gravity="center_vertical"
                         android:src="@color/neutral_dark"
+                        android:scaleType="centerCrop"
                         app:riv_oval="true" />
 
                     <LinearLayout
@@ -190,6 +191,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"/>
 
                 </LinearLayout>
 
@@ -305,7 +310,7 @@
                         android:fontFamily="@font/inter_regular"
                         android:gravity="start"
                         android:maxLines="1"
-                        android:text=" -134 TMT"
+                        tools:text=" -134 TMT"
                         android:textColor="@color/contrast"
                         android:textSize="12sp" />
                 </LinearLayout>

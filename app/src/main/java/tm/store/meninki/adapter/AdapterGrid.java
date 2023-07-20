@@ -37,6 +37,7 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import java.util.ArrayList;
 
 import tm.store.meninki.R;
+import tm.store.meninki.api.data.ResponseOrderGetAll;
 import tm.store.meninki.api.data.ResponsePostGetAllItem;
 import tm.store.meninki.api.data.response.ResponseCard;
 import tm.store.meninki.data.AdvertisementDto;
@@ -45,11 +46,9 @@ import tm.store.meninki.databinding.ItemBasketBinding;
 import tm.store.meninki.databinding.ItemPostBinding;
 import tm.store.meninki.databinding.ItemStaggeredGridBinding;
 import tm.store.meninki.fragment.FragmentAdvertisement;
-import tm.store.meninki.fragment.FragmentPost;
 import tm.store.meninki.fragment.FragmentProduct;
 import tm.store.meninki.fragment.FragmentProfileViewPager;
 import tm.store.meninki.utils.Const;
-import tm.store.meninki.utils.Dialog;
 import tm.store.meninki.utils.FragmentHelper;
 import tm.store.meninki.utils.StaticMethods;
 
@@ -57,6 +56,7 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private FragmentActivity activity;
     private ArrayList<ResponseCard> grids = new ArrayList<>();
+    private ArrayList<ResponseOrderGetAll> responseOrders = new ArrayList<>();
     private ArrayList<ResponsePostGetAllItem> posts = new ArrayList<>();
 
     private ArrayList<AdvertisementDto> advertisements = new ArrayList<>();
@@ -119,6 +119,9 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
+        if (type == TYPE_BASKET && responseOrders != null) {
+            return responseOrders.size();
+        }
         if (type == TYPE_POST && posts != null) {
             return posts.size();
         }
@@ -139,6 +142,11 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public void setStories(ArrayList<ResponseCard> stories) {
         this.grids = stories;
+        notifyDataSetChanged();
+    }
+
+    public void setOrders(ArrayList<ResponseOrderGetAll> responseOrders) {
+        this.responseOrders = responseOrders;
         notifyDataSetChanged();
     }
 
@@ -259,49 +267,23 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         public void bind() {
             setBackgroundDrawable(context, b.posterImage, R.color.neutral_dark, R.color.accent, 0, true, 2);
-            setBackgroundDrawable(context, b.layPrice, R.color.neutral_dark, 0, 4, false, 0);
 
             setRecycler();
 
-            if (grids == null) return;
+            if (responseOrders == null) return;
 
             Glide.with(context)
-                    .load(grids.get(getAdapterPosition()).getAvatar())
+                    .load(BASE_URL + "/" + responseOrders.get(getAdapterPosition()).getShop().getImgPath())
                     .into(b.posterImage);
 
-
-            if (grids.get(getAdapterPosition()).getImages().length > 0) {
-                ArrayList<String> images = new ArrayList<>();
-
-                images.add(BASE_URL + "/" + grids.get(getAdapterPosition()).getImages()[0]);
-                adapterImageHorizontal.setImageUrl(images);
-            }
-
-            b.name.setText(grids.get(getAdapterPosition()).getName());
-
-            double price = grids.get(getAdapterPosition()).getPrice();
-            b.price.setText(price + " TMT");
-
-            b.btnAdd.setOnClickListener(v -> {
-                ResponseCard data = grids.get(getAdapterPosition());
-//                data.setCount(data.getCount() + 1);
-                notifyItemChanged(getAdapterPosition());
-            });
-
-            b.btnSubs.setOnClickListener(v -> {
-                ResponseCard data = grids.get(getAdapterPosition());
-//                data.setCount(data.getCount() - 1);
-                notifyItemChanged(getAdapterPosition());
-            });
+            b.storeName.setText(responseOrders.get(getAdapterPosition()).getShop().getName());
 
         }
 
         private void setRecycler() {
-            adapterImageHorizontal = new AdapterImageHorizontal(context);
-            b.recImages.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+            adapterImageHorizontal = new AdapterImageHorizontal(context, responseOrders.get(getAdapterPosition()).getProducts());
+            b.recImages.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
             b.recImages.setAdapter(adapterImageHorizontal);
-
-            adapterImageHorizontal.setImageUrl(null);
 
         }
     }
@@ -315,12 +297,11 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         public void bind() {
-//            setIsRecyclable(false);
+            setIsRecyclable(false);
 
             setBackgroundDrawable(context, b.posterImage, R.color.neutral_dark, R.color.accent, 0, true, 2);
 
             b.layImage.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (getWindowWidth(activity) * 1.43 / 2)));
-            ;
 
             if (getAdapterPosition() == getItemCount() - 1) {
                 setMargins(b.getRoot(), 0, 0, 0, dpToPx(80, context));
@@ -328,7 +309,6 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             b.click.setOnClickListener(v -> {
                 int adapterPosition = getAdapterPosition();
-//                FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentPost.newInstance(posts, adapterPosition));
                 FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentProfileViewPager.newInstance(posts, adapterPosition, posts.get(getAdapterPosition()).getUser().getId()));
             });
 
@@ -427,23 +407,22 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         public void bind() {
+            if (getAdapterPosition() == getItemCount() - 1) {
+                setMargins(b.getRoot(), 0, 0, 0, dpToPx(80, context));
+            }
             setBackgroundDrawable(context, b.getRoot(), 0, 0, 8, false, 0);
             setComponents();
 
-
-            b.click.setOnClickListener(v -> {
-                int adapterPosition = getAdapterPosition();
-                FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentAdvertisement.newInstance(advertisements.get(getAdapterPosition()).getId()));
-            });
-
+            b.click.setOnClickListener(v -> FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentAdvertisement.newInstance(advertisements.get(getAdapterPosition()).getId())));
         }
 
         private void setComponents() {
             b.title.setText(advertisements.get(getAbsoluteAdapterPosition()).getTitle());
             b.tvPrice.setText(String.valueOf(advertisements.get(getAdapterPosition()).getPrice()));
+
             if (advertisements.get(getAdapterPosition()).getImages() != null && advertisements.get(getAdapterPosition()).getImages().length > 0) {
                 Glide.with(context)
-                        .load(advertisements.get(getAdapterPosition()).getImages()[0])
+                        .load(BASE_URL + "/" + advertisements.get(getAdapterPosition()).getImages()[0])
                         .into(b.image);
             }
 

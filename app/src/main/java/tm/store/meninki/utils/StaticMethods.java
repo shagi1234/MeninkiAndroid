@@ -45,6 +45,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -111,6 +112,15 @@ public class StaticMethods {
         }
     }
 
+    public static void showKeyboard(Context context, EditText edtSearch) {
+
+        if (context == null || edtSearch == null) return;
+        InputMethodManager imgr = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imgr.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        edtSearch.requestFocus();
+
+    }
+
     public static void cloudAnimStart(AppCompatImageView cloud) {
         Drawable drawable = cloud.getDrawable();
         if (drawable instanceof Animatable) {
@@ -124,6 +134,10 @@ public class StaticMethods {
 
     public static ServiceHome getApiHome() {
         return (ServiceHome) ApiClient.createRequest(ServiceHome.class);
+    }
+
+    public static ServiceHome getApiHomeWithoutHeader() {
+        return (ServiceHome) ApiClient.createRequestWithoutHeader(ServiceHome.class);
     }
 
     public static ServiceCategory getApiCategory() {
@@ -1402,7 +1416,7 @@ public class StaticMethods {
             Date eventTime = inputDate.parse(createdTime);
             Date curTime = new Date();
 
-            long diffMillis = curTime.getTime() - eventTime.getTime();
+            long diffMillis = Math.abs(curTime.getTime() - eventTime.getTime());
             long diffMinutes = diffMillis / 1000 / 60;
             long diffHours = diffMillis / 1000 / 60 / 60;
             long diffDays = diffMillis / 1000 / 60 / 60 / 24;

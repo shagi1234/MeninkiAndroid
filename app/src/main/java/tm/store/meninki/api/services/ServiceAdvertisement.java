@@ -15,7 +15,7 @@ public interface ServiceAdvertisement {
     @POST("api/AdvertisementBoards/GetAll")
     Call<ArrayList<AdvertisementDto>> getAllAdvertisements(@Body RequestAllAdvertisement requestAllAdvertisement);
 
-    @POST("api/AdvertisementBoards/GetById/{id}")
+    @GET("api/AdvertisementBoards/GetById/{id}")
     Call<AdvertisementDto> getAdsById(@Path("id") String id);
 
     @POST("api/AdvertisementBoards")

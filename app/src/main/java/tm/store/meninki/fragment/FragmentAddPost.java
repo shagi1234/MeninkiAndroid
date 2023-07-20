@@ -1,15 +1,20 @@
 package tm.store.meninki.fragment;
 
+import static android.app.Activity.RESULT_OK;
+import static tm.store.meninki.adapter.AdapterMediaAddPost.PICK_VIDEO_REQUEST;
 import static tm.store.meninki.api.Network.BASE_URL;
 import static tm.store.meninki.utils.StaticMethods.getApiHome;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaMetadataRetriever;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,12 +22,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.gowtham.library.utils.LogMessage;
+import com.gowtham.library.utils.TrimVideo;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -57,6 +66,7 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
     private String shop;
     private String prodTitle;
     private ProgressDialog dialog;
+
 
     public static FragmentAddPost newInstance(String prodId, String prodTitle, String shop) {
         FragmentAddPost fragment = new FragmentAddPost();
@@ -145,7 +155,7 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
             RequestBody imageType = RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(uploadImage.getImageType()));
             RequestBody isAvatar = RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(uploadImage.isAvatar()));
 
-            MultipartBody.Part data = MultipartBody.Part.createFormData("data", URLEncoder.encode(uploadImage.getData().getPath(), "utf-8"), requestFile);
+            MultipartBody.Part data = MultipartBody.Part.createFormData("Image", URLEncoder.encode(uploadImage.getData().getPath(), "utf-8"), requestFile);
 
             Call<Object> call = getApiHome().uploadImage(objectId, isAvatar, imageType, width, height, data);
             call.enqueue(new Callback<Object>() {
@@ -161,16 +171,19 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
                             dialog.dismiss();
                             getActivity().onBackPressed();
                         }
-                    }
+                    } else
+                        dialog.dismiss();
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<Object> call, @NonNull Throwable t) {
                     Log.e("Add_post", "onFailure: " + t);
+                    dialog.dismiss();
                 }
             });
 
         } catch (UnsupportedEncodingException e) {
+            dialog.dismiss();
             Log.e("Add_post", "sendApi: " + e.getMessage());
         }
 
@@ -211,16 +224,19 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
                         Toast.makeText(getContext(), getResources().getString(R.string.success_upload), Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                         getActivity().onBackPressed();
-                    }
+                    } else
+                        dialog.dismiss();
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<Object> call, @NonNull Throwable t) {
                     Log.e("Add_post", "onFailure: " + t);
+                    dialog.dismiss();
                 }
             });
 
         } catch (UnsupportedEncodingException e) {
+            dialog.dismiss();
             Log.e("Add_post", "sendApi: " + e.getMessage());
         }
 
@@ -288,13 +304,14 @@ public class FragmentAddPost extends Fragment implements OnBackPressedFragment {
                     return;
                 }
 
+
                 Toast.makeText(getContext(), getActivity().getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
 
             }
 
             @Override
             public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
-                Toast.makeText(getContext(),getActivity().getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getActivity().getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
             }
         });
     }

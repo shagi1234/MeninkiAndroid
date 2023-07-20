@@ -10,7 +10,10 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
@@ -19,6 +22,7 @@ import retrofit2.http.Query;
 import tm.store.meninki.api.data.DtoComment;
 import tm.store.meninki.api.data.PersonalCharacterDto;
 import tm.store.meninki.api.data.ProductDetails;
+import tm.store.meninki.api.data.ResponseOrderGetAll;
 import tm.store.meninki.api.data.ResponsePostGetAllItem;
 import tm.store.meninki.api.data.UserProfile;
 import tm.store.meninki.api.enums.Image;
@@ -76,11 +80,18 @@ public interface ServiceHome {
     @POST("api/Product/CreateProduct")
     Call<Boolean> createProduct(@Body RequestAddProduct requestAddProduct);
 
-    @POST("api/Order/AddCard")
-    Call<Boolean> addToCard(@Body RequestAddToCard requestAddProduct);
+    @PUT("api/Product/UpdateProduct")
+    Call<Boolean> updateProduct(@Body RequestAddProduct requestAddProduct);
+
+    @GET("api/Order/AddCart")
+    Call<Boolean> addToCard(@Query("ProductId") String productId,
+                            @Query("PersonalCharacteristicsId") String personalCharacteristicsId,
+                            @Query("Count") int count,
+                            @Query("ShopId") String shopId
+    );
 
     @POST("api/Order/GetAll")
-    Call<Boolean> getAllOrder(@Body RequestGetAllOrder requestAddProduct);
+    Call<ArrayList<ResponseOrderGetAll>> getAllOrder(@Header("Authorization")String token,@Body RequestGetAllOrder requestAddProduct);
 
     @POST("api/Order")
     Call<Boolean> createOrder(@Body RequestCreateOrder requestAddProduct);

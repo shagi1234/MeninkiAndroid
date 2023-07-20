@@ -3,6 +3,7 @@ package tm.store.meninki.fragment;
 import static tm.store.meninki.utils.Const.mainFragmentManager;
 import static tm.store.meninki.utils.FragmentHelper.addFragment;
 import static tm.store.meninki.utils.FragmentHelper.addFragmentWithAnim;
+import static tm.store.meninki.utils.Lists.getPersonalCharacters;
 import static tm.store.meninki.utils.StaticMethods.getApiHome;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
@@ -61,14 +62,14 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
     private String[] categoryIds;
     private String productId;
     private ArrayList<CategoryDto> categories = new ArrayList<>();
-    private UserProfile shop;
     private int i;
+    private String id;
     private boolean isFirst;
 
-    public static FragmentAddProduct newInstance() {
+    public static FragmentAddProduct newInstance(String id) {
         FragmentAddProduct fragment = new FragmentAddProduct();
         Bundle args = new Bundle();
-
+        args.putString("shop_id", id);
         fragment.setArguments(args);
         return fragment;
     }
@@ -84,6 +85,9 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         productId = UUID.randomUUID().toString();
+        if (getArguments() != null) {
+            id = getArguments().getString("shop_id");
+        }
         // Get the hosting activity's window
         Window window = requireActivity().getWindow();
         // Set the desired softInputMode
@@ -94,6 +98,7 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         b = FragmentAddProductBinding.inflate(inflater, container, false);
+        SelectedMedia.getProductImageList().clear();
         check();
         initListeners();
         setBackgrounds();
@@ -102,12 +107,13 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
     }
 
     private void uploadImage() {
+        if (SelectedMedia.getProductImageList().size() == 0) return;
         MediaLocal media = SelectedMedia.getProductImageList().get(i);
 
         RequestUploadImage uploadImage = new RequestUploadImage();
         uploadImage.setAvatar(false);
         uploadImage.setObjectId(productId);
-        uploadImage.setImageType(Image.option);
+        uploadImage.setImageType(Image.media);
         uploadImage.setWidth(getWidth(media.getPath()));
         uploadImage.setHeight(getHeight(media.getPath()));
         uploadImage.setImage(new File(media.getPath()));
@@ -129,7 +135,8 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
                 @Override
                 public void onResponse(@NonNull Call<Object> call, @NonNull Response<Object> response) {
                     if (response.code() == 200 && response.body() != null) {
-                        Toast.makeText(getContext(), getActivity().getResources().getString(R.string.success_upload_image) + i, Toast.LENGTH_SHORT).show();
+                        if (getActivity() != null)
+                            Toast.makeText(getContext(), getActivity().getResources().getString(R.string.success_upload_image) + i, Toast.LENGTH_SHORT).show();
                         i++;
                         if (SelectedMedia.getProductImageList().size() > i) {
                             uploadImage();
@@ -154,7 +161,6 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
     private int getHeight(String path) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
-
         BitmapFactory.decodeFile(path, options);
         return options.outHeight;
     }
@@ -184,18 +190,23 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
         RequestAddProduct requestAddProduct = new RequestAddProduct();
         requestAddProduct.setName(b.title.getText().toString().trim());
         requestAddProduct.setId(productId);
-        requestAddProduct.setDescription(b.price.getText().toString().trim());
-
-        if (!b.oldPrice.getText().toString().trim().isEmpty())
-            requestAddProduct.setPrice(Double.parseDouble(b.oldPrice.getText().toString().trim()));
-        if (!b.price.getText().toString().trim().isEmpty())
-            requestAddProduct.setDiscountPrice(Double.parseDouble(b.price.getText().toString().trim()));
-
+        requestAddProduct.setDescription(b.desc.getText().toString().trim());
         requestAddProduct.setCategoryIds(categoryIds);
 
-        if (shop != null) requestAddProduct.setShopId(shop.getId());
+        Call<Boolean> call;
+        requestAddProduct.setShopId(id);
 
-        Call<Boolean> call = StaticMethods.getApiHome().createProduct(requestAddProduct);
+        if (getPersonalCharacters().getOptionTitles() == null || getPersonalCharacters().getOptionTitles().size() == 0) {
+            if (!b.oldPrice.getText().toString().trim().isEmpty())
+                requestAddProduct.setPrice(Double.parseDouble(b.oldPrice.getText().toString().trim()));
+            if (!b.price.getText().toString().trim().isEmpty())
+                requestAddProduct.setDiscountPrice(Double.parseDouble(b.price.getText().toString().trim()));
+
+            call = StaticMethods.getApiHome().createProduct(requestAddProduct);
+        } else {
+            call = StaticMethods.getApiHome().updateProduct(requestAddProduct);
+        }
+
         call.enqueue(new RetrofitCallback<Boolean>() {
             @Override
             public void onResponse(Boolean response) {
@@ -253,13 +264,13 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
 
         b.chooseCategory.setOnClickListener(v -> {
             b.chooseCategory.setEnabled(false);
-            addFragmentWithAnim(mainFragmentManager, R.id.fragment_container_main, FragmentCategoryList.newInstance(null, FragmentCategoryList.TYPE_CATEGORY,""));
+            addFragmentWithAnim(mainFragmentManager, R.id.fragment_container_main, FragmentCategoryList.newInstance(null, FragmentCategoryList.TYPE_CATEGORY, ""));
             new Handler().postDelayed(() -> b.chooseCategory.setEnabled(true), 200);
         });
 
         b.chooseShop.setOnClickListener(v -> {
             b.chooseShop.setEnabled(false);
-            addFragmentWithAnim(mainFragmentManager, R.id.fragment_container_main, FragmentCategoryList.newInstance(null, FragmentCategoryList.TYPE_SHOP,""));
+            addFragmentWithAnim(mainFragmentManager, R.id.fragment_container_main, FragmentCategoryList.newInstance(null, FragmentCategoryList.TYPE_SHOP, ""));
             new Handler().postDelayed(() -> b.chooseShop.setEnabled(true), 200);
         });
 
@@ -304,11 +315,11 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
 
     @Override
     public void onShopChecked(boolean isChecked, UserProfile shop) {
-        if (isChecked) {
-            this.shop = shop;
-        } else {
-            this.shop = null;
-        }
+//        if (isChecked) {
+//            this.shop = shop;
+//        } else {
+//            this.shop = null;
+//        }
     }
 
     @Override
@@ -316,7 +327,10 @@ public class FragmentAddProduct extends Fragment implements OnBackPressedFragmen
         if (isChecked) {
             categories.add(categoryDto);
         } else {
-            categories.remove(categoryDto);
+            if (categoryDto == null) {
+                categories.clear();
+            } else
+                categories.remove(categoryDto);
         }
 
         StringBuilder s = new StringBuilder();

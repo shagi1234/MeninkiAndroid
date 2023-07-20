@@ -1,19 +1,23 @@
 package tm.store.meninki.data;
 
+import com.google.gson.annotations.SerializedName;
+
 public class AdvertisementDto {
     private String id;
     private String title;
     private String description;
     private String[] images;
     private int price;
+    @SerializedName("createAt")
     private String createdAt;
 
     // open ads
     private String category;
     private String phoneNumber;
     private String userName;
+    private String categoryName;
     private String userAvatar;
-    private int userId;
+    private String userId;
     private boolean isBookmarked;
 
     public String getId() {
@@ -30,6 +34,10 @@ public class AdvertisementDto {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
     }
 
     public String getDescription() {
@@ -96,11 +104,11 @@ public class AdvertisementDto {
         this.userAvatar = userAvatar;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

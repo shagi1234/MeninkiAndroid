@@ -6,9 +6,9 @@ public class PersonalCharacterDto {
     private String id;
     private ArrayList<OptionDto> options;
     private int count;
-    private int priceBonus;
-    private int price;
-    private int discountPrice;
+    private float priceBonus;
+    private float price;
+    private float discountPrice;
     private String productId;
 
     public String getId() {
@@ -23,15 +23,15 @@ public class PersonalCharacterDto {
         return count;
     }
 
-    public int getPriceBonus() {
+    public float getPriceBonus() {
         return priceBonus;
     }
 
-    public int getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public int getDiscountPrice() {
+    public float getDiscountPrice() {
         return discountPrice;
     }
 
@@ -55,11 +55,11 @@ public class PersonalCharacterDto {
         this.priceBonus = priceBonus;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 
-    public void setDiscountPrice(int discountPrice) {
+    public void setDiscountPrice(float discountPrice) {
         this.discountPrice = discountPrice;
     }
 

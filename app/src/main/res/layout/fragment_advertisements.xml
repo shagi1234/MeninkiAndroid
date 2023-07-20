@@ -71,7 +71,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/inter_medium"
                                 android:singleLine="true"
-                                android:text="По дате - сначала новые"
+                                android:text="@string/sort_by_date"
                                 android:textColor="@color/neutral_dark"
                                 android:textSize="14sp" />
 
@@ -166,7 +166,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:fontFamily="@font/inter_bold"
-        android:text="No Content"
+        android:text="@string/no_content"
         android:textSize="20sp"
         android:visibility="gone" />
 

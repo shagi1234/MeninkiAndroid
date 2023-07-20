@@ -16,7 +16,7 @@ public class ResponseCard {
     private Double price;
 
     @SerializedName("name")
-    private String name;
+    private String name="";
 
     @SerializedName("discountPrice")
     private Double discountPrice;
@@ -81,5 +81,9 @@ public class ResponseCard {
 
     public int getType() {
         return type;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 }

@@ -102,7 +102,7 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer-ui:2.18.1'
 
     //video trimmmer
-    implementation 'com.github.a914-gowtham:android-video-trimmer:1.7.4'
+    implementation 'com.github.a914-gowtham:android-video-trimmer:1.7.15'
     //emoji keyboard
     implementation "io.github.aghajari:AXEmojiView-SamsungProvider:1.5.2"
     implementation "io.github.aghajari:AXEmojiView:1.5.2"

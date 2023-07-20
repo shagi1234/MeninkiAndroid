@@ -5,7 +5,6 @@ public class OptionDto {
     private String imagePath;
     private String value;
     private String productId;
-    private String optionsImageId;
     private int optionType;
     private int optionLevel;
 
@@ -23,10 +22,6 @@ public class OptionDto {
 
     public String getProductId() {
         return productId;
-    }
-
-    public String getOptionsImageId() {
-        return optionsImageId;
     }
 
     public int getOptionType() {
@@ -51,10 +46,6 @@ public class OptionDto {
 
     public void setProductId(String productId) {
         this.productId = productId;
-    }
-
-    public void setOptionsImageId(String optionsImageId) {
-        this.optionsImageId = optionsImageId;
     }
 
     public void setOptionType(int optionType) {

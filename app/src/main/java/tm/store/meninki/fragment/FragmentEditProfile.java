@@ -173,7 +173,7 @@ public class FragmentEditProfile extends Fragment implements OnBackPressedFragme
             return;
         }
         UserProfile u = new UserProfile();
-        u.setName(b.edtFirstName.getText().toString().trim());
+        u.setFirstName(b.edtFirstName.getText().toString().trim());
         u.setId(Account.newInstance(getContext()).getPrefUserUUID());
         u.setUserName(b.edtUsername.getText().toString().trim());
         u.setPhone(b.edtPhoneNum.getText().toString().trim());

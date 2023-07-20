@@ -1,14 +1,22 @@
 package tm.store.meninki.fragment;
 
+import static tm.store.meninki.api.Network.BASE_URL;
 import static tm.store.meninki.utils.StaticMethods.convertTime;
+import static tm.store.meninki.utils.StaticMethods.dpToPx;
 import static tm.store.meninki.utils.StaticMethods.logWrite;
+import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
+import static tm.store.meninki.utils.StaticMethods.setPadding;
+import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,11 +47,6 @@ public class FragmentAdvertisement extends Fragment {
     FragmentAdvertisementBinding b;
     String id;
 
-    public FragmentAdvertisement() {
-        // Required empty public constructor
-    }
-
-
     public static FragmentAdvertisement newInstance(String id) {
         FragmentAdvertisement fragment = new FragmentAdvertisement();
         Bundle args = new Bundle();
@@ -54,11 +57,16 @@ public class FragmentAdvertisement extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        setPadding(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             id = getArguments().getString("id_");
-
         }
     }
 
@@ -68,7 +76,15 @@ public class FragmentAdvertisement extends Fragment {
         b = FragmentAdvertisementBinding.inflate(inflater, container, false);
         setBackgrounds();
         getData();
+        initListeners();
         return b.getRoot();
+    }
+
+    private void initListeners() {
+        b.backBtn.setOnClickListener(view -> {
+            getActivity().onBackPressed();
+        });
+
     }
 
     private void getData() {
@@ -82,21 +98,27 @@ public class FragmentAdvertisement extends Fragment {
                 if (response.body() == null) {
                     b.noContent.setVisibility(View.VISIBLE);
                     return;
-
                 }
+
                 if (response.code() == 200) {
+                    b.noContent.setVisibility(View.GONE);
+                    b.main.setVisibility(View.VISIBLE);
                     ArrayList<String> images = new ArrayList<>(Arrays.asList(response.body().getImages()));
                     setImagePager(images);
                     setData(response.body());
                 } else {
                     logWrite(response.code());
                 }
+
             }
 
             @Override
             public void onFailure(Call<AdvertisementDto> call, Throwable t) {
-                Toast.makeText(getContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                b.noContent.setVisibility(View.VISIBLE);
+                b.progressBar.setVisibility(View.GONE);
 
+                Toast.makeText(getContext(), getActivity().getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                Log.e("TAG_getById_ads", "onFailure: " + t);
             }
         });
 
@@ -106,18 +128,30 @@ public class FragmentAdvertisement extends Fragment {
         b.itemName.setText(body.getTitle());
         b.titleStore.setText(body.getUserName());
         b.desc.setText(body.getDescription());
-//        b.tvCategory.setText(body.getCategory());
+        b.tvCategory.setText(body.getCategoryName());
         b.tvPhone.setText(body.getPhoneNumber());
-        b.price.setText(body.getPrice());
+        b.price.setText(body.getPrice() + " TMT");
+
         Glide.with(getContext())
-                .load(body.getUserAvatar())
+                .load(BASE_URL + "/" + body.getUserAvatar())
                 .into(b.avatarStore);
+
         b.tvCreatedAt.setText(convertTime(body.getCreatedAt(), getActivity()));
+        b.call.setOnClickListener(view -> {
+            // Create the intent with the ACTION_DIAL action
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+
+// Set the phone number as the data for the intent
+            intent.setData(Uri.parse("tel:" + body.getPhoneNumber()));
+
+// Start the activity with the intent
+            startActivity(intent);
+        });
     }
 
     private void setBackgrounds() {
-        setBackgroundDrawable(getContext(), b.bookmark, R.color.bg, 0, 10, false, 0);
-        setBackgroundDrawable(getContext(), b.call, R.color.contrast, 0, 10, false, 0);
+        setBackgroundDrawable(getContext(), b.bgBookmark, R.color.bg, 0, 10, false, 0);
+        setBackgroundDrawable(getContext(), b.bgCall, R.color.contrast, 0, 10, false, 0);
 
     }
 

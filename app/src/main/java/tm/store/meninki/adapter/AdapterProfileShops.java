@@ -26,9 +26,11 @@ import tm.store.meninki.utils.FragmentHelper;
 public class AdapterProfileShops extends RecyclerView.Adapter<AdapterProfileShops.ViewHolder> {
     private Context context;
     private ArrayList<UserProfile> shops = new ArrayList<>();
+    private boolean me;
 
-    public AdapterProfileShops(Context context) {
+    public AdapterProfileShops(Context context, boolean me) {
         this.context = context;
+        this.me = me;
     }
 
     @NonNull
@@ -46,6 +48,7 @@ public class AdapterProfileShops extends RecyclerView.Adapter<AdapterProfileShop
 
     @Override
     public int getItemCount() {
+        if (!me) return shops.size();
         return shops.size() + 1;
     }
 
@@ -59,7 +62,7 @@ public class AdapterProfileShops extends RecyclerView.Adapter<AdapterProfileShop
 
         public void bind() {
             b.getRoot().setOnClickListener(v -> {
-                if (getAdapterPosition() == getItemCount() - 1) {
+                if (me && getAdapterPosition() == getItemCount() - 1) {
                     FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentNewShop.newInstance(""));
                     return;
                 }
@@ -68,11 +71,7 @@ public class AdapterProfileShops extends RecyclerView.Adapter<AdapterProfileShop
 
             if (checkLast()) return;
 
-            Glide.with(context)
-                    .load(BASE_URL + "/" + shops.get(getAdapterPosition()).getImgPath())
-                    .placeholder(R.color.low_contrast)
-                    .error(R.color.low_contrast)
-                    .into(b.shopImg);
+            Glide.with(context).load(BASE_URL + "/" + shops.get(getAdapterPosition()).getImgPath()).placeholder(R.color.low_contrast).error(R.color.low_contrast).into(b.shopImg);
 
             Log.e("TAG_shops", "bind: " + BASE_URL + "/" + shops.get(getAdapterPosition()).getImgPath());
 
@@ -80,7 +79,7 @@ public class AdapterProfileShops extends RecyclerView.Adapter<AdapterProfileShop
         }
 
         private boolean checkLast() {
-            if (getAdapterPosition() == getItemCount() - 1) {
+            if (me && getAdapterPosition() == getItemCount() - 1) {
                 b.shopsLay.setVisibility(View.GONE);
                 b.addShopLay.setVisibility(View.VISIBLE);
             } else {
@@ -88,12 +87,17 @@ public class AdapterProfileShops extends RecyclerView.Adapter<AdapterProfileShop
                 b.addShopLay.setVisibility(View.GONE);
             }
 
-            return getAdapterPosition() == getItemCount() - 1;
+            return me && getAdapterPosition() == getItemCount() - 1;
         }
     }
 
     public void setShops(ArrayList<UserProfile> shops) {
         this.shops = shops;
+        notifyDataSetChanged();
+    }
+
+    public void setMe(boolean me) {
+        this.me = me;
         notifyDataSetChanged();
     }
 }

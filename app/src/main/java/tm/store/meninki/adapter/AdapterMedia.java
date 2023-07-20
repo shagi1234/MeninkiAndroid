@@ -13,6 +13,7 @@ import android.media.MediaExtractor;
 import android.media.MediaFormat;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaMuxer;
+import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -104,7 +105,7 @@ public class AdapterMedia extends RecyclerView.Adapter<AdapterMedia.ViewHolder> 
             MediaLocal media1 = medias.get(holder.getAdapterPosition());
 
             if (isVideo == VIDEO && chooseCount == 1) {
-                TrimVideo.activity(media1.getPath())
+                TrimVideo.activity(getContentPath(media1.getPath()))
                         .start(activity, startForResult);
                 return;
             }
@@ -131,6 +132,20 @@ public class AdapterMedia extends RecyclerView.Adapter<AdapterMedia.ViewHolder> 
             notifyItemChanged(holder.getAdapterPosition());
         });
 
+    }
+
+    private String getContentPath(String path) {
+        Uri fileUri = Uri.parse("file://" + path);
+        String[] projection = {MediaStore.MediaColumns.DATA};
+        Cursor cursor = activity.getContentResolver().query(fileUri, projection, null, null, null);
+        if (cursor != null) {
+            int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+            cursor.moveToFirst();
+            String contentPath = cursor.getString(columnIndex);
+            cursor.close();
+            return contentPath;
+        }
+        return null;
     }
 
     private MediaLocal getCurrentMedia(int adapterPosition) {

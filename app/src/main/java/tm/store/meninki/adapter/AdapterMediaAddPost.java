@@ -11,8 +11,10 @@ import static tm.store.meninki.utils.StaticMethods.setMargins;
 import static tm.store.meninki.utils.StaticMethods.setPadding;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +37,7 @@ import tm.store.meninki.utils.Const;
 import tm.store.meninki.utils.FragmentHelper;
 
 public class AdapterMediaAddPost extends RecyclerView.Adapter<AdapterMediaAddPost.CharImageHolder> {
+    public static final int PICK_VIDEO_REQUEST = 123;
     private Context context;
     private static AdapterMediaAddPost instance;
     private FragmentActivity activity;
@@ -136,7 +139,8 @@ public class AdapterMediaAddPost extends RecyclerView.Adapter<AdapterMediaAddPos
 
         dialog.findViewById(R.id.video).setOnClickListener(v -> {
             dialog.dismiss();
-            FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentOpenGallery.newInstance(1, FragmentOpenGallery.VIDEO));
+            showPickerVideo();
+//            FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentOpenGallery.newInstance(1, FragmentOpenGallery.VIDEO));
         });
 
         dialog.findViewById(R.id.image).setOnClickListener(v -> {
@@ -149,6 +153,12 @@ public class AdapterMediaAddPost extends RecyclerView.Adapter<AdapterMediaAddPos
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnim;
         dialog.getWindow().setGravity(Gravity.BOTTOM);
         dialog.show();
+    }
+
+    private void showPickerVideo() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("video/*");
+        activity.startActivityForResult(intent, PICK_VIDEO_REQUEST);
     }
 
     private void removeAt(int position) {

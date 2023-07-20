@@ -1,10 +1,13 @@
 package tm.store.meninki.data;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 
 import tm.store.meninki.api.data.SocialMediaDto;
 
 public class ShopDTO {
+    @SerializedName("imagePath")
     private String imgPath;
     private String id;
     private String slug;

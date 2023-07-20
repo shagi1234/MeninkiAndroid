@@ -5,8 +5,17 @@ public class RequestAllAdvertisement {
     boolean descending;
     String[] categoryIds;
     int pageNumber;
+    String search;
     int take;
     int[] welayats;
+
+    public String getSearch() {
+        return search;
+    }
+
+    public void setSearch(String search) {
+        this.search = search;
+    }
 
     public int getSortType() {
         return sortType;
