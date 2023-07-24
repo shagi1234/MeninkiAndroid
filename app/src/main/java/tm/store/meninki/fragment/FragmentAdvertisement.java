@@ -1,6 +1,8 @@
 package tm.store.meninki.fragment;
 
 import static tm.store.meninki.api.Network.BASE_URL;
+import static tm.store.meninki.utils.Const.mainFragmentManager;
+import static tm.store.meninki.utils.FragmentHelper.addFragment;
 import static tm.store.meninki.utils.StaticMethods.convertTime;
 import static tm.store.meninki.utils.StaticMethods.dpToPx;
 import static tm.store.meninki.utils.StaticMethods.logWrite;
@@ -16,6 +18,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -140,12 +143,16 @@ public class FragmentAdvertisement extends Fragment {
         b.call.setOnClickListener(view -> {
             // Create the intent with the ACTION_DIAL action
             Intent intent = new Intent(Intent.ACTION_DIAL);
-
-// Set the phone number as the data for the intent
+            // Set the phone number as the data for the intent
             intent.setData(Uri.parse("tel:" + body.getPhoneNumber()));
-
-// Start the activity with the intent
+            // Start the activity with the intent
             startActivity(intent);
+        });
+        b.layStore.setOnClickListener(view -> {
+            b.layStore.setEnabled(false);
+            new Handler().postDelayed(() -> b.layStore.setEnabled(true), 200);
+
+            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(FragmentProfile.TYPE_USER, body.getUserId()));
         });
     }
 

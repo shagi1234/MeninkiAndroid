@@ -36,6 +36,7 @@ import retrofit2.Response;
 import tm.store.meninki.R;
 import tm.store.meninki.adapter.AdapterGrid;
 import tm.store.meninki.api.ApiClient;
+import tm.store.meninki.api.enums.SortType;
 import tm.store.meninki.api.request.RequestAllAdvertisement;
 import tm.store.meninki.api.services.ServiceAdvertisement;
 import tm.store.meninki.data.AdvertisementDto;
@@ -50,7 +51,7 @@ public class FragmentAdvertisements extends Fragment implements GetAllAdvertisem
     private FragmentAdvertisementsBinding b;
     AdapterGrid adapterGrid;
     Account account;
-    private String selectedCategory;
+    private RequestAllAdvertisement requestAllAdvertisement;
     private boolean isSearch;
 
     public static FragmentAdvertisements newInstance(boolean isSearch) {
@@ -137,13 +138,11 @@ public class FragmentAdvertisements extends Fragment implements GetAllAdvertisem
     }
 
     private RequestAllAdvertisement createInitialRequestBody(String categoryId) {
-        int[] welayats = {0};
-        RequestAllAdvertisement requestAllAdvertisement = new RequestAllAdvertisement();
+        requestAllAdvertisement = new RequestAllAdvertisement();
         requestAllAdvertisement.setSortType(0);
         requestAllAdvertisement.setDescending(true);
         requestAllAdvertisement.setPageNumber(1);
         requestAllAdvertisement.setTake(20);
-        requestAllAdvertisement.setWelayats(welayats);
 
         if (categoryId != null)
             requestAllAdvertisement.setCategoryIds(new String[]{categoryId});
@@ -175,7 +174,7 @@ public class FragmentAdvertisements extends Fragment implements GetAllAdvertisem
     private void initListeners() {
         b.filterLay.setOnClickListener(view -> {
             b.filterLay.setEnabled(false);
-            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentFilterAdvertisement.newInstance(selectedCategory));
+            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentFilterAdvertisement.newInstance(requestAllAdvertisement));
             new Handler().postDelayed(() -> b.filterLay.setEnabled(true), 200);
         });
 
@@ -186,7 +185,7 @@ public class FragmentAdvertisements extends Fragment implements GetAllAdvertisem
         });
 
         b.swipeLayout.setOnRefreshListener(() -> {
-            getAllCategories();
+            getAllAdvertisements(requestAllAdvertisement);
             getActivity().runOnUiThread(() -> b.swipeLayout.setRefreshing(false));
         });
 
@@ -202,6 +201,8 @@ public class FragmentAdvertisements extends Fragment implements GetAllAdvertisem
         b.progressBar.setVisibility(View.VISIBLE);
         b.noContent.setVisibility(View.GONE);
         b.recGrid.setVisibility(View.GONE);
+
+        checkSortType();
 
         ServiceAdvertisement serviceAdvertisement = (ServiceAdvertisement) ApiClient.createRequest(ServiceAdvertisement.class);
         Call<ArrayList<AdvertisementDto>> call = serviceAdvertisement.getAllAdvertisements(requestAllAdvertisement);
@@ -219,9 +220,6 @@ public class FragmentAdvertisements extends Fragment implements GetAllAdvertisem
                 b.recGrid.setVisibility(View.VISIBLE);
                 adapterGrid.setAdvertisements(response.body());
 
-                if (requestAllAdvertisement.getCategoryIds() != null && requestAllAdvertisement.getCategoryIds().length != 0)
-                    selectedCategory = requestAllAdvertisement.getCategoryIds()[0];
-
                 b.progressBar.setVisibility(View.GONE);
 
             }
@@ -235,6 +233,23 @@ public class FragmentAdvertisements extends Fragment implements GetAllAdvertisem
                 Toast.makeText(getContext(), getResources().getString(R.string.check_internet_connection), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void checkSortType() {
+        switch (requestAllAdvertisement.getSortType()) {
+            case SortType.date:
+                b.tvFilterResult.setText(R.string.sort_by_date);
+                break;
+            case SortType.rating:
+                b.tvFilterResult.setText(R.string.sort_by_rating);
+                break;
+            case SortType.price:
+                b.tvFilterResult.setText(R.string.sort_by_price);
+                break;
+            case SortType.viewNumber:
+                b.tvFilterResult.setText(R.string.sort_by_view_count);
+                break;
+        }
     }
 
     private void setTabCategories(ArrayList<CategoryDto> categories) {
@@ -285,6 +300,10 @@ public class FragmentAdvertisements extends Fragment implements GetAllAdvertisem
 
     @Override
     public void getAllAds(RequestAllAdvertisement requestAllAdvertisement) {
+        this.requestAllAdvertisement = requestAllAdvertisement;
+
+        checkSortType();
+
         getAllAdvertisements(requestAllAdvertisement);
     }
 

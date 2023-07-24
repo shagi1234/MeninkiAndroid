@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/bg"
-                app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:titleEnabled="false">
 
                 <LinearLayout
@@ -56,19 +56,20 @@
                         <LinearLayout
                             android:id="@+id/filter_lay"
                             android:layout_width="match_parent"
-                            android:layout_marginTop="6dp"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp">
 
                             <ImageView
-                                android:src="@drawable/ic_filter"
                                 android:layout_width="20dp"
-                                android:layout_height="20dp"/>
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_filter" />
+
                             <TextView
-                                android:layout_marginStart="6dp"
-                                android:layout_gravity="center_vertical"
                                 android:id="@+id/tv_filter_result"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="6dp"
                                 android:fontFamily="@font/inter_medium"
                                 android:singleLine="true"
                                 android:text="@string/sort_by_date"
@@ -133,7 +134,7 @@
                     app:tabIndicatorGravity="stretch"
                     app:tabMode="scrollable"
                     app:tabSelectedTextColor="@color/bg"
-                    app:tabTextAppearance="@style/TabWidgetCategories"/>
+                    app:tabTextAppearance="@style/TabWidgetCategories" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rec_grid"

@@ -15,6 +15,7 @@ public class AdvertisementDto {
     private String category;
     private String phoneNumber;
     private String userName;
+    @SerializedName("cateoryName")
     private String categoryName;
     private String userAvatar;
     private String userId;

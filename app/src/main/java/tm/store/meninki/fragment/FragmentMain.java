@@ -22,11 +22,14 @@ import java.util.ArrayList;
 
 import tm.store.meninki.R;
 import tm.store.meninki.adapter.AdapterViewPager;
+import tm.store.meninki.api.request.RequestAllAdvertisement;
 import tm.store.meninki.data.FragmentPager;
 import tm.store.meninki.databinding.FragmentMainBinding;
+import tm.store.meninki.interfaces.GetAllAdvertisement;
+import tm.store.meninki.interfaces.OnUpdateFragment;
 import tm.store.meninki.utils.StaticMethods;
 
-public class FragmentMain extends Fragment {
+public class FragmentMain extends Fragment implements OnUpdateFragment {
     private FragmentMainBinding b;
     private AdapterViewPager adapterFeedPager;
     private boolean isSearch;
@@ -105,5 +108,13 @@ public class FragmentMain extends Fragment {
         adapterFeedPager = new AdapterViewPager(getChildFragmentManager(), mFragment);
         b.viewPager.setAdapter(adapterFeedPager);
 
+    }
+
+    @Override
+    public void onUpdated(RequestAllAdvertisement requestAllAdvertisement) {
+        Fragment fragment = adapterFeedPager.getItem(2);
+        if (fragment instanceof GetAllAdvertisement) {
+            ((GetAllAdvertisement) fragment).getAllAds(requestAllAdvertisement);
+        }
     }
 }

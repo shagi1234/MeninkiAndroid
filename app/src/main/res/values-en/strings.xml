@@ -155,6 +155,18 @@
     <string name="popular">Popular</string>
     <string name="news">News</string>
     <string name="sort_by_date">Sort by Date - Newest First</string>
+    <string name="sort_by_view_count">Sort by View count </string>
+    <string name="sort_by_rating">Sort by Rating</string>
+    <string name="sort_by_price">Sort by Price</string>
+    <string name="price_to">Price to</string>
+    <string name="price_from">Price from</string>
+    <string name="clear_filter">Clear Filter</string>
+    <string name="velayat">Welayat</string>
+    <string name="sort_elements">Sort Elements</string>
+    <string name="ashgabat">Ashgabat</string>
+    <string name="show_result">Show</string>
+    <string name="filter_and_sort">Filter and Sort</string>
+
     <string-array name="array">
         <item>Variant</item>
         <item>Variant</item>

@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:fontFamily="@font/inter_semibold"
-                android:text="Фильтр и сортировка"
+                android:text="@string/filter_and_sort"
                 android:textColor="@color/contrast"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -69,7 +69,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/inter_medium"
-                android:text="Сортировка элементов"
+                android:text="@string/sort_elements"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="normal" />
@@ -91,7 +91,7 @@
                     android:drawablePadding="10dp"
                     android:drawableTint="@color/accent"
                     android:fontFamily="@font/inter_medium"
-                    android:text="По дате добавления"
+                    android:text="@string/sort_by_date"
                     android:textColor="@color/accent"
                     android:textSize="14sp" />
             </FrameLayout>
@@ -103,7 +103,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/inter_medium"
-                android:text="Велаят"
+                android:text="@string/velayat"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="normal" />
@@ -125,7 +125,7 @@
                     android:drawablePadding="10dp"
                     android:drawableTint="@color/accent"
                     android:fontFamily="@font/inter_medium"
-                    android:text="Ашгабат"
+                    android:text="@string/ashgabat"
                     android:textColor="@color/accent"
                     android:textSize="14sp" />
             </FrameLayout>
@@ -136,7 +136,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/inter_medium"
-                android:text="Цена от"
+                android:text="@string/price_from"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="normal" />
@@ -149,12 +149,13 @@
                 android:layout_marginTop="6dp">
 
                 <EditText
-                    android:id="@+id/edt_initial_price"
+                    android:id="@+id/min_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/color_transparent"
                     android:fontFamily="@font/inter_bold"
-                    android:hint="0.00 TMT"
+                    android:hint="0 TMT"
+                    android:inputType="numberDecimal"
                     android:paddingHorizontal="11dp"
                     android:paddingVertical="13dp"
                     android:textColor="@color/accent"
@@ -168,7 +169,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/inter_medium"
-                android:text="Цена до"
+                android:text="@string/price_to"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="normal" />
@@ -181,12 +182,13 @@
                 android:layout_marginTop="6dp">
 
                 <EditText
-                    android:id="@+id/till_price"
+                    android:id="@+id/max_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/color_transparent"
                     android:fontFamily="@font/inter_bold"
-                    android:hint="0.00 TMT"
+                    android:hint="0 TMT"
+                    android:inputType="numberDecimal"
                     android:paddingHorizontal="11dp"
                     android:paddingVertical="13dp"
                     android:textColor="@color/accent"
@@ -216,7 +218,7 @@
             android:fontFamily="@font/inter_bold"
             android:gravity="center"
             android:paddingVertical="14dp"
-            android:text="Очистить фильтр"
+            android:text="@string/clear_filter"
             android:textColor="@color/contrast"
             android:textSize="14sp" />
 
@@ -230,7 +232,7 @@
             android:fontFamily="@font/inter_bold"
             android:gravity="center"
             android:paddingVertical="14dp"
-            android:text="Показать"
+            android:text="@string/show_result"
             android:textColor="@color/bg"
             android:textSize="14sp" />
 

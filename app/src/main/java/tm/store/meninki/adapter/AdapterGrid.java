@@ -209,36 +209,20 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             if (grids == null) return;
 
-            if (grids.get(getAdapterPosition()).getImages().length > 0)
-                try {
-                    String USER_AGENT = "Mozilla/5.0 (Linux; Android 11) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.181 Mobile Safari/537.36";
+            if (grids.get(getAdapterPosition()).getImages().length > 0) try {
+                String USER_AGENT = "Mozilla/5.0 (Linux; Android 11) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.181 Mobile Safari/537.36";
 
-                    GlideUrl glideUrl = new GlideUrl(BASE_URL + "/" + grids.get(getAdapterPosition()).getImages()[0],
-                            new LazyHeaders.Builder()
-                                    .addHeader("User-Agent", USER_AGENT)
-                                    .build());
+                GlideUrl glideUrl = new GlideUrl(BASE_URL + "/" + grids.get(getAdapterPosition()).getImages()[0], new LazyHeaders.Builder().addHeader("User-Agent", USER_AGENT).build());
 
-                    RequestOptions requestOptions = new RequestOptions()
-                            .placeholder(R.color.low_contrast)
-                            .error(R.color.neutral_dark);
+                RequestOptions requestOptions = new RequestOptions().placeholder(R.color.low_contrast).error(R.color.neutral_dark);
 
-                    Glide.with(context)
-                            .applyDefaultRequestOptions(requestOptions)
-                            .load(glideUrl)
-                            .timeout(60000)
-                            .override(320, 480)
-                            .into(b.image);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+                Glide.with(context).applyDefaultRequestOptions(requestOptions).load(glideUrl).timeout(60000).override(320, 480).into(b.image);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
 
 
-            Glide.with(context)
-                    .load(BASE_URL + "/" + grids.get(getAdapterPosition()).getAvatar())
-                    .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                    .placeholder(R.drawable.placeholder)
-                    .error(R.drawable.placeholder)
-                    .into(b.posterImage);
+            Glide.with(context).load(BASE_URL + "/" + grids.get(getAdapterPosition()).getAvatar()).override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).placeholder(R.drawable.placeholder).error(R.drawable.placeholder).into(b.posterImage);
 
             Double price = grids.get(getAdapterPosition()).getPrice();
             Double discountPrice = grids.get(getAdapterPosition()).getDiscountPrice();
@@ -272,9 +256,7 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             if (responseOrders == null) return;
 
-            Glide.with(context)
-                    .load(BASE_URL + "/" + responseOrders.get(getAdapterPosition()).getShop().getImgPath())
-                    .into(b.posterImage);
+            Glide.with(context).load(BASE_URL + "/" + responseOrders.get(getAdapterPosition()).getShop().getImgPath()).into(b.posterImage);
 
             b.storeName.setText(responseOrders.get(getAdapterPosition()).getShop().getName());
 
@@ -321,40 +303,25 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             b.favCount.setText(posts.get(getAdapterPosition()).getRating().getTotal() + "");
 
-            if (posts.get(getAdapterPosition()).getMedias().size() > 0)
-                try {
-                    GlideUrl glideUrl;
+            if (posts.get(getAdapterPosition()).getMedias().size() > 0) try {
+                GlideUrl glideUrl;
 
-                    if (posts.get(getAdapterPosition()).getMedias().get(0).getMediaType() == 0) {
-                        glideUrl = new GlideUrl(BASE_URL + "/" + posts.get(getAdapterPosition()).getMedias().get(0).getPath(),
-                                new LazyHeaders.Builder().build());
-                    } else
-                        glideUrl = new GlideUrl(BASE_URL + "/" + posts.get(getAdapterPosition()).getMedias().get(0).getPreview(),
-                                new LazyHeaders.Builder().build());
+                if (posts.get(getAdapterPosition()).getMedias().get(0).getMediaType() == 0) {
+                    glideUrl = new GlideUrl(BASE_URL + "/" + posts.get(getAdapterPosition()).getMedias().get(0).getPath(), new LazyHeaders.Builder().build());
+                } else
+                    glideUrl = new GlideUrl(BASE_URL + "/" + posts.get(getAdapterPosition()).getMedias().get(0).getPreview(), new LazyHeaders.Builder().build());
 
 
-                    RequestOptions requestOptions = new RequestOptions()
-                            .placeholder(R.drawable.placeholder)
-                            .error(R.drawable.placeholder);
+                RequestOptions requestOptions = new RequestOptions().placeholder(R.drawable.placeholder).error(R.drawable.placeholder);
 
-                    Glide.with(context)
-                            .applyDefaultRequestOptions(requestOptions)
-                            .load(glideUrl)
-                            .timeout(60000)
-                            .override(320, 480)
-                            .into(b.image);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+                Glide.with(context).applyDefaultRequestOptions(requestOptions).load(glideUrl).timeout(60000).override(320, 480).into(b.image);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
 
 
             if (posts.get(getAdapterPosition()).getUser() != null)
-                Glide.with(context)
-                        .load(BASE_URL + "/" + posts.get(getAdapterPosition()).getUser().getImgPath())
-                        .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                        .placeholder(R.drawable.placeholder)
-                        .error(R.drawable.placeholder)
-                        .into(b.posterImage);
+                Glide.with(context).load(BASE_URL + "/" + posts.get(getAdapterPosition()).getUser().getImgPath()).override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).placeholder(R.drawable.placeholder).error(R.drawable.placeholder).into(b.posterImage);
 
             b.title.setText(posts.get(getAdapterPosition()).getName());
             Log.e("TAG_title_post", "bind: " + posts.get(getAdapterPosition()).getName());
@@ -387,9 +354,7 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             profileName.setText(posts.get(getAdapterPosition()).getUser().getName());
             description.setText(posts.get(getAdapterPosition()).getDescription());
-            Glide.with(context)
-                    .load(posts.get(getAdapterPosition()).getMedias().get(0))
-                    .into(roundedImageView);
+            Glide.with(context).load(posts.get(getAdapterPosition()).getMedias().get(0)).into(roundedImageView);
             title.setText(posts.get(getAdapterPosition()).getName());
 
 
@@ -409,7 +374,9 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public void bind() {
             if (getAdapterPosition() == getItemCount() - 1) {
                 setMargins(b.getRoot(), 0, 0, 0, dpToPx(80, context));
-            }
+            } else setMargins(b.getRoot(), 0, 0, 0, 0);
+
+
             setBackgroundDrawable(context, b.getRoot(), 0, 0, 8, false, 0);
             setComponents();
 
@@ -421,9 +388,7 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             b.tvPrice.setText(String.valueOf(advertisements.get(getAdapterPosition()).getPrice()));
 
             if (advertisements.get(getAdapterPosition()).getImages() != null && advertisements.get(getAdapterPosition()).getImages().length > 0) {
-                Glide.with(context)
-                        .load(BASE_URL + "/" + advertisements.get(getAdapterPosition()).getImages()[0])
-                        .into(b.image);
+                Glide.with(context).load(BASE_URL + "/" + advertisements.get(getAdapterPosition()).getImages()[0]).into(b.image);
             }
 
         }

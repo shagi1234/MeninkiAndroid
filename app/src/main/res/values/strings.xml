@@ -155,6 +155,18 @@
     <string name="popular">Популярное</string>
     <string name="news">Новинки</string>
     <string name="sort_by_date">По дате - сначала новые</string>
+    <string name="sort_by_view_count">Сортировать по количеству просмотров</string>
+    <string name="sort_by_rating">Сортировать по рейтингу</string>
+    <string name="sort_by_price">Сортировать по цене</string>
+    <string name="price_to">Цена до</string>
+    <string name="price_from">Цена от</string>
+    <string name="clear_filter">Очистить фильтр</string>
+    <string name="velayat">Велаят</string>
+    <string name="sort_elements">Сортировка элементов</string>
+    <string name="ashgabat">Ашгабат</string>
+    <string name="show_result">Показать</string>
+    <string name="filter_and_sort">Фильтр и сортировка</string>
+
 
     <string-array name="array">
         <item>Вариант</item>

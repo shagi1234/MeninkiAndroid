@@ -96,7 +96,8 @@ public class AdapterMediaAddPost extends RecyclerView.Adapter<AdapterMediaAddPos
                 b.layAdd.setVisibility(View.VISIBLE);
                 b.image.setImageResource(R.color.on_bg_ls);
 
-            } else {
+            }
+            else {
                 b.clear.setVisibility(View.VISIBLE);
                 b.layAdd.setVisibility(View.GONE);
 
@@ -118,7 +119,6 @@ public class AdapterMediaAddPost extends RecyclerView.Adapter<AdapterMediaAddPos
                         showDialog();
                     else
                         FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentOpenGallery.newInstance(0, FragmentOpenGallery.IMAGE));
-
                 }
             });
 

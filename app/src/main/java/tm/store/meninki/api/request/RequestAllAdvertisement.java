@@ -9,6 +9,9 @@ public class RequestAllAdvertisement {
     int take;
     int[] welayats;
 
+    Integer min;
+    Integer max;
+
     public String getSearch() {
         return search;
     }
@@ -59,6 +62,14 @@ public class RequestAllAdvertisement {
 
     public int[] getWelayats() {
         return welayats;
+    }
+
+    public void setMin(int min) {
+        this.min = min;
+    }
+
+    public void setMax(int max) {
+        this.max = max;
     }
 
     public void setWelayats(int[] welayats) {

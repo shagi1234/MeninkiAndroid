@@ -17,6 +17,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -32,24 +33,27 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 
 import tm.store.meninki.R;
+import tm.store.meninki.api.enums.SortType;
 import tm.store.meninki.api.request.RequestAllAdvertisement;
 import tm.store.meninki.data.CategoryDto;
 import tm.store.meninki.databinding.FragmentFilterAdvertisementBinding;
 import tm.store.meninki.interfaces.GetAllAdvertisement;
+import tm.store.meninki.interfaces.OnUpdateFragment;
 
 public class FragmentFilterAdvertisement extends Fragment {
     FragmentFilterAdvertisementBinding b;
     BottomSheetDialog dialog;
     ArrayList<String> regions = new ArrayList<>();
-    ArrayList<String> categories = new ArrayList<>();
+    ArrayList<String> sortList = new ArrayList<>();
     private int selectedSortType;
-    private int selectedRegionId;
+    private Integer selectedRegionId;
     private String categoryId;
+    private RequestAllAdvertisement requestAllAdvertisement;
 
-    public static FragmentFilterAdvertisement newInstance(String categoryId) {
+    public static FragmentFilterAdvertisement newInstance(RequestAllAdvertisement requestAllAdvertisement) {
         FragmentFilterAdvertisement fragment = new FragmentFilterAdvertisement();
         Bundle args = new Bundle();
-        args.putString("category_id", categoryId);
+        args.putString("request_all_ad", new Gson().toJson(requestAllAdvertisement));
         fragment.setArguments(args);
         return fragment;
     }
@@ -68,7 +72,10 @@ public class FragmentFilterAdvertisement extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            categoryId = getArguments().getString("category_id");
+            requestAllAdvertisement = new Gson().fromJson(getArguments().getString("request_all_ad"), RequestAllAdvertisement.class);
+            if (requestAllAdvertisement.getCategoryIds() != null)
+                categoryId = requestAllAdvertisement.getCategoryIds()[0];
+
         }
     }
 
@@ -90,6 +97,14 @@ public class FragmentFilterAdvertisement extends Fragment {
         regions.add("Dashoguz");
         regions.add("Mary");
         regions.add("Ashgabat");
+        regions.add("All");
+
+        if (getActivity() == null) return;
+
+        sortList.add(getActivity().getResources().getString(R.string.sort_by_date));
+        sortList.add(getActivity().getResources().getString(R.string.sort_by_view_count));
+        sortList.add(getActivity().getResources().getString(R.string.sort_by_rating));
+        sortList.add(getActivity().getResources().getString(R.string.sort_by_price));
     }
 
     private void initListeners() {
@@ -100,23 +115,47 @@ public class FragmentFilterAdvertisement extends Fragment {
             new Handler().postDelayed(() -> b.backIcon.setEnabled(true), 200);
         });
 
-        b.sortedByLay.setOnClickListener(view -> showDialog(b.txtSort.getText().toString().trim(), categories, 0));
+        b.sortedByLay.setOnClickListener(view -> showDialog(b.txtSort.getText().toString().trim(), sortList, 0));
+
+        b.clearButton.setOnClickListener(view -> clearFilter());
 
         b.regionsLay.setOnClickListener(view -> showDialog(b.txtRegion.getText().toString().trim(), regions, 1));
 
         b.showBtn.setOnClickListener(view -> {
-            Fragment fragment = mainFragmentManager.findFragmentByTag(FragmentAdvertisements.class.getName());
-            if (fragment instanceof GetAllAdvertisement) {
-                RequestAllAdvertisement requestAllAdvertisement = new RequestAllAdvertisement();
+            Fragment fragment = mainFragmentManager.findFragmentByTag(FragmentMain.class.getSimpleName());
+
+            if (fragment instanceof OnUpdateFragment) {
+                getActivity().onBackPressed();
+
                 requestAllAdvertisement.setDescending(false);
                 requestAllAdvertisement.setPageNumber(1);
                 requestAllAdvertisement.setTake(20);
-                requestAllAdvertisement.setWelayats(new int[]{selectedRegionId});
+
+                if (!b.minPrice.getText().toString().trim().isEmpty())
+                    requestAllAdvertisement.setMin(Integer.parseInt(b.minPrice.getText().toString().trim()));
+                if (!b.maxPrice.getText().toString().trim().isEmpty())
+                    requestAllAdvertisement.setMax(Integer.parseInt(b.maxPrice.getText().toString().trim()));
+
+                if (selectedRegionId != null && selectedRegionId < regions.size())
+                    requestAllAdvertisement.setWelayats(new int[]{selectedRegionId});
+
+                Log.e(" ", "initListeners: "+selectedSortType);
                 requestAllAdvertisement.setSortType(selectedSortType);
-                requestAllAdvertisement.setCategoryIds(new String[]{categoryId});
-                ((GetAllAdvertisement) fragment).getAllAds(requestAllAdvertisement);
+
+                if (categoryId != null)
+                    requestAllAdvertisement.setCategoryIds(new String[]{});
+
+                ((OnUpdateFragment) fragment).onUpdated(requestAllAdvertisement);
+
             }
         });
+    }
+
+    private void clearFilter() {
+        b.minPrice.setText("");
+        b.maxPrice.setText("");
+        selectedRegionId = 0;
+
     }
 
     private void setBackgrounds() {
@@ -167,13 +206,14 @@ public class FragmentFilterAdvertisement extends Fragment {
             int finalJ = j;
 
             textView.setOnClickListener(view -> {
-                if (i == 0) {
+                if (i == 1) {
                     b.regionTv.setText(items.get(finalJ));
                     selectedRegionId = finalJ;
                 } else {
                     b.sortedByTv.setText(items.get(finalJ));
                     selectedSortType = finalJ;
                 }
+                dialog.dismiss();
             });
 
         }
