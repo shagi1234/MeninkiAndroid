@@ -79,7 +79,7 @@
                 android:layout_marginHorizontal="14dp"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/inter_medium"
-                android:text="Название"
+                android:text="@string/name"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
@@ -91,7 +91,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@color/color_transparent"
                 android:fontFamily="@font/inter_bold"
-                android:hint="Новое объявление"
+                android:hint="@string/new_add"
                 android:padding="14dp"
                 android:textColor="@color/contrast"
                 android:textColorHint="@color/neutral_dark"
@@ -106,7 +106,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@color/color_transparent"
                 android:fontFamily="@font/inter_bold"
-                android:hint="Choose shop"
+                android:hint="@string/choose_shop"
                 android:padding="14dp"
                 android:textColor="@color/contrast"
                 android:textColorHint="@color/neutral_dark"
@@ -121,7 +121,7 @@
                 android:fontFamily="@font/inter_medium"
                 android:gravity="start"
                 android:maxLines="1"
-                android:text="Описание"
+                android:text="@string/description_"
                 android:textColor="@color/black" />
 
             <EditText
@@ -178,7 +178,7 @@
                     android:fontFamily="@font/inter_medium"
                     android:gravity="center"
                     android:maxLines="1"
-                    android:text="Медиа"
+                    android:text="@string/media"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
@@ -204,7 +204,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="20dp"
                     android:fontFamily="@font/inter_medium"
-                    android:text="Категория"
+                    android:text="@string/category"
                     android:textColor="@color/accent"
                     android:textSize="14sp"
                     android:textStyle="normal" />
@@ -226,7 +226,7 @@
                         android:drawablePadding="10dp"
                         android:drawableTint="@color/accent"
                         android:fontFamily="@font/inter_bold"
-                        android:text="Выбрать категорию"
+                        android:text="@string/choose_category"
                         android:textColor="@color/accent"
                         android:textSize="14sp" />
                 </FrameLayout>
@@ -272,7 +272,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="20dp"
                     android:fontFamily="@font/inter_medium"
-                    android:text="Номер телефона"
+                    android:text="@string/phone_num"
                     android:textColor="@color/accent"
                     android:textSize="14sp"
                     android:textStyle="normal" />
@@ -333,7 +333,7 @@
             android:gravity="center"
             android:paddingHorizontal="17dp"
             android:paddingVertical="10dp"
-            android:text="Сохранить"
+            android:text="@string/save"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textStyle="bold" />

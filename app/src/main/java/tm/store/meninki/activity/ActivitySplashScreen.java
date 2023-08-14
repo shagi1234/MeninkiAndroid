@@ -19,8 +19,9 @@ public class ActivitySplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         transparentStatusAndNavigation(this);
-        androidx.core.splashscreen.SplashScreen splashScreen = androidx.core.splashscreen.SplashScreen.installSplashScreen(this);
-        splashScreen.setKeepOnScreenCondition(() -> true);
+//        androidx.core.splashscreen.SplashScreen splashScreen = androidx.core.splashscreen.SplashScreen.installSplashScreen(this);
+//        splashScreen.setKeepOnScreenCondition(() -> true);
+
         setClearLightStatusBar(this);
         accountPreferences = Account.newInstance(this);
         Intent intent;

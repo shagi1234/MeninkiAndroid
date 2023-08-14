@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -71,6 +72,15 @@ public class FragmentUserSubscribers extends Fragment {
         // Inflate the layout for this fragment
         b = FragmentUserSubscribresBinding.inflate(inflater, container, false);
         setRecycler();
+
+        check();
+
+        initListeners();
+
+        return b.getRoot();
+    }
+
+    private void check() {
         setTabShop(false);
 
         if (Objects.equals(type, FragmentProfile.TYPE_SHOP)) {
@@ -80,7 +90,6 @@ public class FragmentUserSubscribers extends Fragment {
             getShopSubscribers();
 
         } else {
-
             if (!subscribeType) {
                 b.tabUser.setVisibility(View.VISIBLE);
                 b.header.setText(R.string.subscribes);
@@ -93,14 +102,11 @@ public class FragmentUserSubscribers extends Fragment {
 
             getUserSubscribersUser();
         }
-
-        initListeners();
-
-        return b.getRoot();
     }
 
     private void setTabShop(boolean t) {
         if (getContext() == null) return;
+
         if (t) {
             setBackgroundDrawable(getContext(), b.tabShop, R.color.accent, 0, 50, false, 0);
             setBackgroundDrawable(getContext(), b.tabUser, R.color.low_contrast, 0, 50, false, 0);
@@ -110,6 +116,7 @@ public class FragmentUserSubscribers extends Fragment {
             b.tabShop.setEnabled(false);
             return;
         }
+
         setBackgroundDrawable(getContext(), b.tabShop, R.color.low_contrast, 0, 50, false, 0);
         setBackgroundDrawable(getContext(), b.tabUser, R.color.accent, 0, 50, false, 0);
         b.tabUser.setTextColor(getContext().getResources().getColor(R.color.white));
@@ -122,7 +129,6 @@ public class FragmentUserSubscribers extends Fragment {
         adapter = new AdapterSubscriber(getContext());
         b.rec.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         b.rec.setAdapter(adapter);
-
     }
 
     private void initListeners() {
@@ -134,6 +140,11 @@ public class FragmentUserSubscribers extends Fragment {
         b.tabShop.setOnClickListener(v -> {
             getUsersShopSubscribes();
             setTabShop(true);
+        });
+
+        b.swipeLayout.setOnRefreshListener(() -> {
+            check();
+            b.swipeLayout.setRefreshing(false);
         });
 
         b.icBack.setOnClickListener(v -> getActivity().onBackPressed());

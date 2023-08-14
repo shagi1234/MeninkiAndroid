@@ -1,5 +1,6 @@
 package tm.store.meninki.fragment;
 
+import static tm.store.meninki.adapter.AdapterPostPager.lastExoPlayer;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
@@ -27,6 +28,7 @@ import tm.store.meninki.adapter.SlidePagerAdapter;
 import tm.store.meninki.api.data.ResponsePostGetAllItem;
 import tm.store.meninki.data.FragmentPager;
 import tm.store.meninki.databinding.FragmentProfileViewPagerBinding;
+import tm.store.meninki.interfaces.OnBackPressedFragment;
 import tm.store.meninki.interfaces.OnPostSlided;
 import tm.store.meninki.interfaces.OnProfileOpened;
 import tm.store.meninki.utils.Const;
@@ -34,7 +36,7 @@ import tm.store.meninki.utils.FragmentHelper;
 import tm.store.meninki.utils.StaticMethods;
 
 
-public class FragmentProfileViewPager extends Fragment implements OnPostSlided {
+public class FragmentProfileViewPager extends Fragment implements OnPostSlided, OnBackPressedFragment {
     private FragmentProfileViewPagerBinding b;
     private SlidePagerAdapter adapterViewPager;
 
@@ -45,11 +47,13 @@ public class FragmentProfileViewPager extends Fragment implements OnPostSlided {
     @Override
     public void onResume() {
         super.onResume();
-        new Handler().post(() -> StaticMethods.setMargins(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight));
+        if (lastExoPlayer != null) lastExoPlayer.play();
+
     }
 
     public static FragmentProfileViewPager newInstance(ArrayList<ResponsePostGetAllItem> posts, int adapterPosition, String userId) {
         FragmentProfileViewPager fragment = new FragmentProfileViewPager();
+
         Bundle args = new Bundle();
         args.putInt("pos", adapterPosition);
         args.putString("posts_json_", new Gson().toJson(posts));
@@ -74,6 +78,7 @@ public class FragmentProfileViewPager extends Fragment implements OnPostSlided {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         b = FragmentProfileViewPagerBinding.inflate(inflater, container, false);
+
         setViewPager();
         return b.getRoot();
     }
@@ -116,5 +121,33 @@ public class FragmentProfileViewPager extends Fragment implements OnPostSlided {
     public void onPostSlided(int adapterPosition, String userId) {
         this.userId = userId;
         Log.e("USER ID", "onPostSlided: " + userId);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (lastExoPlayer != null) lastExoPlayer.pause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (lastExoPlayer != null) lastExoPlayer.pause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (lastExoPlayer != null) lastExoPlayer.pause();
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        if (lastExoPlayer != null) {
+            lastExoPlayer.pause();
+            lastExoPlayer.release();
+            lastExoPlayer = null;
+        }
+        return false;
     }
 }

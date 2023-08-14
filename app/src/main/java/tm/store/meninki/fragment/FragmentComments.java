@@ -86,9 +86,11 @@ public class FragmentComments extends Fragment implements KeyboardHeightProvider
         b.iconSend.setOnClickListener(view -> {
             b.iconSend.setEnabled(false);
             new Handler().postDelayed(() -> b.iconSend.setEnabled(true), 200);
-            clearInput();
             addComment();
+            clearInput();
+
         });
+        b.swipeRefresh.setEnabled(false);
     }
 
     private void clearInput() {
@@ -101,6 +103,7 @@ public class FragmentComments extends Fragment implements KeyboardHeightProvider
         RequestAddComment addComment = new RequestAddComment();
         addComment.setText(b.edtComment.getText().toString().trim());
         addComment.setProductBaseId(id);
+
         Call<DtoComment> call = StaticMethods.getApiHome().addComment(addComment);
         call.enqueue(new RetrofitCallback<DtoComment>() {
             @Override

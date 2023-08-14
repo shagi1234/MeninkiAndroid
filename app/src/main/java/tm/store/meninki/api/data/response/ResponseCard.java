@@ -2,6 +2,9 @@ package tm.store.meninki.api.data.response;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
+import tm.store.meninki.api.data.OptionDto;
 import tm.store.meninki.api.data.Rating;
 
 public class ResponseCard {
@@ -16,7 +19,7 @@ public class ResponseCard {
     private Double price;
 
     @SerializedName("name")
-    private String name="";
+    private String name = "";
 
     @SerializedName("discountPrice")
     private Double discountPrice;
@@ -38,6 +41,9 @@ public class ResponseCard {
 
     @SerializedName("type")
     private int type;
+
+    private ArrayList<OptionDto> options;
+    private ArrayList<String> optionTitle;
 
     public String[] getImages() {
         return images;
@@ -85,5 +91,13 @@ public class ResponseCard {
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    public ArrayList<OptionDto> getOption() {
+        return options;
+    }
+
+    public ArrayList<String> getOptionTitles() {
+        return optionTitle;
     }
 }

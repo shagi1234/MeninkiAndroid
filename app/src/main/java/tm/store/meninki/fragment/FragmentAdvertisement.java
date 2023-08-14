@@ -128,13 +128,14 @@ public class FragmentAdvertisement extends Fragment {
     }
 
     private void setData(AdvertisementDto body) {
+        if (getContext() == null) return;
+
         b.itemName.setText(body.getTitle());
         b.titleStore.setText(body.getUserName());
         b.desc.setText(body.getDescription());
         b.tvCategory.setText(body.getCategoryName());
         b.tvPhone.setText(body.getPhoneNumber());
         b.price.setText(body.getPrice() + " TMT");
-
         Glide.with(getContext())
                 .load(BASE_URL + "/" + body.getUserAvatar())
                 .into(b.avatarStore);

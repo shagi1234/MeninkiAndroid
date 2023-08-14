@@ -23,11 +23,16 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.LifecycleRegistry;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -46,14 +51,29 @@ import tm.store.meninki.fragment.FragmentCategory;
 import tm.store.meninki.fragment.FragmentMain;
 import tm.store.meninki.fragment.FragmentPost;
 import tm.store.meninki.fragment.FragmentProfile;
+import tm.store.meninki.fragment.FragmentProfileViewPager;
 import tm.store.meninki.interfaces.OnBackPressedFragment;
 import tm.store.meninki.shared.Account;
 import tm.store.meninki.utils.StaticMethods;
 
 
-public class ActivityMain extends AppCompatActivity implements View.OnClickListener {
+public class ActivityMain extends AppCompatActivity implements View.OnClickListener, LifecycleObserver {
     private ActivityMainBinding b;
     private static ActivityMain activityMain;
+
+    private final ActivityResultLauncher<Intent> videoTrimResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+        if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+            Uri uri = Uri.parse(TrimVideo.getTrimmedVideoPath(result.getData()));
+
+            if (AdapterMediaAddPost.getInstance() != null) {
+                SelectedMedia.getProductImageList().add(new MediaLocal(-1, uri.getPath(), 3));
+                AdapterMediaAddPost.getInstance().notifyDataSetChanged();
+            }
+
+        } else {
+            LogMessage.v("videoTrimResultLauncher data is null");
+        }
+    });
 
     public static ActivityMain getInstance() {
         return activityMain;
@@ -66,6 +86,7 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
         updateAndroidSecurityProvider(this);
         b = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(b.getRoot());
+        getLifecycle().addObserver(this);
         activityMain = this;
         mainFragmentManager = getSupportFragmentManager();
         hideSoftKeyboard(this);
@@ -80,7 +101,7 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
         b.navProfile.setOnClickListener(this);
 
         mainFragmentManager.addOnBackStackChangedListener(() -> {
-            if (getCurrentFragmentTag().equals(FragmentPost.class.getName())) {
+            if (getCurrentFragmentTag().equals(FragmentProfileViewPager.class.getName())) {
                 if (lastExoPlayer != null) lastExoPlayer.play();
 
                 StaticMethods.setNavBarIconsWhite(this);
@@ -107,8 +128,7 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
 
         if (getIntent().getBooleanExtra("is_language_changed", false)) {
             setNav(R.id.nav_profile);
-        } else
-            setNav(R.id.nav_main);
+        } else setNav(R.id.nav_main);
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -170,11 +190,7 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         initSystemUIViewListeners(b.main);
-        new Handler().postDelayed(() -> setMargins(b.nav,
-                dpToPx(60, ActivityMain.this),
-                0,
-                dpToPx(60, ActivityMain.this),
-                dpToPx(20, ActivityMain.this) + navigationBarHeight), 30);
+        new Handler().postDelayed(() -> setMargins(b.nav, dpToPx(60, ActivityMain.this), 0, dpToPx(60, ActivityMain.this), dpToPx(20, ActivityMain.this) + navigationBarHeight), 30);
 
         new Handler().postDelayed(() -> setPadding(b.contentWithNav, 0, statusBarHeight, 0, navigationBarHeight), 30);
     }
@@ -194,18 +210,7 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
             Uri selectedVideoUri = data.getData();
             Log.e("OnVideoSelected", "onActivityResult: " + selectedVideoUri.toString());
 
-            TrimVideo.activity(selectedVideoUri.toString())
-                    .start(this, registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-                        if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
-                            Uri uri = Uri.parse(TrimVideo.getTrimmedVideoPath(result.getData()));
-
-                            if (AdapterMediaAddPost.getInstance() != null) {
-                                SelectedMedia.getProductImageList().add(new MediaLocal(-1, uri.getPath(), 3));
-                                AdapterMediaAddPost.getInstance().notifyDataSetChanged();
-                            }
-
-                        } else LogMessage.v("videoTrimResultLauncher data is null");
-                    }));
+            TrimVideo.activity(selectedVideoUri.toString()).start(this, videoTrimResultLauncher);
             // Do something with the selected video URI
         }
     }

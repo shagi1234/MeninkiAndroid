@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 
@@ -64,7 +65,20 @@ public class FragmentHome extends Fragment {
         getHome2();
         getHome3();
 
+        initListeners();
+
         return b.getRoot();
+    }
+
+    private void initListeners() {
+
+        b.swipeLayout.setOnRefreshListener(() -> {
+            getHome1();
+            getHome2();
+            getHome3();
+            b.swipeLayout.setRefreshing(false);
+        });
+
     }
 
     private void setRecycler() {
@@ -112,7 +126,7 @@ public class FragmentHome extends Fragment {
                     b.banner1.setVisibility(View.GONE);
                 }
 
-                if (responseBody.get(0).getPopularProducts()!=null) {
+                if (responseBody.get(0).getPopularProducts() != null) {
                     b.popularProdLay.setVisibility(View.VISIBLE);
                     adapterGridPopularProd.setStories(responseBody.get(0).getPopularProducts());
                 } else {

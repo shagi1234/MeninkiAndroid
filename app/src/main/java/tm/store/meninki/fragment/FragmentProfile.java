@@ -32,8 +32,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -94,6 +96,12 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged, OnPr
         if (!Objects.equals(type, MY_PROFILE_WITH_NAV)) {
             setPadding(b.getRoot(), 0, statusBarHeight, 0, 0);
         }
+        b.appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                b.swipeLayout.setEnabled(verticalOffset == 0);
+            }
+        });
     }
 
     @Override
@@ -311,7 +319,7 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged, OnPr
         r.setDescending(true);
         r.setPageNumber(1);
         r.setTake(10);
-//        r.setUserId(id);
+        r.setUserId(id);
 
         Call<ArrayList<ResponsePostGetAllItem>> call = StaticMethods.getApiHome().getAllPosts(r);
         call.enqueue(new Callback<ArrayList<ResponsePostGetAllItem>>() {
@@ -419,6 +427,11 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged, OnPr
                 showBottomSheet();
                 return;
             }
+        });
+
+        b.swipeLayout.setOnRefreshListener(() -> {
+            check();
+            b.swipeLayout.setRefreshing(false);
         });
 
         b.addProduct.setOnClickListener(v -> FragmentHelper.addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentAddProduct.newInstance(id)));

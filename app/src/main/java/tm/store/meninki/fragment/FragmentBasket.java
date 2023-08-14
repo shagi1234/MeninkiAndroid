@@ -3,6 +3,7 @@ package tm.store.meninki.fragment;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +12,15 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import tm.store.meninki.R;
+import tm.store.meninki.adapter.AdapterCardProducts;
 import tm.store.meninki.adapter.AdapterGrid;
 import tm.store.meninki.api.data.ResponseOrderGetAll;
 import tm.store.meninki.api.request.RequestGetAllOrder;
@@ -26,7 +30,7 @@ import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentBasket extends Fragment {
     private FragmentBasketBinding b;
-    private AdapterGrid adapterGrid;
+    private AdapterCardProducts adapterGrid;
 
     public static FragmentBasket newInstance() {
         FragmentBasket fragment = new FragmentBasket();
@@ -46,7 +50,6 @@ public class FragmentBasket extends Fragment {
         // Inflate the layout for this fragment
         b = FragmentBasketBinding.inflate(inflater, container, false);
         setBackgrounds();
-        setRecycler();
         getAllOrder();
         initListeners();
         return b.getRoot();
@@ -68,9 +71,11 @@ public class FragmentBasket extends Fragment {
                     b.progressBar.setVisibility(View.GONE);
                     return;
                 }
+
                 b.progressBar.setVisibility(View.GONE);
                 b.noContent.setVisibility(View.GONE);
-                adapterGrid.setOrders(response.body());
+
+                setRecycler(response.body());
             }
 
             @Override
@@ -87,13 +92,16 @@ public class FragmentBasket extends Fragment {
     }
 
     private void initListeners() {
+
     }
 
-    private void setRecycler() {
-        adapterGrid = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_BASKET, -1);
+    private void setRecycler(ArrayList<ResponseOrderGetAll> list) {
+        Log.e("TAG_basket", "setRecycler: " + list.size());
+
+        b.recGrids.setVisibility(View.VISIBLE);
+        adapterGrid = new AdapterCardProducts(getContext(), list);
         b.recGrids.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         b.recGrids.setAdapter(adapterGrid);
-        adapterGrid.setStories(null);
     }
 
 }

@@ -77,8 +77,8 @@ public class AdapterComment extends RecyclerSwipeAdapter<AdapterComment.ViewHold
                     comments.get(holder.getAdapterPosition()).getUserName(),
                     holder.avatar,
                     holder.avatarText,
-                    true
-                    ,activity);
+                    true,
+                    activity);
 
             SimpleDateFormat outputDf = new SimpleDateFormat("kk:mm' | 'dd.MM.yyyy");
             SimpleDateFormat inputDf = new SimpleDateFormat("yyyy-MM-dd'T'KK:mm:ss");

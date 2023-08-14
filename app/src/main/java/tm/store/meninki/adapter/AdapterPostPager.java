@@ -183,7 +183,6 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
             Glide.with(context).load(BASE_URL + "/" + videos.get(getAdapterPosition()).getProductMedia()).placeholder(R.color.low_contrast).into(b.imgProd);
             Glide.with(context).load(BASE_URL + "/" + videos.get(getAdapterPosition()).getUser().getImgPath()).placeholder(R.color.low_contrast).into(b.friendImg);
 
-            b.backBtn.setOnClickListener(v -> activity.onBackPressed());
             b.like.setOnClickListener(v -> like(getAdapterPosition()));
             b.comment.setOnClickListener(v -> comment());
             b.options.setOnClickListener(v -> showDialog());
@@ -228,7 +227,6 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
             Glide.with(context).load(BASE_URL + "/" + videos.get(getAdapterPosition()).getUser().getImgPath()).placeholder(R.color.low_contrast).into(b.friendImg);
             Glide.with(context).load(BASE_URL + "/" + videos.get(getAdapterPosition()).getProductMedia()).placeholder(R.color.low_contrast).into(b.imgProd);
 
-            b.backBtn.setOnClickListener(v -> activity.onBackPressed());
             b.like.setOnClickListener(v -> like(getAdapterPosition()));
             b.comment.setOnClickListener(v -> comment());
             b.options.setOnClickListener(v -> showDialog());

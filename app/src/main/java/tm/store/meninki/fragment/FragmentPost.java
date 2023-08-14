@@ -1,6 +1,9 @@
 package tm.store.meninki.fragment;
 
 import static tm.store.meninki.adapter.AdapterPostPager.lastExoPlayer;
+import static tm.store.meninki.utils.StaticMethods.dpToPx;
+import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
+import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,6 +28,7 @@ import tm.store.meninki.databinding.FragmentPostBinding;
 import tm.store.meninki.interfaces.OnBackPressedFragment;
 import tm.store.meninki.interfaces.OnPostSlided;
 import tm.store.meninki.utils.Const;
+import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentPost extends Fragment implements OnBackPressedFragment {
     private FragmentPostBinding b;
@@ -61,6 +65,28 @@ public class FragmentPost extends Fragment implements OnBackPressedFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (lastExoPlayer != null) lastExoPlayer.play();
+
+        new Handler().post(() -> StaticMethods.setMargins(b.viewPager2, 0, statusBarHeight, 0, navigationBarHeight));
+
+        new Handler().postDelayed(() -> StaticMethods.setMargins(b.bgBack, dpToPx(14, getContext()), dpToPx(14, getContext()) + statusBarHeight, 0, 0),100);
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        if (lastExoPlayer != null) {
+            lastExoPlayer.pause();
+            lastExoPlayer.release();
+            lastExoPlayer = null;
+        }
+
+        return false;
+    }
+
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
@@ -78,22 +104,17 @@ public class FragmentPost extends Fragment implements OnBackPressedFragment {
         // Inflate the layout for this fragment
         b = FragmentPostBinding.inflate(inflater, container, false);
         setViewPager(posts);
+        b.backBtn.setOnClickListener(view -> getActivity().onBackPressed());
         return b.getRoot();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (lastExoPlayer != null) lastExoPlayer.play();
-
-    }
 
     private void setViewPager(ArrayList<ResponsePostGetAllItem> videos) {
         b.viewPager2.setOffscreenPageLimit(1);
         adapterViewPager = new AdapterPostPager(getContext(), getActivity(), videos, b.viewPager2);
         b.viewPager2.setAdapter(adapterViewPager);
-        b.viewPager2.setPageTransformer(new ZoomOutPageTransformer());
-        passId(0,videos.get(0).getUser().getId());
+//        b.viewPager2.setPageTransformer(new ZoomOutPageTransformer());
+        passId(0, videos.get(0).getUser().getId());
 
         b.viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
@@ -104,7 +125,7 @@ public class FragmentPost extends Fragment implements OnBackPressedFragment {
                     adapterViewPager.releasePlayer();
                 }, 300);
 
-               passId(position,videos.get(position).getUser().getId());
+                passId(position, videos.get(position).getUser().getId());
             }
         });
 
@@ -117,17 +138,6 @@ public class FragmentPost extends Fragment implements OnBackPressedFragment {
         if (fragment instanceof OnPostSlided) {
             ((OnPostSlided) fragment).onPostSlided(position, id);
         }
-    }
-
-    @Override
-    public boolean onBackPressed() {
-        if (lastExoPlayer != null) {
-            lastExoPlayer.pause();
-            lastExoPlayer.release();
-            lastExoPlayer = null;
-        }
-
-        return false;
     }
 
     public class ZoomOutPageTransformer implements ViewPager2.PageTransformer {

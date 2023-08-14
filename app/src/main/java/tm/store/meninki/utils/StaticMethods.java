@@ -495,7 +495,7 @@ public class StaticMethods {
             return;
         }
 
-        Glide.with(context).load(BASE_URL + avatar).error(createGradientDrawable(context)).placeholder(createGradientDrawable(context))
+        Glide.with(context).load(BASE_URL + "/" + avatar).error(createGradientDrawable(context)).placeholder(createGradientDrawable(context))
 //                .addListener(new RequestListener<>() {
 //                    @Override
 //                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
@@ -741,6 +741,7 @@ public class StaticMethods {
         int visibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
         visibility = visibility | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
         window.getDecorView().setSystemUiVisibility(visibility);
+
         int windowManager = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
         windowManager = windowManager | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION;
         setWindowFlag(activity, windowManager, false);

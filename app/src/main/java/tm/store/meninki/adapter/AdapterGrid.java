@@ -32,6 +32,7 @@ import com.bumptech.glide.load.model.LazyHeaders;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.gson.Gson;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
@@ -56,7 +57,6 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private FragmentActivity activity;
     private ArrayList<ResponseCard> grids = new ArrayList<>();
-    private ArrayList<ResponseOrderGetAll> responseOrders = new ArrayList<>();
     private ArrayList<ResponsePostGetAllItem> posts = new ArrayList<>();
 
     private ArrayList<AdvertisementDto> advertisements = new ArrayList<>();
@@ -65,7 +65,6 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public final static int TYPE_HORIZONTAL = 2;
     public final static int TYPE_POST = 4;
     public final static int TYPE_ADVERTISEMENT = 5;
-    public final static int TYPE_BASKET = 3;
     BottomSheetDialog dialog;
     private int maxSize;
     private int type;
@@ -83,9 +82,6 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
 
         switch (type) {
-            case TYPE_BASKET:
-                ItemBasketBinding b = ItemBasketBinding.inflate(layoutInflater, parent, false);
-                return new AdapterGrid.BasketHolder(b);
             case TYPE_POST:
                 ItemPostBinding postBinding = ItemPostBinding.inflate(layoutInflater, parent, false);
                 return new AdapterGrid.PostHolder(postBinding);
@@ -102,9 +98,6 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         switch (type) {
-            case TYPE_BASKET:
-                ((BasketHolder) holder).bind();
-                break;
             case TYPE_POST:
                 ((PostHolder) holder).bind();
                 break;
@@ -119,17 +112,12 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        if (type == TYPE_BASKET && responseOrders != null) {
-            return responseOrders.size();
-        }
         if (type == TYPE_POST && posts != null) {
             return posts.size();
         }
+
         if (type == TYPE_ADVERTISEMENT && advertisements != null) {
             return advertisements.size();
-        }
-        if (grids == null) {
-            return 0;
         }
 
         if (maxSize == -1) {
@@ -145,10 +133,7 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         notifyDataSetChanged();
     }
 
-    public void setOrders(ArrayList<ResponseOrderGetAll> responseOrders) {
-        this.responseOrders = responseOrders;
-        notifyDataSetChanged();
-    }
+
 
     public void setPosts(ArrayList<ResponsePostGetAllItem> posts) {
         this.posts = posts;
@@ -236,36 +221,6 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 double percent = 100 - discountPrice * 100 / price;
                 b.sale.setText("-" + Math.round(percent) + "%");
             }
-
-        }
-    }
-
-    public class BasketHolder extends RecyclerView.ViewHolder {
-        private final ItemBasketBinding b;
-        private AdapterImageHorizontal adapterImageHorizontal;
-
-        public BasketHolder(ItemBasketBinding b) {
-            super(b.getRoot());
-            this.b = b;
-        }
-
-        public void bind() {
-            setBackgroundDrawable(context, b.posterImage, R.color.neutral_dark, R.color.accent, 0, true, 2);
-
-            setRecycler();
-
-            if (responseOrders == null) return;
-
-            Glide.with(context).load(BASE_URL + "/" + responseOrders.get(getAdapterPosition()).getShop().getImgPath()).into(b.posterImage);
-
-            b.storeName.setText(responseOrders.get(getAdapterPosition()).getShop().getName());
-
-        }
-
-        private void setRecycler() {
-            adapterImageHorizontal = new AdapterImageHorizontal(context, responseOrders.get(getAdapterPosition()).getProducts());
-            b.recImages.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-            b.recImages.setAdapter(adapterImageHorizontal);
 
         }
     }
