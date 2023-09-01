@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/bg"
     android:clickable="true"
     android:focusable="true">
@@ -77,6 +78,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:fontFamily="@font/inter_bold"
+<<<<<<< HEAD
+=======
+                tools:text="+993 64411955"
+>>>>>>> 364c7b3f323d29756b7e81ee43e54df78d28e78b
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 tools:text="+993 64411955" />
@@ -140,6 +145,22 @@
             android:text="@string/resend_again_until"
             android:textSize="14sp" />
 
+<<<<<<< HEAD
+=======
+        <TextView
+            android:id="@+id/privacy_policy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginBottom="20dp"
+            android:drawablePadding="6dp"
+            android:fontFamily="@font/inter_regular"
+            android:text="@string/privacy_policy"
+            android:textAlignment="center"
+            android:textSize="14sp" />
+>>>>>>> 364c7b3f323d29756b7e81ee43e54df78d28e78b
 
     </LinearLayout>
 
