@@ -1,15 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg"
     android:clickable="true"
     android:focusable="true">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="12dp"
+            android:paddingEnd="32dp">
+
+            <FrameLayout
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginVertical="22dp">
+
+                <FrameLayout
+                    android:id="@+id/back_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ripple_corner_20" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_chevron" />
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/inter_semibold"
+                android:text="Авторизация"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+
+        </LinearLayout>
+
 
         <LinearLayout
             android:id="@+id/top_padding"
@@ -25,7 +67,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_regular"
-                android:text="Введите код, отправленный на номер"
+                android:text="@string/enter_code_sent_to_number"
                 android:textColor="@color/contrast"
                 android:textSize="14sp" />
 
@@ -35,9 +77,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:fontFamily="@font/inter_bold"
-                android:text="+993 64411955"
                 android:textColor="@color/black"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                tools:text="+993 64411955" />
 
         </LinearLayout>
 
@@ -46,7 +88,7 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/top_padding"
-            android:layout_marginStart="40dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="40dp"
             android:cursorVisible="false"
             android:digits="1234567890"
@@ -56,33 +98,50 @@
             android:textSize="20sp"
             android:visibility="visible" />
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_bold"
+                android:gravity="center"
+                android:paddingVertical="15dp"
+                android:text="Продолжить"
+                android:textColor="@color/bg"
+                android:theme="@style/TextViewButtonStyle" />
+
+            <ProgressBar
+                android:id="@+id/btn_progress"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="20dp"
+                android:indeterminateTint="@color/bg"
+                android:visibility="gone" />
+
+
+        </FrameLayout>
+
         <TextView
             android:id="@+id/btn_resend_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/edt_code"
+            android:layout_gravity="center_horizontal"
             android:layout_marginHorizontal="40dp"
             android:layout_marginTop="40dp"
             android:layout_marginBottom="20dp"
             android:fontFamily="@font/inter_regular"
-            android:text="Переотправить через: 0:13"
+            android:text="@string/resend_again_until"
             android:textSize="14sp" />
 
-        <TextView
-            android:id="@+id/privacy_policy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginHorizontal="30dp"
-            android:layout_marginBottom="20dp"
-            android:drawablePadding="6dp"
-            android:fontFamily="@font/inter_regular"
-            android:text="Продолжая, вы принимаете условия конфиденциальности и пользовательское соглашение."
-            android:textAlignment="center"
-            android:textSize="14sp" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
 
 </FrameLayout>

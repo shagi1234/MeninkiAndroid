@@ -6,14 +6,14 @@ public class Image {
 	public static final int category = 2;
 	public static final int banner = 3;
 	public static final int advertisementBoard = 4;
-	public static final int media = 5;
-	public static final int option = 6;
+	public static final int media = 5;// for product,post
+	public static final int option = 6;//only option
 
 	public static final String keyObjectId = "objectId";
-	public static final String keyWidth = "objectId";
-	public static final String keyHeight = "objectId";
-	public static final String keyFileName = "objectId";
-	public static final String keyIsAvatar = "objectId";
-	public static final String keyImageType = "objectId";
+	public static final String keyWidth = "width";
+	public static final String keyHeight = "height";
+	public static final String keyFileName = "filename";
+	public static final String keyIsAvatar = "isAvatar";
+	public static final String keyImageType = "ImageType";
 
 }

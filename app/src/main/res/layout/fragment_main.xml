@@ -15,6 +15,40 @@
         android:background="@color/bg"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:id="@+id/background_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16sp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/edt_search"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:fontFamily="@font/inter_medium"
+                android:gravity="center_vertical"
+                android:hint="@string/search"
+                android:maxLines="1"
+                android:paddingVertical="10dp"
+                android:paddingStart="14dp"
+                android:singleLine="true" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="14dp"
+                android:padding="5dp"
+                android:src="@drawable/ic_search"
+                app:tint="@color/contrast" />
+
+        </LinearLayout>
+
         <FrameLayout
             android:id="@+id/bg_tab"
             android:layout_width="match_parent"
@@ -36,6 +70,7 @@
                 app:tabMode="fixed"
                 app:tabSelectedTextColor="@color/white"
                 app:tabTextAppearance="@style/TabWidget" />
+
         </FrameLayout>
 
         <androidx.viewpager.widget.ViewPager

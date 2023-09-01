@@ -1,37 +1,35 @@
 package tm.store.meninki.data;
 
+import java.util.ArrayList;
+
+import tm.store.meninki.api.data.OptionDto;
+
 public class CharactersDto {
-    private String name;
-    private int item_count;
-    private String type;
+    ArrayList<ArrayList<OptionDto>> options = new ArrayList<>();
+    ArrayList<String> optionTitles = new ArrayList<>();
+    ArrayList<Integer> optionTypes = new ArrayList<>();
 
-    public CharactersDto(String name, int item_count, String type) {
-        this.name = name;
-        this.item_count = item_count;
-        this.type = type;
+    public ArrayList<ArrayList<OptionDto>> getOptions() {
+        return options;
     }
 
-    public String getName() {
-        return name;
+    public ArrayList<String> getOptionTitles() {
+        return optionTitles;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setOptionTitles(ArrayList<String> optionTitles) {
+        this.optionTitles = optionTitles;
     }
 
-    public int getItem_count() {
-        return item_count;
+    public void setOptions(ArrayList<ArrayList<OptionDto>> options) {
+        this.options = options;
     }
 
-    public String getType() {
-        return type;
+    public ArrayList<Integer> getOptionTypes() {
+        return optionTypes;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public void setItem_count(int item_count) {
-        this.item_count = item_count;
+    public void setOptionTypes(ArrayList<Integer> optionTypes) {
+        this.optionTypes = optionTypes;
     }
 }

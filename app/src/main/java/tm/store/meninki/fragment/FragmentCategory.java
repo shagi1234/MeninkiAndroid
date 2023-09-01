@@ -1,10 +1,13 @@
 package tm.store.meninki.fragment;
 
+import static tm.store.meninki.utils.Const.mainFragmentManager;
+import static tm.store.meninki.utils.FragmentHelper.addFragment;
 import static tm.store.meninki.utils.StaticMethods.dpToPx;
 import static tm.store.meninki.utils.StaticMethods.logWrite;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,7 +61,7 @@ public class FragmentCategory extends Fragment {
 
     private void getAllCategories() {
         ServiceCategory serviceCategory = (ServiceCategory) ApiClient.createRequest(ServiceCategory.class);
-        Call<ArrayList<CategoryDto>> call = serviceCategory.getAllCategory();
+        Call<ArrayList<CategoryDto>> call = serviceCategory.getAllCategory(0);
         call.enqueue(new Callback<ArrayList<CategoryDto>>() {
             @Override
             public void onResponse(@NonNull Call<ArrayList<CategoryDto>> call, @NonNull Response<ArrayList<CategoryDto>> response) {
@@ -73,13 +76,17 @@ public class FragmentCategory extends Fragment {
             @Override
             public void onFailure(@NonNull Call<ArrayList<CategoryDto>> call, @NonNull Throwable t) {
                 logWrite(t.getMessage());
-
             }
         });
     }
 
     private void initListeners() {
+        b.backgroundSearch.setOnClickListener(view -> {
+            b.backgroundSearch.setEnabled(false);
+            new Handler().postDelayed(() -> b.backgroundSearch.setEnabled(true),200);
 
+            addFragment(mainFragmentManager,R.id.fragment_container_main,FragmentMain.newInstance(true));
+        });
     }
 
     private void setBackgrounds() {
@@ -118,10 +125,10 @@ public class FragmentCategory extends Fragment {
         });
 
         b.viewPager.setOffscreenPageLimit(2);
-//todo shu yeri zynya bosh wagt duzetmeli constructory ayyrmaly
+
         ArrayList<FragmentPager> mFragment = new ArrayList<>();
         for (int i = 0; i < data.size(); i++) {
-            mFragment.add(new FragmentPager(FragmentCategoryList.newInstance(data.get(i).getSubCategories(), FragmentCategoryList.TYPE_SUBCATEGORY), data.get(i).getName().toUpperCase()));
+            mFragment.add(new FragmentPager(FragmentCategoryList.newInstance(data.get(i).getSubCategories(), FragmentCategoryList.TYPE_SUBCATEGORY, ""), data.get(i).getName().toUpperCase()));
         }
 
         AdapterViewPager adapterFeedPager = new AdapterViewPager(getChildFragmentManager(), mFragment);

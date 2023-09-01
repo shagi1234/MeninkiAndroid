@@ -54,8 +54,7 @@ public class FragmentFilterAndSort extends Fragment {
     }
 
     private void initListeners() {
-        b.saveButton.setOnClickListener(view -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentNewShop.newInstance()));
-
+        b.saveButton.setOnClickListener(view -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentNewShop.newInstance("")));
     }
 
     private void setBackgrounds() {

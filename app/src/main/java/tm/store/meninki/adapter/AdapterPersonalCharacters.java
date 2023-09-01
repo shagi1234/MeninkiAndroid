@@ -1,7 +1,12 @@
 package tm.store.meninki.adapter;
 
+import static tm.store.meninki.adapter.AdapterCharPick.ADDABLE;
+import static tm.store.meninki.utils.Option.CHARACTER_IMAGE;
+import static tm.store.meninki.utils.Option.CHARACTER_TEXT;
+
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
@@ -9,24 +14,23 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import tm.store.meninki.R;
 import tm.store.meninki.data.CharactersDto;
 import tm.store.meninki.data.SelectedMedia;
 import tm.store.meninki.databinding.ItemPersonalCharactersBinding;
 import tm.store.meninki.utils.Dialog;
-import tm.store.meninki.utils.Lists;
-
-import java.util.ArrayList;
 
 public class AdapterPersonalCharacters extends RecyclerView.Adapter<AdapterPersonalCharacters.CharactersHolder> {
-    private ArrayList<CharactersDto> characters;
-    public static final String CHARACTER_TEXT = "character_text";
-    public static final String CHARACTER_IMAGE = "character_image";
-    public static final String CHARACTER_COLOR = "character_color";
+    private CharactersDto character;
     private Context context;
+    private String prodId;
+    private int isAddable;
 
-    public AdapterPersonalCharacters(Context context, ArrayList<CharactersDto> characters) {
+    public AdapterPersonalCharacters(Context context, CharactersDto characters, String productId, int isAddable) {
         this.context = context;
-        this.characters = characters;
+        this.character = characters;
+        this.prodId = productId;
+        this.isAddable = isAddable;
     }
 
     @NonNull
@@ -44,17 +48,19 @@ public class AdapterPersonalCharacters extends RecyclerView.Adapter<AdapterPerso
 
     @Override
     public int getItemCount() {
-        if (characters == null) {
+        if (character.getOptionTitles() == null || character.getOptions() == null || character.getOptionTypes() == null) {
             return 0;
         }
-        return characters.size();
+        return character.getOptions().size();
     }
 
     private void removeAt(int position) {
         try {
-            characters.remove(position);
+            character.getOptions().remove(position);
+            character.getOptionTitles().remove(position);
+            character.getOptionTypes().remove(position);
             notifyItemRemoved(position);
-            notifyItemRangeChanged(position, SelectedMedia.getArrayList().size());
+            notifyItemRangeChanged(position, SelectedMedia.getProductImageList().size());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -73,58 +79,68 @@ public class AdapterPersonalCharacters extends RecyclerView.Adapter<AdapterPerso
         }
 
         public void bind() {
+            if (character.getOptions().get(getAdapterPosition()).size() == 0) {
+                switch (character.getOptionTypes().get(getAdapterPosition())) {
+                    case CHARACTER_TEXT:
+                        setRecyclerText();
+                        break;
+                    case CHARACTER_IMAGE:
+                        setRecyclerImage();
+                        break;
 
-            switch (characters.get(getAdapterPosition()).getType()) {
-                case CHARACTER_TEXT:
-                    setRecyclerText();
-                    break;
-                case CHARACTER_IMAGE:
-                    setRecyclerImage();
-                    break;
-                case CHARACTER_COLOR:
-                    setRecyclerColor();
-                    break;
+                }
+            } else
+                switch (character.getOptions().get(getAdapterPosition()).get(0).getOptionType()) {
+                    case CHARACTER_TEXT:
+                        setRecyclerText();
+                        break;
+                    case CHARACTER_IMAGE:
+                        setRecyclerImage();
+                        break;
 
+                }
+            if (isAddable == ADDABLE) {
+                b.clearCharacter.setVisibility(View.VISIBLE);
+                b.edtName.setVisibility(View.VISIBLE);
+
+                b.clearCharacter.setOnClickListener(v -> removeAt(getAdapterPosition()));
+                b.edtName.setOnClickListener(v -> {
+                    //change title
+                    Dialog dialog = new Dialog();
+                    dialog.showDialog(context);
+                    dialog.yesBtn.setOnClickListener(v1 -> {
+                        if (dialog.title.getText().toString().trim().length() == 0) {
+                            Toast.makeText(context, context.getResources().getString(R.string.your_text_is_empty_please_write_something), Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        character.getOptionTitles().set(getAdapterPosition(), dialog.title.getText().toString().trim());
+                        b.nameCharacters.setText(character.getOptionTitles().get(getAdapterPosition()));
+                        dialog.dialog.dismiss();
+                    });
+                });
+            } else {
+                b.clearCharacter.setVisibility(View.GONE);
+                b.edtName.setVisibility(View.GONE);
             }
 
-            b.clearCharacter.setOnClickListener(v -> removeAt(getAdapterPosition()));
+            b.nameCharacters.setText(character.getOptionTitles().get(getAdapterPosition()));
 
-            b.edtName.setOnClickListener(v -> {
-                //change title
-                Dialog dialog = new Dialog();
-                dialog.showDialog(context);
-                dialog.yesBtn.setOnClickListener(v1 -> {
-                    if (dialog.title.getText().toString().trim().length() == 0) {
-                        Toast.makeText(context, "Your text is empty, please write something", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    b.nameCharacters.setText(dialog.title.getText().toString().trim());
-                    dialog.dialog.dismiss();
-                });
-            });
-
-        }
-
-        private void setRecyclerColor() {
-            AdapterCharColor adapter = new AdapterCharColor(context, AdapterCharPick.ADDABLE);
-            b.recItem.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-            b.recItem.setAdapter(adapter);
         }
 
         private void setRecyclerImage() {
-            AdapterCharImage adapter = new AdapterCharImage(context, AdapterCharPick.ADDABLE);
+            AdapterCharImage adapter = new AdapterCharImage(context, isAddable, prodId, getAdapterPosition());
             b.recItem.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
             b.recItem.setAdapter(adapter);
 
-            adapter.setImageUrl(null);
+            adapter.setOptions(character.getOptions().get(getAdapterPosition()));
         }
 
         private void setRecyclerText() {
-            AdapterCharPick adapter = new AdapterCharPick(context, AdapterCharPick.ADDABLE);
+            AdapterCharPick adapter = new AdapterCharPick(context, isAddable, prodId,getAdapterPosition());
             b.recItem.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
             b.recItem.setAdapter(adapter);
 
-            adapter.setPicks(Lists.getPicks());
+            adapter.setTexts(character.getOptions().get(getAdapterPosition()));
         }
     }
 }

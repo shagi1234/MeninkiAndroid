@@ -37,7 +37,7 @@
         android:gravity="center"
         android:paddingTop="14dp"
         android:paddingBottom="14dp"
-        android:text="OK"
+        android:text="@string/ok"
         android:textColor="@color/white"
         android:textSize="16sp"
         tools:text="Разрешить" />
@@ -55,7 +55,7 @@
         android:gravity="center"
         android:paddingTop="14dp"
         android:paddingBottom="14dp"
-        android:text="Cancel"
+        android:text="@string/cancel"
         android:textColor="@color/white"
         android:textSize="16sp" />
 

@@ -1,8 +1,8 @@
 package tm.store.meninki.api.services;
 
 import retrofit2.http.PUT;
-import tm.store.meninki.api.response.DataCheckSms;
-import tm.store.meninki.api.response.DataSendSms;
+import tm.store.meninki.api.data.response.DataCheckSms;
+import tm.store.meninki.api.data.response.DataSendSms;
 import com.google.gson.JsonObject;
 
 import retrofit2.Call;

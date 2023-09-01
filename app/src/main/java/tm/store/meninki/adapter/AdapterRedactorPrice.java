@@ -1,39 +1,49 @@
 package tm.store.meninki.adapter;
 
+import static tm.store.meninki.api.Network.BASE_URL;
 import static tm.store.meninki.utils.StaticMethods.dpToPx;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
-import static tm.store.meninki.utils.StaticMethods.setMargins;
 
 import android.content.Context;
+import android.graphics.Typeface;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import tm.store.meninki.R;
-import tm.store.meninki.data.ProductImageDto;
-import tm.store.meninki.databinding.ItemRedarctorPriceBinding;
-import tm.store.meninki.utils.Dialog;
+import com.bumptech.glide.Glide;
+import com.makeramen.roundedimageview.RoundedImageView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
-import tm.store.meninki.utils.StaticMethods;
+import tm.store.meninki.R;
+import tm.store.meninki.api.data.OptionDto;
+import tm.store.meninki.api.data.PersonalCharacterDto;
+import tm.store.meninki.databinding.ItemRedarctorPriceBinding;
+import tm.store.meninki.utils.Option;
 
 public class AdapterRedactorPrice extends RecyclerView.Adapter<AdapterRedactorPrice.CharImageHolder> {
-    private ArrayList<ProductImageDto> imageUrl = new ArrayList<>();
+    private ArrayList<PersonalCharacterDto> characters;
     private Context context;
-    private static AdapterRedactorPrice instance;
 
-    public AdapterRedactorPrice(Context context) {
+    public AdapterRedactorPrice(Context context, ArrayList<PersonalCharacterDto> body) {
         this.context = context;
+        this.characters = body;
     }
 
     @NonNull
     @Override
     public CharImageHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        instance = this;
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         ItemRedarctorPriceBinding popularAudios = ItemRedarctorPriceBinding.inflate(layoutInflater, parent, false);
         return new AdapterRedactorPrice.CharImageHolder(popularAudios);
@@ -46,10 +56,10 @@ public class AdapterRedactorPrice extends RecyclerView.Adapter<AdapterRedactorPr
 
     @Override
     public int getItemCount() {
-        if (imageUrl == null) {
-            return 5;
+        if (characters == null) {
+            return 0;
         }
-        return imageUrl.size();
+        return characters.size();
     }
 
     public class CharImageHolder extends RecyclerView.ViewHolder {
@@ -61,57 +71,108 @@ public class AdapterRedactorPrice extends RecyclerView.Adapter<AdapterRedactorPr
         }
 
         public void bind() {
-            if (getAdapterPosition() == 0) {
-                setMargins(b.getRoot(), StaticMethods.dpToPx(5, context), 0, 0, 0);
-            } else if (getAdapterPosition() == getItemCount() - 1) {
-                setMargins(b.getRoot(), 0, 0, StaticMethods.dpToPx(5, context), 0);
-            } else {
-                setMargins(b.getRoot(), 0, 0, 0, 0);
-            }
-            setBackgroundDrawable(context, b.main, R.color.neutral_dark, 0, 4, false, 0);
-            setBackgroundDrawable(context, b.root, R.color.color_transparent, R.color.neutral_dark, 4, false, 1);
-            setBackgroundDrawable(context, b.pickText, R.color.color_transparent, R.color.neutral_dark, 4, false, 1);
-            setBackgroundDrawable(context, b.oldPrice, R.color.color_transparent, R.color.neutral_dark, 4, false, 1);
-            setBackgroundDrawable(context, b.price, R.color.color_transparent, R.color.neutral_dark, 4, false, 1);
+            setBackgroundDrawable(context, b.root, R.color.white, R.color.low_contrast, 10, false, 1);
+            setBackgroundDrawable(context, b.edtPrice, R.color.bg, 0, 10, false, 0);
+            setBackgroundDrawable(context, b.edtOldPrice, R.color.bg, R.color.low_contrast, 10, false, 1);
+            int adapterPosition = getAdapterPosition();
+            ArrayList<OptionDto> options = characters.get(getAdapterPosition()).getOptions();
 
-
-            b.price.setOnClickListener(v -> {
-                //add item text
-                Dialog dialog = new Dialog();
-                dialog.showDialog(context);
-                dialog.yesBtn.setOnClickListener(v1 -> {
-                    if (dialog.title.getText().toString().trim().length() == 0) {
-                        Toast.makeText(context, "Your text is empty, please write something", Toast.LENGTH_SHORT).show();
-                        return;
+            if (options != null)
+                for (int i = 0; i < options.size(); i++) {
+                    if (options.get(i).getOptionType() == Option.CHARACTER_TEXT) {
+                        if (options.get(i).getValue() != null)
+                            addText(options.get(i).getValue());
+                    } else {
+                        if (options.get(i).getImagePath() != null)
+                            addImage(BASE_URL + "/" + options.get(i).getImagePath());
                     }
-                    b.price.setText(dialog.title.getText().toString().trim());
-                    dialog.dialog.dismiss();
-                });
+                }
+            b.edtPrice.setText(characters.get(getAdapterPosition()).getPrice() + "");
+            b.edtOldPrice.setText(characters.get(getAdapterPosition()).getDiscountPrice() + "");
+
+            b.edtOldPrice.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    if (b.edtPrice.getText().toString().trim().isEmpty()) {
+                        characters.get(adapterPosition).setDiscountPrice(0f);
+                    } else
+                        try {
+                            characters.get(adapterPosition).setDiscountPrice(Float.parseFloat(b.edtOldPrice.getText().toString().trim()));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
             });
+            b.edtPrice.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-            b.oldPrice.setOnClickListener(v -> {
-                Dialog dialog = new Dialog();
-                dialog.showDialog(context);
-                dialog.yesBtn.setOnClickListener(v1 -> {
-                    if (dialog.title.getText().toString().trim().length() == 0) {
-                        Toast.makeText(context, "Your text is empty, please write something", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    b.oldPrice.setText(dialog.title.getText().toString().trim());
-                    dialog.dialog.dismiss();
-                });
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    if (b.edtPrice.getText().toString().trim().isEmpty()) {
+                        characters.get(adapterPosition).setPrice(0f);
+                    } else
+                        try {
+                            characters.get(adapterPosition).setPrice(Float.parseFloat(b.edtPrice.getText().toString().trim()));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
             });
 
 
         }
+
+        private void addImage(String imagePath) {
+            RoundedImageView image = new RoundedImageView(context);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(dpToPx(40, context), dpToPx(40, context));
+            lp.leftMargin = dpToPx(5, context);
+            lp.rightMargin = dpToPx(5, context);
+            image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            image.setLayoutParams(lp);
+            image.setCornerRadius(10);
+            image.setImageResource(R.color.low_contrast);
+            b.optionsLay.addView(image);
+
+            Glide.with(context)
+                    .load(imagePath)
+                    .placeholder(R.color.low_contrast)
+                    .into(image);
+        }
+
+        private void addText(String value) {
+            TextView tv = new TextView(context);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            lp.leftMargin = dpToPx(5, context);
+            lp.rightMargin = dpToPx(5, context);
+            lp.gravity = Gravity.CENTER;
+            tv.setLayoutParams(lp);
+            tv.setText(value);
+            tv.setPadding(dpToPx(14, context), dpToPx(10, context), dpToPx(14, context), dpToPx(10, context));
+            tv.setTextColor(context.getResources().getColor(R.color.contrast));
+            Typeface customFont = ResourcesCompat.getFont(context, R.font.inter_medium);
+            tv.setTypeface(customFont);
+            b.optionsLay.addView(tv);
+        }
+
     }
 
-    public void setImageUrl(ArrayList<ProductImageDto> imageUrl) {
-        this.imageUrl = imageUrl;
-        notifyDataSetChanged();
-    }
 
-    public static AdapterRedactorPrice getInstance() {
-        return instance;
-    }
 }

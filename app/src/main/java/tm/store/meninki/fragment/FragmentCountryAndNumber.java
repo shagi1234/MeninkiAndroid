@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,16 +34,13 @@ import com.google.gson.JsonObject;
 
 import retrofit2.Call;
 import tm.store.meninki.R;
-import tm.store.meninki.activity.ActivityMain;
 import tm.store.meninki.api.ApiClient;
 import tm.store.meninki.api.RetrofitCallback;
-import tm.store.meninki.api.response.DataCheckSms;
-import tm.store.meninki.api.response.DataSendSms;
+import tm.store.meninki.api.data.response.DataSendSms;
 import tm.store.meninki.api.services.ServiceLogin;
 import tm.store.meninki.databinding.FragmentCountryAndNumberBinding;
 import tm.store.meninki.interfaces.CountryClickListener;
 import tm.store.meninki.shared.Account;
-import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentCountryAndNumber extends Fragment implements CountryClickListener {
     private FragmentCountryAndNumberBinding b;
@@ -90,60 +88,28 @@ public class FragmentCountryAndNumber extends Fragment implements CountryClickLi
     }
 
     private void signInGoogle() {
+        // Start the sign-in flow
         Intent signInIntent = gsc.getSignInIntent();
-        startActivityForResult(signInIntent, 1000);
+        startActivityForResult(signInIntent, 123);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1000) {
+        if (requestCode == 123) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-
             try {
+                // Get the signed-in account
                 task.getResult(ApiException.class);
+                addFragment(mainFragmentManager, R.id.container_login, FragmentLoginUserInfo.newInstance(true));
                 // send data
-                sendDataGoogle();
+
             } catch (ApiException e) {
                 Log.e("TAG", "onActivityResult: " + e);
             }
         }
     }
 
-    private void sendDataGoogle() {
-        if (getContext() == null || getActivity() == null) return;
-        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getContext());
-        if (acct == null) return;
-        JsonObject j = new JsonObject();
-        j.addProperty("userId", acct.getId());
-        j.addProperty("fullName", acct.getDisplayName());
-        j.addProperty("email", acct.getEmail());
-        Call<DataCheckSms> call = StaticMethods.getApiLogin().signInGoogle(j);
-        call.enqueue(new RetrofitCallback<DataCheckSms>() {
-            @Override
-            public void onResponse(DataCheckSms response) {
-                if (getContext() == null || getActivity() == null) return;
-
-                account.saveAccessToken(response.getAccessToken());
-                account.saveRefreshToken(response.getRefreshToken());
-                account.saveValidToToken(response.getValidTo());
-                account.saveUserUUID(response.getUserId());
-
-                //go next activity
-                account.saveUserIsLoggedIn();
-
-                startActivity(new Intent(getContext(), ActivityMain.class));
-                getActivity().finish();
-
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-//                showNoConnection();
-            }
-        });
-
-    }
 
     private void showKeyboard() {
         b.edtNumber.requestFocus();
@@ -156,6 +122,8 @@ public class FragmentCountryAndNumber extends Fragment implements CountryClickLi
         showKeyboard();
         b.btnLogin.setOnClickListener(v -> {
             b.btnLogin.setEnabled(false);
+            b.btnLogin.setAlpha(0.7f);
+            b.btnProgress.setVisibility(View.VISIBLE);
             sendSms();
         });
 
@@ -201,18 +169,23 @@ public class FragmentCountryAndNumber extends Fragment implements CountryClickLi
         call.enqueue(new RetrofitCallback<DataSendSms>() {
             @Override
             public void onResponse(DataSendSms response) {
-                b.btnLogin.setEnabled(true);
 
                 account.saveSendSmsId(response.getId());
                 account.saveUserPhoneNumber(b.selectCode.getText().toString().trim().substring(1) + b.edtNumber.getText().toString().trim());
 
-                addFragment(mainFragmentManager, R.id.container_login, FragmentSmsCode.newInstance());
+                addFragment(mainFragmentManager, R.id.container_login, FragmentSmsCode.newInstance(b.edtNumber.getText().toString()));
+                b.btnLogin.setAlpha(1);
+                b.btnProgress.setVisibility(View.GONE);
+                new Handler().postDelayed(() -> b.btnLogin.setEnabled(true), 200);
 
             }
 
             @Override
             public void onFailure(Throwable t) {
-                b.btnLogin.setEnabled(true);
+                Toast.makeText(getContext(), getActivity().getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                b.btnLogin.setAlpha(1);
+                b.btnProgress.setVisibility(View.GONE);
+                new Handler().postDelayed(() -> b.btnLogin.setEnabled(true), 200);
             }
         });
     }
@@ -229,13 +202,13 @@ public class FragmentCountryAndNumber extends Fragment implements CountryClickLi
     private void setNextBtnEnabled() {
         if (getActivity() == null) return;
         if (checkEnabled()) {
-            setBackgroundDrawable(getContext(), b.btnLogin, R.color.accent, 0, 50, false, 0);
+//            setBackgroundDrawable(getContext(), b.btnLogin, R.color.accent, 0, 50, false, 0);
             b.btnLogin.setTextColor(getActivity().getResources().getColor(R.color.bg));
             b.btnLogin.setEnabled(true);
             return;
         }
         b.btnLogin.setEnabled(false);
-        setBackgroundDrawable(getContext(), b.btnLogin, R.color.on_bg_ls, 0, 50, false, 0);
+//        setBackgroundDrawable(getContext(), b.btnLogin, R.color.on_bg_ls, 0, 50, false, 0);
         b.btnLogin.setTextColor(getActivity().getResources().getColor(R.color.neutral_dark));
 
     }

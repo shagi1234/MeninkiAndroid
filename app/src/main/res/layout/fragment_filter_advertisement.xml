@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical"
+    tools:context=".fragment.FragmentFilterAdvertisement">
+
+
+    <LinearLayout
+        android:id="@+id/header_lay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/low_contrast"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp">
+
+            <ImageView
+                android:id="@+id/back_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="10dp"
+                android:rotation="180"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_chevron__1_"
+                app:tint="@color/contrast" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/inter_semibold"
+                android:text="@string/filter_and_sort"
+                android:textColor="@color/contrast"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_sort"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/inter_medium"
+                android:text="@string/sort_elements"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="normal" />
+
+            <FrameLayout
+                android:id="@+id/sorted_by_lay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="14dp"
+                android:layout_marginTop="6dp"
+                android:paddingHorizontal="11dp"
+                android:paddingVertical="13dp">
+
+                <TextView
+                    android:id="@+id/sorted_by_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_chevron__1_"
+                    android:drawablePadding="10dp"
+                    android:drawableTint="@color/accent"
+                    android:fontFamily="@font/inter_medium"
+                    android:text="@string/sort_by_date"
+                    android:textColor="@color/accent"
+                    android:textSize="14sp" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/txt_region"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/inter_medium"
+                android:text="@string/velayat"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="normal" />
+
+            <FrameLayout
+                android:id="@+id/regions_lay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="14dp"
+                android:layout_marginTop="6dp"
+                android:paddingHorizontal="11dp"
+                android:paddingVertical="13dp">
+
+                <TextView
+                    android:id="@+id/region_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_chevron__1_"
+                    android:drawablePadding="10dp"
+                    android:drawableTint="@color/accent"
+                    android:fontFamily="@font/inter_medium"
+                    android:text="@string/ashgabat"
+                    android:textColor="@color/accent"
+                    android:textSize="14sp" />
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/inter_medium"
+                android:text="@string/price_from"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="normal" />
+
+            <FrameLayout
+                android:id="@+id/initial_price_lay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="14dp"
+                android:layout_marginTop="6dp">
+
+                <EditText
+                    android:id="@+id/min_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/color_transparent"
+                    android:fontFamily="@font/inter_bold"
+                    android:hint="0 TMT"
+                    android:inputType="numberDecimal"
+                    android:paddingHorizontal="11dp"
+                    android:paddingVertical="13dp"
+                    android:textColor="@color/accent"
+                    android:textColorHint="@color/neutral_dark"
+                    android:textSize="14sp" />
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/inter_medium"
+                android:text="@string/price_to"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="normal" />
+
+            <FrameLayout
+                android:id="@+id/till_price_lay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="14dp"
+                android:layout_marginTop="6dp">
+
+                <EditText
+                    android:id="@+id/max_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/color_transparent"
+                    android:fontFamily="@font/inter_bold"
+                    android:hint="0 TMT"
+                    android:inputType="numberDecimal"
+                    android:paddingHorizontal="11dp"
+                    android:paddingVertical="13dp"
+                    android:textColor="@color/accent"
+                    android:textColorHint="@color/neutral_dark"
+                    android:textSize="14sp" />
+            </FrameLayout>
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/clear_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/inter_bold"
+            android:gravity="center"
+            android:paddingVertical="14dp"
+            android:text="@string/clear_filter"
+            android:textColor="@color/contrast"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/show_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginBottom="40dp"
+            android:fontFamily="@font/inter_bold"
+            android:gravity="center"
+            android:paddingVertical="14dp"
+            android:text="@string/show_result"
+            android:textColor="@color/bg"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

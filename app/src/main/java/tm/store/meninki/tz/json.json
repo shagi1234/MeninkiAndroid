@@ -1,55 +1,114 @@
-{
-  "id": "6d7e022d-49a0-4a8d-9d8b-8b5805dbe762",
-  "name": "Gift",
-  "description": "Ffggghh",
-  "count": 0,
-  "inCartCount": 0,
-  "price": 0,
-  "discountPrice": 0,
-  "user": null,
-  "shop": {
-    "id": "74932df7-bdbe-42e2-9b49-6507c96a0011",
-    "imgPath": null,
-    "name": "Bonn ",
-    "description": null,
-    "phone": "Sdhsbxjk",
-    "email": "",
-    "isSubscribed": false,
-    "subscriberCount": 0,
-    "placeInRating": 0,
-    "orderCount": 0,
-    "visiterCount": 6,
-    "totalProduct": 1,
-    "socialMedias": []
+[
+  {
+    "id": "1916266d-9082-4575-958b-d5ca379c47cc",
+    "options": [
+      {
+        "id": "0e5e7e57-bbe2-4f4e-82f9-2b1df16cb464",
+        "optionType": 1,
+        "optionLevel": 0,
+        "imagePath": null,
+        "value": "ak",
+        "optionsImageId": null,
+        "productId": "65f7af40-4099-45ed-b5dd-be369c3fe8d2"
+      },
+      {
+        "id": "8b53efc5-4a11-4b27-9ac7-66471a02201f",
+        "optionType": 2,
+        "optionLevel": 1,
+        "imagePath": null,
+        "value": null,
+        "optionsImageId": null,
+        "productId": "65f7af40-4099-45ed-b5dd-be369c3fe8d2"
+      }
+    ],
+    "count": 0,
+    "priceBonus": null,
+    "price": null,
+    "discountPrice": null,
+    "productId": "65f7af40-4099-45ed-b5dd-be369c3fe8d2"
   },
-  "rating": {
-    "userRating": {},
-    "total": 0
+  {
+    "id": "c37fe8e4-95b9-4f04-94ca-7b40c1656d49",
+    "options": [
+      {
+        "id": "0e5e7e57-bbe2-4f4e-82f9-2b1df16cb464",
+        "optionType": 1,
+        "optionLevel": 0,
+        "imagePath": null,
+        "value": "ak",
+        "optionsImageId": null,
+        "productId": "65f7af40-4099-45ed-b5dd-be369c3fe8d2"
+      },
+      {
+        "id": "ea289a6f-cb5a-46c0-a43d-68fd7f2a3cfe",
+        "optionType": 2,
+        "optionLevel": 1,
+        "imagePath": null,
+        "value": null,
+        "optionsImageId": null,
+        "productId": "65f7af40-4099-45ed-b5dd-be369c3fe8d2"
+      }
+    ],
+    "count": 0,
+    "priceBonus": null,
+    "price": null,
+    "discountPrice": null,
+    "productId": "65f7af40-4099-45ed-b5dd-be369c3fe8d2"
   },
-  "categories": [
-    {
-      "id": "1438720a-e46d-4a78-9f03-7c3e2086b065",
-      "nameRu": "Mini Cars",
-      "nameTm": "Mini Cars",
-      "nameEn": "Mini Cars",
-      "categoryImage": null,
-      "parentId": "ab45f412-d713-4bd4-b7d6-568a488a2381",
-      "subCategories": []
-    }
-  ],
-  "options": null,
-  "personalCharacteristics": [],
-  "medias": [
-    {
-      "id": "367d941a-a41a-473f-872d-31b5ba09dd26",
-      "path": "StaticFiles/ProductMediaImage/Compressed/5f7c60cf-926a-42ad-b86b-1732f6fe8847.webp",
-      "orientationType": 0
-    },
-    {
-      "id": "828e544e-ee63-4bf5-bb99-72f11165fc9b",
-      "path": "StaticFiles/ProductMediaImage/Compressed/0dfafe20-4cf2-4902-8eb1-8f302caa0f13.webp",
-      "orientationType": 0
-    }
-  ],
-  "isFavorited": false
-}
+  {
+    "id": "dc4adbb3-67db-41d9-80e9-06c9159f2d0e",
+    "options": [
+      {
+        "id": "9963487f-d888-4734-8103-9df653bae5f7",
+        "optionType": 1,
+        "optionLevel": 1,
+        "imagePath": null,
+        "value": "gara",
+        "optionsImageId": null,
+        "productId": "65f7af40-4099-45ed-b5dd-be369c3fe8d2"
+      },
+      {
+        "id": "8b53efc5-4a11-4b27-9ac7-66471a02201f",
+        "optionType": 2,
+        "optionLevel": 1,
+        "imagePath": null,
+        "value": null,
+        "optionsImageId": null,
+        "productId": "65f7af40-4099-45ed-b5dd-be369c3fe8d2"
+      }
+    ],
+    "count": 0,
+    "priceBonus": null,
+    "price": null,
+    "discountPrice": null,
+    "productId": "65f7af40-4099-45ed-b5dd-be369c3fe8d2"
+  },
+  {
+    "id": "0c7a06a3-4193-445e-a856-ea6c6a4c7f3a",
+    "options": [
+      {
+        "id": "9963487f-d888-4734-8103-9df653bae5f7",
+        "optionType": 1,
+        "optionLevel": 1,
+        "imagePath": null,
+        "value": "gara",
+        "optionsImageId": null,
+        "productId": "65f7af40-4099-45ed-b5dd-be369c3fe8d2"
+      },
+      {
+        "id": "ea289a6f-cb5a-46c0-a43d-68fd7f2a3cfe",
+        "optionType": 2,
+        "optionLevel": 1,
+        "imagePath": null,
+        "value": null,
+        "optionsImageId": null,
+        "productId": "65f7af40-4099-45ed-b5dd-be369c3fe8d2"
+      }
+    ],
+    "count": 0,
+    "priceBonus": null,
+    "price": null,
+    "discountPrice": null,
+    "productId": "65f7af40-4099-45ed-b5dd-be369c3fe8d2"
+  }
+]

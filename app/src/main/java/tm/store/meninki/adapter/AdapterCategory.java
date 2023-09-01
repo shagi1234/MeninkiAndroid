@@ -3,6 +3,7 @@ package tm.store.meninki.adapter;
 import static tm.store.meninki.utils.Const.mainFragmentManager;
 import static tm.store.meninki.utils.FragmentHelper.addFragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -35,10 +36,12 @@ public class AdapterCategory extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private ArrayList<UserProfile> shops = new ArrayList<>();
     private int type;
     private MaterialCheckBox lastChecked;
+    Activity activity;
 
-    public AdapterCategory(Context context, int type) {
+    public AdapterCategory(Context context, int type, Activity activity) {
         this.type = type;
         this.context = context;
+        this.activity = activity;
     }
 
     //test
@@ -116,6 +119,7 @@ public class AdapterCategory extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 });
                 return;
             }
+
             b.title.setVisibility(View.VISIBLE);
             b.titleTxt.setVisibility(View.GONE);
             b.title.setText(categories.get(getAdapterPosition()).getName());
@@ -123,6 +127,7 @@ public class AdapterCategory extends RecyclerView.Adapter<RecyclerView.ViewHolde
             b.title.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 Fragment addProduct = mainFragmentManager.findFragmentByTag(FragmentAddProduct.class.getName());
                 Fragment addShop = mainFragmentManager.findFragmentByTag(FragmentNewShop.class.getName());
+
                 if (addProduct instanceof OnCategoryChecked) {
                     ((OnCategoryChecked) addProduct).onChecked(isChecked, categories.get(getAdapterPosition()));
                 }
@@ -133,10 +138,11 @@ public class AdapterCategory extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             if (categories.get(getAdapterPosition()).getSubCategories() != null && categories.get(getAdapterPosition()).getSubCategories().size() != 0) {
                 b.layNext.setVisibility(View.VISIBLE);
+
                 b.nextBtn.setOnClickListener(v -> {
                     b.nextBtn.setEnabled(false);
 
-                    addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentCategoryList.newInstance(categories.get(getAdapterPosition()).getSubCategories(), FragmentCategoryList.TYPE_CATEGORY));
+                    addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentCategoryList.newInstance(categories.get(getAdapterPosition()).getSubCategories(), FragmentCategoryList.TYPE_CATEGORY, categories.get(getAdapterPosition()).getName()));
                     new Handler().postDelayed(() -> b.nextBtn.setEnabled(true), 200);
                 });
                 return;
@@ -166,9 +172,11 @@ public class AdapterCategory extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 Fragment addProduct = mainFragmentManager.findFragmentByTag(FragmentAddProduct.class.getName());
                 if (addProduct instanceof OnShopChecked) {
                     ((OnShopChecked) addProduct).onShopChecked(isChecked, shops.get(getAdapterPosition()));
+//                    activity.onBackPressed();
                 }
 
                 lastChecked = b.title;
+
             });
         }
     }

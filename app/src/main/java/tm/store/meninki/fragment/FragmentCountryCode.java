@@ -73,7 +73,7 @@ public class FragmentCountryCode extends Fragment implements OnBackPressedFragme
 
         StaticMethods.setPadding(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight);
 
-        setNavBarIconsBlack(getActivity(), getContext());
+        setNavBarIconsBlack(getActivity());
 
         if (slidrInterface == null && getView() != null)
             slidrInterface = Slidr.replace(getView().findViewById(

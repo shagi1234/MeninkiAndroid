@@ -102,7 +102,7 @@ public class FragmentMyShops extends Fragment implements OnTabClicked {
     }
 
     private void initListeners() {
-        b.click.setOnClickListener(view -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentNewShop.newInstance()));
+        b.click.setOnClickListener(view -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentNewShop.newInstance("")));
         b.icBack.setOnClickListener(v -> getActivity().onBackPressed());
     }
 

@@ -626,62 +626,6 @@ public class FileUtil {
         return outFile.getPath();
     }
 
-  /*  // compress image
-    public static File compressImage(Context context, File imageFile) {
-
-//        Bitmap compressedImageBitmap = Compressor.getDefault(this).compressToBitmap(actualImageFile);
-        int file_size = Integer.parseInt(String.valueOf(imageFile.length() / 1024));
-        System.out.println(file_size + " ---kb");
-
-
-        if (file_size < 100) return imageFile;
-
-        File image = new Compressor.Builder(context)
-                .setMaxWidth(1500)
-                .setMaxHeight(1500)
-                .setQuality(70)
-                .setCompressFormat(Bitmap.CompressFormat.JPEG)
-                .setDestinationDirectoryPath(Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_PICTURES).getAbsolutePath())
-                .build()
-                .compressToFile(imageFile);
-
-        file_size = Integer.parseInt(String.valueOf(image.length() / 1024));
-
-        return image;
-    }
-
-
-    public static File compressImageToExternalStorage(Activity activity, Context context, File imageFile) {
-
-
-        int file_size = Integer.parseInt(String.valueOf(imageFile.length() / 1024));
-
-
-        if (file_size < 100)  {
-
-
-            File image = new Compressor.Builder(context)
-                    .setCompressFormat(Bitmap.CompressFormat.JPEG)
-                    .setQuality(100)
-                    .setDestinationDirectoryPath(String.valueOf(activity.getApplicationContext().getExternalFilesDir("Salam/Pictures/")))
-                    .build()
-                    .compressToFile(imageFile);
-            return image;
-        };
-
-        File image = new Compressor.Builder(context)
-                .setMaxWidth(1000)
-                .setMaxHeight(1000)
-                .setQuality(70)
-                .setCompressFormat(Bitmap.CompressFormat.JPEG)
-                .setDestinationDirectoryPath(String.valueOf(activity.getApplicationContext().getExternalFilesDir("Salam/Pictures/")))
-                .build()
-                .compressToFile(imageFile);
-
-        return image;
-    }*/
-
     private static File getBitmapFile(Bitmap reducedImage, Activity activity) {
         File file = new File(String.valueOf(activity.getApplicationContext().getExternalFilesDir("Salam/Pictures/")));
         try {
@@ -708,66 +652,6 @@ public class FileUtil {
         }
         return file;
     }
-
-
-/*    public static Bitmap compressImageAndGetBitmap(Context context, File imageFile) {
-
-//        Bitmap compressedImageBitmap = Compressor.getDefault(this).compressToBitmap(actualImageFile);
-
-        Bitmap image = new Compressor.Builder(context)
-                .setMaxWidth(500)
-                .setMaxHeight(500)
-                .setQuality(50)
-                .setCompressFormat(Bitmap.CompressFormat.JPEG)
-                .setDestinationDirectoryPath(Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_PICTURES).getAbsolutePath())
-                .build()
-//                .compressToFile(imageFile);
-                .compressToBitmap(imageFile);
-
-        return image;
-    }
-
-    public static String saveToInternalStorage(Context context, Bitmap bitmapImage, String name){
-        ContextWrapper cw = new ContextWrapper(context);
-        // path to /data/data/yourapp/app_data/imageDir
-        File directory = cw.getDir(File.separator+ App.APPLICATION_DIR_NAME + App.IMAGES_DIR, Context.MODE_PRIVATE);
-        // Create imageDir
-        File mypath=new File(directory,name);
-
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream(mypath);
-
-            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                fos.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return directory.getAbsolutePath();
-    }*/
-
-  /*  public static void createApplicationFolder() {
-        File f = new File(Environment.getExternalStorageDirectory(), File.separator + App.APPLICATION_DIR_NAME);
-        f.mkdirs();
-        f = new File(Environment.getExternalStorageDirectory(), File.separator + App.APPLICATION_DIR_NAME + App.IMAGES_DIR);
-        f.mkdirs();
-        f = new File(Environment.getExternalStorageDirectory(), File.separator + App.APPLICATION_DIR_NAME + App.VIDEOS_DIR);
-        f.mkdirs();
-        f = new File(Environment.getExternalStorageDirectory(), File.separator + App.APPLICATION_DIR_NAME + App.FILES_DIR);
-        f.mkdirs();
-        f = new File(Environment.getExternalStorageDirectory(), File.separator + App.APPLICATION_DIR_NAME + App.VOICES_DIR);
-        f.mkdirs();
-        f = new File(Environment.getExternalStorageDirectory(), File.separator + App.APPLICATION_DIR_NAME + App.AUDIOS_DIR);
-        f.mkdirs();
-
-    }
-*/
 
     public static File bitmapToFile(Context context, Bitmap bitmap, String fileNameToSave) {
         File file = null;

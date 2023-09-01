@@ -8,41 +8,79 @@
 
 package tm.store.meninki.adapter;
 
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+import static tm.store.meninki.api.Network.BASE_URL;
+import static tm.store.meninki.utils.Const.mainFragmentManager;
+import static tm.store.meninki.utils.FragmentHelper.addFragment;
+import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
+import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
+import static tm.store.meninki.utils.StaticMethods.setMargins;
+import static tm.store.meninki.utils.StaticMethods.setPadding;
+
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Handler;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.bumptech.glide.Glide;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.gson.JsonObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import tm.store.meninki.R;
-import tm.store.meninki.data.VideoDto;
+import tm.store.meninki.api.data.ResponsePostGetAllItem;
 import tm.store.meninki.databinding.ItemVideoBinding;
+import tm.store.meninki.fragment.FragmentComments;
+import tm.store.meninki.fragment.FragmentProduct;
+import tm.store.meninki.fragment.FragmentProfile;
+import tm.store.meninki.shared.Account;
+import tm.store.meninki.utils.StaticMethods;
 
 public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.VideoHolder> {
-    private ArrayList<VideoDto> videos;
+    private ArrayList<ResponsePostGetAllItem> videos;
     private Context context;
     private ViewPager2 viewPager2;
     private int position;
     public static SimpleExoPlayer lastExoPlayer;
     private Integer lastPosition = null;
     private FragmentActivity activity;
+    private ImageView lastThumb;
+    private Dialog dialog;
 
-    public AdapterPostPager(Context context, FragmentActivity activity, ArrayList<VideoDto> videos, ViewPager2 viewPager2) {
+    public AdapterPostPager(Context context, FragmentActivity activity, ArrayList<ResponsePostGetAllItem> videos, ViewPager2 viewPager2) {
         this.videos = videos;
         this.context = context;
         this.activity = activity;
@@ -60,7 +98,13 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
 
     @Override
     public void onBindViewHolder(@NonNull AdapterPostPager.VideoHolder holder, int position) {
-        holder.bind();
+
+        if (videos.get(holder.getAdapterPosition()).getMedias().get(0).getMediaType() == 1) {
+            holder.bindVideo();
+        } else {
+            holder.bindImages();
+        }
+
     }
 
     @Override
@@ -74,14 +118,15 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
     public void setPosition(int position) {
         this.position = position;
         notifyItemChanged(position);
-        if (lastPosition == null) return;
-        notifyItemChanged(lastPosition);
     }
 
     public void releasePlayer() {
+        if (lastThumb != null) lastThumb.setVisibility(View.VISIBLE);
+
         if (lastExoPlayer != null) {
             lastExoPlayer.stop();
             lastExoPlayer.release();
+            lastExoPlayer = null;
         }
     }
 
@@ -107,72 +152,221 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
             this.b = itemView;
         }
 
-        public void bind() {
-            DefaultLoadControl loadControl = new DefaultLoadControl.Builder()
-                    .setBufferDurationsMs(DefaultLoadControl.DEFAULT_MIN_BUFFER_MS,
-                            100_000,
-                            DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_MS,
-                            DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_AFTER_REBUFFER_MS)
-                    .build();
+        public void bindVideo() {
+            b.playerView.setVisibility(View.VISIBLE);
+            b.image.setVisibility(View.VISIBLE);
+            b.imagePager.setVisibility(View.GONE);
+            b.indicator.setVisibility(View.GONE);
+
+            DefaultLoadControl loadControl = new DefaultLoadControl.Builder().setBufferDurationsMs(DefaultLoadControl.DEFAULT_MIN_BUFFER_MS, 100_000, DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_MS, DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_AFTER_REBUFFER_MS).build();
             exoPlayer = new SimpleExoPlayer.Builder(context).setLoadControl(loadControl).build();
 
-//            if (!videos.get(getAdapterPosition()).isLiked()) {
-//                b.icLike.setImageResource(R.drawable.ic_favorite_border);
-//            } else b.icLike.setImageResource(R.drawable.ic_favorite);
-
-            if (getAdapterPosition() == position) {
-                playFilm(exoPlayer);
+            if (videos.get(getAdapterPosition()).getRating().getTotal() != 0 && checkIsLike(getAdapterPosition())) {
+                b.like.setImageResource(R.drawable.ic_like_enabled);
+            } else {
+                b.like.setImageResource(R.drawable.ic_like);
             }
-//            b.animationView.addAnimatorListener(new Animator.AnimatorListener() {
-//                @Override
-//                public void onAnimationStart(@NonNull Animator animation) {
-//                }
-//
-//                @Override
-//                public void onAnimationEnd(@NonNull Animator animation) {
-//                    b.animationView.clearAnimation();
-//                    b.animationView.setVisibility(View.GONE);
-//                }
-//
-//                @Override
-//                public void onAnimationCancel(@NonNull Animator animation) {
-//                }
-//
-//                @Override
-//                public void onAnimationRepeat(@NonNull Animator animation) {
-//
-//                }
-//            });
 
-//            b.clickLike.setOnClickListener(v -> {
-//                if (videos.get(getAdapterPosition()).isLiked()) {
-//                    b.icLike.setImageResource(R.drawable.ic_favorite_border);
-//                } else {
-//                    b.animationView.setVisibility(View.VISIBLE);
-//                    b.animationView.setAnimation("like.json");
-//                    b.animationView.loop(false);
-//                    b.animationView.playAnimation();
-//                    b.icLike.setImageResource(R.drawable.ic_favorite);
-//                }
+            b.likeCount.setText(videos.get(getAdapterPosition()).getRating().getTotal() + "");
+
+            if (videos.get(getAdapterPosition()).getComments() != null)
+                b.commentCount.setText(videos.get(getAdapterPosition()).getComments().getTotal() + "");
+
+            Glide.with(context).load(BASE_URL + "/" + videos.get(getAdapterPosition()).getMedias().get(0).getPreview()).placeholder(R.color.bg_post).into(b.image);
+
+            if (getAdapterPosition() == position) playFilm(exoPlayer);
+
+            b.username.setText(videos.get(getAdapterPosition()).getUser().getName());
+            b.desc.setText(videos.get(getAdapterPosition()).getDescription());
+            b.titleProd.setText(videos.get(getAdapterPosition()).getProductTitle());
+
+            Glide.with(context).load(BASE_URL + "/" + videos.get(getAdapterPosition()).getProductMedia()).placeholder(R.color.low_contrast).into(b.imgProd);
+            Glide.with(context).load(BASE_URL + "/" + videos.get(getAdapterPosition()).getUser().getImgPath()).placeholder(R.color.low_contrast).into(b.friendImg);
+
+            b.like.setOnClickListener(v -> like(getAdapterPosition()));
+            b.comment.setOnClickListener(v -> comment());
+            b.options.setOnClickListener(v -> showDialog());
+            b.share.setOnClickListener(view -> shareLink(BASE_URL + videos.get(getAdapterPosition()).getMedias().get(0).getPath()));
+            b.clickStore.setOnClickListener(view -> {
+                b.clickStore.setEnabled(false);
+                new Handler().postDelayed(() -> b.clickStore.setEnabled(true), 200);
+                addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProduct.newInstance(videos.get(getAdapterPosition()).getProductId()));
+            });
+            b.clickUser.setOnClickListener(view -> {
+                b.clickUser.setEnabled(false);
+                new Handler().postDelayed(() -> b.clickUser.setEnabled(true), 200);
+
+                addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(FragmentProfile.TYPE_USER, videos.get(getAdapterPosition()).getUser().getId()));
+            });
+
+        }
+
+        public void bindImages() {
+            b.playerView.setVisibility(View.GONE);
+            b.image.setVisibility(View.GONE);
+            b.imagePager.setVisibility(View.VISIBLE);
+            b.indicator.setVisibility(View.VISIBLE);
+
+            if (videos.get(getAdapterPosition()).getRating().getTotal() != 0 && checkIsLike(getAdapterPosition())) {
+                b.like.setImageResource(R.drawable.ic_like_enabled);
+            } else {
+                b.like.setImageResource(R.drawable.ic_like);
+            }
+
+            b.likeCount.setText(videos.get(getAdapterPosition()).getRating().getTotal() + "");
+            if (videos.get(getAdapterPosition()).getComments() != null)
+                b.commentCount.setText(videos.get(getAdapterPosition()).getComments().getTotal() + "");
+
+            setImagePager();
+
+            b.username.setText(videos.get(getAdapterPosition()).getUser().getName());
+            b.desc.setText(videos.get(getAdapterPosition()).getDescription());
+
+            b.titleProd.setText(videos.get(getAdapterPosition()).getProductTitle());
+
+            Glide.with(context).load(BASE_URL + "/" + videos.get(getAdapterPosition()).getUser().getImgPath()).placeholder(R.color.low_contrast).into(b.friendImg);
+            Glide.with(context).load(BASE_URL + "/" + videos.get(getAdapterPosition()).getProductMedia()).placeholder(R.color.low_contrast).into(b.imgProd);
+
+            b.like.setOnClickListener(v -> like(getAdapterPosition()));
+            b.comment.setOnClickListener(v -> comment());
+            b.options.setOnClickListener(v -> showDialog());
+            b.clickUser.setOnClickListener(view -> {
+                b.clickUser.setEnabled(false);
+                new Handler().postDelayed(() -> b.clickUser.setEnabled(true), 200);
+
+                addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(FragmentProfile.TYPE_USER, videos.get(getAdapterPosition()).getUser().getId()));
+            });
+            b.clickStore.setOnClickListener(view -> {
+                b.clickStore.setEnabled(false);
+                new Handler().postDelayed(() -> b.clickStore.setEnabled(true), 200);
+//                addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProduct.newInstance(videos.get(getAdapterPosition()).getProductId()));
+            });
+
+        }
+
+        private void showDialog() {
+            dialog = new BottomSheetDialog(context, R.style.SheetDialog);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.bottom_sheet_story_options);
+            dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnim;
+            dialog.getWindow().setGravity(Gravity.BOTTOM);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+            setDialogComponents();
+//            SimpleDateFormat inputDf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'");
+//            SimpleDateFormat outputDf = new SimpleDateFormat("dd MMMM yyyy, HH:mm");
 //
-//                videos.get(getAdapterPosition()).setLiked(!videos.get(getAdapterPosition()).isLiked());
-//            });
+//            try {
+//                Date date = inputDf.parse(videos.get(getAdapterPosition()).);
+//                if (date != null) {
+//                    b.reviewDate.setText(outputDf.format(date));
+//                }
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
 
-//            b.bgAdd.setOnClickListener(v -> {
-//                // add shorts
-//                Intent intent = new Intent();
-//                intent.setType("image/*");
-//                intent.setAction(Intent.ACTION_GET_CONTENT);
-//                activity.startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
-//            });
+            dialog.show();
 
+
+        }
+
+        private void setDialogComponents() {
+            FrameLayout root = dialog.findViewById(R.id.bottom_root);
+            TextView likeCount = dialog.findViewById(R.id.like_count);
+            LinearLayout favLay = dialog.findViewById(R.id.fav_lay);
+            LinearLayout downloadsLay = dialog.findViewById(R.id.downloads_lay);
+            LinearLayout openProductsLay = dialog.findViewById(R.id.open_product_lay);
+            LinearLayout shareLay = dialog.findViewById(R.id.share_lay);
+            LinearLayout openShopLa = dialog.findViewById(R.id.open_shop_lay);
+            LinearLayout complainLay = dialog.findViewById(R.id.complain_lay);
+
+            setPadding(root, 0, 0, 0, navigationBarHeight);
+            setBackgroundDrawable(context, favLay, R.color.on_bg_ls, 0, 14, false, 0);
+            setBackgroundDrawable(context, downloadsLay, R.color.on_bg_ls, 0, 14, false, 0);
+            setBackgroundDrawable(context, openProductsLay, R.color.on_bg_ls, 0, 14, false, 0);
+            setBackgroundDrawable(context, shareLay, R.color.on_bg_ls, 0, 14, false, 0);
+            setBackgroundDrawable(context, openShopLa, R.color.on_bg_ls, 0, 14, false, 0);
+            setBackgroundDrawable(context, complainLay, R.color.on_bg_ls, 0, 14, false, 0);
+
+
+            likeCount.setText(String.valueOf(videos.get(getAdapterPosition()).getRating().getTotal()));
+
+        }
+
+        private void comment() {
+            b.comment.setEnabled(false);
+            new Handler().postDelayed(() -> b.comment.setEnabled(true), 200);
+
+            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentComments.newInstance(videos.get(getAdapterPosition()).getComments().getComments(), videos.get(getAdapterPosition()).getId()));
+        }
+
+        private void like(int adapterPosition) {
+            changeUILike(adapterPosition);
+            Call<Boolean> call;
+
+            if (!checkIsLike(adapterPosition)) {
+                call = StaticMethods.getApiHome().like(videos.get(getAdapterPosition()).getId());
+            } else
+                call = StaticMethods.getApiHome().dislike(videos.get(getAdapterPosition()).getId());
+
+            call.enqueue(new Callback<Boolean>() {
+                @Override
+                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                    changeData(adapterPosition);
+                }
+
+                @Override
+                public void onFailure(Call<Boolean> call, Throwable t) {
+                    Toast.makeText(context, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        private void changeData(int adapterPosition) {
+            if (checkIsLike(adapterPosition)) {
+                videos.get(adapterPosition).getRating().setTotal(videos.get(adapterPosition).getRating().getTotal() - 1);
+                videos.get(adapterPosition).getRating().getUserRating().put(Account.newInstance(context).getPrefUserUUID(), false);
+            } else {
+                videos.get(adapterPosition).getRating().setTotal(videos.get(adapterPosition).getRating().getTotal() + 1);
+                videos.get(adapterPosition).getRating().getUserRating().put(Account.newInstance(context).getPrefUserUUID(), true);
+            }
+        }
+
+        private void changeUILike(int adapterPosition) {
+            if (checkIsLike(adapterPosition)) {
+                b.like.setImageResource(R.drawable.ic_like);
+                b.likeCount.setText(videos.get(adapterPosition).getRating().getTotal() - 1 + "");
+            } else {
+                b.like.setImageResource(R.drawable.ic_like_enabled);
+                b.likeCount.setText(videos.get(adapterPosition).getRating().getTotal() + 1 + "");
+            }
+        }
+
+        private void setImagePager() {
+            AdapterVerticalImagePager adapterVerticalImagePager = new AdapterVerticalImagePager(context, 0);
+            adapterVerticalImagePager.setImageList(new ArrayList<>(videos.get(getAdapterPosition()).getMedias()));
+            b.imagePager.setClipToPadding(false);
+            b.imagePager.setClipChildren(false);
+            b.imagePager.setOffscreenPageLimit(3);
+            b.imagePager.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
+            b.indicator.setVisibility(View.VISIBLE);
+            b.indicator.setViewPager(b.imagePager);
+            b.imagePager.setAdapter(adapterVerticalImagePager);
+
+        }
+
+        private void shareLink(String url) {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_TEXT, url);
+            activity.startActivity(Intent.createChooser(intent, context.getString(R.string.share_via)));
         }
 
         private void playFilm(SimpleExoPlayer exoPlayer) {
 
             try {
                 b.playerView.setPlayer(this.exoPlayer);
-                exoPlayer.setMediaItem(new MediaItem.Builder().setUri(Uri.parse(videos.get(getAdapterPosition()).getPath())).build());
+                exoPlayer.setMediaItem(new MediaItem.Builder().setUri(BASE_URL + Uri.parse(videos.get(getAdapterPosition()).getMedias().get(0).getPath())).build());
                 exoPlayer.setPlayWhenReady(true);
                 exoPlayer.prepare();
 
@@ -187,7 +381,15 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
                             exoPlayer.seekTo(0);
                             exoPlayer.play();
                         }
+                    }
+                });
 
+                exoPlayer.addListener(new Player.Listener() {
+                    @Override
+                    public void onRenderedFirstFrame() {
+                        Player.Listener.super.onRenderedFirstFrame();
+                        b.image.setVisibility(View.GONE);
+                        b.playerView.setVisibility(View.VISIBLE);
                     }
                 });
 
@@ -195,6 +397,7 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
                 e.printStackTrace();
             }
             lastExoPlayer = exoPlayer;
+            lastThumb = b.image;
         }
 
         private void setProgress(boolean isProgress) {
@@ -208,4 +411,9 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
             }
         }
     }
+
+    private boolean checkIsLike(int adapterPosition) {
+        return videos.get(adapterPosition).getRating().getUserRating().get(Account.newInstance(context).getPrefUserUUID()) != null && Boolean.TRUE.equals(videos.get(adapterPosition).getRating().getUserRating().get(Account.newInstance(context).getPrefUserUUID()));
+    }
+
 }

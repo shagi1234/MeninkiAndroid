@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_bottomsheet"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/inter_bold"
+        android:gravity="center_vertical"
+        android:text="@string/choose_media"
+        android:textColor="@color/contrast"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/video"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/ripple"
+        android:drawableStart="@drawable/ic_play_audio"
+        android:drawableTint="@color/contrast"
+        android:drawablePadding="10dp"
+        android:fontFamily="@font/inter_medium"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="14dp"
+        android:text="@string/video"
+        android:textColor="@color/contrast" />
+
+    <TextView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple"
+        android:clickable="true"
+        android:drawableStart="@drawable/image"
+        android:drawablePadding="10dp"
+        android:focusable="true"
+        android:fontFamily="@font/inter_medium"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="14dp"
+        android:text="@string/image"
+        android:textColor="@color/contrast" />
+
+</LinearLayout>

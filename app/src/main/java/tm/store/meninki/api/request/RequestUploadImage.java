@@ -1,5 +1,7 @@
 package tm.store.meninki.api.request;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.File;
 
 public class RequestUploadImage {
@@ -8,18 +10,10 @@ public class RequestUploadImage {
     private int imageType;
     private int width;
     private int height;
-    private String filename;
     private File data;
+    private File Image;
+    private File thumb;
 
-    public RequestUploadImage(String objectId, boolean isAvatar, int imageType, int width, int height, String filename, File data) {
-        this.objectId = objectId;
-        this.isAvatar = isAvatar;
-        this.imageType = imageType;
-        this.width = width;
-        this.height = height;
-        this.filename = filename;
-        this.data = data;
-    }
 
     public String getObjectId() {
         return objectId;
@@ -61,19 +55,27 @@ public class RequestUploadImage {
         this.height = height;
     }
 
-    public String getFilename() {
-        return filename;
-    }
-
-    public void setFilename(String filename) {
-        this.filename = filename;
-    }
-
     public File getData() {
         return data;
     }
 
     public void setData(File data) {
         this.data = data;
+    }
+
+    public File getThumb() {
+        return thumb;
+    }
+
+    public void setThumb(File thumb) {
+        this.thumb = thumb;
+    }
+
+    public void setImage(File image) {
+        Image = image;
+    }
+
+    public File getImage() {
+        return Image;
     }
 }

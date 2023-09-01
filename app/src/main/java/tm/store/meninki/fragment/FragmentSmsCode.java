@@ -3,13 +3,13 @@ package tm.store.meninki.fragment;
 import static tm.store.meninki.utils.Const.mainFragmentManager;
 import static tm.store.meninki.utils.FragmentHelper.addFragment;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
-import static tm.store.meninki.utils.StaticMethods.setPadding;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.text.Editable;
@@ -21,6 +21,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -31,7 +32,8 @@ import retrofit2.Call;
 import tm.store.meninki.R;
 import tm.store.meninki.api.ApiClient;
 import tm.store.meninki.api.RetrofitCallback;
-import tm.store.meninki.api.response.DataCheckSms;
+import tm.store.meninki.api.data.response.DataCheckSms;
+import tm.store.meninki.api.data.response.DataSendSms;
 import tm.store.meninki.api.services.ServiceLogin;
 import tm.store.meninki.databinding.FragmentSmsCodeBinding;
 import tm.store.meninki.shared.Account;
@@ -41,11 +43,12 @@ public class FragmentSmsCode extends Fragment {
     private FragmentSmsCodeBinding b;
     private CountDownTimer countDownTimer;
     private Account account;
+    String number;
 
-    public static FragmentSmsCode newInstance() {
+    public static FragmentSmsCode newInstance(String number) {
         FragmentSmsCode fragment = new FragmentSmsCode();
         Bundle args = new Bundle();
-
+        args.putString("_number", number);
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,6 +56,9 @@ public class FragmentSmsCode extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            number = getArguments().getString("_number");
+        }
         account = Account.newInstance(getContext());
     }
 
@@ -61,6 +67,7 @@ public class FragmentSmsCode extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         b = FragmentSmsCodeBinding.inflate(inflater, container, false);
+        b.phoneNum.setText(String.format("+993 %s", number));
         initListeners();
         countDownTime(120, b.btnResendCode);
         return b.getRoot();
@@ -74,6 +81,7 @@ public class FragmentSmsCode extends Fragment {
 
     private void initListeners() {
         showKeyboard();
+        b.backBtn.setOnClickListener(view -> getActivity().onBackPressed());
         b.edtCode.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -109,7 +117,7 @@ public class FragmentSmsCode extends Fragment {
                 account.saveValidToToken(response.getValidTo());
                 account.saveUserUUID(response.getUserId());
 
-                addFragment(mainFragmentManager, R.id.container_login, FragmentLoginUserInfo.newInstance());
+                addFragment(mainFragmentManager, R.id.container_login, FragmentLoginUserInfo.newInstance(false));
                 b.edtCode.setText("");
             }
 
@@ -164,12 +172,32 @@ public class FragmentSmsCode extends Fragment {
                 b.btnResendCode.setOnClickListener(view -> {
                     b.btnResendCode.setEnabled(false);
 
-                    // again
+                    // send again
+                    sendSms();
 
                     countDownTime(120, b.btnResendCode);
                 });
 
             }
         }.start();
+    }
+
+    private void sendSms() {
+        ServiceLogin serviceLogin = (ServiceLogin) ApiClient.createRequest(ServiceLogin.class);
+        JsonObject j = new JsonObject();
+        j.addProperty("phoneNumber", "993" + number);
+
+        Call<DataSendSms> call = serviceLogin.sendSms(j);
+        call.enqueue(new RetrofitCallback<DataSendSms>() {
+            @Override
+            public void onResponse(DataSendSms response) {
+
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Toast.makeText(getContext(), getActivity().getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

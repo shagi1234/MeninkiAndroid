@@ -1,13 +1,25 @@
 package tm.store.meninki.adapter;
 
 import static tm.store.meninki.api.Network.BASE_URL;
+import static tm.store.meninki.utils.StaticMethods.dpToPx;
+import static tm.store.meninki.utils.StaticMethods.getWindowWidth;
+import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.setMargins;
+import static tm.store.meninki.utils.StaticMethods.setPadding;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
@@ -19,16 +31,24 @@ import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.gson.Gson;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
 
 import tm.store.meninki.R;
-import tm.store.meninki.api.response.ResponseCard;
+import tm.store.meninki.api.data.ResponseOrderGetAll;
+import tm.store.meninki.api.data.ResponsePostGetAllItem;
+import tm.store.meninki.api.data.response.ResponseCard;
+import tm.store.meninki.data.AdvertisementDto;
+import tm.store.meninki.databinding.ItemAdvertisementBinding;
 import tm.store.meninki.databinding.ItemBasketBinding;
 import tm.store.meninki.databinding.ItemPostBinding;
 import tm.store.meninki.databinding.ItemStaggeredGridBinding;
-import tm.store.meninki.fragment.FragmentPost;
+import tm.store.meninki.fragment.FragmentAdvertisement;
 import tm.store.meninki.fragment.FragmentProduct;
+import tm.store.meninki.fragment.FragmentProfileViewPager;
 import tm.store.meninki.utils.Const;
 import tm.store.meninki.utils.FragmentHelper;
 import tm.store.meninki.utils.StaticMethods;
@@ -37,11 +57,15 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private FragmentActivity activity;
     private ArrayList<ResponseCard> grids = new ArrayList<>();
+    private ArrayList<ResponsePostGetAllItem> posts = new ArrayList<>();
+
+    private ArrayList<AdvertisementDto> advertisements = new ArrayList<>();
     public final static int TYPE_GRID = 0;
     public final static int TYPE_HORIZONTAL_SMALL = 1;
     public final static int TYPE_HORIZONTAL = 2;
     public final static int TYPE_POST = 4;
-    public final static int TYPE_BASKET = 3;
+    public final static int TYPE_ADVERTISEMENT = 5;
+    BottomSheetDialog dialog;
     private int maxSize;
     private int type;
 
@@ -58,12 +82,12 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
 
         switch (type) {
-            case TYPE_BASKET:
-                ItemBasketBinding b = ItemBasketBinding.inflate(layoutInflater, parent, false);
-                return new AdapterGrid.BasketHolder(b);
             case TYPE_POST:
                 ItemPostBinding postBinding = ItemPostBinding.inflate(layoutInflater, parent, false);
                 return new AdapterGrid.PostHolder(postBinding);
+            case TYPE_ADVERTISEMENT:
+                ItemAdvertisementBinding ad = ItemAdvertisementBinding.inflate(layoutInflater, parent, false);
+                return new AdapterGrid.AdvertisementHolder(ad);
             default:
                 ItemStaggeredGridBinding popularAudios = ItemStaggeredGridBinding.inflate(layoutInflater, parent, false);
                 return new AdapterGrid.StoreHolder(popularAudios);
@@ -74,11 +98,11 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         switch (type) {
-            case TYPE_BASKET:
-                ((BasketHolder) holder).bind();
-                break;
             case TYPE_POST:
                 ((PostHolder) holder).bind();
+                break;
+            case TYPE_ADVERTISEMENT:
+                ((AdvertisementHolder) holder).bind();
                 break;
             default:
                 ((StoreHolder) holder).bind();
@@ -88,8 +112,12 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        if (grids == null) {
-            return 0;
+        if (type == TYPE_POST && posts != null) {
+            return posts.size();
+        }
+
+        if (type == TYPE_ADVERTISEMENT && advertisements != null) {
+            return advertisements.size();
         }
 
         if (maxSize == -1) {
@@ -102,6 +130,13 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public void setStories(ArrayList<ResponseCard> stories) {
         this.grids = stories;
+        notifyDataSetChanged();
+    }
+
+
+
+    public void setPosts(ArrayList<ResponsePostGetAllItem> posts) {
+        this.posts = posts;
         notifyDataSetChanged();
     }
 
@@ -159,36 +194,20 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             if (grids == null) return;
 
-            if (grids.get(getAdapterPosition()).getImages().length > 0)
-                try {
-                    String USER_AGENT = "Mozilla/5.0 (Linux; Android 11) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.181 Mobile Safari/537.36";
+            if (grids.get(getAdapterPosition()).getImages().length > 0) try {
+                String USER_AGENT = "Mozilla/5.0 (Linux; Android 11) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.181 Mobile Safari/537.36";
 
-                    GlideUrl glideUrl = new GlideUrl(BASE_URL + "/" + grids.get(getAdapterPosition()).getImages()[0],
-                            new LazyHeaders.Builder()
-                                    .addHeader("User-Agent", USER_AGENT)
-                                    .build());
+                GlideUrl glideUrl = new GlideUrl(BASE_URL + "/" + grids.get(getAdapterPosition()).getImages()[0], new LazyHeaders.Builder().addHeader("User-Agent", USER_AGENT).build());
 
-                    RequestOptions requestOptions = new RequestOptions()
-                            .placeholder(R.color.low_contrast)
-                            .error(R.color.neutral_dark);
+                RequestOptions requestOptions = new RequestOptions().placeholder(R.color.low_contrast).error(R.color.neutral_dark);
 
-                    Glide.with(context)
-                            .applyDefaultRequestOptions(requestOptions)
-                            .load(glideUrl)
-                            .timeout(60000)
-                            .override(320, 480)
-                            .into(b.image);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+                Glide.with(context).applyDefaultRequestOptions(requestOptions).load(glideUrl).timeout(60000).override(320, 480).into(b.image);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
 
 
-            Glide.with(context)
-                    .load(BASE_URL + "/" + grids.get(getAdapterPosition()).getAvatar())
-                    .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                    .placeholder(R.color.low_contrast)
-                    .error(R.color.neutral_dark)
-                    .into(b.posterImage);
+            Glide.with(context).load(BASE_URL + "/" + grids.get(getAdapterPosition()).getAvatar()).override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).placeholder(R.drawable.placeholder).error(R.drawable.placeholder).into(b.posterImage);
 
             Double price = grids.get(getAdapterPosition()).getPrice();
             Double discountPrice = grids.get(getAdapterPosition()).getDiscountPrice();
@@ -206,64 +225,6 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    public class BasketHolder extends RecyclerView.ViewHolder {
-        private final ItemBasketBinding b;
-        private AdapterImageHorizontal adapterImageHorizontal;
-
-        public BasketHolder(ItemBasketBinding b) {
-            super(b.getRoot());
-            this.b = b;
-        }
-
-        public void bind() {
-            setBackgroundDrawable(context, b.posterImage, R.color.neutral_dark, R.color.accent, 0, true, 2);
-            setBackgroundDrawable(context, b.layPrice, R.color.neutral_dark, 0, 4, false, 0);
-
-            setRecycler();
-
-            if (grids == null) return;
-
-            Glide.with(context)
-                    .load(grids.get(getAdapterPosition()).getAvatar())
-                    .into(b.posterImage);
-
-
-            if (grids.get(getAdapterPosition()).getImages().length > 0) {
-                ArrayList<String> images = new ArrayList<>();
-
-                images.add(BASE_URL + "/" + grids.get(getAdapterPosition()).getImages()[0]);
-                adapterImageHorizontal.setImageUrl(images);
-            }
-
-            b.name.setText(grids.get(getAdapterPosition()).getName());
-
-            double price = grids.get(getAdapterPosition()).getPrice();
-            b.price.setText(price + " TMT");
-
-            b.btnAdd.setOnClickListener(v -> {
-                ResponseCard data = grids.get(getAdapterPosition());
-//                data.setCount(data.getCount() + 1);
-                notifyItemChanged(getAdapterPosition());
-            });
-
-            b.btnSubs.setOnClickListener(v -> {
-                ResponseCard data = grids.get(getAdapterPosition());
-//                data.setCount(data.getCount() - 1);
-                notifyItemChanged(getAdapterPosition());
-            });
-
-        }
-
-        private void setRecycler() {
-            adapterImageHorizontal = new AdapterImageHorizontal(context);
-            b.recImages.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-            b.recImages.setAdapter(adapterImageHorizontal);
-
-            adapterImageHorizontal.setImageUrl(null);
-
-        }
-    }
-
     public class PostHolder extends RecyclerView.ViewHolder {
         private ItemPostBinding b;
 
@@ -273,44 +234,123 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         public void bind() {
+            setIsRecyclable(false);
+
             setBackgroundDrawable(context, b.posterImage, R.color.neutral_dark, R.color.accent, 0, true, 2);
 
-            b.click.setOnClickListener(v -> FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentPost.newInstance()));
+            b.layImage.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (getWindowWidth(activity) * 1.43 / 2)));
 
-            if (grids == null) return;
+            if (getAdapterPosition() == getItemCount() - 1) {
+                setMargins(b.getRoot(), 0, 0, 0, dpToPx(80, context));
+            }
 
-            if (grids.get(getAdapterPosition()).getImages().length > 0)
-                try {
-                    String USER_AGENT = "Mozilla/5.0 (Linux; Android 11) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.181 Mobile Safari/537.36";
+            b.click.setOnClickListener(v -> {
+                int adapterPosition = getAdapterPosition();
+                FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentProfileViewPager.newInstance(posts, adapterPosition, posts.get(getAdapterPosition()).getUser().getId()));
+            });
 
-                    GlideUrl glideUrl = new GlideUrl(BASE_URL + "/" + grids.get(getAdapterPosition()).getImages()[0],
-                            new LazyHeaders.Builder()
-                                    .addHeader("User-Agent", USER_AGENT)
-                                    .build());
+            if (posts == null) return;
 
-                    RequestOptions requestOptions = new RequestOptions()
-                            .placeholder(R.color.low_contrast)
-                            .error(R.color.neutral_dark);
-
-                    Glide.with(context)
-                            .applyDefaultRequestOptions(requestOptions)
-                            .load(glideUrl)
-                            .timeout(60000)
-                            .override(320, 480)
-                            .into(b.image);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+            if (posts.get(getAdapterPosition()).getMedias().size() > 0 && posts.get(getAdapterPosition()).getMedias().get(0).getMediaType() == 1) {
+                b.layPlayedCount.setVisibility(View.VISIBLE);
+            } else b.layPlayedCount.setVisibility(View.GONE);
 
 
-            Glide.with(context)
-                    .load(BASE_URL + "/" + grids.get(getAdapterPosition()).getAvatar())
-                    .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                    .placeholder(R.color.low_contrast)
-                    .error(R.color.neutral_dark)
-                    .into(b.posterImage);
+            b.favCount.setText(posts.get(getAdapterPosition()).getRating().getTotal() + "");
 
-            b.title.setText(grids.get(getAdapterPosition()).getName());
+            if (posts.get(getAdapterPosition()).getMedias().size() > 0) try {
+                GlideUrl glideUrl;
+
+                if (posts.get(getAdapterPosition()).getMedias().get(0).getMediaType() == 0) {
+                    glideUrl = new GlideUrl(BASE_URL + "/" + posts.get(getAdapterPosition()).getMedias().get(0).getPath(), new LazyHeaders.Builder().build());
+                } else
+                    glideUrl = new GlideUrl(BASE_URL + "/" + posts.get(getAdapterPosition()).getMedias().get(0).getPreview(), new LazyHeaders.Builder().build());
+
+
+                RequestOptions requestOptions = new RequestOptions().placeholder(R.drawable.placeholder).error(R.drawable.placeholder);
+
+                Glide.with(context).applyDefaultRequestOptions(requestOptions).load(glideUrl).timeout(60000).override(320, 480).into(b.image);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
+
+            if (posts.get(getAdapterPosition()).getUser() != null)
+                Glide.with(context).load(BASE_URL + "/" + posts.get(getAdapterPosition()).getUser().getImgPath()).override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).placeholder(R.drawable.placeholder).error(R.drawable.placeholder).into(b.posterImage);
+
+            b.title.setText(posts.get(getAdapterPosition()).getName());
+            Log.e("TAG_title_post", "bind: " + posts.get(getAdapterPosition()).getName());
+
+            b.moreInfo.setOnClickListener(view -> showDialog());
         }
+
+
+        private void showDialog() {
+            dialog = new BottomSheetDialog(context, R.style.SheetDialog);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.bottom_sheet_story_info);
+            dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnim;
+            dialog.getWindow().setGravity(Gravity.BOTTOM);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+            setDialogComponents();
+
+            dialog.show();
+
+
+        }
+
+        private void setDialogComponents() {
+            FrameLayout root = dialog.findViewById(R.id.bottom_root);
+            TextView profileName = dialog.findViewById(R.id.profile_name);
+            RoundedImageView roundedImageView = dialog.findViewById(R.id.profile_box);
+            TextView title = dialog.findViewById(R.id.title);
+            TextView description = dialog.findViewById(R.id.description);
+
+            profileName.setText(posts.get(getAdapterPosition()).getUser().getName());
+            description.setText(posts.get(getAdapterPosition()).getDescription());
+            Glide.with(context).load(posts.get(getAdapterPosition()).getMedias().get(0)).into(roundedImageView);
+            title.setText(posts.get(getAdapterPosition()).getName());
+
+
+            setPadding(root, 0, 0, 0, navigationBarHeight);
+
+        }
+    }
+
+    public class AdvertisementHolder extends RecyclerView.ViewHolder {
+        private ItemAdvertisementBinding b;
+
+        public AdvertisementHolder(ItemAdvertisementBinding b) {
+            super(b.getRoot());
+            this.b = b;
+        }
+
+        public void bind() {
+            if (getAdapterPosition() == getItemCount() - 1) {
+                setMargins(b.getRoot(), 0, 0, 0, dpToPx(80, context));
+            } else setMargins(b.getRoot(), 0, 0, 0, 0);
+
+
+            setBackgroundDrawable(context, b.getRoot(), 0, 0, 8, false, 0);
+            setComponents();
+
+            b.click.setOnClickListener(v -> FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentAdvertisement.newInstance(advertisements.get(getAdapterPosition()).getId())));
+        }
+
+        private void setComponents() {
+            b.title.setText(advertisements.get(getAbsoluteAdapterPosition()).getTitle());
+            b.tvPrice.setText(String.valueOf(advertisements.get(getAdapterPosition()).getPrice()));
+
+            if (advertisements.get(getAdapterPosition()).getImages() != null && advertisements.get(getAdapterPosition()).getImages().length > 0) {
+                Glide.with(context).load(BASE_URL + "/" + advertisements.get(getAdapterPosition()).getImages()[0]).into(b.image);
+            }
+
+        }
+    }
+
+    public void setAdvertisements(ArrayList<AdvertisementDto> advertisements) {
+        this.advertisements = advertisements;
+        notifyDataSetChanged();
     }
 }

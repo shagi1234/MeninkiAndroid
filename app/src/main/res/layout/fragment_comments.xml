@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg"
+        tools:context=".fragment.FragmentComments">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/post_comment_lay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/bg">
+
+            <RelativeLayout
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="15dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/count_comments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/inter_medium"
+                    android:textColor="@color/contrast"
+                    android:textSize="13sp"
+                    tools:text="208 комментарии" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ic_back"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_back"
+                    android:tint="@color/contrast"
+                    tools:ignore="UseAppTint" />
+
+            </RelativeLayout>
+
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipe_refresh"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/f_chat_text_and_audio_on_container"
+                app:layout_constraintTop_toBottomOf="@+id/header">
+
+                <androidx.core.widget.NestedScrollView
+                    android:id="@+id/scroll"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp">
+
+                    <LinearLayout
+                        android:id="@+id/main"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/lay_current_post"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:visibility="gone"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="10dp">
+
+                                <com.makeramen.roundedimageview.RoundedImageView
+                                    android:id="@+id/avatar"
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:layout_gravity="center"
+                                    android:scaleType="centerCrop"
+                                    android:visibility="gone"
+                                    app:riv_oval="true" />
+
+                                <TextView
+                                    android:id="@+id/avatar_txt"
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/inter_regular"
+                                    android:gravity="center"
+                                    android:textColor="@color/white"
+                                    android:textSize="16sp"
+                                    tools:text="SD" />
+
+                            </FrameLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+                                    <!--Todo name uly bolsa wagtyn ustune chykyar-->
+                                    <TextView
+                                        android:id="@+id/name"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/inter_regular"
+                                        android:paddingVertical="7.5dp"
+                                        android:textColor="@color/black"
+                                        tools:text="Shahruh" />
+
+                                    <TextView
+                                        android:id="@+id/createdAt"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentEnd="true"
+                                        android:layout_centerInParent="true"
+                                        android:fontFamily="@font/inter_regular"
+                                        android:textColor="@color/neutral_dark"
+                                        android:textSize="10sp"
+                                        tools:ignore="SmallSp"
+                                        tools:text="12:32 | 05.05.2022" />
+
+                                </RelativeLayout>
+
+                                <TextView
+                                    android:id="@+id/post_title"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/inter_medium"
+                                    android:textColor="@color/contrast"
+                                    android:textSize="14sp"
+                                    android:visibility="gone"
+                                    tools:text="Title" />
+
+                                <TextView
+                                    android:id="@+id/content_post"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:fontFamily="@font/inter_regular"
+                                    android:maxLength="500"
+                                    android:textColor="@color/contrast"
+                                    android:textSize="14sp"
+                                    tools:text="Предупреждение о халяве! ⚠ Библиотек Lorem ipsum — классический текст-«рыба» (условный, зачастую бессмысленный текст-заполнитель, вставляемый в макет страницы). 😷😷" />
+
+                                <LinearLayout
+                                    android:id="@+id/lay_hashtags"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="10dp"
+                                    android:orientation="horizontal"
+                                    android:visibility="gone">
+
+                                    <TextView
+                                        android:id="@+id/hashtags"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="5dp"
+                                        android:fontFamily="@font/inter_regular"
+                                        android:textColor="@color/accent"
+                                        android:textSize="14sp"
+                                        tools:text="#salam#salamnews" />
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rec_comments"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="5dp"
+                            android:nestedScrollingEnabled="true" />
+
+                    </LinearLayout>
+
+                </androidx.core.widget.NestedScrollView>
+
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+            <LinearLayout
+                android:id="@+id/f_chat_text_and_audio_on_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/bg"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/swipe_refresh">
+
+                <LinearLayout
+                    android:id="@+id/text_container_main"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:paddingHorizontal="10dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:visibility="visible">
+
+                    <FrameLayout
+                        android:id="@+id/smile_btn"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="bottom">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/smile_img"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            app:srcCompat="@drawable/ic_emoji" />
+
+                    </FrameLayout>
+
+                    <com.aghajari.emojiview.view.AXEmojiEditText
+                        android:id="@+id/edt_comment"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:background="@color/color_transparent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/inter_regular"
+                        android:hint="Comment"
+                        android:inputType="textMultiLine|textCapSentences"
+                        android:maxLines="5"
+                        android:textSize="16sp" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/icon_send"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_send"
+                            android:visibility="visible" />
+
+                        <ProgressBar
+                            android:id="@+id/progress_comment"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_centerInParent="true"
+                            android:indeterminate="true"
+                            android:indeterminateDrawable="@drawable/progres_bg"
+                            android:progress="0"
+                            android:progressTint="@color/accent"
+                            android:visibility="gone" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/gray_keyboard"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/f_chat_text_and_audio_on_container"
+                app:layout_constraintTop_toBottomOf="@+id/header" />
+
+            <com.aghajari.emojiview.view.AXEmojiPopupLayout
+                android:id="@+id/layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+
+</layout>

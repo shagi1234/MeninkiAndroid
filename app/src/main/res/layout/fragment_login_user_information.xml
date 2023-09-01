@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/bg"
     android:clickable="true"
     android:focusable="true">
@@ -45,7 +46,7 @@
                 android:layout_gravity="center"
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/inter_semibold"
-                android:text="Расскажи о себе"
+                android:text="@string/tell_about_yourself"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
@@ -58,33 +59,52 @@
             android:layout_marginHorizontal="40dp"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/inter_regular"
-            android:text="Достаточно только имени. Фотографию и подробные данные о себе вы сможете добавить позже."
+            android:text="@string/only_image_other_optional"
             android:textColor="@color/contrast"
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/hint_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="40dp"
             android:layout_marginTop="50dp"
             android:fontFamily="@font/inter_medium"
-            android:text="Введи свое имя"
+            android:text="@string/enter_your_name"
             android:textColor="@color/black"
             android:textSize="14sp" />
 
-        <EditText
-            android:id="@+id/edt_name"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/phone_con"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="40dp"
             android:layout_marginTop="6dp"
-            android:gravity="center_vertical"
-            android:paddingVertical="15dp"
-            android:paddingStart="20dp"
-            android:paddingEnd="20sp"
-            android:textColor="@color/contrast"
-            android:textColorHint="@color/neutral_dark"
-            android:textSize="14sp" />
+            android:dividerPadding="5dp"
+            app:boxCornerRadiusBottomEnd="10dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusTopStart="10dp"
+            app:boxStrokeColor="@color/black"
+            app:boxStrokeWidthFocused="2dp"
+            app:errorEnabled="true"
+            app:hintTextColor="@color/neutral_dark"
+            app:prefixTextColor="@color/black">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_name"
+                android:layout_marginHorizontal="40dp"
+                android:paddingVertical="15dp"
+                android:paddingStart="20dp"
+                style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/inter_medium"
+                android:inputType="phone"
+                android:maxLength="8"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/error_name"
@@ -105,23 +125,41 @@
             android:layout_marginHorizontal="40dp"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/inter_medium"
-            android:text="Придумай юзернейм"
+            android:text="@string/enter_username"
             android:textColor="@color/black"
             android:textSize="14sp" />
 
-        <EditText
-            android:id="@+id/edt_username"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/lay_username"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="40dp"
             android:layout_marginTop="6dp"
-            android:gravity="center_vertical"
-            android:paddingVertical="15dp"
-            android:paddingStart="20dp"
-            android:paddingEnd="20sp"
-            android:textColor="@color/contrast"
-            android:textColorHint="@color/neutral_dark"
-            android:textSize="14dp" />
+            android:dividerPadding="5dp"
+            app:boxCornerRadiusBottomEnd="10dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusTopStart="10dp"
+            app:boxStrokeColor="@color/black"
+            app:boxStrokeWidthFocused="2dp"
+            app:errorEnabled="true"
+            app:hintTextColor="@color/neutral_dark"
+            app:prefixTextColor="@color/black">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_username"
+                android:layout_marginHorizontal="40dp"
+                android:paddingVertical="15dp"
+                android:paddingStart="20dp"
+                style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/inter_medium"
+                android:inputType="phone"
+                android:maxLength="8"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/error_username"
@@ -145,19 +183,34 @@
         android:layout_alignParentBottom="true"
         android:textColor="@color/bg">
 
-        <TextView
-            android:id="@+id/next_btn"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="40dp"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="30dp"
-            android:background="@color/accent"
-            android:fontFamily="@font/inter_bold"
-            android:gravity="center"
-            android:paddingVertical="15dp"
-            android:text="Завершить"
-            android:textColor="@color/bg" />
+            android:layout_marginBottom="30dp">
+
+            <TextView
+                android:id="@+id/next_btn"
+                style="@style/TextViewButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_bold"
+                android:gravity="center"
+                android:paddingVertical="15dp"
+                android:text="@string/finsh"
+                android:textColor="@color/bg" />
+
+            <ProgressBar
+                android:id="@+id/btn_progress"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="20dp"
+                android:indeterminateTint="@color/bg"
+                android:visibility="gone" />
+        </FrameLayout>
+
     </FrameLayout>
 
 </RelativeLayout>

@@ -1,5 +1,8 @@
 package tm.store.meninki.adapter;
 
+import static tm.store.meninki.api.Network.BASE_URL;
+import static tm.store.meninki.utils.Const.mainFragmentManager;
+import static tm.store.meninki.utils.FragmentHelper.addFragment;
 import static tm.store.meninki.utils.StaticMethods.setMargins;
 
 import android.content.Context;
@@ -15,14 +18,15 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 import tm.store.meninki.R;
-import tm.store.meninki.data.CategoryDto;
+import tm.store.meninki.api.data.response.ResponseHomeShops;
 import tm.store.meninki.databinding.ItemCircleProductBinding;
+import tm.store.meninki.fragment.FragmentProfile;
 import tm.store.meninki.utils.StaticMethods;
 
 public class AdapterCircle extends RecyclerView.Adapter<AdapterCircle.StoreHolder> {
     private Context context;
     private FragmentActivity activity;
-    private ArrayList<CategoryDto> stories = new ArrayList<>();
+    private ArrayList<ResponseHomeShops> stories = new ArrayList<>();
 
     public AdapterCircle(Context context, FragmentActivity activity) {
         this.context = context;
@@ -50,7 +54,7 @@ public class AdapterCircle extends RecyclerView.Adapter<AdapterCircle.StoreHolde
         return stories.size();
     }
 
-    public void setStories(ArrayList<CategoryDto> stories) {
+    public void setStories(ArrayList<ResponseHomeShops> stories) {
         this.stories = stories;
         notifyDataSetChanged();
     }
@@ -74,12 +78,14 @@ public class AdapterCircle extends RecyclerView.Adapter<AdapterCircle.StoreHolde
             }
 
             Glide.with(context)
-                    .load(stories.get(getAdapterPosition()).getCategoryImage())
+                    .load(BASE_URL + "/" + stories.get(getAdapterPosition()).getShop().getImgPath())
                     .placeholder(R.color.low_contrast)
-                    .error(R.color.neutral_dark)
+                    .error(R.color.on_bg_ls)
                     .into(b.image);
 
-            b.storeName.setText(stories.get(getAdapterPosition()).getName());
+            b.storeName.setText(stories.get(getAdapterPosition()).getShop().getName());
+
+            b.click.setOnClickListener(v -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(FragmentProfile.TYPE_SHOP, stories.get(getAdapterPosition()).getShop().getId())));
         }
     }
 }

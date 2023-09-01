@@ -2,15 +2,22 @@ package tm.store.meninki.api.data;
 
 import com.google.gson.annotations.SerializedName;
 
+import tm.store.meninki.data.CategoryDto;
+
 public class UserProfile {
     private String id;
+    @SerializedName("imagePath")
     private String imgPath;
     private String name;
-    private String phoneNumber;
+    private String firstName;
+    @SerializedName("phoneNumber")
+    private String phone;
     private String email;
+    private String userName;
     private boolean isSubscribed;
     private int subscriberCount;
     private int subscriptionCount;
+    private String[] category;
     @SerializedName("totalProduct")
     private int productCount;
     private int placeInRating; // ine shop-da bar, user profile-da yok
@@ -18,9 +25,24 @@ public class UserProfile {
     private int boughtProducts; // dine oz profilymda bar
     private int favoriteCount; // dine oz profilymda bar
     private int shopCount;  //dine oz profilymda bar
-
     private int orderCount; // dine oz shopymda bar
     private int visiterCount; // dine oz shopymda bar
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String[] getCategory() {
+        return category;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
     public String getId() {
         return id;
@@ -44,14 +66,6 @@ public class UserProfile {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 
     public String getEmail() {
@@ -144,6 +158,14 @@ public class UserProfile {
 
     public int getVisiterCount() {
         return visiterCount;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public void setVisiterCount(int visiterCount) {

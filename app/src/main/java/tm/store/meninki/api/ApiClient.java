@@ -3,21 +3,49 @@ package tm.store.meninki.api;
 
 import static tm.store.meninki.api.Network.BASE_URL;
 
-import java.security.cert.CertificateException;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
 import java.util.concurrent.TimeUnit;
 
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import tm.store.meninki.activity.ActivityMain;
+import tm.store.meninki.activity.ActivitySplashScreen;
+import tm.store.meninki.shared.Account;
 
 public class ApiClient {
     public static Object createRequest(Class className) {
+
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(interceptor)
+                .addInterceptor(chain -> {
+                    Request request = chain.request().newBuilder()
+                            .addHeader("Accept", "application/json")
+                            .addHeader("Authorization", Account.newInstance(ActivityMain.getInstance()).getAccessToken())
+                            .build();
+                    return chain.proceed(request);
+                })
+                .connectTimeout(100, TimeUnit.SECONDS)
+                .readTimeout(100, TimeUnit.SECONDS)
+                .build();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        return retrofit.create(className);
+    }
+    public static Object createRequestWithoutHeader(Class className) {
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -30,48 +58,10 @@ public class ApiClient {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
+                .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(getUnsafeOkHttpClient())
                 .build();
 
         return retrofit.create(className);
     }
-    private static OkHttpClient getUnsafeOkHttpClient() {
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        try {
-            // Create a trust manager that does not validate certificate chains
-            final TrustManager[] trustAllCerts = new TrustManager[] {
-                    new X509TrustManager() {
-                        @Override
-                        public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
-                        }
-
-                        @Override
-                        public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
-                        }
-
-                        @Override
-                        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                            return new java.security.cert.X509Certificate[]{};
-                        }
-                    }
-            };
-
-            // Install the all-trusting trust manager
-            final SSLContext sslContext = SSLContext.getInstance("SSL");
-            sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
-            // Create an ssl socket factory with our all-trusting manager
-            final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
-
-            OkHttpClient.Builder builder = new OkHttpClient.Builder();
-            builder.sslSocketFactory(sslSocketFactory);
-            builder.hostnameVerifier((hostname, session) -> true);
-            builder.addInterceptor(interceptor);
-            return builder.build();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
 }

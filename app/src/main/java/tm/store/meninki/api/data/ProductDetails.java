@@ -20,6 +20,7 @@ public class ProductDetails {
     private ArrayList<OptionDto> options;
     private ArrayList<CategoryDto> categories;
     private ArrayList<PersonalCharacterDto> personalCharacteristics;
+    private ArrayList<String> optionTitles;
     private ArrayList<MediaDto> medias;
 
     public String getId() {
@@ -76,6 +77,14 @@ public class ProductDetails {
 
     public ArrayList<PersonalCharacterDto> getPersonalCharacteristics() {
         return personalCharacteristics;
+    }
+
+    public ArrayList<String> getOptionTitles() {
+        return optionTitles;
+    }
+
+    public void setOptionTitles(ArrayList<String> optionTitles) {
+        this.optionTitles = optionTitles;
     }
 
     public ArrayList<MediaDto> getMedias() {

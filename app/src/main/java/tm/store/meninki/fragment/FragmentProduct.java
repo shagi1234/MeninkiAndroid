@@ -1,10 +1,13 @@
 package tm.store.meninki.fragment;
 
+import static tm.store.meninki.adapter.AdapterCharPick.NOT_ADDABLE;
+import static tm.store.meninki.api.Network.BASE_URL;
 import static tm.store.meninki.utils.Const.mainFragmentManager;
 import static tm.store.meninki.utils.FragmentHelper.addFragment;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.setMargins;
+import static tm.store.meninki.utils.StaticMethods.setPadding;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.os.Bundle;
@@ -12,36 +15,42 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
+import java.util.Objects;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import tm.store.meninki.R;
-import tm.store.meninki.adapter.AdapterCharImage;
-import tm.store.meninki.adapter.AdapterCharPick;
+import tm.store.meninki.adapter.AdapterPersonalCharacters;
 import tm.store.meninki.adapter.AdapterVerticalImagePager;
 import tm.store.meninki.api.RetrofitCallback;
 import tm.store.meninki.api.data.MediaDto;
+import tm.store.meninki.api.data.OptionDto;
+import tm.store.meninki.api.data.PersonalCharacterDto;
 import tm.store.meninki.api.data.ProductDetails;
-import tm.store.meninki.data.ProductImageDto;
+import tm.store.meninki.api.request.RequestAddToCard;
+import tm.store.meninki.data.CharactersDto;
 import tm.store.meninki.databinding.FragmentProductBinding;
 import tm.store.meninki.shared.Account;
 import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentProduct extends Fragment {
     private FragmentProductBinding b;
-    private ArrayList<ProductImageDto> s = new ArrayList<>();
-    private ArrayList<String> images = new ArrayList<>();
-    private ArrayList<String> picks = new ArrayList<>();
-    private ArrayList<String> colors = new ArrayList<>();
     private String uuid;
-    private AdapterCharImage adapterCharImage;
-    private AdapterCharPick adapterCharPick;
+    private ProductDetails productDetails;
+    private AdapterPersonalCharacters adapterPersonalCharacters;
+    public static String[] selectedOptionIds;
 
     public static FragmentProduct newInstance(String uuid) {
         FragmentProduct fragment = new FragmentProduct();
@@ -57,45 +66,16 @@ public class FragmentProduct extends Fragment {
         if (getArguments() != null) {
             uuid = getArguments().getString("uuid");
         }
-
-        s.add(new ProductImageDto("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg", "salam"));
-        s.add(new ProductImageDto("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg", "salam"));
-        s.add(new ProductImageDto("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg", "salam"));
-        s.add(new ProductImageDto("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg", "salam"));
-        s.add(new ProductImageDto("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg", "salam"));
-
-        images.add("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg");
-        images.add("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg");
-        images.add("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg");
-        images.add("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg");
-        images.add("https://cdn.dsmcdn.com/mnresize/500/-/ty384/product/media/images/20220405/17/83663989/437492006/1/1_org.jpg");
-
-        colors = new ArrayList<>();
-
-        colors.add("#000213");
-        colors.add("#005FF0");
-        colors.add("#D90169");
-        colors.add("#005FF0");
-        colors.add("#D90169");
-        colors.add("#000213");
-
-        picks.add("XXL");
-        picks.add("XL");
-        picks.add("L");
-        picks.add("M");
-        picks.add("S");
-        picks.add("XS");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        setMargins(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight);
+        setPadding(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight);
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         b = FragmentProductBinding.inflate(inflater, container, false);
 
@@ -111,7 +91,7 @@ public class FragmentProduct extends Fragment {
     }
 
     private void getData() {
-        Call<ProductDetails> call = StaticMethods.getApiHome().getProductsById(Account.newInstance(getContext()).getAccessToken(), uuid);
+        Call<ProductDetails> call = StaticMethods.getApiHome().getProductsById(uuid);
         call.enqueue(new RetrofitCallback<ProductDetails>() {
             @Override
             public void onResponse(ProductDetails response) {
@@ -129,30 +109,131 @@ public class FragmentProduct extends Fragment {
     }
 
     private void setResources(ProductDetails productDetails) {
+        if (getContext() == null) return;
+
+        this.productDetails = productDetails;
         setImagePager(productDetails.getMedias());
         b.itemName.setText(productDetails.getName());
         b.desc.setText(productDetails.getDescription());
-        b.price.setText(String.valueOf(productDetails.getPrice()));
+        b.titleStore.setText(productDetails.getShop().getName());
+
+        Glide.with(getContext()).load(BASE_URL + "/" + productDetails.getShop().getImgPath()).into(b.avatarStore);
+        b.price.setText(productDetails.getPrice() + " TMT");
+        setPersonalCharacteristics();
+        b.progressBar.setVisibility(View.GONE);
+        b.main.setVisibility(View.VISIBLE);
+    }
+
+    private void setPersonalCharacteristics() {
+        setRecyclerPH();
+    }
+
+    private void setRecyclerPH() {
+        new Thread(() -> {
+            CharactersDto charactersDto = new CharactersDto();
+            charactersDto.setOptionTitles(productDetails.getOptionTitles());
+            charactersDto.setOptions(generateOptions(productDetails.getOptions()));
+            selectedOptionIds = new String[productDetails.getOptionTitles().size()];
+
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(() -> {
+                    adapterPersonalCharacters = new AdapterPersonalCharacters(getContext(), charactersDto, uuid, NOT_ADDABLE);
+                    b.recPh.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+                    b.recPh.setAdapter(adapterPersonalCharacters);
+                });
+            }
+
+        }).start();
+
+    }
+
+    private ArrayList<ArrayList<OptionDto>> generateOptions(ArrayList<OptionDto> allOptions) {
+        ArrayList<ArrayList<OptionDto>> options = new ArrayList<>();
+
+        for (int i = 0; i < productDetails.getOptionTitles().size(); i++) {
+            ArrayList<OptionDto> option = new ArrayList<>();
+
+            for (int j = 0; j < allOptions.size(); j++) {
+                if (allOptions.get(j).getOptionLevel() == i) {
+                    option.add(allOptions.get(j));
+                }
+            }
+            options.add(option);
+        }
+        return options;
     }
 
     private void checkUI() {
         b.checkStore.setVisibility(View.VISIBLE);
         b.btnAddPost.setVisibility(View.VISIBLE);
-
-        setRecyclerCharImage();
-        setRecyclerCharPick();
     }
 
     private void initListeners() {
         b.backBtn.setOnClickListener(v -> getActivity().onBackPressed());
-
-        b.btnAddPost.setOnClickListener(v -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentAddPost.newInstance()));
-
-        b.goCard.setOnClickListener(v -> {
-
-        });
-
+        b.btnAddPost.setOnClickListener(v -> addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentAddPost.newInstance(uuid, productDetails.getName(), new Gson().toJson(productDetails.getShop()))));
+        b.goCard.setOnClickListener(v -> addToCard());
+        b.layStore.setOnClickListener(v -> goShop());
     }
+
+    private void goShop() {
+        addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(FragmentProfile.TYPE_SHOP, productDetails.getShop().getId()));
+    }
+
+    private void addToCard() {
+        RequestAddToCard requestAddToCard = new RequestAddToCard();
+        requestAddToCard.setProductId(uuid);
+        requestAddToCard.setShopId(productDetails.getShop().getId());
+        requestAddToCard.setPersonalCharacteristicsId(findPersonalCharacteristics());
+        requestAddToCard.setCount(1);
+
+        Call<Boolean> call = StaticMethods.getApiHome().addToCard(
+                requestAddToCard.getProductId(),
+                requestAddToCard.getPersonalCharacteristicsId(),
+                requestAddToCard.getCount(),
+                requestAddToCard.getShopId()
+        );
+
+        call.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if (response.body() != null && response.body()) {
+                    Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Toast.makeText(getContext(), response.message(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private String findPersonalCharacteristics() {
+        String phId = null;
+
+        for (PersonalCharacterDto personalCharacter : productDetails.getPersonalCharacteristics()) {
+            if (isEqualsOptionId(personalCharacter)) {
+                phId = personalCharacter.getId();
+            }
+        }
+        if (phId == null && productDetails.getPersonalCharacteristics().size() > 0) {
+            phId = productDetails.getPersonalCharacteristics().get(0).getId();
+        }
+        return phId;
+    }
+
+    private boolean isEqualsOptionId(PersonalCharacterDto pc) {
+        boolean allTrue = false;
+        for (int i = 0; i < pc.getOptions().size(); i++) {
+            allTrue = Objects.equals(selectedOptionIds[i], pc.getOptions().get(i).getId());
+            if (!allTrue) break;
+        }
+        Log.e("TAG_product", "isEqualsOptionId: " + allTrue);
+        return allTrue;
+    }
+
 
     private void setBackgrounds() {
         setBackgroundDrawable(getContext(), b.bgFav, R.color.bg, 0, 10, false, 0);
@@ -162,31 +243,15 @@ public class FragmentProduct extends Fragment {
     }
 
     private void setImagePager(ArrayList<MediaDto> medias) {
-        AdapterVerticalImagePager adapterVerticalImagePager = new AdapterVerticalImagePager(getContext());
-
+        AdapterVerticalImagePager adapterVerticalImagePager = new AdapterVerticalImagePager(getContext(), 0);
         b.imagePager.setClipToPadding(false);
         b.imagePager.setClipChildren(false);
         b.imagePager.setOffscreenPageLimit(3);
         b.imagePager.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
-
         b.imagePager.setAdapter(adapterVerticalImagePager);
-
         adapterVerticalImagePager.setImageList(medias);
         b.indicator.setViewPager(b.imagePager);
 
-
-    }
-
-    private void setRecyclerCharImage() {
-        adapterCharImage = new AdapterCharImage(getContext(), AdapterCharPick.NOT_ADDABLE);
-        b.recCharImage.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        b.recCharImage.setAdapter(adapterCharImage);
-    }
-
-    private void setRecyclerCharPick() {
-        adapterCharPick = new AdapterCharPick(getContext(), AdapterCharPick.NOT_ADDABLE);
-        b.recCharPick.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        b.recCharPick.setAdapter(adapterCharPick);
     }
 
 }

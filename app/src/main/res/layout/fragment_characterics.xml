@@ -24,12 +24,11 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="32dp"
             android:layout_weight="1"
-            android:fontFamily="@font/inter_regular"
+            android:fontFamily="@font/inter_semibold"
             android:gravity="center_vertical"
             android:text="Характеристики"
-            android:textAllCaps="true"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
+            android:textColor="@color/contrast"
+            android:textSize="16sp" />
 
         <FrameLayout
             android:id="@+id/back_btn"
@@ -77,11 +76,12 @@
                 android:layout_marginTop="20dp" />
 
             <FrameLayout
+                android:id="@+id/bg_redactor_character"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="14dp"
-                android:background="@color/low_contrast">
+                android:background="@color/contrast">
 
                 <TextView
                     android:id="@+id/redactor_character"
@@ -89,15 +89,12 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_margin="14sp"
-                    android:drawableStart="@drawable/ic_add"
                     android:drawablePadding="12dp"
-                    android:drawableTint="@color/accent"
-                    android:fontFamily="@font/inter_regular"
+                    android:fontFamily="@font/inter_bold"
                     android:gravity="start"
                     android:text="Новая характеристика"
-                    android:textColor="@color/accent"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/bg"
+                    android:textSize="14sp" />
 
                 <FrameLayout
                     android:id="@+id/add_characterics"
@@ -136,14 +133,13 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:background="@color/accent"
-            android:fontFamily="@font/inter_regular"
+            android:fontFamily="@font/inter_bold"
             android:gravity="center"
             android:paddingHorizontal="17dp"
             android:paddingVertical="10dp"
             android:text="Сохранить"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -177,7 +173,7 @@
         android:layout_height="match_parent">
 
         <include
-            android:id="@+id/bottom"
+            android:id="@+id/bottom_sheet"
             layout="@layout/item_bottom_sheet_charachterics" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

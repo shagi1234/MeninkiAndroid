@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/inter_bold"
-            android:text="На каком языке ты говоришь?"
+            android:text="@string/what_language_do_u_speak"
             android:textColor="@color/black"
             android:textSize="22sp" />
 
@@ -29,7 +29,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginEnd="90dp"
             android:fontFamily="@font/inter_regular"
-            android:text="После регистрации ты сможешь сменить язык на другой."
+            android:text="@string/after_registration_can_you_chane_it"
             android:textColor="@color/contrast"
             android:textSize="14sp" />
 
@@ -49,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/inter_medium"
-            android:text="Выбери язык"
+            android:text="@string/choose_lang"
             android:textColor="@color/black"
             android:textSize="14sp" />
 
@@ -66,7 +66,7 @@
             android:paddingVertical="15dp"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:text="Русский"
+            android:text="@string/rus"
             android:textColor="@color/neutral_dark" />
 
 
@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:paddingVertical="15dp"
-            android:text="Приступить"
+            android:text="@string/skip"
             android:textColor="@color/bg" />
 
 

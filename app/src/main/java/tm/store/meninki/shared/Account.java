@@ -26,6 +26,7 @@ public class Account {
     private static final String PREF_USER_PHONE_NUMBER = "user_phone_num";
     private static final String PREF_USER_IS_LOGGED_IN = "user_is_logged_in";
     private static final String PREF_MY_SHOP_ID = "__my_shops";
+    private static final String PREF_LANGUAGE = "_language";
 
     public static Account newInstance(Context context) {
         if (accountPreferences == null) {
@@ -192,10 +193,16 @@ public class Account {
         editor.commit();
     }
 
-    public void logout() {
-        saveAccessToken("");
-        editor.putBoolean(PREF_USER_IS_LOGGED_IN, false);
+    public void setLanguage(String key) {
+        editor.putString(PREF_LANGUAGE, key);
         editor.commit();
+    }
+
+    public String getLanguage() {
+        if (_context == null) {
+            return "ru";
+        } else
+            return pref.getString(PREF_LANGUAGE, "ru");
     }
 
     @SuppressLint("NewApi")

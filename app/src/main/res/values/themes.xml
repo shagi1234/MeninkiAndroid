@@ -10,12 +10,12 @@
         <item name="colorAccent">@color/accent</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
-        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/color_transparent
+        <item name="android:statusBarColor">@color/color_transparent
         </item>
-        <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/color_transparent
+        <item name="android:navigationBarColor">@color/color_transparent
         </item>
-        <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>
-        <item name="android:windowTranslucentNavigation" tools:targetApi="kitkat">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:background">@color/color_transparent</item>
         <item name="android:enforceNavigationBarContrast" tools:targetApi="q">false</item>
 
@@ -27,6 +27,14 @@
         <item name="android:textStyle">normal</item>
         <item name="android:fontFamily">@font/inter_bold</item>
         <item name="android:textColor">@drawable/tab_text_selector</item>
+    </style>
+
+    <style name="TabWidgetCategories">
+        <item name="android:textSize">14sp</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">@font/inter_medium</item>
+        <item name="android:textColor">@color/contrast</item>
     </style>
 
     <style name="TabLayout">
@@ -52,27 +60,53 @@
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="s">
-            @color/bg
-        </item>
+
         <item name="android:windowSplashScreenIconBackgroundColor" tools:targetApi="s">
-            @color/bg
+            @color/ic_launcher_background
         </item>
 
         <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="lollipop">true</item>
 
-        <item name="android:windowSplashScreenBackground" tools:targetApi="s">@color/bg
+        <item name="android:windowSplashScreenBackground" tools:targetApi="s">
+            @color/ic_launcher_background
         </item>
         <item name="android:statusBarColor" tools:targetApi="lollipop">@color/white</item>
-        <item name="backgroundColor">@color/bg</item>
+        <item name="backgroundColor">@color/ic_launcher_background</item>
 
-        <item name="android:windowBackground">@color/bg</item>
+        <item name="android:windowBackground">@color/ic_launcher_background</item>
         <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/white
         </item>
         <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
-        <item name="android:windowFrame">@color/bg</item>
+        <item name="android:windowFrame">@drawable/logo_meninki</item>
 
+    </style>
 
+    <style name="DialogAnim">
+        <item name="android:windowEnterAnimation">@anim/open</item>
+        <item name="android:windowExitAnimation">@anim/close</item>
+    </style>
+
+    <style name="SheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
+        <!--<item name="android:windowCloseOnTouchOutside">false</item>-->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:colorBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.3</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+
+    <style name="EditText" parent="Base.TextAppearance.AppCompat.Body2">
+        <item name="android:textSize">16sp</item>
+<!--        <item name="android:textColor">@drawable/edit_text_color</item>-->
+        <item name="android:fontFamily">@font/inter_medium</item>
+    </style>
+
+    <style name="TextViewButtonStyle">
+        <item name="android:background">@drawable/button_background</item>
+        <item name="android:textColor">@color/white</item>
+        <!-- Add other attributes as needed -->
     </style>
 </resources>

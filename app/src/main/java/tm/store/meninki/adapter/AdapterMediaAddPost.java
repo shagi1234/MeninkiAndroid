@@ -1,11 +1,30 @@
 package tm.store.meninki.adapter;
 
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+import static tm.store.meninki.utils.StaticMethods.dpToPx;
+import static tm.store.meninki.utils.StaticMethods.getWindowWidth;
+import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
+import static tm.store.meninki.utils.StaticMethods.pxToDp;
+import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
+import static tm.store.meninki.utils.StaticMethods.setMargins;
+import static tm.store.meninki.utils.StaticMethods.setPadding;
+
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.provider.MediaStore;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -18,11 +37,17 @@ import tm.store.meninki.utils.Const;
 import tm.store.meninki.utils.FragmentHelper;
 
 public class AdapterMediaAddPost extends RecyclerView.Adapter<AdapterMediaAddPost.CharImageHolder> {
+    public static final int PICK_VIDEO_REQUEST = 123;
     private Context context;
     private static AdapterMediaAddPost instance;
+    private FragmentActivity activity;
+    private boolean isHasVideo;
+    private boolean isAdvertisement;
 
-    public AdapterMediaAddPost(Context context) {
+    public AdapterMediaAddPost(Context context, FragmentActivity activity, boolean isAdvertisement) {
         this.context = context;
+        this.activity = activity;
+        this.isAdvertisement = isAdvertisement;
     }
 
     @NonNull
@@ -41,10 +66,10 @@ public class AdapterMediaAddPost extends RecyclerView.Adapter<AdapterMediaAddPos
 
     @Override
     public int getItemCount() {
-        if (SelectedMedia.getArrayList() == null) {
+        if (SelectedMedia.getProductImageList() == null) {
             return 0;
         }
-        return SelectedMedia.getArrayList().size() + 1;
+        return SelectedMedia.getProductImageList().size() + 1;
     }
 
     public class CharImageHolder extends RecyclerView.ViewHolder {
@@ -56,25 +81,44 @@ public class AdapterMediaAddPost extends RecyclerView.Adapter<AdapterMediaAddPos
         }
 
         public void bind() {
-
+            if (!isAdvertisement)
+                b.image.setLayoutParams(new FrameLayout.LayoutParams(MATCH_PARENT, getWindowWidth(activity) * 3 / 7));
+            else
+                b.image.setLayoutParams(new FrameLayout.LayoutParams(MATCH_PARENT, (getWindowWidth(activity)-78) / 3));
+            setMargins(b.image, dpToPx(5, context), dpToPx(5, context), dpToPx(5, context), dpToPx(5, context));
             if (getAdapterPosition() == getItemCount() - 1) {
+                if (isHasVideo) {
+                    b.getRoot().setVisibility(View.GONE);
+                    return;
+                }
+
                 b.clear.setVisibility(View.GONE);
                 b.layAdd.setVisibility(View.VISIBLE);
                 b.image.setImageResource(R.color.on_bg_ls);
 
-            } else {
+            }
+            else {
                 b.clear.setVisibility(View.VISIBLE);
                 b.layAdd.setVisibility(View.GONE);
 
+                if (SelectedMedia.getProductImageList().get(getAdapterPosition()).getType() == 3) {
+                    b.isVideo.setVisibility(View.VISIBLE);
+                    isHasVideo = true;
+                } else b.isVideo.setVisibility(View.GONE);
+
+
                 Glide.with(context)
-                        .load(SelectedMedia.getArrayList().get(getAdapterPosition()).getPath())
+                        .load(SelectedMedia.getProductImageList().get(getAdapterPosition()).getPath())
                         .placeholder(R.color.on_bg_ls)
                         .into(b.image);
             }
 
             b.click.setOnClickListener(v -> {
                 if (getAdapterPosition() == getItemCount() - 1) {
-                    FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentOpenGallery.newInstance(0));
+                    if (!isAdvertisement)
+                        showDialog();
+                    else
+                        FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentOpenGallery.newInstance(0, FragmentOpenGallery.IMAGE));
                 }
             });
 
@@ -82,11 +126,50 @@ public class AdapterMediaAddPost extends RecyclerView.Adapter<AdapterMediaAddPos
         }
     }
 
+    private void showDialog() {
+        android.app.Dialog dialog = new android.app.Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.bottomsheet_choose_media);
+        LinearLayout root = dialog.findViewById(R.id.root);
+        setPadding(root, 0, 0, 0, navigationBarHeight);
+
+        if (SelectedMedia.getProductImageList().size() > 0) {
+            dialog.findViewById(R.id.video).setVisibility(View.GONE);
+        } else dialog.findViewById(R.id.video).setVisibility(View.VISIBLE);
+
+        dialog.findViewById(R.id.video).setOnClickListener(v -> {
+            dialog.dismiss();
+            showPickerVideo();
+//            FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentOpenGallery.newInstance(1, FragmentOpenGallery.VIDEO));
+        });
+
+        dialog.findViewById(R.id.image).setOnClickListener(v -> {
+            dialog.dismiss();
+            FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentOpenGallery.newInstance(0, FragmentOpenGallery.IMAGE));
+        });
+
+        dialog.getWindow().setLayout(MATCH_PARENT, WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnim;
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+        dialog.show();
+    }
+
+    private void showPickerVideo() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("video/*");
+        activity.startActivityForResult(intent, PICK_VIDEO_REQUEST);
+    }
+
     private void removeAt(int position) {
         try {
-            SelectedMedia.getArrayList().remove(position);
+            if (SelectedMedia.getProductImageList().get(position).getType() == 3) {
+                isHasVideo = false;
+                notifyItemChanged(getItemCount() - 1);
+            }
+            SelectedMedia.getProductImageList().remove(position);
             notifyItemRemoved(position);
-            notifyItemRangeChanged(position, SelectedMedia.getArrayList().size());
+            notifyItemRangeChanged(position, SelectedMedia.getProductImageList().size());
         } catch (Exception e) {
             e.printStackTrace();
         }

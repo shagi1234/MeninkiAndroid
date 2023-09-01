@@ -13,4 +13,12 @@ public class Rating {
     public long getTotal() {
         return total;
     }
+
+    public void setTotal(long total) {
+        this.total = total;
+    }
+
+    public void setUserRating(HashMap<String, Boolean> userRating) {
+        this.userRating = userRating;
+    }
 }

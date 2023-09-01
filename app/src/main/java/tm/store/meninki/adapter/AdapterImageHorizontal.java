@@ -1,29 +1,36 @@
 package tm.store.meninki.adapter;
 
-import static tm.store.meninki.utils.StaticMethods.dpToPx;
+import static tm.store.meninki.api.Network.BASE_URL;
+import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.setMargins;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import tm.store.meninki.R;
-import tm.store.meninki.databinding.ItemImageBasketBinding;
 
 import java.util.ArrayList;
 
+import tm.store.meninki.R;
+import tm.store.meninki.api.data.OptionDto;
+import tm.store.meninki.api.data.response.ResponseCard;
+import tm.store.meninki.databinding.ItemCharchtersInCardBinding;
+import tm.store.meninki.databinding.ItemImageBasketBinding;
+import tm.store.meninki.utils.Option;
 import tm.store.meninki.utils.StaticMethods;
 
 public class AdapterImageHorizontal extends RecyclerView.Adapter<AdapterImageHorizontal.CharImageHolder> {
-    private ArrayList<String> imageUrl = new ArrayList<>();
+    private ArrayList<ResponseCard> products = new ArrayList<>();
     private Context context;
 
-    public AdapterImageHorizontal(Context context) {
+    public AdapterImageHorizontal(Context context, ArrayList<ResponseCard> responseCards) {
         this.context = context;
+        this.products = responseCards;
     }
 
     @NonNull
@@ -41,10 +48,10 @@ public class AdapterImageHorizontal extends RecyclerView.Adapter<AdapterImageHor
 
     @Override
     public int getItemCount() {
-        if (imageUrl == null) {
-            return 4;
+        if (products == null) {
+            return 0;
         }
-        return imageUrl.size();
+        return products.size();
     }
 
     public class CharImageHolder extends RecyclerView.ViewHolder {
@@ -57,27 +64,70 @@ public class AdapterImageHorizontal extends RecyclerView.Adapter<AdapterImageHor
 
         public void bind() {
 
-            if (getAdapterPosition() == 0) {
-                setMargins(b.getRoot(), StaticMethods.dpToPx(20, context), StaticMethods.dpToPx(0, context), StaticMethods.dpToPx(4, context), 0);
-            } else if (getAdapterPosition() == getItemCount() - 1) {
-                setMargins(b.getRoot(), StaticMethods.dpToPx(4, context), StaticMethods.dpToPx(0, context), StaticMethods.dpToPx(20, context), 0);
-            } else {
-                setMargins(b.getRoot(), StaticMethods.dpToPx(4, context), StaticMethods.dpToPx(0, context), StaticMethods.dpToPx(4, context), 0);
-            }
-            if (imageUrl == null || imageUrl.get(getAdapterPosition()) == null) {
+            if (products == null || products.get(getAdapterPosition()) == null) {
                 return;
             }
 
-            Glide.with(context).load(imageUrl.get(getAdapterPosition())).placeholder(R.color.neutral_dark).into(b.image);
+            Glide.with(context)
+                    .load(BASE_URL + "/" + products.get(getAdapterPosition()).getImages()[0])
+                    .placeholder(R.color.low_contrast)
+                    .into(b.image);
 
-//            setBackgroundDrawable(context, b.image, R.color.hover, 0, 4, false, 0);
+            b.count.setText(products.get(getAdapterPosition()).getCount() + "");
+
+            setCharacteristics();
+
+            b.btnAdd.setOnClickListener(v -> {
+                ResponseCard data = products.get(getAdapterPosition());
+                data.setCount(data.getCount() + 1);
+                notifyItemChanged(getAdapterPosition());
+            });
+
+            b.btnSubs.setOnClickListener(v -> {
+                ResponseCard data = products.get(getAdapterPosition());
+                if (data.getCount() == 0) return;
+
+                data.setCount(data.getCount() - 1);
+                notifyItemChanged(getAdapterPosition());
+            });
+
+            b.price.setText(products.get(getAdapterPosition()).getPrice() + " TMT");
+            b.oldPrice.setText(products.get(getAdapterPosition()).getDiscountPrice() + " TMT");
+
+            b.name.setText(products.get(getAdapterPosition()).getName());
+            setBackgroundDrawable(context, b.countController, R.color.bg, 0, 40, false, 0);
 
 
         }
-    }
 
-    public void setImageUrl(ArrayList<String> imageUrl) {
-        this.imageUrl = imageUrl;
-        notifyDataSetChanged();
+        private void setCharacteristics() {
+            ArrayList<String> optionTitles = products.get(getAdapterPosition()).getOptionTitles();
+            ArrayList<OptionDto> options = products.get(getAdapterPosition()).getOption();
+            b.layCharacters.removeAllViews();
+
+            for (int i = 0; i < optionTitles.size(); i++) {
+
+                ItemCharchtersInCardBinding c = ItemCharchtersInCardBinding.inflate(LayoutInflater.from(context));
+                c.name.setText(optionTitles.get(i) + " : ");
+
+                if (options.get(i).getOptionType() == Option.CHARACTER_IMAGE) {
+                    c.valImg.setVisibility(View.VISIBLE);
+                    c.valText.setVisibility(View.GONE);
+                    Glide.with(context)
+                            .load(BASE_URL + "/" + options.get(i).getImagePath())
+                            .placeholder(R.color.neutral_dark)
+                            .error(R.color.neutral_dark)
+                            .into(c.valImg);
+                } else {
+                    c.valImg.setVisibility(View.GONE);
+                    c.valText.setVisibility(View.VISIBLE);
+                    c.valText.setText(options.get(i).getValue());
+                }
+
+                b.layCharacters.addView(c.getRoot());
+            }
+
+
+        }
     }
 }

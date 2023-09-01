@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.daimajia.swipe.SwipeLayout
+        android:id="@+id/swipe_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:clickToClose="true">
+
+        <LinearLayout
+            android:id="@+id/right_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:id="@+id/complain_btn"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="6dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    app:srcCompat="@drawable/ic_about_us"
+                    app:tint="@color/white" />
+
+            </FrameLayout>
+
+
+            <FrameLayout
+                android:id="@+id/delete_swipe_img"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="20dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    app:srcCompat="@drawable/ic_trash"
+                    app:tint="@color/white" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/main_lay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <FrameLayout
+                android:id="@+id/lay_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/avatar"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/avatar_txt"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/inter_regular"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    tools:text="SD" />
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@id/ic_favorite"
+                app:layout_constraintStart_toEndOf="@+id/lay_image"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="7.5dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/inter_regular"
+                        android:textColor="@color/black"
+                        tools:text="Shahruh" />
+
+                    <TextView
+                        android:id="@+id/created_at"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="10dp"
+                        android:fontFamily="@font/inter_regular"
+                        android:textColor="@color/neutral_dark"
+                        android:textSize="10sp"
+                        tools:ignore="SmallSp"
+                        tools:text="12:32 | 05.05.2022" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="@font/inter_regular"
+                    android:textColor="@color/ic_text"
+                    tools:text="мот предупреждение о халяве! ⚠ Библиотек Lorem ipsum — классический текст-«рыба» 😷😷" />
+
+                <LinearLayout
+                    android:id="@+id/lay_count_favorites"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/cretedAt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:fontFamily="@font/inter_regular"
+                        android:text="4 hours"
+                        android:textColor="@color/ic_text"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/count_favorites"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:fontFamily="@font/inter_regular"
+                        android:text="7 нравиться"
+                        android:textColor="@color/ic_text"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/reply"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter_regular"
+                        android:text="ответить"
+                        android:textColor="@color/ic_text"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/ic_favorite"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="50dp"
+                android:src="@drawable/ic_like"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </LinearLayout>
+
+    </com.daimajia.swipe.SwipeLayout>
+
+
+</FrameLayout>

@@ -2,11 +2,14 @@ package tm.store.meninki.utils;
 
 import static android.content.Context.VIBRATOR_SERVICE;
 
+import static tm.store.meninki.api.Network.BASE_URL;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.ContentUris;
@@ -42,12 +45,16 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -105,6 +112,15 @@ public class StaticMethods {
         }
     }
 
+    public static void showKeyboard(Context context, EditText edtSearch) {
+
+        if (context == null || edtSearch == null) return;
+        InputMethodManager imgr = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imgr.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        edtSearch.requestFocus();
+
+    }
+
     public static void cloudAnimStart(AppCompatImageView cloud) {
         Drawable drawable = cloud.getDrawable();
         if (drawable instanceof Animatable) {
@@ -118,6 +134,10 @@ public class StaticMethods {
 
     public static ServiceHome getApiHome() {
         return (ServiceHome) ApiClient.createRequest(ServiceHome.class);
+    }
+
+    public static ServiceHome getApiHomeWithoutHeader() {
+        return (ServiceHome) ApiClient.createRequestWithoutHeader(ServiceHome.class);
     }
 
     public static ServiceCategory getApiCategory() {
@@ -249,8 +269,7 @@ public class StaticMethods {
             shape.setShape(GradientDrawable.OVAL);
         } else {
             shape.setShape(GradientDrawable.RECTANGLE);
-
-            shape.setCornerRadii(new float[]{cornerLeftTop, cornerRightTop, 0, 0, 0, 0, cornerRightBottom, cornerLeftBottom});
+            shape.setCornerRadii(new float[]{cornerLeftTop, cornerLeftTop, cornerRightTop, cornerRightTop, cornerRightBottom, cornerRightBottom, cornerLeftBottom, cornerLeftBottom});
         }
         if (color != 0) {
             shape.setColor(context.getResources().getColor(color));
@@ -287,11 +306,9 @@ public class StaticMethods {
     public static String getEthernetMacAddress() {
         String macAddress = "Not able to read";
         try {
-            List<NetworkInterface> allNetworkInterfaces = Collections.list(NetworkInterface
-                    .getNetworkInterfaces());
+            List<NetworkInterface> allNetworkInterfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
             for (NetworkInterface nif : allNetworkInterfaces) {
-                if (!nif.getName().equalsIgnoreCase("eth0"))
-                    continue;
+                if (!nif.getName().equalsIgnoreCase("eth0")) continue;
 
                 byte[] macBytes = nif.getHardwareAddress();
                 if (macBytes == null) {
@@ -345,6 +362,35 @@ public class StaticMethods {
         return null;
     }
 
+    public static File getImgFileFromBitmap(Bitmap bitmap, Context context) {
+        try {
+            // Initialising the directory of storage
+            String dirpath = context.getExternalFilesDir("Post_images") + "/";
+            File file = new File(dirpath);
+
+            if (!file.exists()) {
+                boolean mkdir = file.mkdir();
+            }
+
+            // File name
+            String path = dirpath + System.currentTimeMillis() + ".jpeg";
+
+            if (bitmap == null) return null;
+
+            File image = new File(path);
+            FileOutputStream outputStream = new FileOutputStream(image);
+
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
+            outputStream.flush();
+            outputStream.close();
+            return image;
+
+        } catch (IOException io) {
+            io.printStackTrace();
+        }
+        return null;
+    }
+
     public static Bitmap getBitmapFromView(View view) {
         //Define a bitmap with the same size as the view
         if (view.getMeasuredWidth() <= 0 || view.getMeasuredHeight() <= 0) return null;
@@ -375,6 +421,13 @@ public class StaticMethods {
     }
 
     public static int dpToPx(int dp, Context context) {
+        if (context == null) return 0;
+
+        float density = context.getResources().getDisplayMetrics().density;
+        return Math.round((float) dp * density);
+    }
+
+    public static int dpToPx(double dp, Context context) {
         if (context == null) return 0;
 
         float density = context.getResources().getDisplayMetrics().density;
@@ -413,7 +466,6 @@ public class StaticMethods {
 
     public static void setMargins(ViewGroup v, int l, int t, int r, int b) {
         try {
-            Log.e("SetMargins", "setMargins: true ");
             if (v.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
                 ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
                 p.setMargins(l, t, r, b);
@@ -425,6 +477,139 @@ public class StaticMethods {
             Log.d("SetMargins", "setMargins: " + e.getMessage());
         }
     }
+
+    public static void setImageOrText(Context context, String username, String avatar, ImageView imageView, TextView tv, boolean clickable, Activity activity) {
+
+        if (context == null || activity == null) return;
+
+        if (avatar == null || avatar.equals("")) {
+            imageView.setVisibility(View.GONE);
+            tv.setVisibility(View.VISIBLE);
+            tv.setBackground(createGradientDrawable(context));
+
+            try {
+                tv.setText(getShortUserName(username));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+
+        Glide.with(context).load(BASE_URL + "/" + avatar).error(createGradientDrawable(context)).placeholder(createGradientDrawable(context))
+//                .addListener(new RequestListener<>() {
+//                    @Override
+//                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+//                        imageView.setVisibility(View.INVISIBLE);
+//                        return false;
+//                    }
+//
+//                    @Override
+//                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+//                        imageView.setVisibility(View.VISIBLE);
+//                        tv.setVisibility(View.GONE);
+//                        return false;
+//                    }
+//                })
+                .into(imageView);
+
+        imageView.setVisibility(View.VISIBLE);
+        tv.setVisibility(View.INVISIBLE);
+
+//        if (clickable) {
+          /*  if (clickLay != null) {
+                clickLay.setOnClickListener(v -> {
+                    isOpenSearch = false;
+
+                    if (PLayers.lastReelsPlayer != null) {
+                        PLayers.lastReelsPlayer.pause();
+                    }
+
+                    if (isKeyboardOpen) {
+                        hideSoftKeyboard(activity);
+                        isKeyboardOpen = false;
+
+                    } else {
+
+                        clickLay.setEnabled(false);
+
+                        handler.postDelayed(() -> clickLay.setEnabled(true), 200);
+
+                        if (posterDTO.getType() == 1) {
+                            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(posterDTO.getUUID(), TYPE_COMMUNITY_PROFILE));
+                        } else {
+                            addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(posterDTO.getUUID(), TYPE_FRIEND_PROFILE));
+                        }
+
+                        if (ConstBottomSheets.bottomSheetProfile != null && ConstBottomSheets.bottomSheetProfile.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+                            ConstBottomSheets.bottomSheetProfile.setState(STATE_HIDDEN);
+                        }
+                    }
+                });
+            }*/
+
+          /*  imageView.setOnClickListener(v -> {
+                isOpenSearch = false;
+
+                if (PLayers.lastReelsPlayer != null) {
+                    PLayers.lastReelsPlayer.pause();
+                }
+
+                if (isKeyboardOpen) {
+                    hideSoftKeyboard(activity);
+                    isKeyboardOpen = false;
+                } else {
+                    imageView.setEnabled(false);
+                    handler.postDelayed(() -> imageView.setEnabled(true), 200);
+
+                    if (posterDTO.getType() == 1) {
+                        addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(posterDTO.getUUID(), TYPE_COMMUNITY_PROFILE));
+                    } else {
+                        addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(posterDTO.getUUID(), TYPE_FRIEND_PROFILE));
+
+                    }
+                    if (ConstBottomSheets.bottomSheetProfile != null && ConstBottomSheets.bottomSheetProfile.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+                        ConstBottomSheets.bottomSheetProfile.setState(STATE_HIDDEN);
+                    }
+                }
+
+            });*/
+
+//            tv.setOnClickListener(v -> {
+//                isOpenSearch = false;
+//
+//                if (PLayers.lastReelsPlayer != null) {
+//                    PLayers.lastReelsPlayer.pause();
+//                }
+
+//                if (isKeyboardOpen) {
+//                    hideSoftKeyboard(activity);
+//                    isKeyboardOpen = false;
+//                } else {
+//                    tv.setEnabled(false);
+//                    handler.postDelayed(() -> tv.setEnabled(true), 200);
+//
+//                    if (posterDTO.getType() == 1) {
+//                        addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(posterDTO.getUUID(), TYPE_COMMUNITY_PROFILE));
+//                    } else {
+//                        addFragment(mainFragmentManager, R.id.fragment_container_main, FragmentProfile.newInstance(posterDTO.getUUID(), TYPE_FRIEND_PROFILE));
+//                    }
+//                    if (ConstBottomSheets.bottomSheetProfile != null && ConstBottomSheets.bottomSheetProfile.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+//                        ConstBottomSheets.bottomSheetProfile.setState(STATE_HIDDEN);
+//                    }
+//                }
+
+//            });
+//        }
+    }
+
+    private static Drawable createGradientDrawable(Context context) {
+        GradientDrawable shape = new GradientDrawable();
+        shape.setShape(GradientDrawable.RECTANGLE);
+        shape.setCornerRadius(4f);
+        shape.setColor(context.getResources().getColor(R.color.neutral_dark));
+        return shape;
+    }
+
 
     public static void setMargins(View v, int l, int t, int r, int b) {
         try {
@@ -556,6 +741,7 @@ public class StaticMethods {
         int visibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
         visibility = visibility | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
         window.getDecorView().setSystemUiVisibility(visibility);
+
         int windowManager = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
         windowManager = windowManager | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION;
         setWindowFlag(activity, windowManager, false);
@@ -635,31 +821,30 @@ public class StaticMethods {
             statusBarHeight = defaultInsets.getSystemWindowInsetTop();
             navigationBarHeight = defaultInsets.getSystemWindowInsetBottom();
 
-            return defaultInsets.replaceSystemWindowInsets(
-                    0, 0, 0, 0);
+            return defaultInsets.replaceSystemWindowInsets(0, 0, 0, 0);
         });
     }
 
-    public static void setNavBarIconsBlack(Activity activity, Context context) {
-        if (activity == null || context == null) return;
+    public static void setNavBarIconsBlack(Activity activity) {
+        if (activity == null) return;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             final int lFlags = activity.getWindow().getDecorView().getSystemUiVisibility();
             activity.getWindow().getDecorView().setSystemUiVisibility(lFlags | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
         } else {
-            activity.getWindow().setNavigationBarColor(ContextCompat.getColor(context, R.color.black));
+            activity.getWindow().setNavigationBarColor(ContextCompat.getColor(activity, R.color.black));
         }
     }
 
-    public static void setNavBarIconsWhite(Activity activity, Context context) {
-        if (activity == null || context == null) return;
+    public static void setNavBarIconsWhite(Activity activity) {
+        if (activity == null) return;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Window window = activity.getWindow();
             final int lFlags = activity.getWindow().getDecorView().getSystemUiVisibility();
             window.getDecorView().setSystemUiVisibility(lFlags & ~View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
         } else {
-            activity.getWindow().setNavigationBarColor(ContextCompat.getColor(context, R.color.color_transparent));
+            activity.getWindow().setNavigationBarColor(ContextCompat.getColor(activity, R.color.color_transparent));
         }
 
     }
@@ -696,10 +881,8 @@ public class StaticMethods {
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                ObjectAnimator scaleDownX = ObjectAnimator.ofFloat(v,
-                        "scaleX", 0.95f);
-                ObjectAnimator scaleDownY = ObjectAnimator.ofFloat(v,
-                        "scaleY", 0.95f);
+                ObjectAnimator scaleDownX = ObjectAnimator.ofFloat(v, "scaleX", 0.95f);
+                ObjectAnimator scaleDownY = ObjectAnimator.ofFloat(v, "scaleY", 0.95f);
                 scaleDownX.setDuration(100);
                 scaleDownY.setDuration(100);
                 AnimatorSet scaleDown = new AnimatorSet();
@@ -708,10 +891,8 @@ public class StaticMethods {
                 break;
 
             case MotionEvent.ACTION_UP:
-                ObjectAnimator scaleDownX2 = ObjectAnimator.ofFloat(
-                        v, "scaleX", 1f);
-                ObjectAnimator scaleDownY2 = ObjectAnimator.ofFloat(
-                        v, "scaleY", 1f);
+                ObjectAnimator scaleDownX2 = ObjectAnimator.ofFloat(v, "scaleX", 1f);
+                ObjectAnimator scaleDownY2 = ObjectAnimator.ofFloat(v, "scaleY", 1f);
                 scaleDownX2.setDuration(100);
                 scaleDownY2.setDuration(100);
                 AnimatorSet scaleDown2 = new AnimatorSet();
@@ -724,24 +905,22 @@ public class StaticMethods {
     public static void setMarginWithAnim(ViewGroup v, float fromMargin, float toMargin) {
         ViewGroup.MarginLayoutParams gd = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
         ValueAnimator animator = ValueAnimator.ofFloat(fromMargin, toMargin);
-        animator.setDuration(150)
-                .addUpdateListener(animation -> {
-                    float value = (float) animation.getAnimatedValue();
-                    gd.setMargins(0, 0, 0, (int) value);
-                    v.requestLayout();
-                });
+        animator.setDuration(150).addUpdateListener(animation -> {
+            float value = (float) animation.getAnimatedValue();
+            gd.setMargins(0, 0, 0, (int) value);
+            v.requestLayout();
+        });
         animator.start();
     }
 
     public static void setMarginWithAnim(View v, float fromMargin, float toMargin) {
         ViewGroup.MarginLayoutParams gd = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
         ValueAnimator animator = ValueAnimator.ofFloat(fromMargin, toMargin);
-        animator.setDuration(150)
-                .addUpdateListener(animation -> {
-                    float value = (float) animation.getAnimatedValue();
-                    gd.setMargins(0, 0, 0, (int) value);
-                    v.requestLayout();
-                });
+        animator.setDuration(150).addUpdateListener(animation -> {
+            float value = (float) animation.getAnimatedValue();
+            gd.setMargins(0, 0, 0, (int) value);
+            v.requestLayout();
+        });
         animator.start();
     }
 
@@ -771,10 +950,7 @@ public class StaticMethods {
             InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
 
             if (inputMethodManager.isAcceptingText()) {
-                inputMethodManager.hideSoftInputFromWindow(
-                        activity.getCurrentFocus().getWindowToken(),
-                        0
-                );
+                inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
             }
         } catch (Exception e) {
             Log.d("error", "hideSoftKeyboard: " + e.getMessage());
@@ -800,29 +976,23 @@ public class StaticMethods {
     }
 
     public static void animateViewVisibility(View view, View nextView) {
-        view.animate()
-                .alpha(0.0f)
-                .setDuration(100)
-                .setListener(new AnimatorListenerAdapter() {
+        view.animate().alpha(0.0f).setDuration(100).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                view.setVisibility(View.INVISIBLE);
+                nextView.animate().alpha(1.0f).setDuration(100).setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
-                        view.setVisibility(View.INVISIBLE);
-                        nextView.animate()
-                                .alpha(1.0f)
-                                .setDuration(100)
-                                .setListener(new AnimatorListenerAdapter() {
-                                    @Override
-                                    public void onAnimationEnd(Animator animation) {
-                                        super.onAnimationEnd(animation);
-                                        nextView.setVisibility(View.VISIBLE);
-
-                                    }
-                                });
-
+                        nextView.setVisibility(View.VISIBLE);
 
                     }
                 });
+
+
+            }
+        });
     }
 
 
@@ -856,8 +1026,7 @@ public class StaticMethods {
             } else if (isDownloadsDocument(uri)) {
 
                 final String id = DocumentsContract.getDocumentId(uri);
-                final Uri contentUri = ContentUris.withAppendedId(
-                        Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+                final Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
 
                 return getDataColumn(context, contentUri, null, null);
             }
@@ -877,9 +1046,7 @@ public class StaticMethods {
                 }
 
                 final String selection = "_id=?";
-                final String[] selectionArgs = new String[]{
-                        split[1]
-                };
+                final String[] selectionArgs = new String[]{split[1]};
 
                 return getDataColumn(context, contentUri, selection, selectionArgs);
             }
@@ -906,25 +1073,20 @@ public class StaticMethods {
      * @param selectionArgs (Optional) Selection arguments used in the query.
      * @return The value of the _data column, which is typically a file path.
      */
-    public static String getDataColumn(Context context, Uri uri, String selection,
-                                       String[] selectionArgs) {
+    public static String getDataColumn(Context context, Uri uri, String selection, String[] selectionArgs) {
 
         Cursor cursor = null;
         final String column = "_data";
-        final String[] projection = {
-                column
-        };
+        final String[] projection = {column};
 
         try {
-            cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
-                    null);
+            cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs, null);
             if (cursor != null && cursor.moveToFirst()) {
                 final int column_index = cursor.getColumnIndexOrThrow(column);
                 return cursor.getString(column_index);
             }
         } finally {
-            if (cursor != null)
-                cursor.close();
+            if (cursor != null) cursor.close();
         }
         return null;
     }
@@ -991,13 +1153,9 @@ public class StaticMethods {
         v.startAnimation(a);
     }
 
-    public static void slideView(View view,
-                                 int currentHeight,
-                                 int newHeight) {
+    public static void slideView(View view, int currentHeight, int newHeight) {
 
-        ValueAnimator slideAnimator = ValueAnimator
-                .ofInt(currentHeight, newHeight)
-                .setDuration(500);
+        ValueAnimator slideAnimator = ValueAnimator.ofInt(currentHeight, newHeight).setDuration(500);
 
         /* We use an update listener which listens to each tick
          * and manually updates the height of the view  */
@@ -1076,9 +1234,7 @@ public class StaticMethods {
         Animation a = new Animation() {
             @Override
             protected void applyTransformation(float interpolatedTime, Transformation t) {
-                v.getLayoutParams().width = interpolatedTime == 1
-                        ? LinearLayout.LayoutParams.WRAP_CONTENT
-                        : (int) (targetHeight * interpolatedTime);
+                v.getLayoutParams().width = interpolatedTime == 1 ? LinearLayout.LayoutParams.WRAP_CONTENT : (int) (targetHeight * interpolatedTime);
                 v.requestLayout();
             }
 
@@ -1183,31 +1339,21 @@ public class StaticMethods {
         view.setTranslationY(f);
         view.setVisibility(View.VISIBLE);
         view.setAlpha(0.0f);
-        view.animate()
-                .setDuration(150)
-                .translationY(f - view.getHeight())
-                .alpha(1.0f)
-                .setListener(null);
+        view.animate().setDuration(150).translationY(f - view.getHeight()).alpha(1.0f).setListener(null);
     }
 
     public static void slideDown(ViewGroup view, float f) {
-        view.animate()
-                .translationY(f)
-                .alpha(0.0f)
-                .setDuration(150)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        super.onAnimationEnd(animation);
-                        view.setVisibility(View.GONE);
-                    }
-                });
+        view.animate().translationY(f).alpha(0.0f).setDuration(150).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                view.setVisibility(View.GONE);
+            }
+        });
     }
 
     public static void slidingX(ViewGroup view, float f) {
-        view.animate()
-                .setDuration(150)
-                .translationX(f);
+        view.animate().setDuration(150).translationX(f);
     }
 
     public static boolean isAppRunning(final Context context, final String packageName) {
@@ -1223,8 +1369,7 @@ public class StaticMethods {
         return false;
     }
 
-    public static void animateHeight(final View view, float from, float to,
-                                     int duration) {
+    public static void animateHeight(final View view, float from, float to, int duration) {
         boolean expanding = to > from;
 
         ValueAnimator anim = ValueAnimator.ofInt((int) from, (int) to);
@@ -1233,8 +1378,7 @@ public class StaticMethods {
             @Override//from  ww w. ja v  a 2s . c o m
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 int val = (Integer) valueAnimator.getAnimatedValue();
-                ViewGroup.LayoutParams layoutParams = view
-                        .getLayoutParams();
+                ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
                 layoutParams.height = val;
                 view.setLayoutParams(layoutParams);
             }
@@ -1264,5 +1408,35 @@ public class StaticMethods {
         anim.setDuration(duration);
         anim.start();
 
+    }
+
+    public static String convertTime(String createdTime, Activity activity) {
+        String ret;
+        try {
+            SimpleDateFormat inputDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            Date eventTime = inputDate.parse(createdTime);
+            Date curTime = new Date();
+
+            long diffMillis = Math.abs(curTime.getTime() - eventTime.getTime());
+            long diffMinutes = diffMillis / 1000 / 60;
+            long diffHours = diffMillis / 1000 / 60 / 60;
+            long diffDays = diffMillis / 1000 / 60 / 60 / 24;
+
+            if (diffMinutes < 60) {
+                ret = diffMinutes + " " + activity.getResources().getString(R.string.minutes_ago);
+            } else if (diffHours < 24) {
+                ret = diffHours + " " + activity.getResources().getString(R.string.hours_ago);
+            } else if (diffDays < 7) {
+                ret = diffDays + " " + activity.getResources().getString(R.string.days_ago);
+            } else {
+                String dateFormat = " d MMMM yyyy";
+
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat calFormat = new SimpleDateFormat(dateFormat);
+                ret = calFormat.format(eventTime);
+            }
+        } catch (Exception ex) {
+            ret = "error: " + ex.toString();
+        }
+        return ret;
     }
 }
