@@ -134,7 +134,6 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
 
-
     public void setPosts(ArrayList<ResponsePostGetAllItem> posts) {
         this.posts = posts;
         notifyDataSetChanged();
@@ -152,11 +151,6 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             switch (type) {
                 case TYPE_GRID:
-//                    if (getAdapterPosition() % 2 == 0) {
-//                        b.layImage.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, StaticMethods.dpToPx(240, context)));
-//                    } else {
-//                        b.layImage.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, StaticMethods.dpToPx(110, context)));
-//                    }
                     break;
                 case TYPE_HORIZONTAL_SMALL:
                     b.root.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -327,8 +321,10 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         public void bind() {
-            if (getAdapterPosition() == getItemCount() - 1) {
-                setMargins(b.getRoot(), 0, 0, 0, dpToPx(80, context));
+            if (getAdapterPosition() == getItemCount() - 1 || getAdapterPosition() == getItemCount() - 2) {
+                setMargins(b.getRoot(), 0, 0, 0, dpToPx(130, context));
+            } else if (getAdapterPosition() == 0 || getAdapterPosition() == 1) {
+                setMargins(b.getRoot(), 0, dpToPx(70, context), 0, 0);
             } else setMargins(b.getRoot(), 0, 0, 0, 0);
 
 

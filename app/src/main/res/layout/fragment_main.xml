@@ -1,88 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container_profile_id"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg"
+    android:layout_gravity="bottom"
+    android:background="@color/color_transparent"
     android:orientation="vertical"
     tools:context=".fragment.FragmentMain">
 
-    <LinearLayout
-        android:id="@+id/main"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/bg"
-        android:orientation="vertical">
+        android:background="@color/color_transparent">
 
-        <LinearLayout
-            android:id="@+id/background_search"
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16sp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
+            android:background="@color/color_transparent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:titleEnabled="false">
 
-            <EditText
-                android:id="@+id/edt_search"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/white"
-                android:fontFamily="@font/inter_medium"
-                android:gravity="center_vertical"
-                android:hint="@string/search"
-                android:maxLines="1"
-                android:paddingVertical="10dp"
-                android:paddingStart="14dp"
-                android:singleLine="true" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="14dp"
-                android:padding="5dp"
-                android:src="@drawable/ic_search"
-                app:tint="@color/contrast" />
-
-        </LinearLayout>
-
-        <FrameLayout
-            android:id="@+id/bg_tab"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:background="@color/on_bg_ls"
-            android:padding="4dp">
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tab_layout"
+            <LinearLayout
+                android:id="@+id/main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/on_bg_ls"
-                app:tabIndicator="@drawable/selected_tab"
-                app:tabIndicatorAnimationMode="elastic"
-                app:tabIndicatorColor="@color/color_transparent"
-                app:tabIndicatorFullWidth="true"
-                app:tabIndicatorGravity="stretch"
-                app:tabMode="fixed"
-                app:tabSelectedTextColor="@color/white"
-                app:tabTextAppearance="@style/TabWidget" />
+                android:background="@color/color_transparent"
+                android:orientation="vertical">
 
-        </FrameLayout>
+                <LinearLayout
+                    android:id="@+id/background_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16sp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/view_pager"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+                    <EditText
+                        android:id="@+id/edt_search"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/white"
+                        android:fontFamily="@font/inter_medium"
+                        android:gravity="center_vertical"
+                        android:hint="@string/search"
+                        android:maxLines="1"
+                        android:paddingVertical="10dp"
+                        android:paddingStart="14dp"
+                        android:singleLine="true" />
 
-    </LinearLayout>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="14dp"
+                        android:padding="5dp"
+                        android:src="@drawable/ic_search"
+                        app:tint="@color/contrast" />
 
-</FrameLayout>
+                </LinearLayout>
+
+                <FrameLayout
+                    android:id="@+id/bg_tab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:background="@color/on_bg_ls"
+                    android:padding="4dp">
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tab_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/on_bg_ls"
+                        app:tabIndicator="@drawable/selected_tab"
+                        app:tabIndicatorAnimationMode="elastic"
+                        app:tabIndicatorColor="@color/color_transparent"
+                        app:tabIndicatorFullWidth="true"
+                        app:tabIndicatorGravity="stretch"
+                        app:tabMode="fixed"
+                        app:tabSelectedTextColor="@color/white"
+                        app:tabTextAppearance="@style/TabWidget" />
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

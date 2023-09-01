@@ -25,6 +25,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -365,6 +366,7 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
         private void playFilm(SimpleExoPlayer exoPlayer) {
 
             try {
+
                 b.playerView.setPlayer(this.exoPlayer);
                 exoPlayer.setMediaItem(new MediaItem.Builder().setUri(BASE_URL + Uri.parse(videos.get(getAdapterPosition()).getMedias().get(0).getPath())).build());
                 exoPlayer.setPlayWhenReady(true);

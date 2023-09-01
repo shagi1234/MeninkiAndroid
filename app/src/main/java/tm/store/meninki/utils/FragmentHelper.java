@@ -1,6 +1,7 @@
 package tm.store.meninki.utils;
 
 
+import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -13,6 +14,7 @@ import androidx.transition.ChangeTransform;
 import androidx.transition.TransitionSet;
 
 import tm.store.meninki.R;
+import tm.store.meninki.activity.ActivityMain;
 
 
 public class FragmentHelper {
@@ -20,6 +22,8 @@ public class FragmentHelper {
     public static boolean isAddedFragmentToFeed = false;
 
     public static void addFragmentWithoutAnim(FragmentManager fragmentManager, int containerViewId, Fragment fragment) {
+
+        StaticMethods.hideSoftKeyboard(ActivityMain.getInstance());
 
         String backStateName = fragment.getClass().getName();
         FragmentManager manager = fragmentManager;
@@ -35,20 +39,27 @@ public class FragmentHelper {
     }
 
     public static void addFragment(FragmentManager fragmentManager, int containerViewId, Fragment fragment) {
-        String backStateName = fragment.getClass().getName();
 
-        FragmentManager manager = fragmentManager;
+        StaticMethods.hideSoftKeyboard(ActivityMain.getInstance());
 
-        FragmentTransaction ft = manager.beginTransaction();
-        ft.setCustomAnimations(R.anim.enter_anim, 0, 0, R.anim.pop_exit_anim);
-        ft.add(containerViewId, fragment, backStateName);
-        ft.addToBackStack(backStateName);
+        new Handler().postDelayed(() -> {
+            String backStateName = fragment.getClass().getName();
 
-        ft.commit();
+            FragmentManager manager = fragmentManager;
+
+            FragmentTransaction ft = manager.beginTransaction();
+            ft.setCustomAnimations(R.anim.enter_anim, 0, 0, R.anim.pop_exit_anim);
+            ft.add(containerViewId, fragment, backStateName);
+            ft.addToBackStack(backStateName);
+
+            ft.commit();
+        },100);
     }
 
     public static void addFragmentNoAnim(FragmentManager fragmentManager, int containerViewId, Fragment fragment) {
         String backStateName = fragment.getClass().getName();
+
+        StaticMethods.hideSoftKeyboard(ActivityMain.getInstance());
 
         FragmentManager manager = fragmentManager;
         FragmentTransaction ft = manager.beginTransaction();
@@ -61,6 +72,8 @@ public class FragmentHelper {
     public static void addFragmentTag(FragmentManager fragmentManager, int containerViewId, Fragment fragment, String backStateName) {
 
         FragmentManager manager = fragmentManager;
+        StaticMethods.hideSoftKeyboard(ActivityMain.getInstance());
+
 
         FragmentTransaction ft = manager.beginTransaction();
         ft.add(containerViewId, fragment, backStateName);
@@ -79,6 +92,8 @@ public class FragmentHelper {
         String backStateName = fragment.getClass().getName();
 
         FragmentManager manager = fragmentManager;
+        StaticMethods.hideSoftKeyboard(ActivityMain.getInstance());
+
 
         FragmentTransaction ft = manager.beginTransaction();
         ft.setCustomAnimations(R.anim.open, 0, 0, R.anim.close);
@@ -108,6 +123,8 @@ public class FragmentHelper {
 
     public static void hideAdd(Fragment fragment, String tagFragmentName, FragmentManager mFragmentManager, int frame) {
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+
+        StaticMethods.hideSoftKeyboard(ActivityMain.getInstance());
 
         Fragment currentFragment = mFragmentManager.getPrimaryNavigationFragment();
         if (currentFragment != null) {
