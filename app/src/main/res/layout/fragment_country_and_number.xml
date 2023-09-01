@@ -30,7 +30,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:fontFamily="@font/inter_semibold"
-                android:text="Авторизация"
+                android:text="@string/authorisation"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
@@ -134,20 +134,12 @@
                 android:id="@+id/btn_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-<<<<<<< HEAD
-=======
-                android:background="@color/accent"
->>>>>>> 364c7b3f323d29756b7e81ee43e54df78d28e78b
                 android:fontFamily="@font/inter_bold"
                 android:gravity="center"
                 android:paddingVertical="15dp"
                 android:text="Продолжить"
-<<<<<<< HEAD
                 android:textColor="@color/bg"
                 android:theme="@style/TextViewButtonStyle" />
-=======
-                android:textColor="@color/bg" />
->>>>>>> 364c7b3f323d29756b7e81ee43e54df78d28e78b
 
             <ProgressBar
                 android:id="@+id/btn_progress"
