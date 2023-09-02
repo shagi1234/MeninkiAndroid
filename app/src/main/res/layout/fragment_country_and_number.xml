@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp"
         android:orientation="vertical">
 
 
@@ -29,7 +30,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:fontFamily="@font/inter_semibold"
-                android:text="Авторизация"
+                android:text="@string/authorisation"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
@@ -53,6 +54,14 @@
 
 
         </LinearLayout>
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="50dp"
+            android:src="@drawable/logo_meninki"
+            app:riv_corner_radius="20dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -125,12 +134,12 @@
                 android:id="@+id/btn_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/accent"
                 android:fontFamily="@font/inter_bold"
                 android:gravity="center"
                 android:paddingVertical="15dp"
                 android:text="Продолжить"
-                android:textColor="@color/bg" />
+                android:textColor="@color/bg"
+                android:theme="@style/TextViewButtonStyle" />
 
             <ProgressBar
                 android:id="@+id/btn_progress"
@@ -151,8 +160,7 @@
         android:id="@+id/sign_in_google"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/bottom"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/privacy"
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="30dp"
         android:background="@color/white"
@@ -193,5 +201,18 @@
             app:tint="@color/contrast" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/privacy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginBottom="30dp"
+        android:fontFamily="@font/inter_medium"
+        android:gravity="center"
+        android:text="Продолжая, вы принимаете условия конфиденциальности и пользовательское соглашение."
+        android:textColor="@color/black"
+        android:textSize="14dp" />
 
 </RelativeLayout>

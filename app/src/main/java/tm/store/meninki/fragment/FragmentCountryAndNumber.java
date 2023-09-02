@@ -202,13 +202,13 @@ public class FragmentCountryAndNumber extends Fragment implements CountryClickLi
     private void setNextBtnEnabled() {
         if (getActivity() == null) return;
         if (checkEnabled()) {
-            setBackgroundDrawable(getContext(), b.btnLogin, R.color.accent, 0, 50, false, 0);
+//            setBackgroundDrawable(getContext(), b.btnLogin, R.color.accent, 0, 50, false, 0);
             b.btnLogin.setTextColor(getActivity().getResources().getColor(R.color.bg));
             b.btnLogin.setEnabled(true);
             return;
         }
         b.btnLogin.setEnabled(false);
-        setBackgroundDrawable(getContext(), b.btnLogin, R.color.on_bg_ls, 0, 50, false, 0);
+//        setBackgroundDrawable(getContext(), b.btnLogin, R.color.on_bg_ls, 0, 50, false, 0);
         b.btnLogin.setTextColor(getActivity().getResources().getColor(R.color.neutral_dark));
 
     }

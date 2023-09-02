@@ -81,6 +81,7 @@ public class FragmentSmsCode extends Fragment {
 
     private void initListeners() {
         showKeyboard();
+        b.backBtn.setOnClickListener(view -> getActivity().onBackPressed());
         b.edtCode.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

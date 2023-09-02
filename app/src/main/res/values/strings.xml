@@ -166,6 +166,7 @@
     <string name="ashgabat">Ашгабат</string>
     <string name="show_result">Показать</string>
     <string name="filter_and_sort">Фильтр и сортировка</string>
+    <string name="authorisation">Авторизация</string>
 
 
     <string-array name="array">

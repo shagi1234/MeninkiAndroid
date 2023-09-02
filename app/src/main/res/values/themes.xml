@@ -66,8 +66,8 @@
         </item>
 
         <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="lollipop">true</item>
-
-        <item name="android:windowSplashScreenBackground" tools:targetApi="s">@color/ic_launcher_background
+        <item name="android:windowSplashScreenBackground" tools:targetApi="s">
+            @color/ic_launcher_background
         </item>
         <item name="android:statusBarColor" tools:targetApi="lollipop">@color/white</item>
         <item name="backgroundColor">@color/ic_launcher_background</item>
@@ -94,5 +94,17 @@
         <item name="android:backgroundDimAmount">0.3</item>
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
+    </style>
+
+    <style name="EditText" parent="Base.TextAppearance.AppCompat.Body2">
+        <item name="android:textSize">16sp</item>
+<!--        <item name="android:textColor">@drawable/edit_text_color</item>-->
+        <item name="android:fontFamily">@font/inter_medium</item>
+    </style>
+
+    <style name="TextViewButtonStyle">
+        <item name="android:background">@drawable/button_background</item>
+        <item name="android:textColor">@color/white</item>
+        <!-- Add other attributes as needed -->
     </style>
 </resources>
