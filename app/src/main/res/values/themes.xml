@@ -59,6 +59,11 @@
 
     </style>
 
+    <style name="WithoutPaddingTabLayout" parent="Widget.MaterialComponents.TabLayout">
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+    </style>
+
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
 
         <item name="android:windowSplashScreenIconBackgroundColor" tools:targetApi="s">

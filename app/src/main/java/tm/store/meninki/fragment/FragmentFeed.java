@@ -95,8 +95,6 @@ public class FragmentFeed extends Fragment implements OnSearched {
 
     private void checkUi() {
         if (isSearch) {
-            b.appBarLayout.setVisibility(View.GONE);
-
             if (editSearch != null)
                 editSearch.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -115,7 +113,7 @@ public class FragmentFeed extends Fragment implements OnSearched {
 
                     }
                 });
-        } else b.appBarLayout.setVisibility(View.VISIBLE);
+        }
     }
 
     private void initListeners() {

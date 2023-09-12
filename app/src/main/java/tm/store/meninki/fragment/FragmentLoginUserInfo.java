@@ -64,6 +64,7 @@ public class FragmentLoginUserInfo extends Fragment implements KeyboardHeightPro
         account = Account.newInstance(getContext());
         keyboardHeightProvider = new KeyboardHeightProvider(getContext(), getActivity().getWindowManager(), getActivity().getWindow().getDecorView(), this);
         hideSoftKeyboard(getActivity());
+
         if (getArguments() != null) {
             signedInGoogle = getArguments().getBoolean("isSignedInGoogle");
         }
@@ -91,6 +92,7 @@ public class FragmentLoginUserInfo extends Fragment implements KeyboardHeightPro
             b.nextBtn.setEnabled(false);
             b.nextBtn.setAlpha(0.7f);
             b.btnProgress.setVisibility(View.VISIBLE);
+
             if (signedInGoogle) {
                 sendDataGoogle();
                 return;
@@ -118,7 +120,7 @@ public class FragmentLoginUserInfo extends Fragment implements KeyboardHeightPro
         j.addProperty("fullName", acct.getDisplayName());
         j.addProperty("userName", b.edtUsername.getText().toString().trim());
         j.addProperty("email", acct.getEmail());
-        Call<DataCheckSms> call = StaticMethods.getApiLogin().signInGoogle(j);
+        Call<DataCheckSms> call = StaticMethods.getApiLogin().registrationByGoogle(j);
         call.enqueue(new RetrofitCallback<DataCheckSms>() {
             @Override
             public void onResponse(DataCheckSms response) {
@@ -132,8 +134,7 @@ public class FragmentLoginUserInfo extends Fragment implements KeyboardHeightPro
                 //go next activity
                 account.saveUserIsLoggedIn();
 
-                startActivity(new Intent(getContext(), ActivityMain.class));
-                getActivity().finish();
+                goNextActivity();
 
             }
 
@@ -144,8 +145,6 @@ public class FragmentLoginUserInfo extends Fragment implements KeyboardHeightPro
         });
 
     }
-
-
     private void createUser() {
         JsonObject j = new JsonObject();
         j.addProperty("id", account.getPrefUserUUID());
@@ -180,8 +179,12 @@ public class FragmentLoginUserInfo extends Fragment implements KeyboardHeightPro
 
     private void goNextActivity() {
         if (getActivity() == null) return;
-        startActivity(new Intent(getContext(), ActivityMain.class));
-        getActivity().finish();
+        hideSoftKeyboard(getActivity());
+
+        new Handler().postDelayed(() -> {
+            startActivity(new Intent(getContext(), ActivityMain.class));
+            getActivity().finish();
+        }, 200);;
     }
 
     private void setNextBtnEnabled() {
@@ -204,6 +207,7 @@ public class FragmentLoginUserInfo extends Fragment implements KeyboardHeightPro
         setBackgroundDrawable(getContext(), b.edtName, R.color.low_contrast, 0, 10, false, 0);
         setBackgroundDrawable(getContext(), b.edtUsername, R.color.low_contrast, 0, 10, false, 0);
         setNextBtnEnabled();
+
         if (signedInGoogle) {
             b.edtName.setVisibility(View.GONE);
             b.hintName.setVisibility(View.GONE);
@@ -216,6 +220,7 @@ public class FragmentLoginUserInfo extends Fragment implements KeyboardHeightPro
     @Override
     public void onKeyboardHeightChanged(int height, boolean isLandscape) {
         if (getContext() == null) return;
+
         RelativeLayout.MarginLayoutParams layout = (RelativeLayout.MarginLayoutParams) b.layBottom.getLayoutParams();
 
         if (height > 0) {
@@ -238,11 +243,10 @@ public class FragmentLoginUserInfo extends Fragment implements KeyboardHeightPro
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        setNextBtnEnabled();
     }
 
     @Override
     public void afterTextChanged(Editable s) {
-
+        setNextBtnEnabled();
     }
 }

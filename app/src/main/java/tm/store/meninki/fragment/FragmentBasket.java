@@ -3,7 +3,6 @@ package tm.store.meninki.fragment;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.google.gson.Gson;
-
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -21,8 +18,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import tm.store.meninki.R;
 import tm.store.meninki.adapter.AdapterCardProducts;
-import tm.store.meninki.adapter.AdapterGrid;
 import tm.store.meninki.api.data.ResponseOrderGetAll;
+import tm.store.meninki.api.data.response.ResponseCard;
 import tm.store.meninki.api.request.RequestGetAllOrder;
 import tm.store.meninki.databinding.FragmentBasketBinding;
 import tm.store.meninki.shared.Account;
@@ -30,6 +27,8 @@ import tm.store.meninki.utils.StaticMethods;
 
 public class FragmentBasket extends Fragment {
     private FragmentBasketBinding b;
+    private int totalProducts = 0;
+    private int totalPrice = 0;
     private AdapterCardProducts adapterGrid;
 
     public static FragmentBasket newInstance() {
@@ -45,8 +44,7 @@ public class FragmentBasket extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         b = FragmentBasketBinding.inflate(inflater, container, false);
         setBackgrounds();
@@ -59,8 +57,7 @@ public class FragmentBasket extends Fragment {
         b.progressBar.setVisibility(View.VISIBLE);
         RequestGetAllOrder requestGetAllOrder = new RequestGetAllOrder();
         requestGetAllOrder.setOrderStatus(0);
-        Call<ArrayList<ResponseOrderGetAll>> call = StaticMethods.getApiHomeWithoutHeader().getAllOrder(Account.newInstance(getContext()).getAccessToken(),
-                requestGetAllOrder);
+        Call<ArrayList<ResponseOrderGetAll>> call = StaticMethods.getApiHomeWithoutHeader().getAllOrder(Account.newInstance(getContext()).getAccessToken(), requestGetAllOrder);
 
         call.enqueue(new Callback<ArrayList<ResponseOrderGetAll>>() {
             @Override
@@ -71,6 +68,9 @@ public class FragmentBasket extends Fragment {
                     b.progressBar.setVisibility(View.GONE);
                     return;
                 }
+
+                calculateTotalProducts(response.body());
+
 
                 b.progressBar.setVisibility(View.GONE);
                 b.noContent.setVisibility(View.GONE);
@@ -87,6 +87,21 @@ public class FragmentBasket extends Fragment {
         });
     }
 
+    private void calculateTotalTotalPrice(ArrayList<ResponseCard> body) {
+        for (int i = 0; i < body.size(); i++) {
+            totalPrice += body.get(i).getPrice();
+        }
+    }
+
+    private void calculateTotalProducts(ArrayList<ResponseOrderGetAll> body) {
+        for (int i = 0; i < body.size(); i++) {
+            totalProducts += body.get(i).getProducts().size();
+            calculateTotalTotalPrice(body.get(i).getProducts());
+        }
+        b.totalCount.setText(totalProducts + " " + getActivity().getResources().getString(R.string.products));
+        b.totalPrice.setText(totalPrice + " TMT");
+    }
+
     private void setBackgrounds() {
         setBackgroundDrawable(getContext(), b.bgPayment, R.color.accent, 0, 10, false, 0);
     }
@@ -96,8 +111,6 @@ public class FragmentBasket extends Fragment {
     }
 
     private void setRecycler(ArrayList<ResponseOrderGetAll> list) {
-        Log.e("TAG_basket", "setRecycler: " + list.size());
-
         b.recGrids.setVisibility(View.VISIBLE);
         adapterGrid = new AdapterCardProducts(getContext(), list);
         b.recGrids.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));

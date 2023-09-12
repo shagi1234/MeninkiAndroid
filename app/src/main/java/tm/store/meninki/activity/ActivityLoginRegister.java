@@ -26,7 +26,6 @@ public class ActivityLoginRegister extends AppCompatActivity {
         root = findViewById(R.id.root);
         mainFragmentManager = getSupportFragmentManager();
 
-//        addFragment(mainFragmentManager, R.id.container_login, FragmentFirstLaunch.newInstance());
         addFragment(mainFragmentManager, R.id.container_login, FragmentCountryAndNumber.newInstance());
     }
 

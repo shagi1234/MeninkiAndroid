@@ -22,14 +22,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/white"
+            android:background="@color/color_transparent"
             android:fontFamily="@font/inter_medium"
             android:gravity="center_vertical"
             android:hint="@string/search"
             android:maxLines="1"
             android:paddingVertical="10dp"
             android:paddingStart="14dp"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textColor="@color/on_4" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -38,7 +39,7 @@
             android:layout_marginEnd="14dp"
             android:padding="5dp"
             android:src="@drawable/ic_search"
-            app:tint="@color/contrast" />
+            app:tint="@color/on_4" />
 
     </LinearLayout>
 
@@ -46,8 +47,8 @@
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:background="@color/color_transparent"
         android:clipToPadding="false"
         app:tabBackground="@drawable/tab_categories_selector"

@@ -2,6 +2,7 @@ package tm.store.meninki.fragment;
 
 import static tm.store.meninki.utils.Const.mainFragmentManager;
 import static tm.store.meninki.utils.FragmentHelper.addFragment;
+import static tm.store.meninki.utils.FragmentHelper.addFragmentWithoutAnim;
 import static tm.store.meninki.utils.StaticMethods.dpToPx;
 import static tm.store.meninki.utils.StaticMethods.logWrite;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
@@ -83,15 +84,15 @@ public class FragmentCategory extends Fragment {
     private void initListeners() {
         b.backgroundSearch.setOnClickListener(view -> {
             b.backgroundSearch.setEnabled(false);
-            new Handler().postDelayed(() -> b.backgroundSearch.setEnabled(true),200);
+            new Handler().postDelayed(() -> b.backgroundSearch.setEnabled(true), 200);
 
-            addFragment(mainFragmentManager,R.id.fragment_container_main,FragmentMain.newInstance(true));
+            addFragmentWithoutAnim(mainFragmentManager, R.id.fragment_container_main, FragmentMain.newInstance(true));
         });
     }
 
     private void setBackgrounds() {
-        setBackgroundDrawable(getContext(), b.backgroundSearch, R.color.low_contrast, 0, 10, false, 0);
-        setBackgroundDrawable(getContext(), b.edtSearch, R.color.low_contrast, 0, 10, false, 0);
+        setBackgroundDrawable(getContext(), b.backgroundSearch, R.color.on_bg, 0, 14, false, 0);
+        setBackgroundDrawable(getContext(), b.edtSearch, R.color.on_bg, 0, 14, false, 0);
     }
 
 

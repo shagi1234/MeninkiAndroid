@@ -3,12 +3,13 @@ plugins {
 }
 
 android {
-    compileSdk 34
+    compileSdk 33
+    namespace 'tm.store.meninki'
 
     defaultConfig {
         applicationId "tm.store.meninki"
         minSdk 21
-        targetSdk 34
+        targetSdk 33
         versionCode 3
         versionName "1.1"
 

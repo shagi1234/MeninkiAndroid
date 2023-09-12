@@ -34,7 +34,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="20dp"
                     android:background="@color/bg"
                     android:gravity="center_vertical">
 
@@ -127,11 +127,11 @@
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tab_categories"
                     android:layout_width="match_parent"
+                    style="@style/WithoutPaddingTabLayout"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="5dp"
                     android:layout_marginTop="14dp"
                     android:background="@color/color_transparent"
-                    android:clipToPadding="false"
                     app:tabBackground="@drawable/tab_categories_selector"
                     app:tabIndicator="@drawable/tab_selected_categories"
                     app:tabIndicatorAnimationMode="elastic"

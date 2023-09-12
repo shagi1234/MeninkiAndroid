@@ -253,12 +253,13 @@ public class FragmentAdvertisements extends Fragment implements GetAllAdvertisem
     }
 
     private void setTabCategories(ArrayList<CategoryDto> categories) {
+        if (getActivity() == null) return;
         b.tabCategories.setTabRippleColor(null);
         b.tabCategories.removeAllTabs();
         b.tabCategories.addTab(b.tabCategories.newTab().setText(""));
 
         Objects.requireNonNull(b.tabCategories.getTabAt(0)).setIcon(R.drawable.ic_categories_tab);
-        b.tabCategories.getTabAt(0).getIcon().setTint(getResources().getColor(R.color.bg));
+        b.tabCategories.getTabAt(0).getIcon().setTint(getActivity().getResources().getColor(R.color.bg));
 
         for (int i = 0; i < categories.size(); i++) {
             b.tabCategories.addTab(b.tabCategories.newTab().setText(categories.get(i).getName()));

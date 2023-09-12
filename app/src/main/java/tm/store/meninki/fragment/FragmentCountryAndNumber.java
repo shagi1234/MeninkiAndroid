@@ -2,6 +2,7 @@ package tm.store.meninki.fragment;
 
 import static tm.store.meninki.utils.Const.mainFragmentManager;
 import static tm.store.meninki.utils.FragmentHelper.addFragment;
+import static tm.store.meninki.utils.StaticMethods.hideSoftKeyboard;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 import static tm.store.meninki.utils.StaticMethods.setMargins;
@@ -33,9 +34,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.gson.JsonObject;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import tm.store.meninki.R;
+import tm.store.meninki.activity.ActivityMain;
 import tm.store.meninki.api.ApiClient;
 import tm.store.meninki.api.RetrofitCallback;
+import tm.store.meninki.api.data.response.DataCheckSms;
 import tm.store.meninki.api.data.response.DataSendSms;
 import tm.store.meninki.api.services.ServiceLogin;
 import tm.store.meninki.databinding.FragmentCountryAndNumberBinding;
@@ -72,8 +77,7 @@ public class FragmentCountryAndNumber extends Fragment implements CountryClickLi
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         b = FragmentCountryAndNumberBinding.inflate(inflater, container, false);
         setBackgrounds();
@@ -87,7 +91,7 @@ public class FragmentCountryAndNumber extends Fragment implements CountryClickLi
         new Handler().postDelayed(() -> setMargins(b.getRoot(), 0, statusBarHeight, 0, navigationBarHeight), 50);
     }
 
-    private void signInGoogle() {
+    private void openGoogleAccountPicker() {
         // Start the sign-in flow
         Intent signInIntent = gsc.getSignInIntent();
         startActivityForResult(signInIntent, 123);
@@ -101,13 +105,80 @@ public class FragmentCountryAndNumber extends Fragment implements CountryClickLi
             try {
                 // Get the signed-in account
                 task.getResult(ApiException.class);
-                addFragment(mainFragmentManager, R.id.container_login, FragmentLoginUserInfo.newInstance(true));
+                GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getContext());
                 // send data
+                checkUserAlreadyExist(acct.getId());
 
             } catch (ApiException e) {
                 Log.e("TAG", "onActivityResult: " + e);
             }
         }
+    }
+
+    private void checkUserAlreadyExist(String googleId) {
+        ServiceLogin serviceLogin = (ServiceLogin) ApiClient.createRequest(ServiceLogin.class);
+        JsonObject j = new JsonObject();
+        j.addProperty("phoneNumber", b.selectCode.getText().toString().trim().substring(1) + b.edtNumber.getText().toString().trim());
+        j.addProperty("googlrId", googleId);
+
+        Call<Boolean> call = serviceLogin.checkUserIsAlreadyExist(j);
+        call.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if (googleId == null) {
+                    sendSms(response.body() != null && Boolean.TRUE.equals(response.body()));
+                    return;
+                }
+                if (response.body() != null && Boolean.TRUE.equals(response.body())) {
+                    signInGoogle(googleId);
+                } else {
+                    registrationByGoogle();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void registrationByGoogle() {
+        addFragment(mainFragmentManager, R.id.container_login, FragmentLoginUserInfo.newInstance(true));
+
+    }
+
+    private void signInGoogle(String googleId) {
+        ServiceLogin serviceLogin = (ServiceLogin) ApiClient.createRequest(ServiceLogin.class);
+        JsonObject j = new JsonObject();
+        j.addProperty("googleId", googleId);
+
+        Call<DataCheckSms> call = serviceLogin.loginByGoogle(j);
+        call.enqueue(new Callback<DataCheckSms>() {
+            @Override
+            public void onResponse(Call<DataCheckSms> call, Response<DataCheckSms> response) {
+                if (response.body() == null || !response.isSuccessful()) return;
+
+                account.saveAccessToken(response.body().getAccessToken());
+                account.saveRefreshToken(response.body().getRefreshToken());
+                account.saveValidToToken(response.body().getValidTo());
+                account.saveUserUUID(response.body().getUserId());
+
+                account.saveUserIsLoggedIn();
+                hideSoftKeyboard(getActivity());
+
+                new Handler().postDelayed(() -> {
+                    startActivity(new Intent(getContext(), ActivityMain.class));
+                    getActivity().finish();
+                }, 200);
+
+            }
+
+            @Override
+            public void onFailure(Call<DataCheckSms> call, Throwable t) {
+
+            }
+        });
     }
 
 
@@ -124,7 +195,7 @@ public class FragmentCountryAndNumber extends Fragment implements CountryClickLi
             b.btnLogin.setEnabled(false);
             b.btnLogin.setAlpha(0.7f);
             b.btnProgress.setVisibility(View.VISIBLE);
-            sendSms();
+            checkUserAlreadyExist(null);
         });
 
         b.selectCode.setOnClickListener(v -> {
@@ -133,7 +204,7 @@ public class FragmentCountryAndNumber extends Fragment implements CountryClickLi
             new Handler().postDelayed(() -> b.selectCode.setEnabled(true), 200);
         });
 
-        b.signInGoogle.setOnClickListener(v -> signInGoogle());
+        b.signInGoogle.setOnClickListener(v -> openGoogleAccountPicker());
 
         b.edtNumber.addTextChangedListener(new TextWatcher() {
             @Override
@@ -160,32 +231,30 @@ public class FragmentCountryAndNumber extends Fragment implements CountryClickLi
 
     }
 
-    private void sendSms() {
+    private void sendSms(boolean isAlreadyExist) {
         ServiceLogin serviceLogin = (ServiceLogin) ApiClient.createRequest(ServiceLogin.class);
         JsonObject j = new JsonObject();
-        j.addProperty("phoneNumber", b.selectCode.getText().toString().trim().substring(1) + b.edtNumber.getText().toString().trim());
+        j.addProperty("phoneNumber", this.b.selectCode.getText().toString().trim().substring(1) + this.b.edtNumber.getText().toString().trim());
 
-        Call<DataSendSms> call = serviceLogin.sendSms(j);
-        call.enqueue(new RetrofitCallback<DataSendSms>() {
+        Call<DataSendSms> call = isAlreadyExist ? serviceLogin.loginByPhone(j) : serviceLogin.registrationByNumber(j);
+        call.enqueue(new Callback<DataSendSms>() {
             @Override
-            public void onResponse(DataSendSms response) {
+            public void onResponse(Call<DataSendSms> call, Response<DataSendSms> response) {
+                account.saveSendSmsId(response.body().getId());
+                account.saveUserPhoneNumber(FragmentCountryAndNumber.this.b.selectCode.getText().toString().trim().substring(1) + FragmentCountryAndNumber.this.b.edtNumber.getText().toString().trim());
 
-                account.saveSendSmsId(response.getId());
-                account.saveUserPhoneNumber(b.selectCode.getText().toString().trim().substring(1) + b.edtNumber.getText().toString().trim());
-
-                addFragment(mainFragmentManager, R.id.container_login, FragmentSmsCode.newInstance(b.edtNumber.getText().toString()));
-                b.btnLogin.setAlpha(1);
-                b.btnProgress.setVisibility(View.GONE);
-                new Handler().postDelayed(() -> b.btnLogin.setEnabled(true), 200);
-
+                addFragment(mainFragmentManager, R.id.container_login, FragmentSmsCode.newInstance(FragmentCountryAndNumber.this.b.edtNumber.getText().toString(), isAlreadyExist));
+                FragmentCountryAndNumber.this.b.btnLogin.setAlpha(1);
+                FragmentCountryAndNumber.this.b.btnProgress.setVisibility(View.GONE);
+                new Handler().postDelayed(() -> FragmentCountryAndNumber.this.b.btnLogin.setEnabled(true), 200);
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<DataSendSms> call, Throwable t) {
                 Toast.makeText(getContext(), getActivity().getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-                b.btnLogin.setAlpha(1);
-                b.btnProgress.setVisibility(View.GONE);
-                new Handler().postDelayed(() -> b.btnLogin.setEnabled(true), 200);
+                FragmentCountryAndNumber.this.b.btnLogin.setAlpha(1);
+                FragmentCountryAndNumber.this.b.btnProgress.setVisibility(View.GONE);
+                new Handler().postDelayed(() -> FragmentCountryAndNumber.this.b.btnLogin.setEnabled(true), 200);
             }
         });
     }

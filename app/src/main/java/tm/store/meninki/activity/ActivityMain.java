@@ -16,10 +16,12 @@ import static tm.store.meninki.utils.StaticMethods.transparentStatusAndNavigatio
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
@@ -89,9 +91,10 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
         getLifecycle().addObserver(this);
         activityMain = this;
         mainFragmentManager = getSupportFragmentManager();
-        hideSoftKeyboard(this);
+
         setBackgrounds();
         setNavListeners();
+
     }
 
     private void setNavListeners() {
@@ -124,8 +127,6 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setBackgrounds() {
-        setBackgroundDrawable(this, b.nav, R.color.bg, 0, 50, false, 0);
-
         if (getIntent().getBooleanExtra("is_language_changed", false)) {
             setNav(R.id.nav_profile);
         } else setNav(R.id.nav_main);
@@ -133,7 +134,6 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
 
     @SuppressLint("NonConstantResourceId")
     private void setNav(int id) {
-        setBackgroundDrawable(this, b.nav, R.color.bg, 0, 50, false, 0);
         navInactive();
 
         switch (id) {

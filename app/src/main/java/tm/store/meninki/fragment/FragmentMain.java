@@ -86,6 +86,8 @@ public class FragmentMain extends Fragment implements OnUpdateFragment {
     private void setBackgrounds() {
         setBackgroundDrawable(getContext(), b.tabLayout, R.color.on_bg_ls, 0, 100, false, 0);
         setBackgroundDrawable(getContext(), b.bgTab, R.color.on_bg_ls, 0, 100, false, 0);
+        setBackgroundDrawable(getContext(), b.backgroundSearch, R.color.on_bg, 0, 14, false, 0);
+        setBackgroundDrawable(getContext(), b.edtSearch, R.color.on_bg, 0, 14, false, 0);
     }
 
     private void setViewPager() {

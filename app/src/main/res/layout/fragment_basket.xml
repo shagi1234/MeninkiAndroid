@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg"
@@ -12,45 +13,27 @@
         android:id="@+id/lay_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/low_contrast"
-        android:orientation="horizontal"
-        android:paddingHorizontal="12dp"
-        android:paddingTop="30dp"
-        android:paddingBottom="14dp">
+        android:background="@color/color_transparent"
+        android:orientation="horizontal">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/total_price"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="20dp"
             android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/header"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/inter_bold"
-                android:gravity="center_vertical"
-                android:text="@string/card"
-                android:textColor="@color/contrast"
-                android:textSize="20sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:fontFamily="@font/inter_bold"
-                android:textColor="@color/accent"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/sum_all" />
-        </LinearLayout>
+            android:fontFamily="@font/inter_semibold"
+            android:gravity="start|center"
+            android:textColor="@color/accent"
+            android:textSize="16sp"
+            android:text="0 TMT" />
 
         <FrameLayout
             android:id="@+id/bg_payment"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
             android:background="@color/accent">
 
             <FrameLayout
@@ -59,47 +42,77 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/ripple" />
 
-            <ImageView
-                android:id="@+id/ic_payment"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:padding="5dp"
-                android:src="@drawable/ic_payment"
-                app:tint="@color/white" />
+                android:fontFamily="@font/inter_medium"
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="8dp"
+                android:text="@string/continuee"
+                android:textColor="@color/white" />
 
         </FrameLayout>
 
     </LinearLayout>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/on_bg" />
+
+    <LinearLayout
+        android:id="@+id/lay_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_transparent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/total_count"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/inter_regular"
+            android:gravity="start|center"
+            android:textColor="@color/contrast"
+            android:textSize="14sp"
+            android:text="@string/products" />
+
+        <FrameLayout
+            android:id="@+id/bg_delete"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="10dp">
+
+            <FrameLayout
+                android:id="@+id/click_delete"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/ripple" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_trash"
+                android:tint="@color/contrast"
+                tools:ignore="UseAppTint" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/on_bg" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <LinearLayout
-            android:id="@+id/select_location_lay"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="20dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_location" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
-                android:fontFamily="@font/inter_bold"
-                android:text="Выберите адрес"
-                android:textColor="@color/accent"
-                android:textSize="14sp" />
-
-        </LinearLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -108,9 +121,9 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rec_grids"
-                android:visibility="gone"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:visibility="gone" />
 
             <ProgressBar
                 android:id="@+id/progress_bar"

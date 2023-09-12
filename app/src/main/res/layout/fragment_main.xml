@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="bottom"
-    android:background="@color/color_transparent"
+    android:background="@color/bg"
     android:orientation="vertical"
     tools:context=".fragment.FragmentMain">
 
@@ -28,7 +28,7 @@
                 android:id="@+id/main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/color_transparent"
+                android:background="@color/bg"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -46,14 +46,15 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:background="@color/white"
+                        android:background="@color/color_transparent"
                         android:fontFamily="@font/inter_medium"
                         android:gravity="center_vertical"
                         android:hint="@string/search"
                         android:maxLines="1"
                         android:paddingVertical="10dp"
                         android:paddingStart="14dp"
-                        android:singleLine="true" />
+                        android:singleLine="true"
+                        android:textColor="@color/on_4" />
 
                     <ImageView
                         android:layout_width="wrap_content"

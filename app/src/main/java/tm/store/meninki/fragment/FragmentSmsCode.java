@@ -2,10 +2,12 @@ package tm.store.meninki.fragment;
 
 import static tm.store.meninki.utils.Const.mainFragmentManager;
 import static tm.store.meninki.utils.FragmentHelper.addFragment;
+import static tm.store.meninki.utils.StaticMethods.hideSoftKeyboard;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -30,6 +32,7 @@ import com.google.gson.JsonObject;
 
 import retrofit2.Call;
 import tm.store.meninki.R;
+import tm.store.meninki.activity.ActivityMain;
 import tm.store.meninki.api.ApiClient;
 import tm.store.meninki.api.RetrofitCallback;
 import tm.store.meninki.api.data.response.DataCheckSms;
@@ -43,12 +46,14 @@ public class FragmentSmsCode extends Fragment {
     private FragmentSmsCodeBinding b;
     private CountDownTimer countDownTimer;
     private Account account;
+    private boolean isAlreadyExist;
     String number;
 
-    public static FragmentSmsCode newInstance(String number) {
+    public static FragmentSmsCode newInstance(String number, boolean isAlreadyExist) {
         FragmentSmsCode fragment = new FragmentSmsCode();
         Bundle args = new Bundle();
         args.putString("_number", number);
+        args.putBoolean("is_already_exist", isAlreadyExist);
         fragment.setArguments(args);
         return fragment;
     }
@@ -58,6 +63,7 @@ public class FragmentSmsCode extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             number = getArguments().getString("_number");
+            isAlreadyExist = getArguments().getBoolean("is_already_exist", false);
         }
         account = Account.newInstance(getContext());
     }
@@ -102,6 +108,16 @@ public class FragmentSmsCode extends Fragment {
         });
     }
 
+    private void goNextActivity() {
+        if (getActivity() == null) return;
+        hideSoftKeyboard(getActivity());
+
+        new Handler().postDelayed(() -> {
+            startActivity(new Intent(getContext(), ActivityMain.class));
+            getActivity().finish();
+        }, 200);
+    }
+
     private void checkSmsCode(String trim) {
         ServiceLogin serviceLogin = (ServiceLogin) ApiClient.createRequest(ServiceLogin.class);
         JsonObject j = new JsonObject();
@@ -116,6 +132,12 @@ public class FragmentSmsCode extends Fragment {
                 account.saveAccessToken(response.getAccessToken());
                 account.saveValidToToken(response.getValidTo());
                 account.saveUserUUID(response.getUserId());
+
+                if (isAlreadyExist) {
+                    account.saveUserIsLoggedIn();
+                    goNextActivity();
+                    return;
+                }
 
                 addFragment(mainFragmentManager, R.id.container_login, FragmentLoginUserInfo.newInstance(false));
                 b.edtCode.setText("");
@@ -187,7 +209,7 @@ public class FragmentSmsCode extends Fragment {
         JsonObject j = new JsonObject();
         j.addProperty("phoneNumber", "993" + number);
 
-        Call<DataSendSms> call = serviceLogin.sendSms(j);
+        Call<DataSendSms> call = isAlreadyExist ? serviceLogin.loginByPhone(j) : serviceLogin.registrationByNumber(j);
         call.enqueue(new RetrofitCallback<DataSendSms>() {
             @Override
             public void onResponse(DataSendSms response) {
