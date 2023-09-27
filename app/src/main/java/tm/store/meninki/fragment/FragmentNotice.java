@@ -2,7 +2,6 @@ package tm.store.meninki.fragment;
 
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
-import static tm.store.meninki.utils.StaticMethods.setPadding;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -61,14 +60,14 @@ public class FragmentNotice extends Fragment {
     }
 
     private void setRecyclerGrid() {
-        adapterGrid = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_GRID, -1);
+        adapterGrid = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_GRID, -1, false);
         RecyclerView.LayoutManager staggered = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         b.recProducts.setLayoutManager(staggered);
         b.recProducts.setAdapter(adapterGrid);
     }
 
     private void setRecyclerHorizontal() {
-        adapterGridHorizontal = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_HORIZONTAL_SMALL, -1);
+        adapterGridHorizontal = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_HORIZONTAL_SMALL, -1, false);
         b.recProductsHorizontal.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         b.recProductsHorizontal.setAdapter(adapterGridHorizontal);
     }

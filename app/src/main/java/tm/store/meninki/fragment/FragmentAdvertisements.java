@@ -6,6 +6,7 @@ import static tm.store.meninki.utils.Const.mainFragmentManager;
 import static tm.store.meninki.utils.FragmentHelper.addFragment;
 import static tm.store.meninki.utils.StaticMethods.logWrite;
 import static tm.store.meninki.utils.StaticMethods.navigationBarHeight;
+import static tm.store.meninki.utils.StaticMethods.setMargins;
 import static tm.store.meninki.utils.StaticMethods.setPadding;
 import static tm.store.meninki.utils.StaticMethods.setPaddingWithHandler;
 import static tm.store.meninki.utils.StaticMethods.statusBarHeight;
@@ -84,13 +85,12 @@ public class FragmentAdvertisements extends Fragment implements GetAllAdvertisem
     @Override
     public void onResume() {
         super.onResume();
-        if (isSearch) {
-            setPadding(b.getRoot(), 0, statusBarHeight, 0, 0);
-        }
+
         if (!getUserVisibleHint() || getActivity() == null) {
             return;
         }
         if (editSearch == null) return;
+
         if (isSearch)
             onSearched(editSearch.getText().toString().trim());
     }
@@ -99,11 +99,9 @@ public class FragmentAdvertisements extends Fragment implements GetAllAdvertisem
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         b = FragmentAdvertisementsBinding.inflate(inflater, container, false);
-        checkUi();
         setRecyclerAdvertisements();
-        getAllCategories();
+        checkUi();
         initListeners();
-
         getAllAdvertisements(createInitialRequestBody(null));
         return b.getRoot();
     }
@@ -134,6 +132,8 @@ public class FragmentAdvertisements extends Fragment implements GetAllAdvertisem
         } else {
             b.appBarLayout.setVisibility(View.VISIBLE);
             b.tabCategories.setVisibility(View.VISIBLE);
+
+            getAllCategories();
         }
     }
 
@@ -192,7 +192,7 @@ public class FragmentAdvertisements extends Fragment implements GetAllAdvertisem
     }
 
     private void setRecyclerAdvertisements() {
-        adapterGrid = new AdapterGrid(getContext(), getActivity(), TYPE_ADVERTISEMENT, -1);
+        adapterGrid = new AdapterGrid(getContext(), getActivity(), TYPE_ADVERTISEMENT, -1,isSearch);
         b.recGrid.setLayoutManager(new GridLayoutManager(getContext(), 2));
         b.recGrid.setAdapter(adapterGrid);
     }
@@ -315,6 +315,7 @@ public class FragmentAdvertisements extends Fragment implements GetAllAdvertisem
         if (text.length() == 0) {
             b.recGrid.setVisibility(View.INVISIBLE);
         } else b.recGrid.setVisibility(View.VISIBLE);
+
         getAllAdvertisements(requestAllAdvertisement);
     }
 }

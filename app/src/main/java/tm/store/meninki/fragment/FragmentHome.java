@@ -3,7 +3,6 @@ package tm.store.meninki.fragment;
 import static tm.store.meninki.utils.StaticMethods.logWrite;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 
@@ -24,11 +22,6 @@ import retrofit2.Response;
 import tm.store.meninki.R;
 import tm.store.meninki.adapter.AdapterCircle;
 import tm.store.meninki.adapter.AdapterGrid;
-import tm.store.meninki.api.RetrofitCallback;
-import tm.store.meninki.api.request.RequestCard;
-import tm.store.meninki.api.data.response.ResponseCard;
-import tm.store.meninki.api.data.response.ResponseHomeShops;
-import tm.store.meninki.data.CategoryDto;
 import tm.store.meninki.data.HomeArray;
 import tm.store.meninki.databinding.FragmentHomeBinding;
 import tm.store.meninki.utils.StaticMethods;
@@ -82,15 +75,15 @@ public class FragmentHome extends Fragment {
     }
 
     private void setRecycler() {
-        adapterGridPopularProd = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_GRID, 10);
+        adapterGridPopularProd = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_GRID, 10, false);
         b.recPopularProd.setLayoutManager(new GridLayoutManager(getContext(), 2));
         b.recPopularProd.setAdapter(adapterGridPopularProd);
 
-        adapterGridPopularPost = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_POST, 10);
+        adapterGridPopularPost = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_POST, 10, false);
         b.recPopularPost.setLayoutManager(new GridLayoutManager(getContext(), 2));
         b.recPopularPost.setAdapter(adapterGridPopularPost);
 
-        adapterGridNew = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_GRID, 10);
+        adapterGridNew = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_GRID, 10, false);
         b.recNewProducts.setLayoutManager(new GridLayoutManager(getContext(), 2));
         b.recNewProducts.setAdapter(adapterGridNew);
 

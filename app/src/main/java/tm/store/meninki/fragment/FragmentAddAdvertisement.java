@@ -212,13 +212,11 @@ public class FragmentAddAdvertisement extends Fragment implements OnBackPressedF
             public void onFailure(Call<AdvertisementDto> call, Throwable t) {
                 Toast.makeText(getContext(), R.string.went_error, Toast.LENGTH_SHORT).show();
                 b.btnSave.setEnabled(true);
-                Log.e("TAG_add_ads", "onFailure: "+t);
+                Log.e("TAG_add_ads", "onFailure: " + t);
                 b.grayContainer.setVisibility(View.GONE);
 
             }
         });
-
-
     }
 
     private void getRegions() {

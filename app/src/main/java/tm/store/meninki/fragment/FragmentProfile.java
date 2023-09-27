@@ -32,7 +32,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.AppBarLayout;
@@ -373,7 +372,7 @@ public class FragmentProfile extends Fragment implements OnUserDataChanged, OnPr
     }
 
     private void setRecycler(int type) {
-        adapterGrid = new AdapterGrid(getContext(), getActivity(), type, -1);
+        adapterGrid = new AdapterGrid(getContext(), getActivity(), type, -1, false);
         b.recProducts.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         b.recProducts.setAdapter(adapterGrid);
     }

@@ -130,19 +130,6 @@ public class AdapterPostPager extends RecyclerView.Adapter<AdapterPostPager.Vide
             lastExoPlayer = null;
         }
     }
-
-    public void pause() {
-        if (lastExoPlayer != null) {
-            lastExoPlayer.pause();
-        }
-    }
-
-    public void play() {
-        if (lastExoPlayer != null) {
-            lastExoPlayer.play();
-        }
-    }
-
     public class VideoHolder extends RecyclerView.ViewHolder {
         public final ItemVideoBinding b;
         private SimpleExoPlayer exoPlayer;

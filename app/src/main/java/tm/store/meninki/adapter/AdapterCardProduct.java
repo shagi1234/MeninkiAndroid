@@ -19,18 +19,20 @@ import java.util.ArrayList;
 import tm.store.meninki.R;
 import tm.store.meninki.api.data.OptionDto;
 import tm.store.meninki.api.data.response.ResponseCard;
+import tm.store.meninki.data.ShopDTO;
 import tm.store.meninki.databinding.ItemCharchtersInCardBinding;
 import tm.store.meninki.databinding.ItemImageBasketBinding;
 import tm.store.meninki.utils.Option;
-import tm.store.meninki.utils.StaticMethods;
 
-public class AdapterImageHorizontal extends RecyclerView.Adapter<AdapterImageHorizontal.CharImageHolder> {
-    private ArrayList<ResponseCard> products = new ArrayList<>();
+public class AdapterCardProduct extends RecyclerView.Adapter<AdapterCardProduct.CharImageHolder> {
+    private ArrayList<ResponseCard> products;
     private Context context;
+    private ShopDTO shop;
 
-    public AdapterImageHorizontal(Context context, ArrayList<ResponseCard> responseCards) {
+    public AdapterCardProduct(Context context, ArrayList<ResponseCard> responseCards, ShopDTO shop) {
         this.context = context;
         this.products = responseCards;
+        this.shop = shop;
     }
 
     @NonNull
@@ -38,7 +40,7 @@ public class AdapterImageHorizontal extends RecyclerView.Adapter<AdapterImageHor
     public CharImageHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         ItemImageBasketBinding popularAudios = ItemImageBasketBinding.inflate(layoutInflater, parent, false);
-        return new AdapterImageHorizontal.CharImageHolder(popularAudios);
+        return new AdapterCardProduct.CharImageHolder(popularAudios);
     }
 
     @Override
@@ -72,6 +74,8 @@ public class AdapterImageHorizontal extends RecyclerView.Adapter<AdapterImageHor
                     .load(BASE_URL + "/" + products.get(getAdapterPosition()).getImages()[0])
                     .placeholder(R.color.low_contrast)
                     .into(b.image);
+
+            Glide.with(context).load(BASE_URL + "/" + shop.getImgPath()).into(b.posterImage);
 
             b.count.setText(products.get(getAdapterPosition()).getCount() + "");
 

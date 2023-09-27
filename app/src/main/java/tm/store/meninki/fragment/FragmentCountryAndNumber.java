@@ -239,7 +239,9 @@ public class FragmentCountryAndNumber extends Fragment implements CountryClickLi
         Call<DataSendSms> call = isAlreadyExist ? serviceLogin.loginByPhone(j) : serviceLogin.registrationByNumber(j);
         call.enqueue(new Callback<DataSendSms>() {
             @Override
-            public void onResponse(Call<DataSendSms> call, Response<DataSendSms> response) {
+            public void onResponse(@NonNull Call<DataSendSms> call, @NonNull Response<DataSendSms> response) {
+                if (!response.isSuccessful() || response.body() == null) return;
+
                 account.saveSendSmsId(response.body().getId());
                 account.saveUserPhoneNumber(FragmentCountryAndNumber.this.b.selectCode.getText().toString().trim().substring(1) + FragmentCountryAndNumber.this.b.edtNumber.getText().toString().trim());
 

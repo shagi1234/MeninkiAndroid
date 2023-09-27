@@ -35,8 +35,8 @@ public class FragmentFeed extends Fragment implements OnSearched {
     private int page = 1;
     private int limit = 20;
     private AdapterGrid adapterGrid;
-    private boolean isLastPage;
     private boolean isSearch;
+    private boolean isLastPage;
 
     public static FragmentFeed newInstance(boolean isSearch) {
         FragmentFeed fragment = new FragmentFeed();
@@ -52,7 +52,6 @@ public class FragmentFeed extends Fragment implements OnSearched {
         if (getArguments() != null) {
             isSearch = getArguments().getBoolean("is_search");
         }
-        Log.e("TAG_fragment", "onCreate: ");
     }
 
     @Override
@@ -95,6 +94,7 @@ public class FragmentFeed extends Fragment implements OnSearched {
 
     private void checkUi() {
         if (isSearch) {
+            b.layHeader.setVisibility(View.GONE);
             if (editSearch != null)
                 editSearch.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -113,6 +113,8 @@ public class FragmentFeed extends Fragment implements OnSearched {
 
                     }
                 });
+        } else {
+            b.layHeader.setVisibility(View.VISIBLE);
         }
     }
 
@@ -195,7 +197,7 @@ public class FragmentFeed extends Fragment implements OnSearched {
     }
 
     private void setRecycler() {
-        adapterGrid = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_POST, 10);
+        adapterGrid = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_POST, 10, false);
         b.recGrid.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         b.recGrid.setAdapter(adapterGrid);
 

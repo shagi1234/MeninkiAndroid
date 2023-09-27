@@ -47,7 +47,6 @@ public class FragmentMain extends Fragment implements OnUpdateFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e("TAG_fragment", "onCreate: main");
         if (getArguments() != null) {
             isSearch = getArguments().getBoolean("is_search", isSearch);
         }
@@ -91,17 +90,23 @@ public class FragmentMain extends Fragment implements OnUpdateFragment {
     }
 
     private void setViewPager() {
-
-        b.tabLayout.setupWithViewPager(b.viewPager);
-        b.tabLayout.setTabRippleColor(null);
-
         b.viewPager.setOffscreenPageLimit(2);
         ArrayList<FragmentPager> mFragment = new ArrayList<>();
         if (isSearch) {
+            b.tabSearch.setupWithViewPager(b.viewPager);
+            b.tabSearch.setTabRippleColor(null);
+            b.bgTab.setVisibility(View.GONE);
+            b.tabSearch.setVisibility(View.VISIBLE);
+
             mFragment.add(new FragmentPager(FragmentFeed.newInstance(true), getString(R.string.posts)));
             mFragment.add(new FragmentPager(FragmentListGrid.newInstance(VERTICAL_GRID, FragmentListGrid.SEARCH_PRODUCT, 20, null, new int[]{0, 1, 2, 3}), getString(R.string.products)));
             mFragment.add(new FragmentPager(FragmentAdvertisements.newInstance(true), getString(R.string.Ads)));
         } else {
+            b.tabLayout.setupWithViewPager(b.viewPager);
+            b.tabLayout.setTabRippleColor(null);
+            b.bgTab.setVisibility(View.VISIBLE);
+            b.tabSearch.setVisibility(View.GONE);
+
             mFragment.add(new FragmentPager(FragmentFeed.newInstance(false), getString(R.string.feed)));
             mFragment.add(new FragmentPager(FragmentHome.newInstance(), getString(R.string.home)));
             mFragment.add(new FragmentPager(FragmentAdvertisements.newInstance(false), getString(R.string.Ads)));

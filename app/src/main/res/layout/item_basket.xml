@@ -1,50 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:background="@color/bg"
-    android:layout_marginVertical="10dp">
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/lay_store_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="20dp"
-        android:orientation="horizontal"
-        android:paddingVertical="10dp"
-        android:background="@color/on_bg_ls"
-        app:layout_constraintBottom_toBottomOf="parent">
+    <!--    <LinearLayout-->
+    <!--        android:id="@+id/lay_store_name"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:background="@color/on_bg_ls"-->
+    <!--        android:orientation="horizontal"-->
+    <!--        android:paddingHorizontal="20dp"-->
+    <!--        android:paddingVertical="10dp"-->
+    <!--        android:visibility="gone"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent">-->
 
-        <com.makeramen.roundedimageview.RoundedImageView
-            android:id="@+id/poster_image"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:layout_gravity="center"
-            android:padding="2dp"
-            android:src="@color/contrast"
-            app:riv_oval="true" />
+    <!--        <com.makeramen.roundedimageview.RoundedImageView-->
+    <!--            android:id="@+id/poster_image"-->
+    <!--            android:layout_width="22dp"-->
+    <!--            android:layout_height="22dp"-->
+    <!--            android:layout_gravity="center"-->
+    <!--            android:padding="2dp"-->
+    <!--            android:src="@color/contrast"-->
+    <!--            app:riv_oval="true" />-->
 
-        <TextView
-            android:id="@+id/store_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="6dp"
-            android:fontFamily="@font/inter_medium"
-            android:gravity="center_vertical"
-            tools:text="Магазин-название"
-            android:textColor="@color/contrast" />
+    <!--        <TextView-->
+    <!--            android:id="@+id/store_name"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_gravity="center"-->
+    <!--            android:layout_marginStart="6dp"-->
+    <!--            android:fontFamily="@font/inter_medium"-->
+    <!--            android:gravity="center_vertical"-->
+    <!--            android:textColor="@color/contrast"-->
+    <!--            tools:text="Магазин-название" />-->
 
-    </LinearLayout>
+    <!--    </LinearLayout>-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rec_images"
         android:layout_width="match_parent"
-        android:layout_marginHorizontal="20dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp" />
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="10dp" />
 
 </LinearLayout>

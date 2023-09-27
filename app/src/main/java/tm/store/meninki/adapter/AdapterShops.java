@@ -88,7 +88,7 @@ public class AdapterShops extends RecyclerView.Adapter<AdapterShops.StoreHolder>
         }
 
         private void setRecycler() {
-            adapterGrid = new AdapterGrid(context, activity, AdapterGrid.TYPE_HORIZONTAL_SMALL, -1);
+            adapterGrid = new AdapterGrid(context, activity, AdapterGrid.TYPE_HORIZONTAL_SMALL, -1, false);
             b.recProducts.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
             b.recProducts.setAdapter(adapterGrid);
 

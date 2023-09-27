@@ -68,27 +68,51 @@
                 </LinearLayout>
 
                 <FrameLayout
-                    android:id="@+id/bg_tab"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="10dp"
-                    android:background="@color/on_bg_ls"
-                    android:padding="4dp">
+                    android:layout_height="wrap_content">
 
-                    <com.google.android.material.tabs.TabLayout
-                        android:id="@+id/tab_layout"
+                    <FrameLayout
+                        android:id="@+id/bg_tab"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
                         android:background="@color/on_bg_ls"
-                        app:tabIndicator="@drawable/selected_tab"
+                        android:padding="4dp">
+
+                        <com.google.android.material.tabs.TabLayout
+                            android:id="@+id/tab_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/on_bg_ls"
+                            app:tabIndicator="@drawable/selected_tab"
+                            app:tabIndicatorAnimationMode="elastic"
+                            app:tabIndicatorColor="@color/color_transparent"
+                            app:tabIndicatorFullWidth="true"
+                            app:tabIndicatorGravity="stretch"
+                            app:tabMode="fixed"
+                            app:tabSelectedTextColor="@color/white"
+                            app:tabTextAppearance="@style/TabWidget" />
+
+                    </FrameLayout>
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tab_search"
+                        android:layout_width="match_parent"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_height="wrap_content"
+                        android:background="@color/color_transparent"
+                        android:clipToPadding="false"
+                        android:visibility="gone"
+                        app:tabBackground="@drawable/tab_categories_selector"
+                        app:tabIndicator="@drawable/tab_selected_categories"
                         app:tabIndicatorAnimationMode="elastic"
                         app:tabIndicatorColor="@color/color_transparent"
                         app:tabIndicatorFullWidth="true"
                         app:tabIndicatorGravity="stretch"
-                        app:tabMode="fixed"
-                        app:tabSelectedTextColor="@color/white"
-                        app:tabTextAppearance="@style/TabWidget" />
-
+                        app:tabMode="scrollable"
+                        app:tabSelectedTextColor="@color/bg"
+                        app:tabTextAppearance="@style/TabWidgetCategories"
+                        app:tabTextColor="@color/ic_text" />
                 </FrameLayout>
 
             </LinearLayout>

@@ -1,10 +1,8 @@
 package tm.store.meninki.adapter;
 
-import static tm.store.meninki.api.Network.BASE_URL;
 import static tm.store.meninki.utils.StaticMethods.setBackgroundDrawable;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -12,12 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
-
 import java.util.ArrayList;
 
-import tm.store.meninki.R;
 import tm.store.meninki.api.data.ResponseOrderGetAll;
 import tm.store.meninki.databinding.ItemBasketBinding;
 
@@ -49,7 +43,7 @@ public class AdapterCardProducts extends RecyclerView.Adapter<AdapterCardProduct
 
     public class BasketHolder extends RecyclerView.ViewHolder {
         private final ItemBasketBinding b;
-        private AdapterImageHorizontal adapterImageHorizontal;
+        private AdapterCardProduct adapterCardProduct;
 
         public BasketHolder(ItemBasketBinding b) {
             super(b.getRoot());
@@ -58,20 +52,20 @@ public class AdapterCardProducts extends RecyclerView.Adapter<AdapterCardProduct
 
         public void bind() {
 
-            setBackgroundDrawable(context, b.posterImage, R.color.neutral_dark, R.color.accent, 0, true, 2);
+//            setBackgroundDrawable(context, b.posterImage, R.color.neutral_dark, R.color.accent, 0, true, 2);
 
             setRecycler();
 
-            Glide.with(context).load(BASE_URL + "/" + responseOrders.get(getAdapterPosition()).getShop().getImgPath()).into(b.posterImage);
-
-            b.storeName.setText(responseOrders.get(getAdapterPosition()).getShop().getName());
+//            Glide.with(context).load(BASE_URL + "/" + responseOrders.get(getAdapterPosition()).getShop().getImgPath()).into(b.posterImage);
+//
+//            b.storeName.setText(responseOrders.get(getAdapterPosition()).getShop().getName());
 
         }
 
         private void setRecycler() {
-            adapterImageHorizontal = new AdapterImageHorizontal(context, responseOrders.get(getAdapterPosition()).getProducts());
+            adapterCardProduct = new AdapterCardProduct(context, responseOrders.get(getAdapterPosition()).getProducts(),responseOrders.get(getAdapterPosition()).getShop());
             b.recImages.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-            b.recImages.setAdapter(adapterImageHorizontal);
+            b.recImages.setAdapter(adapterCardProduct);
         }
     }
 }

@@ -170,10 +170,10 @@ public class FragmentListGrid extends Fragment implements OnSearched {
 
     private void setRecycler() {
         if (orientation == HORIZONTAL_LINEAR) {
-            adapterGrid = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_HORIZONTAL, maxSize);
+            adapterGrid = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_HORIZONTAL, maxSize, false);
             b.recGrid.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         } else {
-            adapterGrid = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_GRID, maxSize);
+            adapterGrid = new AdapterGrid(getContext(), getActivity(), AdapterGrid.TYPE_GRID, maxSize, false);
             b.recGrid.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         }
         b.recGrid.setAdapter(adapterGrid);

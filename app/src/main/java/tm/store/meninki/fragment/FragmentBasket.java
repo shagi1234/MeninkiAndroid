@@ -71,7 +71,6 @@ public class FragmentBasket extends Fragment {
 
                 calculateTotalProducts(response.body());
 
-
                 b.progressBar.setVisibility(View.GONE);
                 b.noContent.setVisibility(View.GONE);
 

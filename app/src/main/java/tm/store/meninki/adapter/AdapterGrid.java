@@ -23,7 +23,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -32,18 +31,15 @@ import com.bumptech.glide.load.model.LazyHeaders;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.gson.Gson;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
 
 import tm.store.meninki.R;
-import tm.store.meninki.api.data.ResponseOrderGetAll;
 import tm.store.meninki.api.data.ResponsePostGetAllItem;
 import tm.store.meninki.api.data.response.ResponseCard;
 import tm.store.meninki.data.AdvertisementDto;
 import tm.store.meninki.databinding.ItemAdvertisementBinding;
-import tm.store.meninki.databinding.ItemBasketBinding;
 import tm.store.meninki.databinding.ItemPostBinding;
 import tm.store.meninki.databinding.ItemStaggeredGridBinding;
 import tm.store.meninki.fragment.FragmentAdvertisement;
@@ -58,7 +54,6 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private FragmentActivity activity;
     private ArrayList<ResponseCard> grids = new ArrayList<>();
     private ArrayList<ResponsePostGetAllItem> posts = new ArrayList<>();
-
     private ArrayList<AdvertisementDto> advertisements = new ArrayList<>();
     public final static int TYPE_GRID = 0;
     public final static int TYPE_HORIZONTAL_SMALL = 1;
@@ -68,12 +63,14 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     BottomSheetDialog dialog;
     private int maxSize;
     private int type;
+    private boolean isSearch;
 
-    public AdapterGrid(Context context, FragmentActivity activity, int type, int maxSize) {
+    public AdapterGrid(Context context, FragmentActivity activity, int type, int maxSize, boolean isSearch) {
         this.context = context;
         this.type = type;
         this.activity = activity;
         this.maxSize = maxSize;
+        this.isSearch = isSearch;
     }
 
     @NonNull
@@ -321,17 +318,21 @@ public class AdapterGrid extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         public void bind() {
-            if (getAdapterPosition() == getItemCount() - 1 || getAdapterPosition() == getItemCount() - 2) {
-                setMargins(b.getRoot(), 0, 0, 0, dpToPx(130, context));
-            } else if (getAdapterPosition() == 0 || getAdapterPosition() == 1) {
-                setMargins(b.getRoot(), 0, dpToPx(70, context), 0, 0);
-            } else setMargins(b.getRoot(), 0, 0, 0, 0);
 
+            if (!isSearch) initMargins();
 
             setBackgroundDrawable(context, b.getRoot(), 0, 0, 8, false, 0);
             setComponents();
 
             b.click.setOnClickListener(v -> FragmentHelper.addFragment(Const.mainFragmentManager, R.id.fragment_container_main, FragmentAdvertisement.newInstance(advertisements.get(getAdapterPosition()).getId())));
+        }
+
+        private void initMargins() {
+            if (getAdapterPosition() == getItemCount() - 1 || getAdapterPosition() == getItemCount() - 2) {
+                setMargins(b.getRoot(), 0, 0, 0, dpToPx(130, context));
+            } else if (getAdapterPosition() == 0 || getAdapterPosition() == 1) {
+                setMargins(b.getRoot(), 0, dpToPx(70, context), 0, 0);
+            } else setMargins(b.getRoot(), 0, 0, 0, 0);
         }
 
         private void setComponents() {

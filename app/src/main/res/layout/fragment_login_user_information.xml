@@ -11,6 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
@@ -98,10 +100,11 @@
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="40dp"
                 android:fontFamily="@font/inter_medium"
-                android:inputType="phone"
-                android:maxLength="8"
+                android:inputType="text"
+                android:maxLines="1"
                 android:paddingVertical="15dp"
                 android:paddingStart="20dp"
+                android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -153,10 +156,11 @@
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="40dp"
                 android:fontFamily="@font/inter_medium"
-                android:inputType="phone"
-                android:maxLength="8"
+                android:inputType="text"
+                android:maxLines="1"
                 android:paddingVertical="15dp"
                 android:paddingStart="20dp"
+                android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>

@@ -21,6 +21,17 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
+
+        <service
+            android:name=".firebase.FirebasePushMessage"
+            android:directBootAware="true"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".activity.ActivitySettings"
             android:exported="false"

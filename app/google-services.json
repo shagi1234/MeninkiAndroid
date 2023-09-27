@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "970049048408",
+    "project_id": "meninki-2f905",
+    "storage_bucket": "meninki-2f905.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:970049048408:android:93a4b9fbd9b984401a9f2d",
+        "android_client_info": {
+          "package_name": "tm.store.meninki"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "970049048408-l4eudr61dgkdishdgbqi7t8pgmjupjko.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9N4Y-9yisatY4CL3QDr2M_69z05A5_AA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "970049048408-l4eudr61dgkdishdgbqi7t8pgmjupjko.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
