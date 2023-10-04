@@ -73,11 +73,11 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/note_taker"
+                    android:id="@+id/street_taker"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/color_transparent"
-                    android:hint="Дополнительные"
+                    android:hint="Ulitsa"
                     android:padding="14dp"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -102,16 +102,16 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="6dp"
                     android:fontFamily="@font/inter_regular"
-                    android:text="Ulitsa"
+                    android:text="Home"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <EditText
-                    android:id="@+id/home"
+                    android:id="@+id/home_taker"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/bg_cash_input_2"
-                    android:hint="Dom"
+                    android:hint="Home"
                     android:padding="14dp"
                     android:textSize="14sp" />
 
@@ -134,7 +134,7 @@
                     android:textSize="14sp" />
 
                 <EditText
-                    android:id="@+id/kwatira"
+                    android:id="@+id/flat_taker"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/bg_cash_input_2"
@@ -160,7 +160,7 @@
                     android:textSize="14sp" />
 
                 <EditText
-                    android:id="@+id/etaz"
+                    android:id="@+id/floor_taker"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/bg_cash_input_2"
@@ -195,7 +195,7 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/extra_info"
+                    android:id="@+id/info_taker"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/color_transparent"
